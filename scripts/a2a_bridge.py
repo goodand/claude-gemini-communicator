@@ -207,30 +207,74 @@ def _build_prompt(content: str, prompt: str, file_path: str = None) -> str:
         return f"{prompt}\n\n---\n{content}"
 
 
+def _get_api_keys(sdk_config: dict) -> list:
+    """환경변수에서 사용 가능한 API key 목록을 수집합니다."""
+    keys = []
+    # 메인 키
+    main_env = sdk_config.get("api_key_env", "GEMINI_API_KEY")
+    main_key = os.environ.get(main_env)
+    if main_key:
+        keys.append(main_key)
+    # 추가 키 (GEMINI_API_KEY_* 패턴)
+    for env_name, value in os.environ.items():
+        if env_name.startswith("GEMINI_API_KEY_") and value and value not in keys:
+            keys.append(value)
+    return keys
+
+
+def _get_fallback_models(sdk_config: dict) -> list:
+    """사용할 모델 목록을 반환합니다 (메인 모델 + 폴백)."""
+    main_model = sdk_config.get("model", "gemini-2.5-flash")
+    fallback_models = sdk_config.get("fallback_models", ["gemini-2.0-flash", "gemini-1.5-flash"])
+    models = [main_model]
+    for m in fallback_models:
+        if m not in models:
+            models.append(m)
+    return models
+
+
 def _call_gemini_with_api_key(full_prompt: str, config: dict) -> str:
-    """API key를 사용하여 google-genai SDK로 호출합니다."""
+    """API key를 사용하여 google-genai SDK로 호출합니다.
+
+    429 Rate Limit 발생 시 다른 키/모델로 자동 전환합니다.
+    """
     from google import genai
     from google.genai import types
+    from google.genai.errors import ClientError
 
     sdk_config = config.get("sdk", {})
-    model_name = sdk_config.get("model", "gemini-2.0-flash")
     timeout = config.get("gemini_timeout", 90)
-    api_key = os.environ.get(sdk_config.get("api_key_env", "GEMINI_API_KEY"))
+    api_keys = _get_api_keys(sdk_config)
+    models = _get_fallback_models(sdk_config)
 
-    client = genai.Client(api_key=api_key)
-    response = client.models.generate_content(
-        model=model_name,
-        contents=full_prompt,
-        config=types.GenerateContentConfig(
-            max_output_tokens=sdk_config.get("max_output_tokens", 2048),
-            temperature=sdk_config.get("temperature", 0.3),
-            http_options=types.HttpOptions(timeout=timeout * 1000),
-        ),
-    )
-    text = response.text.strip() if response.text else ""
-    if not text:
-        return "[SDK_ERROR] Gemini SDK 응답이 비어있습니다."
-    return text
+    if not api_keys:
+        return "[SDK_ERROR] 사용 가능한 API key가 없습니다."
+
+    last_error = None
+    for api_key in api_keys:
+        client = genai.Client(api_key=api_key)
+        for model_name in models:
+            try:
+                response = client.models.generate_content(
+                    model=model_name,
+                    contents=full_prompt,
+                    config=types.GenerateContentConfig(
+                        max_output_tokens=sdk_config.get("max_output_tokens", 2048),
+                        temperature=sdk_config.get("temperature", 0.3),
+                        http_options=types.HttpOptions(timeout=timeout * 1000),
+                    ),
+                )
+                text = response.text.strip() if response.text else ""
+                if not text:
+                    continue
+                return text
+            except ClientError as e:
+                last_error = e
+                if e.status_code == 429:
+                    continue  # 다음 키/모델 시도
+                raise  # 429 외 에러는 상위로 전파
+
+    return f"[SDK_ERROR] 모든 API key/모델 조합에서 실패: {last_error}"
 
 
 def _call_gemini_with_oauth(full_prompt: str, config: dict) -> str:

@@ -14,6 +14,7 @@
   "sdk": {
     "enabled": true,
     "model": "gemini-2.5-flash",
+    "fallback_models": ["gemini-2.0-flash", "gemini-1.5-flash"],
     "fallback_to_cli": true,
     "oauth_creds_path": "~/.gemini/oauth_creds.json",
     "api_key_env": "GEMINI_API_KEY",
