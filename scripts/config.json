@@ -1,0 +1,27 @@
+{
+  "gemini_cmd": "/usr/local/bin/gemini",
+  "gemini_timeout": 90,
+  "cooldown_seconds_per_file": 300,
+  "min_content_length": 300,
+  "watch_extensions": [
+    ".md"
+  ],
+  "exclude_files": [
+    "gemini_feedback.md"
+  ],
+  "evaluation_prompt": "다음 문서를 평가해줘:\n- 논리적 일관성\n- 실현 가능성\n- 누락된 고려사항\n- 개선 제안\n간결하게 한국어로 답해줘.",
+  "plan_detection_prompt": "이 텍스트는 소프트웨어 개발 계획입니까? '예' 또는 '아니오'로만 답하시오.",
+  "sdk": {
+    "enabled": true,
+    "model": "gemini-2.5-flash",
+    "fallback_to_cli": true,
+    "oauth_creds_path": "~/.gemini/oauth_creds.json",
+    "api_key_env": "GEMINI_API_KEY",
+    "max_output_tokens": 2048,
+    "temperature": 0.3,
+    "oauth_client_id_env": "GEMINI_OAUTH_CLIENT_ID",
+    "oauth_client_secret_env": "GEMINI_OAUTH_CLIENT_SECRET"
+  },
+  "async_mode": false,
+  "async_timeout": 120
+}

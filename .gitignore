@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.venv/
+
+# State files
+.cooldown_state.json
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# IDE / Local History
+.history/
+
+# Build
+*.egg-info/
+
+# OS
+.DS_Store
+
+# Claude plans (시스템 생성)
+.claude/plans/
