@@ -60,7 +60,10 @@ def main():
         sys.exit(0)
 
     # Gemini 평가 호출
+    from a2a_bridge import build_a2a_evaluation_prompt, parse_a2a_response, a2a_response_to_markdown
+
     prompt = config.get("evaluation_prompt", "이 문서를 평가해줘.")
+    prompt = build_a2a_evaluation_prompt(prompt, config)
 
     # 비동기 모드: 백그라운드에서 평가, 즉시 리턴
     if config.get("async_mode", False):
@@ -73,12 +76,19 @@ def main():
         sys.exit(0)
 
     # 동기 모드: 평가 완료까지 대기
-    feedback = call_gemini(
+    raw_feedback = call_gemini(
         content="",
         prompt=prompt,
         config=config,
         file_path=file_path,
     )
+
+    # A2A 모드: 구조화된 응답 파싱 → 마크다운 변환
+    if config.get("a2a_schema_enabled", False):
+        a2a_resp = parse_a2a_response(raw_feedback)
+        feedback = a2a_response_to_markdown(a2a_resp)
+    else:
+        feedback = raw_feedback
 
     # 피드백 저장
     save_feedback(feedback, source="PostToolUse Hook", file_path=file_path)

@@ -88,22 +88,41 @@ def main():
         sys.exit(0)
 
     # Gemini Flash로 Plan 여부 분류
+    from a2a_bridge import (
+        build_a2a_classification_prompt,
+        build_a2a_evaluation_prompt,
+        parse_a2a_response,
+        a2a_response_to_markdown,
+    )
+
     plan_prompt = config.get(
         "plan_detection_prompt",
         "이 텍스트는 소프트웨어 개발 계획입니까? '예' 또는 '아니오'로만 답하시오.",
     )
+    plan_prompt = build_a2a_classification_prompt(plan_prompt, config)
     classification = call_gemini(
-        content=text[:2000],  # 분류용이므로 앞부분만 전달
+        content=text[:2000],
         prompt=plan_prompt,
         config=config,
     )
 
-    # "예" 응답이 아니면 스킵
-    if "예" not in classification:
+    # A2A 모드: JSON 응답에서 is_plan 확인, 비A2A: "예" 문자열 확인
+    is_plan = False
+    if config.get("a2a_schema_enabled", False):
+        try:
+            parsed = json.loads(classification.strip().strip("`").replace("json", "", 1).strip())
+            is_plan = parsed.get("is_plan", False)
+        except (json.JSONDecodeError, ValueError):
+            is_plan = "예" in classification
+    else:
+        is_plan = "예" in classification
+
+    if not is_plan:
         sys.exit(0)
 
     # Plan으로 감지됨 → 전체 평가
     eval_prompt = config.get("evaluation_prompt", "이 문서를 평가해줘.")
+    eval_prompt = build_a2a_evaluation_prompt(eval_prompt, config)
 
     # 비동기 모드: 백그라운드에서 평가, 즉시 리턴
     if config.get("async_mode", False):
@@ -116,11 +135,18 @@ def main():
         sys.exit(0)
 
     # 동기 모드: 평가 완료까지 대기
-    feedback = call_gemini(
+    raw_feedback = call_gemini(
         content=text,
         prompt=eval_prompt,
         config=config,
     )
+
+    # A2A 모드: 구조화된 응답 파싱 → 마크다운 변환
+    if config.get("a2a_schema_enabled", False):
+        a2a_resp = parse_a2a_response(raw_feedback)
+        feedback = a2a_response_to_markdown(a2a_resp)
+    else:
+        feedback = raw_feedback
 
     # 피드백 저장
     save_feedback(feedback, source="Stop Hook (Plan 감지)")
