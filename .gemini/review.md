@@ -19,7 +19,20 @@ Claude Code Hooks 기반 Claude↔Gemini 협업 평가 시스템.
 이 프로젝트는 `<type>(<scope>): <subject>` 형식의 커밋 메시지를 사용합니다.
 - type: feat, fix, refactor, docs, test, chore, perf
 - scope: hook, bridge, config, sdk, error, a2a
-- 커밋 메시지 footer의 `Impact`, `Risk`, `Review-focus` 필드를 참고하여 리뷰 우선순위를 판단하세요.
+
+### Good Case (feat/refactor/perf)
+커밋 body에 수도코드(`pseudo`)로 핵심 로직이 기술됩니다.
+- 수도코드와 실제 구현이 일치하는지 확인하세요.
+- 수도코드에 없는 edge case가 코드에서 처리되는지 확인하세요.
+
+### Bad Case (fix)
+커밋 body에 소크라테스식 근본 원인 분석이 포함됩니다:
+- `Problem:` → `∵ Why-1:` → `∵ Why-2:` → `∵ Why-3:` → `∴ Fix:`
+- Fix가 Why-3(근본 원인)을 실제로 해결하는지 확인하세요.
+- 증상만 가린 임시 처리가 아닌지 검증하세요.
+
+### Footer
+- `Impact`, `Risk`, `Review-focus` 필드를 참고하여 리뷰 우선순위를 판단하세요.
 - Impact/Risk가 `high`인 변경은 더 꼼꼼히 리뷰하세요.
 
 ## Ignore
