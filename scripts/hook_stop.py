@@ -1,7 +1,8 @@
-"""Stop Hook: Claude 응답 완료 시 계획(Plan) 감지 후 Gemini 평가를 트리거합니다.
+"""Stop Hook: Claude 응답 완료 시 (1) Plan 감지 (2) 에러 감지를 수행합니다.
 
 stdin으로 Claude Stop Hook JSON을 수신하고,
-마지막 출력이 소프트웨어 개발 계획이면 Gemini CLI로 평가합니다.
+- 마지막 출력이 소프트웨어 개발 계획이면 Gemini 평가
+- transcript에 반복 에러가 있으면 Gemini 에러 분석 (Lazy Analysis)
 """
 
 import json
@@ -11,30 +12,32 @@ import sys
 try:
     from a2a_bridge import (
         call_gemini,
+        check_error_and_analyze,
         format_hook_output,
         load_config,
         save_feedback,
+        scan_transcript_for_errors,
     )
 except ImportError:
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
     from a2a_bridge import (
         call_gemini,
+        check_error_and_analyze,
         format_hook_output,
         load_config,
         save_feedback,
+        scan_transcript_for_errors,
     )
 
 
 def extract_last_assistant_text(stop_input: dict) -> str:
     """Stop Hook 입력에서 Claude의 마지막 텍스트 출력을 추출합니다."""
-    # stop_hook_input에는 transcript_path 또는 직접 transcript가 포함될 수 있음
     transcript_path = stop_input.get("transcript_path", "")
 
     if transcript_path and os.path.exists(transcript_path):
         try:
             with open(transcript_path, "r", encoding="utf-8") as f:
                 lines = f.readlines()
-            # JSONL에서 마지막 assistant 메시지 추출
             for line in reversed(lines):
                 try:
                     entry = json.loads(line.strip())
@@ -53,12 +56,10 @@ def extract_last_assistant_text(stop_input: dict) -> str:
         except IOError:
             pass
 
-    # stop_input에 직접 포함된 경우
     message = stop_input.get("message", "")
     if message:
         return message
 
-    # stop_hook_input의 content 필드
     content = stop_input.get("content", "")
     if isinstance(content, list):
         texts = [
@@ -71,23 +72,12 @@ def extract_last_assistant_text(stop_input: dict) -> str:
     return str(content) if content else ""
 
 
-def main():
-    try:
-        stop_input = json.loads(sys.stdin.read())
-    except (json.JSONDecodeError, IOError):
-        sys.exit(0)
-
-    config = load_config()
-
-    # 마지막 assistant 텍스트 추출
-    text = extract_last_assistant_text(stop_input)
-
-    # 빠른 필터: 최소 길이 미달 시 스킵
+def handle_plan_detection(text: str, config: dict) -> str | None:
+    """Plan 감지 → Gemini 평가. 피드백 문자열 또는 None 반환."""
     min_length = config.get("min_content_length", 300)
     if len(text) < min_length:
-        sys.exit(0)
+        return None
 
-    # Gemini Flash로 Plan 여부 분류
     from a2a_bridge import (
         build_a2a_classification_prompt,
         build_a2a_evaluation_prompt,
@@ -106,7 +96,6 @@ def main():
         config=config,
     )
 
-    # A2A 모드: JSON 응답에서 is_plan 확인, 비A2A: "예" 문자열 확인
     is_plan = False
     if config.get("a2a_schema_enabled", False):
         try:
@@ -118,41 +107,72 @@ def main():
         is_plan = "예" in classification
 
     if not is_plan:
-        sys.exit(0)
+        return None
 
-    # Plan으로 감지됨 → 전체 평가
     eval_prompt = config.get("evaluation_prompt", "이 문서를 평가해줘.")
     eval_prompt = build_a2a_evaluation_prompt(eval_prompt, config)
 
-    # 비동기 모드: 백그라운드에서 평가, 즉시 리턴
     if config.get("async_mode", False):
         from a2a_bridge import call_gemini_async
-        pending_msg = call_gemini_async(
+        return call_gemini_async(
             content=text, prompt=eval_prompt, config=config,
             source="Stop Hook (Plan 감지)",
         )
-        print(format_hook_output(pending_msg))
-        sys.exit(0)
 
-    # 동기 모드: 평가 완료까지 대기
-    raw_feedback = call_gemini(
-        content=text,
-        prompt=eval_prompt,
-        config=config,
-    )
+    raw_feedback = call_gemini(content=text, prompt=eval_prompt, config=config)
 
-    # A2A 모드: 구조화된 응답 파싱 → 마크다운 변환
     if config.get("a2a_schema_enabled", False):
         a2a_resp = parse_a2a_response(raw_feedback)
         feedback = a2a_response_to_markdown(a2a_resp)
     else:
         feedback = raw_feedback
 
-    # 피드백 저장
     save_feedback(feedback, source="Stop Hook (Plan 감지)")
+    return feedback
 
-    # Claude에 피드백 전달
-    print(format_hook_output(feedback))
+
+def handle_error_detection(stop_input: dict, config: dict) -> str | None:
+    """Transcript에서 에러 스캔 → Lazy Analysis → Gemini 분석."""
+    error_config = config.get("error_detection", {})
+    if not error_config.get("enabled", False):
+        return None
+
+    transcript_path = stop_input.get("transcript_path", "")
+    if not transcript_path:
+        return None
+
+    tail_lines = error_config.get("tail_lines", 50)
+    errors = scan_transcript_for_errors(transcript_path, tail_lines)
+    if not errors:
+        return None
+
+    return check_error_and_analyze(errors, config)
+
+
+def main():
+    try:
+        stop_input = json.loads(sys.stdin.read())
+    except (json.JSONDecodeError, IOError):
+        sys.exit(0)
+
+    config = load_config()
+    outputs = []
+
+    # ① Plan 감지 (기존 로직)
+    text = extract_last_assistant_text(stop_input)
+    plan_feedback = handle_plan_detection(text, config)
+    if plan_feedback:
+        outputs.append(plan_feedback)
+
+    # ② 에러 감지 (Phase 4 신규)
+    error_feedback = handle_error_detection(stop_input, config)
+    if error_feedback:
+        outputs.append(error_feedback)
+
+    # 결과 출력
+    if outputs:
+        combined = "\n\n".join(outputs)
+        print(format_hook_output(combined))
 
 
 if __name__ == "__main__":

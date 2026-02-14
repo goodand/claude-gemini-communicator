@@ -26,5 +26,14 @@
   "async_mode": false,
   "async_timeout": 120,
 
-  "a2a_schema_enabled": false
+  "a2a_schema_enabled": false,
+
+  "error_detection": {
+    "enabled": true,
+    "tail_lines": 50,
+    "global_cooldown_seconds": 60,
+    "thresholds": {"critical": 1, "high": 1, "medium": 2, "low": 3},
+    "error_prompt": "다음 에러를 분석하고 원인과 수정 방법을 간결하게 한국어로 제안해주세요.",
+    "feedback_prefix": "[SYSTEM ADVISORY: Gemini Error Analysis]"
+  }
 }
