@@ -59,10 +59,14 @@ def main():
     if not check_cooldown(file_path, config):
         sys.exit(0)
 
-    # Gemini 평가 호출
+    # Gemini 평가 호출 (코드 파일은 코드 리뷰 프롬프트 사용)
     from a2a_bridge import build_a2a_evaluation_prompt, parse_a2a_response, a2a_response_to_markdown
 
-    prompt = config.get("evaluation_prompt", "이 문서를 평가해줘.")
+    code_exts = config.get("code_extensions", [".py", ".js", ".ts", ".jsx", ".tsx"])
+    if any(file_path.endswith(ext) for ext in code_exts):
+        prompt = config.get("code_evaluation_prompt", "이 코드를 리뷰해줘.")
+    else:
+        prompt = config.get("evaluation_prompt", "이 문서를 평가해줘.")
     prompt = build_a2a_evaluation_prompt(prompt, config)
 
     # 비동기 모드: 백그라운드에서 평가, 즉시 리턴
