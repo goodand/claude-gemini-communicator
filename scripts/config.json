@@ -30,6 +30,11 @@
 
   "a2a_schema_enabled": false,
 
+  "pre_tool_guard": {
+    "enabled": true,
+    "custom_block_patterns": []
+  },
+
   "error_detection": {
     "enabled": true,
     "tail_lines": 50,
