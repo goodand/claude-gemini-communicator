@@ -1,8 +1,10 @@
-"""CLI 관리 도구: 시스템 상태 확인, 통계, 테스트, 초기화.
+"""CLI 관리 도구: 시스템 진단, 상태, 통계, 검색, 테스트, 초기화.
 
 Usage:
+    python3 scripts/cli.py doctor   — 시스템 진단 (config/환경/Hook 검증)
     python3 scripts/cli.py status   — 현재 설정 및 상태
     python3 scripts/cli.py stats    — 피드백 통계
+    python3 scripts/cli.py search <keyword>  — 피드백 검색
     python3 scripts/cli.py test     — 전체 자동 테스트
     python3 scripts/cli.py clear    — 상태 파일 초기화
 """
@@ -20,6 +22,204 @@ CONFIG_PATH = SCRIPT_DIR / "config.json"
 COOLDOWN_PATH = SCRIPT_DIR / ".cooldown_state.json"
 ERROR_HISTORY_PATH = SCRIPT_DIR / ".error_history.json"
 FEEDBACK_PATH = PROJECT_ROOT / "gemini_feedback.md"
+
+
+SETTINGS_PATH = PROJECT_ROOT / ".claude" / "settings.local.json"
+HOOKS_SCRIPTS = {
+    "hook_auto_task.py": "PostToolUse Hook",
+    "hook_stop.py": "Stop Hook",
+    "hook_pre_tool.py": "PreToolUse Hook",
+    "a2a_bridge.py": "핵심 브릿지",
+    "async_runner.py": "비동기 실행기",
+}
+
+
+# ============================================================
+# doctor: 시스템 진단
+# ============================================================
+
+def validate_config(config: dict) -> list:
+    """config.json을 검증하고 문제 목록을 반환합니다."""
+    issues = []
+
+    # 필수 필드
+    required = {
+        "gemini_cmd": str,
+        "gemini_timeout": (int, float),
+        "watch_extensions": list,
+        "evaluation_prompt": str,
+    }
+    for field, expected_type in required.items():
+        if field not in config:
+            issues.append(("error", f"필수 필드 누락: {field}"))
+        elif not isinstance(config[field], expected_type):
+            issues.append(("error", f"타입 오류: {field} — {type(config[field]).__name__} (expected {expected_type})"))
+
+    # SDK 설정
+    sdk = config.get("sdk")
+    if sdk is not None:
+        if not isinstance(sdk, dict):
+            issues.append(("error", "sdk는 dict여야 합니다"))
+        else:
+            if "model" not in sdk:
+                issues.append(("warn", "sdk.model 미설정 (기본값 사용됨)"))
+            fallback = sdk.get("fallback_models")
+            if fallback is not None and not isinstance(fallback, list):
+                issues.append(("error", "sdk.fallback_models는 list여야 합니다"))
+            temp = sdk.get("temperature")
+            if temp is not None and not (0 <= temp <= 2):
+                issues.append(("warn", f"sdk.temperature={temp} — 0~2 범위 권장"))
+
+    # 에러 감지 설정
+    err = config.get("error_detection")
+    if err is not None and isinstance(err, dict):
+        thresholds = err.get("thresholds")
+        if thresholds is not None:
+            if not isinstance(thresholds, dict):
+                issues.append(("error", "error_detection.thresholds는 dict여야 합니다"))
+            else:
+                for sev in ["critical", "high", "medium", "low"]:
+                    val = thresholds.get(sev)
+                    if val is not None and (not isinstance(val, int) or val < 1):
+                        issues.append(("error", f"thresholds.{sev}={val} — 1 이상 정수여야 합니다"))
+
+    # PreTool Guard 커스텀 패턴
+    guard = config.get("pre_tool_guard")
+    if guard is not None and isinstance(guard, dict):
+        for i, pat in enumerate(guard.get("custom_block_patterns", [])):
+            try:
+                re.compile(pat)
+            except re.error as e:
+                issues.append(("error", f"custom_block_patterns[{i}] 정규식 오류: {e}"))
+
+    # watch_extensions 형식
+    exts = config.get("watch_extensions", [])
+    for ext in exts:
+        if not ext.startswith("."):
+            issues.append(("warn", f"watch_extensions '{ext}' — 점(.)으로 시작해야 합니다"))
+
+    return issues
+
+
+def cmd_doctor():
+    """시스템 전체를 진단합니다."""
+    print("=== System Doctor ===\n")
+    ok_count = 0
+    warn_count = 0
+    err_count = 0
+
+    def check(passed, label, detail=""):
+        nonlocal ok_count, warn_count, err_count
+        if passed == "ok":
+            print(f"  ✓ {label}")
+            ok_count += 1
+        elif passed == "warn":
+            print(f"  ⚠ {label}" + (f" — {detail}" if detail else ""))
+            warn_count += 1
+        else:
+            print(f"  ✗ {label}" + (f" — {detail}" if detail else ""))
+            err_count += 1
+
+    # ── 1. Config ──
+    print("[1] Config 검증")
+    if not CONFIG_PATH.exists():
+        check("err", "config.json", "파일 없음")
+    else:
+        try:
+            config = json.loads(CONFIG_PATH.read_text("utf-8"))
+            check("ok", "config.json 파싱 성공")
+        except json.JSONDecodeError as e:
+            check("err", "config.json", f"JSON 파싱 실패: {e}")
+            config = None
+
+        if config:
+            issues = validate_config(config)
+            if not issues:
+                check("ok", "config 필드 검증 통과")
+            for level, msg in issues:
+                check(level if level == "warn" else "err", msg)
+
+    # ── 2. 환경 ──
+    print("\n[2] 환경 점검")
+
+    # API Key
+    api_key = os.environ.get("GEMINI_API_KEY", "")
+    extra_keys = [k for k in os.environ if k.startswith("GEMINI_API_KEY_")]
+    total_keys = (1 if api_key else 0) + len(extra_keys)
+    if total_keys > 0:
+        check("ok", f"API Key: {total_keys}개 설정됨")
+    else:
+        check("warn", "API Key 미설정", "GEMINI_API_KEY 환경변수 필요 (SDK 사용 시)")
+
+    # SDK
+    try:
+        from google import genai  # noqa: F401
+        check("ok", "google-genai SDK 설치됨")
+    except ImportError:
+        check("warn", "google-genai SDK 미설치", "pip install google-genai")
+
+    # Gemini CLI
+    config = json.loads(CONFIG_PATH.read_text("utf-8")) if CONFIG_PATH.exists() else {}
+    gemini_cmd = config.get("gemini_cmd", "/usr/local/bin/gemini")
+    if Path(gemini_cmd).exists():
+        check("ok", f"Gemini CLI: {gemini_cmd}")
+    else:
+        check("warn", f"Gemini CLI 없음: {gemini_cmd}", "CLI 폴백 불가")
+
+    # .env
+    if (PROJECT_ROOT / ".env").exists():
+        check("ok", ".env 파일 존재")
+    else:
+        check("warn", ".env 파일 없음", "API Key를 .env에 설정하세요")
+
+    # ── 3. Hook 등록 ──
+    print("\n[3] Hook 등록 점검")
+    if not SETTINGS_PATH.exists():
+        check("err", "settings.local.json", "파일 없음 — Hook 미등록 상태")
+    else:
+        try:
+            settings = json.loads(SETTINGS_PATH.read_text("utf-8"))
+            hooks = settings.get("hooks", {})
+
+            expected_hooks = {
+                "PreToolUse": "hook_pre_tool.py",
+                "PostToolUse": "hook_auto_task.py",
+                "Stop": "hook_stop.py",
+            }
+            for hook_type, script_name in expected_hooks.items():
+                hook_list = hooks.get(hook_type, [])
+                found = any(
+                    script_name in h.get("command", "")
+                    for group in hook_list
+                    for h in group.get("hooks", [])
+                )
+                if found:
+                    check("ok", f"{hook_type} Hook → {script_name}")
+                else:
+                    check("warn", f"{hook_type} Hook 미등록", f"{script_name}")
+        except json.JSONDecodeError:
+            check("err", "settings.local.json", "JSON 파싱 실패")
+
+    # ── 4. 스크립트 존재 ──
+    print("\n[4] 스크립트 파일 점검")
+    for script, desc in HOOKS_SCRIPTS.items():
+        path = SCRIPT_DIR / script
+        if path.exists():
+            check("ok", f"{script} ({desc})")
+        else:
+            check("err", f"{script} 없음", desc)
+
+    # ── 결과 ──
+    print(f"\n{'='*40}")
+    total = ok_count + warn_count + err_count
+    print(f"결과: {ok_count}/{total} OK, {warn_count} 경고, {err_count} 에러")
+    if err_count == 0 and warn_count == 0:
+        print("시스템 상태: 정상 ✓")
+    elif err_count == 0:
+        print("시스템 상태: 동작 가능 (경고 확인 권장)")
+    else:
+        print("시스템 상태: 문제 있음 (에러 수정 필요)")
+    return err_count == 0
 
 
 # ============================================================
@@ -139,6 +339,99 @@ def cmd_stats():
         for day, count in sorted(day_counts.items())[-7:]:
             bar = "█" * count
             print(f"  {day}: {bar} ({count})")
+
+
+# ============================================================
+# search: 피드백 검색
+# ============================================================
+
+def parse_feedback_entries(content: str) -> list:
+    """gemini_feedback.md를 항목별로 파싱합니다."""
+    raw_entries = content.split("\n---\n")
+    entries = []
+    for raw in raw_entries:
+        raw = raw.strip()
+        if not raw:
+            continue
+        match = re.search(
+            r"## \[(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\] (.+?)(?:\s*\|\s*대상:\s*`(.+?)`)?$",
+            raw,
+            re.MULTILINE,
+        )
+        entries.append({
+            "date": match.group(1) if match else "",
+            "source": match.group(2).strip() if match else "",
+            "target": match.group(3) if match and match.group(3) else "",
+            "body": raw,
+        })
+    return entries
+
+
+def cmd_search():
+    """피드백을 키워드/소스/날짜로 검색합니다."""
+    if len(sys.argv) < 3:
+        print("Usage: python3 scripts/cli.py search <keyword> [--source <source>] [--date <YYYY-MM-DD>]")
+        sys.exit(1)
+
+    keyword = sys.argv[2]
+    source_filter = None
+    date_filter = None
+
+    # 옵션 파싱
+    args = sys.argv[3:]
+    i = 0
+    while i < len(args):
+        if args[i] == "--source" and i + 1 < len(args):
+            source_filter = args[i + 1]
+            i += 2
+        elif args[i] == "--date" and i + 1 < len(args):
+            date_filter = args[i + 1]
+            i += 2
+        else:
+            i += 1
+
+    if not FEEDBACK_PATH.exists():
+        print("gemini_feedback.md가 없습니다.")
+        return
+
+    content = FEEDBACK_PATH.read_text("utf-8")
+    entries = parse_feedback_entries(content)
+
+    results = []
+    for entry in entries:
+        # 키워드 필터
+        if keyword.lower() not in entry["body"].lower():
+            continue
+        # 소스 필터
+        if source_filter and source_filter.lower() not in entry["source"].lower():
+            continue
+        # 날짜 필터
+        if date_filter and not entry["date"].startswith(date_filter):
+            continue
+        results.append(entry)
+
+    print(f'=== "{keyword}" 검색 결과: {len(results)}건 ===\n')
+
+    for i, entry in enumerate(results, 1):
+        # 키워드 주변 컨텍스트 추출
+        body_lower = entry["body"].lower()
+        kw_lower = keyword.lower()
+        idx = body_lower.find(kw_lower)
+        start = max(0, idx - 60)
+        end = min(len(entry["body"]), idx + len(keyword) + 60)
+        snippet = entry["body"][start:end].replace("\n", " ").strip()
+        if start > 0:
+            snippet = "..." + snippet
+        if end < len(entry["body"]):
+            snippet = snippet + "..."
+
+        src_info = entry["source"] or "unknown"
+        date_info = entry["date"] or "unknown"
+        target_info = f" → {entry['target']}" if entry["target"] else ""
+
+        print(f"[{i}] {date_info} | {src_info}{target_info}")
+        print(f"    {snippet}")
+        print()
 
 
 # ============================================================
@@ -351,6 +644,94 @@ def cmd_test():
     run_test("동일 파일 쿨다운", test_cooldown)
     run_test("다른 파일 독립 쿨다운", test_cooldown_different_files)
 
+    # ── 6. Config 검증 (validate_config) ──
+    print("\n[6] Config 검증 함수")
+
+    def test_validate_valid():
+        from a2a_bridge import load_config
+        issues = validate_config(load_config())
+        errors = [i for i in issues if i[0] == "error"]
+        return len(errors) == 0
+
+    def test_validate_missing_field():
+        issues = validate_config({"sdk": {}})  # gemini_cmd 등 누락
+        errors = [i for i in issues if i[0] == "error"]
+        return len(errors) >= 3  # 여러 필수 필드 누락
+
+    def test_validate_bad_type():
+        issues = validate_config({
+            "gemini_cmd": 123,  # str이어야 함
+            "gemini_timeout": "abc",  # int여야 함
+            "watch_extensions": "not a list",
+            "evaluation_prompt": "",
+        })
+        errors = [i for i in issues if i[0] == "error"]
+        return len(errors) >= 3
+
+    def test_validate_bad_threshold():
+        issues = validate_config({
+            "gemini_cmd": "/usr/local/bin/gemini",
+            "gemini_timeout": 90,
+            "watch_extensions": [".md"],
+            "evaluation_prompt": "test",
+            "error_detection": {"thresholds": {"critical": 0, "high": -1}},
+        })
+        errors = [i for i in issues if i[0] == "error"]
+        return len(errors) >= 2
+
+    def test_validate_bad_regex():
+        issues = validate_config({
+            "gemini_cmd": "/usr/local/bin/gemini",
+            "gemini_timeout": 90,
+            "watch_extensions": [".md"],
+            "evaluation_prompt": "test",
+            "pre_tool_guard": {"custom_block_patterns": ["[invalid regex"]},
+        })
+        errors = [i for i in issues if i[0] == "error"]
+        return len(errors) >= 1
+
+    def test_validate_bad_extension():
+        issues = validate_config({
+            "gemini_cmd": "/usr/local/bin/gemini",
+            "gemini_timeout": 90,
+            "watch_extensions": ["md"],  # 점 없음
+            "evaluation_prompt": "test",
+        })
+        warns = [i for i in issues if i[0] == "warn"]
+        return len(warns) >= 1
+
+    run_test("현재 config 유효성", test_validate_valid)
+    run_test("필수 필드 누락 감지", test_validate_missing_field)
+    run_test("타입 오류 감지", test_validate_bad_type)
+    run_test("threshold 범위 오류", test_validate_bad_threshold)
+    run_test("정규식 오류 감지", test_validate_bad_regex)
+    run_test("확장자 형식 경고", test_validate_bad_extension)
+
+    # ── 7. 피드백 파싱 테스트 ──
+    print("\n[7] 피드백 파싱")
+
+    def test_parse_entries():
+        sample = (
+            "\n---\n\n## [2026-02-14 10:00:00] PostToolUse Hook | 대상: `test.md`\n\n평가 내용\n"
+            "\n---\n\n## [2026-02-14 11:00:00] Stop Hook (Plan 감지)\n\n계획 평가\n"
+        )
+        entries = parse_feedback_entries(sample)
+        return (len(entries) == 2
+                and entries[0]["source"] == "PostToolUse Hook"
+                and entries[0]["target"] == "test.md"
+                and entries[1]["source"] == "Stop Hook (Plan 감지)"
+                and entries[1]["target"] == "")
+
+    def test_parse_search():
+        sample = "\n---\n\n## [2026-02-14 10:00:00] Source\n\n보안 취약점 발견\n"
+        entries = parse_feedback_entries(sample)
+        matched = [e for e in entries if "보안" in e["body"]]
+        not_matched = [e for e in entries if "존재하지않는단어" in e["body"]]
+        return len(matched) == 1 and len(not_matched) == 0
+
+    run_test("피드백 항목 파싱", test_parse_entries)
+    run_test("피드백 키워드 검색", test_parse_search)
+
     # ── 결과 ──
     print(f"\n{'='*40}")
     print(f"결과: {passed}/{total} 통과", end="")
@@ -387,8 +768,10 @@ def cmd_clear():
 # ============================================================
 
 COMMANDS = {
+    "doctor": ("시스템 진단", cmd_doctor),
     "status": ("시스템 상태 확인", cmd_status),
     "stats": ("피드백 통계", cmd_stats),
+    "search": ("피드백 검색", cmd_search),
     "test": ("전체 자동 테스트", cmd_test),
     "clear": ("상태 파일 초기화", cmd_clear),
 }
