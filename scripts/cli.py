@@ -707,8 +707,39 @@ def cmd_test():
     run_test("정규식 오류 감지", test_validate_bad_regex)
     run_test("확장자 형식 경고", test_validate_bad_extension)
 
-    # ── 7. 피드백 파싱 테스트 ──
-    print("\n[7] 피드백 파싱")
+    # ── 7. Agent Skill 테스트 ──
+    print("\n[7] Agent Skill (gemini-reviewer)")
+
+    SKILL_DIR = PROJECT_ROOT / "skills" / "gemini-reviewer"
+
+    def test_skill_structure():
+        return ((SKILL_DIR / "SKILL.md").exists()
+                and (SKILL_DIR / "scripts" / "evaluate.py").exists()
+                and (SKILL_DIR / "references" / "setup.md").exists())
+
+    def test_skill_metadata():
+        content = (SKILL_DIR / "SKILL.md").read_text("utf-8")
+        return "name: gemini-reviewer" in content and "description:" in content
+
+    def test_skill_detect_mode():
+        sys.path.insert(0, str(SKILL_DIR / "scripts"))
+        from evaluate import detect_mode
+        return (detect_mode("test.py") == "code"
+                and detect_mode("plan.md") == "doc"
+                and detect_mode("app.js") == "code")
+
+    def test_skill_prompts():
+        sys.path.insert(0, str(SKILL_DIR / "scripts"))
+        from evaluate import PROMPTS
+        return "code" in PROMPTS and "doc" in PROMPTS and "버그" in PROMPTS["code"]
+
+    run_test("Skill 디렉토리 구조", test_skill_structure)
+    run_test("SKILL.md 메타데이터", test_skill_metadata)
+    run_test("모드 자동 감지", test_skill_detect_mode)
+    run_test("프롬프트 정의", test_skill_prompts)
+
+    # ── 8. 피드백 파싱 테스트 ──
+    print("\n[8] 피드백 파싱")
 
     def test_parse_entries():
         sample = (
