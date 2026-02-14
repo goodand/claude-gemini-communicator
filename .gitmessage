@@ -1,0 +1,37 @@
+# <type>: <subject> (50자 이내)
+#
+# <body> (선택, 72자 줄바꿈)
+# - 무엇을 왜 변경했는지 설명
+#
+# <footer> (선택)
+# - Breaking changes, 관련 이슈 등
+#
+# ─── Type ───────────────────────────────────
+# feat:     새 기능
+# fix:      버그 수정
+# refactor: 리팩토링 (기능 변경 없음)
+# docs:     문서 변경
+# test:     테스트 추가/수정
+# chore:    빌드, 설정, 의존성 등
+# perf:     성능 개선
+#
+# ─── Scope (선택) ───────────────────────────
+# hook:     Hook 스크립트 (hook_auto_task, hook_stop)
+# bridge:   a2a_bridge.py 핵심 모듈
+# config:   config.json 설정
+# sdk:      Gemini SDK 관련
+# error:    에러 감지 시스템
+# a2a:      A2A 메시지 프로토콜
+#
+# ─── 예시 ───────────────────────────────────
+# feat(hook): PreToolUse Hook으로 위험 명령 사전 경고
+# fix(bridge): SDK 429 에러 시 fallback 모델 순회 누락
+# refactor(config): 코드 리뷰 프롬프트 분리
+#
+# ─── Gemini Review Context ──────────────────
+# 이 섹션은 Gemini Code Assist PR 리뷰를 돕습니다.
+# 변경사항의 맥락을 남겨주세요.
+#
+# Impact: [low|medium|high] — 변경 영향 범위
+# Risk: [low|medium|high] — 회귀 가능성
+# Review-focus: — Gemini가 집중할 포인트

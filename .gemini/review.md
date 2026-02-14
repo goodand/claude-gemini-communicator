@@ -15,7 +15,15 @@ Claude Code Hooks 기반 Claude↔Gemini 협업 평가 시스템.
 - **동시성**: 파일 잠금(fcntl) 누락, race condition
 - **코드 스타일**: PEP 8, 일관된 네이밍, 불필요한 복잡성
 
+## Commit Convention
+이 프로젝트는 `<type>(<scope>): <subject>` 형식의 커밋 메시지를 사용합니다.
+- type: feat, fix, refactor, docs, test, chore, perf
+- scope: hook, bridge, config, sdk, error, a2a
+- 커밋 메시지 footer의 `Impact`, `Risk`, `Review-focus` 필드를 참고하여 리뷰 우선순위를 판단하세요.
+- Impact/Risk가 `high`인 변경은 더 꼼꼼히 리뷰하세요.
+
 ## Ignore
 - `gemini_feedback.md`: 자동 생성 파일, 리뷰 불필요
 - `plans/`: 설계 문서, 코드 리뷰 대상 아님
 - `.cooldown_state.json`, `.error_history.json`: 런타임 생성 파일
+- `.gitmessage`: 커밋 템플릿, 리뷰 불필요
