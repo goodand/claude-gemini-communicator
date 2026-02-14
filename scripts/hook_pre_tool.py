@@ -54,11 +54,13 @@ _DANGEROUS_PATTERNS = [
         "pattern": re.compile(r"\bDROP\s+(TABLE|DATABASE)\b", re.IGNORECASE),
         "severity": "block",
         "reason": "DROP TABLE/DATABASE: 데이터베이스 구조가 영구 삭제됩니다",
+        "requires_context": re.compile(r"\b(psql|mysql|sqlite3|mongo|redis-cli|cockroach)\b"),
     },
     {
         "pattern": re.compile(r"\bTRUNCATE\s+TABLE\b", re.IGNORECASE),
         "severity": "block",
         "reason": "TRUNCATE TABLE: 테이블의 모든 데이터가 영구 삭제됩니다",
+        "requires_context": re.compile(r"\b(psql|mysql|sqlite3|mongo|redis-cli|cockroach)\b"),
     },
     {
         "pattern": re.compile(r">\s*/dev/sd[a-z]"),
@@ -145,11 +147,13 @@ def check_command(command: str, config: dict) -> dict | None:
     stripped = _strip_string_content(command)
 
     for entry in _DANGEROUS_PATTERNS:
-        if entry["pattern"].search(stripped):
-            return {
-                "severity": entry["severity"],
-                "reason": entry["reason"],
-            }
+        # requires_context: SQL 패턴은 DB 클라이언트가 있을 때만 원본에서 체크
+        ctx_re = entry.get("requires_context")
+        if ctx_re:
+            if ctx_re.search(command) and entry["pattern"].search(command):
+                return {"severity": entry["severity"], "reason": entry["reason"]}
+        elif entry["pattern"].search(stripped):
+            return {"severity": entry["severity"], "reason": entry["reason"]}
 
     # 사용자 정의 패턴 (config.json)
     custom_patterns = guard_config.get("custom_block_patterns", [])
