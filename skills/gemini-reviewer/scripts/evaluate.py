@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Gemini Reviewer — 독립 실행 가능한 Gemini 코드/문서 평가 스크립트.
+"""Gemini Reviewer — 독립 실행 가능한 코드/문서 평가 스크립트.
 
 Agent Skill용 standalone 스크립트. a2a_bridge.py 의존 없이 동작합니다.
 Codex CLI, Claude Code, Cursor 등 어떤 AI 코딩 도구에서든 사용 가능.
@@ -12,6 +12,9 @@ Usage:
     # stdin 리뷰
     echo "코드 내용" | python3 evaluate.py --mode code
 
+    # JSON 출력
+    python3 evaluate.py --file code.py --format json
+
     # 커스텀 프롬프트
     python3 evaluate.py --file code.py --prompt "보안 취약점만 분석해줘"
 
@@ -22,9 +25,15 @@ Usage:
 import argparse
 import json
 import os
+import random
 import sys
+import time
 from datetime import datetime
 from pathlib import Path
+
+SCRIPT_DIR = Path(__file__).parent
+sys.path.insert(0, str(SCRIPT_DIR))
+from _common import load_env, detect_mode, read_input, save_feedback, CODE_EXTENSIONS
 
 # ── 기본 프롬프트 ──
 
@@ -47,101 +56,89 @@ PROMPTS = {
     ),
 }
 
-CODE_EXTENSIONS = {".py", ".js", ".ts", ".jsx", ".tsx", ".java", ".go", ".rs", ".c", ".cpp", ".rb", ".sh"}
+# ── Exponential Backoff 설정 ──
+
+RETRY_BASE = 1.0
+RETRY_MAX_DELAY = 30.0
+RETRY_MAX_ATTEMPTS = 3
 
 
-def detect_mode(file_path: str) -> str:
-    """파일 확장자로 모드를 자동 감지합니다."""
-    ext = Path(file_path).suffix.lower()
-    return "code" if ext in CODE_EXTENSIONS else "doc"
+def _retry_delay(attempt: int) -> float:
+    """Exponential Backoff + jitter 지연 시간 계산."""
+    return min(RETRY_BASE * (2 ** attempt) + random.random(), RETRY_MAX_DELAY)
 
 
-def read_content(file_path: str = None) -> str:
-    """파일 또는 stdin에서 내용을 읽습니다."""
-    if file_path:
-        path = Path(file_path)
-        if not path.exists():
-            print(f"[ERROR] 파일 없음: {file_path}", file=sys.stderr)
-            sys.exit(1)
-        content = path.read_text(encoding="utf-8")
-        if len(content) > 50000:
-            content = content[:50000] + f"\n\n... (truncated, {len(content)} chars)"
-        return content
-    elif not sys.stdin.isatty():
-        return sys.stdin.read()
-    else:
-        print("[ERROR] --file 또는 stdin 입력이 필요합니다.", file=sys.stderr)
-        sys.exit(1)
+def call_gemini_sdk(content: str, prompt: str) -> tuple[str | None, str]:
+    """google-genai SDK로 Gemini 호출 + Exponential Backoff.
 
-
-def load_env():
-    """프로젝트 루트의 .env 파일을 로드합니다."""
-    for candidate in [Path.cwd() / ".env", Path(__file__).parent.parent.parent.parent / ".env"]:
-        if candidate.exists():
-            try:
-                for line in candidate.read_text("utf-8").splitlines():
-                    line = line.strip()
-                    if not line or line.startswith("#") or "=" not in line:
-                        continue
-                    key, _, value = line.partition("=")
-                    key, value = key.strip(), value.strip().strip("\"'")
-                    if key and key not in os.environ:
-                        os.environ[key] = value
-            except IOError:
-                pass
-            break
-
-
-def call_gemini_sdk(content: str, prompt: str) -> str:
-    """google-genai SDK로 Gemini를 호출합니다."""
+    Returns:
+        (결과 텍스트 또는 None, 사용된 모델명)
+    """
     try:
         from google import genai
         from google.genai import types
     except ImportError:
-        return None
+        return None, ""
 
     api_key = os.environ.get("GEMINI_API_KEY", "")
     if not api_key:
-        # 추가 키 탐색
         for k, v in os.environ.items():
             if k.startswith("GEMINI_API_KEY") and v:
                 api_key = v
                 break
-
     if not api_key:
-        return None
+        return None, ""
 
     full_prompt = f"{prompt}\n\n---\n{content}"
     models = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"]
 
     for model in models:
-        try:
-            client = genai.Client(api_key=api_key)
-            response = client.models.generate_content(
-                model=model,
-                contents=full_prompt,
-                config=types.GenerateContentConfig(
-                    max_output_tokens=2048,
-                    temperature=0.3,
-                    http_options=types.HttpOptions(timeout=90000),
-                ),
-            )
-            text = response.text.strip() if response.text else ""
-            if text:
-                return text
-        except Exception:
-            continue
+        for attempt in range(RETRY_MAX_ATTEMPTS):
+            try:
+                client = genai.Client(api_key=api_key)
+                response = client.models.generate_content(
+                    model=model,
+                    contents=full_prompt,
+                    config=types.GenerateContentConfig(
+                        max_output_tokens=2048,
+                        temperature=0.3,
+                        http_options=types.HttpOptions(timeout=90000),
+                    ),
+                )
+                text = response.text.strip() if response.text else ""
+                if text:
+                    return text, model
+            except Exception as e:
+                err_str = str(e)
+                status = getattr(e, "status_code", None) or getattr(e, "code", None)
+                is_retryable = (
+                    (status == 429)
+                    or (status and int(str(status)) >= 500)
+                    or "429" in err_str
+                    or "500" in err_str
+                    or "503" in err_str
+                )
+                if is_retryable and attempt < RETRY_MAX_ATTEMPTS - 1:
+                    delay = _retry_delay(attempt)
+                    print(
+                        f"[RETRY] {model} attempt {attempt + 1}/{RETRY_MAX_ATTEMPTS}, "
+                        f"대기 {delay:.1f}초...",
+                        file=sys.stderr,
+                    )
+                    time.sleep(delay)
+                    continue
+                break  # non-retryable 또는 마지막 시도 → 다음 모델로
 
-    return None
+    return None, ""
 
 
-def call_gemini_cli(content: str, prompt: str) -> str:
-    """Gemini CLI로 호출합니다 (SDK 불가 시 폴백)."""
+def call_gemini_cli(content: str, prompt: str) -> tuple[str | None, str]:
+    """Gemini CLI 폴백 호출."""
     import subprocess
 
     gemini_cmd = "/usr/local/bin/gemini"
     if not Path(gemini_cmd).exists():
-        return None
+        return None, ""
 
     full_prompt = f"{prompt}\n\n---\n{content[:10000]}"
     try:
@@ -150,42 +147,28 @@ def call_gemini_cli(content: str, prompt: str) -> str:
             capture_output=True, text=True, timeout=90,
         )
         if result.returncode == 0 and result.stdout.strip():
-            return result.stdout.strip()
+            return result.stdout.strip(), "cli"
     except (subprocess.TimeoutExpired, FileNotFoundError):
         pass
-    return None
+    return None, ""
 
 
-def call_gemini(content: str, prompt: str) -> str:
-    """Gemini 호출 (SDK 우선, CLI 폴백)."""
-    result = call_gemini_sdk(content, prompt)
+def call_gemini(content: str, prompt: str) -> tuple[str, str]:
+    """Gemini 호출 (SDK 우선, CLI 폴백).
+
+    Returns:
+        (결과 텍스트, 사용된 모델명)
+    """
+    result, model = call_gemini_sdk(content, prompt)
     if result:
-        return result
+        return result, model
 
-    result = call_gemini_cli(content, prompt)
+    result, model = call_gemini_cli(content, prompt)
     if result:
-        return f"[CLI] {result}"
+        return f"[CLI] {result}", "cli"
 
     print("[ERROR] Gemini 호출 실패. GEMINI_API_KEY를 확인하세요.", file=sys.stderr)
     sys.exit(1)
-
-
-def save_feedback(feedback: str, file_path: str = None):
-    """gemini_feedback.md에 결과를 저장합니다."""
-    feedback_path = Path.cwd() / "gemini_feedback.md"
-    # 프로젝트 루트 탐색
-    for candidate in [feedback_path, Path(__file__).parent.parent.parent.parent / "gemini_feedback.md"]:
-        if candidate.parent.exists():
-            feedback_path = candidate
-            break
-
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    target = f" | 대상: `{file_path}`" if file_path else ""
-    entry = f"\n---\n\n## [{timestamp}] Gemini Reviewer Skill{target}\n\n{feedback}\n"
-
-    with open(feedback_path, "a", encoding="utf-8") as f:
-        f.write(entry)
-    print(f"[저장됨] {feedback_path}", file=sys.stderr)
 
 
 def main():
@@ -193,35 +176,50 @@ def main():
     parser.add_argument("--file", "-f", help="리뷰할 파일 경로")
     parser.add_argument("--mode", "-m", choices=["code", "doc"], help="리뷰 모드 (자동 감지)")
     parser.add_argument("--prompt", "-p", help="커스텀 프롬프트")
+    parser.add_argument(
+        "--format", choices=["text", "json"], default="text",
+        help="출력 형식 (기본: text)",
+    )
     parser.add_argument("--save", "-s", action="store_true", help="gemini_feedback.md에 저장")
     args = parser.parse_args()
 
     load_env()
 
     # 내용 읽기
-    content = read_content(args.file)
+    content = read_input(args.file)
 
     # 모드 결정
-    mode = args.mode
-    if not mode:
-        mode = detect_mode(args.file) if args.file else "doc"
+    mode = args.mode or (detect_mode(args.file) if args.file else "doc")
 
     # 프롬프트 결정
-    if args.prompt:
-        prompt = args.prompt
-    else:
-        prompt = PROMPTS[mode]
-
+    prompt = args.prompt or PROMPTS[mode]
     if args.file:
         prompt = f"{prompt}\n\n파일 경로: {args.file}"
 
     # Gemini 호출
-    result = call_gemini(content, prompt)
-    print(result)
+    result, model_used = call_gemini(content, prompt)
+
+    # 출력
+    if args.format == "json":
+        output = json.dumps(
+            {
+                "mode": mode,
+                "file_path": args.file,
+                "feedback": result,
+                "model_used": model_used,
+                "timestamp": datetime.now().isoformat(),
+            },
+            ensure_ascii=False,
+            indent=2,
+        )
+    else:
+        output = result
+
+    print(output)
 
     # 저장
     if args.save:
-        save_feedback(result, args.file)
+        save_feedback(result, file_path=args.file)
 
 
 if __name__ == "__main__":
