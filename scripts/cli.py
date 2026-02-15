@@ -9,9 +9,12 @@ Usage:
     python3 scripts/cli.py clear    — 상태 파일 초기화
 """
 
+import argparse
 import json
 import os
 import re
+import shutil
+import subprocess
 import sys
 import time
 from pathlib import Path
@@ -101,7 +104,7 @@ def validate_config(config: dict) -> list:
     return issues
 
 
-def cmd_doctor():
+def cmd_doctor(args=None):
     """시스템 전체를 진단합니다."""
     print("=== System Doctor ===\n")
     ok_count = 0
@@ -226,7 +229,7 @@ def cmd_doctor():
 # status: 현재 설정 및 상태
 # ============================================================
 
-def cmd_status():
+def cmd_status(args=None):
     """현재 시스템 상태를 출력합니다."""
     print("=== Claude-Gemini Communicator Status ===\n")
 
@@ -292,7 +295,7 @@ def cmd_status():
 # stats: 피드백 통계
 # ============================================================
 
-def cmd_stats():
+def cmd_stats(args=None):
     """gemini_feedback.md에서 통계를 추출합니다."""
     print("=== Feedback Statistics ===\n")
 
@@ -367,28 +370,11 @@ def parse_feedback_entries(content: str) -> list:
     return entries
 
 
-def cmd_search():
+def cmd_search(args):
     """피드백을 키워드/소스/날짜로 검색합니다."""
-    if len(sys.argv) < 3:
-        print("Usage: python3 scripts/cli.py search <keyword> [--source <source>] [--date <YYYY-MM-DD>]")
-        sys.exit(1)
-
-    keyword = sys.argv[2]
-    source_filter = None
-    date_filter = None
-
-    # 옵션 파싱
-    args = sys.argv[3:]
-    i = 0
-    while i < len(args):
-        if args[i] == "--source" and i + 1 < len(args):
-            source_filter = args[i + 1]
-            i += 2
-        elif args[i] == "--date" and i + 1 < len(args):
-            date_filter = args[i + 1]
-            i += 2
-        else:
-            i += 1
+    keyword = args.keyword
+    source_filter = args.source
+    date_filter = args.date
 
     if not FEEDBACK_PATH.exists():
         print("gemini_feedback.md가 없습니다.")
@@ -438,7 +424,7 @@ def cmd_search():
 # test: 전체 자동 테스트
 # ============================================================
 
-def cmd_test():
+def cmd_test(args=None):
     """전체 시스템 자동 테스트를 실행합니다."""
     print("=== System Test Suite ===\n")
 
@@ -777,7 +763,7 @@ def cmd_test():
 # clear: 상태 파일 초기화
 # ============================================================
 
-def cmd_clear():
+def cmd_clear(args=None):
     """런타임 상태 파일을 초기화합니다."""
     cleared = []
     for path, name in [
@@ -794,6 +780,137 @@ def cmd_clear():
         print("초기화할 파일이 없습니다.")
 
 
+def _print_status_result(label: str, status: str, detail: str = ""):
+    """상태 라인을 출력합니다."""
+    detail_text = f" - {detail}" if detail else ""
+    print(f"[{status:7s}] {label}{detail_text}")
+
+
+def _has_notify_hook(config_text: str) -> bool:
+    """config.toml 내 notify hook 등록 여부를 휴리스틱으로 확인합니다."""
+    patterns = [
+        r"(?im)^\s*notify\s*=",
+        r"(?im)^\s*\[notify\]",
+        r"(?im)^\s*\[\s*hooks\.notify\s*\]",
+    ]
+    return any(re.search(pattern, config_text) for pattern in patterns)
+
+
+def cmd_codex_status(args):
+    """Codex CLI 연동 상태를 진단합니다."""
+    print("=== Codex CLI Integration Status ===\n")
+
+    ok_count = 0
+    missing_count = 0
+    error_count = 0
+
+    def record(status: str):
+        nonlocal ok_count, missing_count, error_count
+        if status == "OK":
+            ok_count += 1
+        elif status == "MISSING":
+            missing_count += 1
+        else:
+            error_count += 1
+
+    # 1) codex CLI 설치 여부
+    codex_path = shutil.which("codex")
+    if codex_path:
+        _print_status_result("codex CLI 설치", "OK", codex_path)
+        record("OK")
+    else:
+        _print_status_result("codex CLI 설치", "MISSING", "`which codex` 결과 없음")
+        record("MISSING")
+
+    # 2) codex 버전
+    if codex_path:
+        try:
+            result = subprocess.run(
+                ["codex", "--version"],
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+            version_text = (result.stdout or result.stderr).strip()
+            if result.returncode == 0 and version_text:
+                _print_status_result("codex 버전", "OK", version_text.splitlines()[0])
+                record("OK")
+            else:
+                detail = version_text or f"종료 코드 {result.returncode}"
+                _print_status_result("codex 버전", "ERROR", detail)
+                record("ERROR")
+        except Exception as e:
+            _print_status_result("codex 버전", "ERROR", str(e))
+            record("ERROR")
+    else:
+        _print_status_result("codex 버전", "MISSING", "codex 미설치")
+        record("MISSING")
+
+    # 3) ~/.codex/config.toml notify hook 등록 여부
+    user_codex_config = Path.home() / ".codex" / "config.toml"
+    if not user_codex_config.exists():
+        _print_status_result("~/.codex/config.toml notify hook", "MISSING", "config.toml 없음")
+        record("MISSING")
+    else:
+        try:
+            content = user_codex_config.read_text("utf-8")
+            if _has_notify_hook(content):
+                _print_status_result("~/.codex/config.toml notify hook", "OK", "notify 설정 감지됨")
+                record("OK")
+            else:
+                _print_status_result("~/.codex/config.toml notify hook", "MISSING", "notify 설정 없음")
+                record("MISSING")
+        except Exception as e:
+            _print_status_result("~/.codex/config.toml notify hook", "ERROR", str(e))
+            record("ERROR")
+
+    # 4) skills/gemini-reviewer/SKILL.md 존재 여부
+    skill_md = PROJECT_ROOT / "skills" / "gemini-reviewer" / "SKILL.md"
+    if skill_md.exists():
+        _print_status_result("skills/gemini-reviewer/SKILL.md", "OK")
+        record("OK")
+    else:
+        _print_status_result("skills/gemini-reviewer/SKILL.md", "MISSING")
+        record("MISSING")
+
+    # 5) GEMINI_API_KEY 설정 여부 (.env 확인)
+    env_path = PROJECT_ROOT / ".env"
+    if not env_path.exists():
+        _print_status_result("GEMINI_API_KEY (.env)", "MISSING", ".env 파일 없음")
+        record("MISSING")
+    else:
+        try:
+            env_content = env_path.read_text("utf-8")
+            match = re.search(r"(?m)^\s*GEMINI_API_KEY\s*=\s*(.+?)\s*$", env_content)
+            if match and match.group(1).strip().strip("\"'"):
+                _print_status_result("GEMINI_API_KEY (.env)", "OK")
+                record("OK")
+            else:
+                _print_status_result("GEMINI_API_KEY (.env)", "MISSING", "값이 비어있거나 미설정")
+                record("MISSING")
+        except Exception as e:
+            _print_status_result("GEMINI_API_KEY (.env)", "ERROR", str(e))
+            record("ERROR")
+
+    # 6) 프로젝트 레벨 codex.toml 존재 여부
+    project_codex_toml = PROJECT_ROOT / "codex.toml"
+    if project_codex_toml.exists():
+        _print_status_result("codex.toml (project)", "OK")
+        record("OK")
+    else:
+        _print_status_result("codex.toml (project)", "MISSING")
+        record("MISSING")
+
+    total = ok_count + missing_count + error_count
+    print(f"\n요약: OK={ok_count}, MISSING={missing_count}, ERROR={error_count}, TOTAL={total}")
+    if error_count > 0:
+        print("전체 상태: ERROR")
+    elif missing_count > 0:
+        print("전체 상태: PARTIAL")
+    else:
+        print("전체 상태: OK")
+
+
 # ============================================================
 # main
 # ============================================================
@@ -805,22 +922,29 @@ COMMANDS = {
     "search": ("피드백 검색", cmd_search),
     "test": ("전체 자동 테스트", cmd_test),
     "clear": ("상태 파일 초기화", cmd_clear),
+    "codex-status": ("Codex CLI 연동 상태 진단", cmd_codex_status),
 }
 
 
 def main():
-    if len(sys.argv) < 2 or sys.argv[1] not in COMMANDS:
-        print("Usage: python3 scripts/cli.py <command>\n")
-        print("Commands:")
-        for name, (desc, _) in COMMANDS.items():
-            print(f"  {name:10s} {desc}")
+    parser = argparse.ArgumentParser(description="Claude-Gemini Communicator CLI")
+    subparsers = parser.add_subparsers(dest="command")
+
+    for name, (desc, fn) in COMMANDS.items():
+        subparser = subparsers.add_parser(name, help=desc, description=desc)
+        if name == "search":
+            subparser.add_argument("keyword", help="검색 키워드")
+            subparser.add_argument("--source", help="소스 필터", default=None)
+            subparser.add_argument("--date", help="날짜 필터 (YYYY-MM-DD)", default=None)
+        subparser.set_defaults(func=fn)
+
+    args = parser.parse_args()
+    if not hasattr(args, "func"):
+        parser.print_help()
         sys.exit(1)
 
-    cmd_name = sys.argv[1]
-    _, fn = COMMANDS[cmd_name]
-    result = fn()
-
-    if cmd_name == "test" and result is False:
+    result = args.func(args)
+    if args.command == "test" and result is False:
         sys.exit(1)
 
 

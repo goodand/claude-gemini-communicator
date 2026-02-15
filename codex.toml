@@ -1,0 +1,6 @@
+# Codex CLI project config — Claude-Gemini Communicator
+#
+# Codex가 이 디렉토리에서 실행될 때 자동 적용됩니다.
+
+# Plan 감지 시 Gemini 평가 자동 트리거
+notify = ["python3", "skills/gemini-reviewer/scripts/codex_notify.py"]

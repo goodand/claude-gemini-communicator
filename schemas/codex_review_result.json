@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["summary", "issues", "score", "strengths"],
+  "properties": {
+    "summary": {
+      "type": "string",
+      "description": "리뷰 요약 (1-3문장)"
+    },
+    "issues": {
+      "type": "array",
+      "description": "발견된 이슈 목록",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["severity", "description", "file", "line", "suggestion"],
+        "properties": {
+          "severity": {
+            "type": "string",
+            "enum": ["critical", "high", "medium", "low"]
+          },
+          "description": {
+            "type": "string"
+          },
+          "file": {
+            "type": ["string", "null"]
+          },
+          "line": {
+            "type": ["integer", "null"]
+          },
+          "suggestion": {
+            "type": ["string", "null"]
+          }
+        }
+      }
+    },
+    "score": {
+      "type": "integer",
+      "description": "전체 코드 품질 점수 (1-10)"
+    },
+    "strengths": {
+      "type": "array",
+      "description": "잘 된 점",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

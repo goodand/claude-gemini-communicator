@@ -1,0 +1,7 @@
+# Codex CLI config.toml — Gemini Reviewer 연동 예시
+#
+# 이 설정을 ~/.codex/config.toml에 추가하세요.
+# 또는 프로젝트 루트의 codex.toml에 넣으면 프로젝트별 적용.
+
+# Gemini notify hook: Codex 턴 완료 시 Plan 감지 → Gemini 평가
+notify = ["python3", "skills/gemini-reviewer/scripts/codex_notify.py"]
