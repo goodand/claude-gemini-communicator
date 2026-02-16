@@ -12,12 +12,14 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 FEEDBACK_PATH = PROJECT_ROOT / "plans" / "gemini" / "gemini_feedback.md"
 
 
-def save_feedback(feedback: str, source: str, file_path: str | None = None) -> None:
+def save_feedback(feedback: str, source: str, file_path: str | None = None,
+                  request_id: str | None = None) -> None:
     """gemini_feedback.md에 피드백을 추가한다 (file lock으로 동시 쓰기 보호)."""
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     target_info = f" | 대상: `{file_path}`" if file_path else ""
+    rid_info = f" | request_id: {request_id}" if request_id else ""
 
-    entry = f"\n---\n\n## [{timestamp}] {source}{target_info}\n\n{feedback}\n"
+    entry = f"\n---\n\n## [{timestamp}] {source}{target_info}{rid_info}\n\n{feedback}\n"
 
     FEEDBACK_PATH.parent.mkdir(parents=True, exist_ok=True)
     with open(FEEDBACK_PATH, "a", encoding="utf-8") as f:

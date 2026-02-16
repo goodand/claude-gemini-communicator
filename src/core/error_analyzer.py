@@ -10,6 +10,7 @@ import json
 import os
 import re
 import time
+import uuid
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
@@ -202,7 +203,9 @@ def check_error_and_analyze(errors: list, config: dict) -> str | None:
             history["errors"][error_hash]["analyzed"] = True
     _save_error_history(history)
 
+    request_id = str(uuid.uuid4())
     prefixed_feedback = f"{prefix}\n\n{feedback}"
-    save_feedback(prefixed_feedback, source="Error Analysis (Stop Hook)")
+    save_feedback(prefixed_feedback, source="Error Analysis (Stop Hook)",
+                  request_id=request_id)
 
     return prefixed_feedback

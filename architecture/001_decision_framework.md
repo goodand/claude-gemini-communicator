@@ -1,6 +1,7 @@
 # [Framework] 의사결정 및 설계 정의서 — 메시지 버스 우선(001)
 
 > 작성: Codex | 코드베이스 전수 스캔 기반 | 날짜: 2026-02-16
+> 개정: CTO(Claude) | Gemini 비판 반영 + 구현 실측 반영 | rev.2: 2026-02-16
 
 ## 1. 배경 (Background)
 
@@ -45,8 +46,9 @@
       - Entry 계층(Hook/CLI/Notify/Bridge)은 공통 메시지 엔벨로프로 변환 후 전달
       - Core 계층은 메시지 타입 기반으로 처리(평가/분류/에러분석)
       - Parser 계층은 모든 에이전트 출력을 공통 엔벨로프로 정규화
-    - **최소 공통 필드 고정**
+    - **최소 공통 필드 고정 (8필드, 구현 완료)**
       - `message_id`, `request_id`, `source_agent`, `target_agent`, `message_type`, `payload`, `timestamp`, `status`
+      - 선택 확장: `parent_message_id` (멀티홉 체인용, §7 참조)
     - **수단 재정렬**
       - `src` 정본화, 중복 제거, God Object 분해는 모두 "버스 일관성 강화"를 위한 수단으로만 추진
 
@@ -102,3 +104,149 @@
 ## 요약: 의사결정 한 줄
 
 > **이 프로젝트의 상위 목적은 리팩토링이 아니라 멀티 에이전트 메시지 버스 확립이며, 정본화·중복제거·모듈분해는 모두 그 목적을 달성하기 위한 수단으로만 집행한다.**
+
+---
+
+## 6. 물리적 메시지 버스 (Physical Bus)
+
+> **Gemini 비판 반영**: "메시지 버스의 물리적 실체가 모호" → 실측 기반으로 구체화
+
+- 현재 구현 (1단계, 실측)
+  - **주 경로**: `plans/gemini/gemini_feedback.md` — Markdown append-only 로그
+    - DAG 분석 기준 in-degree 6 (프로젝트 내 최다 연결 노드)
+    - 모든 Hook, 에러분석, 비동기 실행기가 이 파일에 기록
+    - `fcntl.LOCK_EX` 파일 잠금으로 동시 쓰기 보호
+  - **보조 경로**: `scripts/.error_history.json` — 에러 이력/중복 방지
+  - **전달 방식**: `stdout → stdin` (Hook JSON 파이프) + 파일 append
+
+- 2단계 확장 (선택, 필요 시)
+  - JSONL 버스 파일 도입: `plans/gemini/a2a_events.jsonl`
+    - 1라인 1 JSON, UTF-8, `\n` 종결
+    - 기존 Markdown 로그와 병행 기록 (tee 패턴)
+  - 이유: 기계 소비(파싱/검색/통계)에 Markdown보다 JSONL이 적합
+  - `.bus/` 별도 디렉토리는 불필요 — `plans/gemini/` 안에 통합
+
+- 동시성/잠금 전략 (구현 완료)
+  - Writer: `fcntl.LOCK_EX` 배타 잠금 (`src/shared/feedback.py`)
+  - Reader: `tail -f` 또는 직접 읽기 (잠금 불필요)
+  - Rotation: 현재 미구현, 필요 시 날짜 기반 분리 (`gemini_feedback.2026-02.md`)
+
+## 7. 메시지 엔벨로프 (Common Envelope)
+
+> **Gemini 비판 반영**: "parent_message_id / sequence_number 부재" → 선택 확장으로 정의
+
+- 필수 필드 (8개, `src/core/a2a_protocol.py`에 구현 완료)
+  - `message_id`: UUIDv4 — 메시지 고유 식별
+  - `request_id`: UUIDv4 — 요청-응답 쌍 추적 (피드백 로그에도 기록)
+  - `source_agent`: 발신 에이전트 (`"claude"`)
+  - `target_agent`: 수신 에이전트 (`"gemini"`, `"codex"`)
+  - `message_type`: `"evaluation_request"` | `"evaluation_response"` | `"error_analysis"` 등
+  - `payload`: 본문 (자유 구조)
+  - `timestamp`: ISO 8601 UTC
+  - `status`: `"pending"` | `"success"` | `{"code": "error", "error_type": "sdk", "detail": "..."}` | `"fallback"`
+
+- 선택 확장 필드 (2단계, 멀티홉 체인용)
+  - `parent_message_id`: 직접 상위 메시지 ID (단일 홉에선 생략)
+  - `a2a_version`: 스키마 버전 (`"1.0"`)
+
+- 구현 상태
+  - `build_a2a_request()`: 8필드 생성 + 하위 호환 `source` 필드 유지
+  - `parse_a2a_response()`: 응답에서 8필드 복원 + `parse_error_status()` 자동 적용
+  - `parse_error_status()`: 문자열 prefix (`[SDK_ERROR]`, `[ERROR]`, `[FALLBACK]`) → 구조화 status
+
+- 샘플 (실측 기반)
+
+```json
+{
+  "a2a_version": "1.0",
+  "message_id": "7fb1c3a9-...",
+  "request_id": "d4e5-...",
+  "timestamp": "2026-02-16T06:25:31+00:00",
+  "source_agent": "claude",
+  "target_agent": "gemini",
+  "message_type": "evaluation_request",
+  "status": "pending",
+  "payload": {"file": "architecture/001_decision_framework.md"}
+}
+```
+
+- 의도적 비채택 (과설계 방지)
+  - `sequence_number`: 파일 기반 시스템에서 라인 번호가 자연 순서 → 별도 필드 불필요
+  - `causal_depth`: 현재 1-hop (Claude→Gemini) 구조에서 불필요, 멀티홉 시 `parent_message_id` 체인으로 대체
+  - `targets` 배열/DSL: 현재 1:1 통신만 존재, `target_agent` 문자열로 충분
+  - `root_message_id`: `request_id`가 동일 역할 수행
+
+## 8. 순서/인과성 (Ordering & Causality)
+
+- 순서 보장 (현재)
+  - Markdown append-only: 타임스탬프 헤더가 자연 순서 (`## [2026-02-16 06:25:31]`)
+  - JSONL 전환 시: 파일 라인 번호 = 자연 순서 (별도 `sequence_number` 불필요)
+
+- 인과 추적 (구현 완료)
+  - `request_id`: 요청-응답 쌍 연결 (Hook → Gemini 호출 → 피드백 기록까지 동일 ID)
+  - 에러 해시(`hash_error`): 동일 에러 재발 추적 (`src/core/error_analyzer.py`)
+  - 향후: `parent_message_id`로 멀티홉 체인 추적 (현재는 1-hop만 존재)
+
+- 전달 의미론
+  - Best-effort: Hook 실패 시 `exit(0)` → Claude 정상 동작 보호 우선
+  - 중복 방지: 에러 해시 + `analyzed` 플래그로 동일 에러 재분석 차단
+  - 쿨다운: 파일별 300초, 에러 분석 전역 60초
+
+## 9. KPI와 외부 요인 분리 (Metrics Isolation)
+
+> **Gemini 비판 반영**: "100% 충족률은 외부 요인(Gemini quota 등) 분리 없이 의미 없다"
+
+- 내부 KPI (버스 품질, 100% 목표 가능)
+  - `schema_conformance`: 8 필수 필드 충족률 — 내부 코드로 보장 가능
+  - `request_id_coverage`: 모든 피드백 기록에 request_id 포함 비율
+  - `error_hash_dedup`: 동일 에러 재분석 방지율
+
+- 외부 KPI (환경 의존, 100% 불가 → SLO 기반)
+  - `gemini_call_success_rate`: Gemini API 호출 성공률 (quota, 네트워크 영향)
+  - `end_to_end_delivery`: Hook 트리거 → 피드백 기록 완료율
+
+- 외부 요인 분류 (구현 완료: `parse_error_status()`)
+  - `error_type: "sdk"` → Gemini SDK 오류 (quota, 인증, 네트워크)
+  - `error_type: "general"` → CLI 실패, 파싱 오류
+  - `code: "fallback"` → SDK 실패 후 CLI 전환 (부분 성공)
+  - 이 분류가 `status` 필드에 구조화되어 내부/외부 실패 자동 구분 가능
+
+- 측정 원칙
+  - 내부 KPI 미달 → 코드 버그, 즉시 수정
+  - 외부 KPI 미달 → 환경 문제, 대응 전략 조정 (키 순회, 모델 전환, CLI fallback)
+
+## 10. 마이그레이션 전략 (Phased Migration)
+
+- Phase 0 (완료): God Object 분해
+  - `scripts/a2a_bridge.py` (836줄) → `src/` 3계층 DAG (shared/ → core/ → hooks/)
+  - 12노드 26엣지, 순환 의존 0 (graph-structure-classifier 검증)
+
+- Phase 1 (완료): 8필드 엔벨로프 + request_id 추적
+  - `build_a2a_request()`: 8필드 생성
+  - `parse_error_status()`: 에러 구조화
+  - 전 Hook에서 `request_id` 생성/전파
+
+- Phase 2 (현재): Skills 자립화 + 크로스 에이전트
+  - 3개 Skill 패키지 완성 (gemini-reviewer, agent-parser, cross-agent-bridge)
+  - `cp -r` 독립 배포 가능
+
+- Phase 3 (다음): JSONL 버스 도입 (선택)
+  - Markdown과 병행 기록 → 기계 소비 경로 확보
+  - `parent_message_id` 필수화로 멀티홉 체인 추적
+
+## 11. 리스크 및 대응 (Risks & Mitigations)
+
+- 파일 잠금 경합
+  - 현황: `fcntl.LOCK_EX`로 해결 완료 (`src/shared/feedback.py`)
+  - 잔여 리스크: 비동기 모드에서 다수 프로세스 동시 쓰기 시 지연 가능 → 쿨다운으로 완화
+
+- 피드백 파일 크기 증가
+  - 현황: `gemini_feedback.md` 무제한 append
+  - 대응: 날짜 기반 분리 또는 오래된 엔트리 아카이브 (수동)
+
+- 외부 API 실패 전파
+  - 현황: `parse_error_status()`로 분류 + CLI fallback + 키/모델 순회
+  - 잔여 리스크: 모든 키/모델 소진 시 → `[ERROR]` 로그 후 `exit(0)` (Claude 보호)
+
+- KPI "영구 미달" 리스크
+  - 대응: §9에서 내부/외부 KPI 분리 → 내부 KPI만 100% 목표, 외부는 SLO 기반

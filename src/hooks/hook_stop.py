@@ -8,6 +8,7 @@ stdin으로 Claude Stop Hook JSON을 수신하고,
 import json
 import os
 import sys
+import uuid
 
 # src/ 패키지 import를 위해 프로젝트 루트를 path에 추가
 _PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -104,15 +105,16 @@ def handle_plan_detection(text: str, config: dict) -> str | None:
             source="Stop Hook (Plan 감지)",
         )
 
+    request_id = str(uuid.uuid4())
     raw_feedback = call_gemini(content=text, prompt=eval_prompt, config=config)
 
     if config.get("a2a_schema_enabled", False):
-        a2a_resp = parse_a2a_response(raw_feedback)
+        a2a_resp = parse_a2a_response(raw_feedback, request_id=request_id)
         feedback = a2a_response_to_markdown(a2a_resp)
     else:
         feedback = raw_feedback
 
-    save_feedback(feedback, source="Stop Hook (Plan 감지)")
+    save_feedback(feedback, source="Stop Hook (Plan 감지)", request_id=request_id)
     return feedback
 
 

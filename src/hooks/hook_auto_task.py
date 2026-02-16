@@ -6,6 +6,7 @@ stdin으로 Claude Hook JSON을 수신하고, .md 파일 변경 시 Gemini 평�
 import json
 import os
 import sys
+import uuid
 
 # src/ 패키지 import를 위해 프로젝트 루트를 path에 추가
 _PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -77,18 +78,20 @@ def main():
         sys.exit(0)
 
     # 동기 모드
+    request_id = str(uuid.uuid4())
     raw_feedback = call_gemini(
         content="", prompt=prompt, config=config, file_path=file_path,
     )
 
     # A2A 모드: 구조화된 응답 파싱
     if config.get("a2a_schema_enabled", False):
-        a2a_resp = parse_a2a_response(raw_feedback)
+        a2a_resp = parse_a2a_response(raw_feedback, request_id=request_id)
         feedback = a2a_response_to_markdown(a2a_resp)
     else:
         feedback = raw_feedback
 
-    save_feedback(feedback, source="PostToolUse Hook", file_path=file_path)
+    save_feedback(feedback, source="PostToolUse Hook", file_path=file_path,
+                  request_id=request_id)
     print(format_hook_output(feedback))
 
 

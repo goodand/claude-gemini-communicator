@@ -29,15 +29,22 @@ _A2A_CLASSIFICATION_INSTRUCTION = """반드시 아래 JSON 형식으로만 응�
 
 
 def build_a2a_request(message_type: str, payload: dict,
-                      hook_source: str = "unknown") -> dict:
-    """A2A 요청 메시지를 생성한다."""
+                      hook_source: str = "unknown",
+                      target_agent: str = "gemini") -> dict:
+    """A2A 요청 메시지를 생성한다 (8필드 공통 엔벨로프)."""
+    request_id = str(uuid.uuid4())
     return {
         "a2a_version": A2A_VERSION,
+        "message_id": str(uuid.uuid4()),
+        "request_id": request_id,
         "message_type": message_type,
-        "request_id": str(uuid.uuid4()),
         "timestamp": datetime.now(timezone.utc).isoformat(),
-        "source": {"agent": "claude", "hook": hook_source},
+        "source_agent": "claude",
+        "target_agent": target_agent,
+        "status": "pending",
         "payload": payload,
+        # 하위 호환: 이전 형식 유지
+        "source": {"agent": "claude", "hook": hook_source},
     }
 
 
@@ -68,8 +75,41 @@ def _try_repair_json(text: str):
     return None
 
 
+def parse_error_status(text: str) -> dict | None:
+    """에러 문자열 prefix를 구조화된 status로 변환한다.
+
+    '[SDK_ERROR] msg' → {"code": "error", "error_type": "sdk", "detail": "msg"}
+    '[ERROR] msg'     → {"code": "error", "error_type": "general", "detail": "msg"}
+    '[FALLBACK] msg'  → {"code": "fallback", "detail": "msg"}
+    정상 텍스트       → None
+    """
+    if text.startswith("[SDK_ERROR]"):
+        return {"code": "error", "error_type": "sdk", "detail": text[11:].strip()}
+    if text.startswith("[ERROR]"):
+        return {"code": "error", "error_type": "general", "detail": text[7:].strip()}
+    if text.startswith("[FALLBACK]"):
+        return {"code": "fallback", "detail": text[10:].strip()}
+    return None
+
+
 def parse_a2a_response(raw_text: str, request_id: str | None = None) -> dict:
-    """Gemini 응답 텍스트에서 A2A JSON을 파싱한다."""
+    """Gemini 응답 텍스트에서 A2A JSON을 파싱한다 (8필드 공통 엔벨로프)."""
+    # 에러 상태 감지
+    error_status = parse_error_status(raw_text)
+    if error_status is not None:
+        return {
+            "a2a_version": A2A_VERSION,
+            "message_id": str(uuid.uuid4()),
+            "request_id": request_id or "",
+            "message_type": "evaluation_response",
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "source_agent": "gemini",
+            "target_agent": "claude",
+            "status": error_status,
+            "payload": {"raw_text": raw_text},
+            "source": {"agent": "gemini"},
+        }
+
     text = raw_text.strip()
     if text.startswith("```"):
         lines = text.split("\n")
@@ -92,22 +132,28 @@ def parse_a2a_response(raw_text: str, request_id: str | None = None) -> dict:
     if parsed is not None:
         return {
             "a2a_version": A2A_VERSION,
-            "message_type": "evaluation_response",
+            "message_id": str(uuid.uuid4()),
             "request_id": request_id or "",
+            "message_type": "evaluation_response",
             "timestamp": datetime.now(timezone.utc).isoformat(),
-            "source": {"agent": "gemini"},
-            "status": "success",
+            "source_agent": "gemini",
+            "target_agent": "claude",
+            "status": {"code": "success"},
             "payload": parsed,
+            "source": {"agent": "gemini"},
         }
 
     return {
         "a2a_version": A2A_VERSION,
-        "message_type": "evaluation_response",
+        "message_id": str(uuid.uuid4()),
         "request_id": request_id or "",
+        "message_type": "evaluation_response",
         "timestamp": datetime.now(timezone.utc).isoformat(),
-        "source": {"agent": "gemini"},
-        "status": "success",
+        "source_agent": "gemini",
+        "target_agent": "claude",
+        "status": {"code": "success"},
         "payload": {"raw_text": raw_text},
+        "source": {"agent": "gemini"},
     }
 
 
