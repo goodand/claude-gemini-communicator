@@ -9,7 +9,7 @@ Claude Code Hooks를 통해 Write/Edit 도구 사용 시 자동 트리거됩니�
 - 세션 id : "session ID: 8aafa760-be1e-4993-a1f9-780453b2c88e"
 - 세션 디렉토리 및 작업 경로 : /Users/jaehyuntak/.gemini/skills/skill_evaluator/plans
 
-## 현재 상태: Phase 4 구현 완료
+## 현재 상태: Phase 6 구현 완료
 
 ### Phase 1 (MVP) — 완료
 - Gemini CLI subprocess 기반 평가 파이프라인
@@ -34,6 +34,23 @@ Claude Code Hooks를 통해 Write/Edit 도구 사용 시 자동 트리거됩니�
 - **file lock**: fcntl로 gemini_feedback.md 동시 쓰기 보호
 - **Gemini Code Assist**: `.gemini/review.md`로 PR 리뷰 규칙 설정
 
+### Phase 5 — 완료
+- 크로스 플랫폼 확장: Codex/Gemini 파서, 구조화 스키마, 프로젝트 핸드오프
+
+### Phase 6 — 완료 (3-Skill 패키징)
+- **3개 자립형 Skill**: `cp -r`로 다른 프로젝트에 설치 가능
+- **Skill 1: gemini-reviewer** — Exponential Backoff 재시도, `--format json`, `_common.py` 추출
+- **Skill 2: agent-parser** — Codex/Gemini/Claude 통합 파서 + 자동 포맷 감지
+- **Skill 3: cross-agent-bridge** — 통합 오케스트레이터 (review/parse/doctor/setup)
+- 각 skill별 `_common.py` 복사 (자립성 > DRY)
+- 공식 skill-creator 가이드 규격 SKILL.md (Progressive Disclosure)
+
+### 3-Agent 역할 분담 (검증 완료)
+- **Codex**: 설계 + 코딩 (샌드박스 내 로컬 작업, 네트워크 차단됨)
+- **Claude**: 의존성 분석, 병렬 실행, Code Review, Gemini API 호출
+- **Gemini**: 계획/설계 비판 (Claude Hook 또는 사용자 터미널에서 호출)
+- 제약: Codex 샌드박스는 네트워크 차단 → Gemini 호출은 Codex 외부에서 수행
+
 ### 미구현 (장기 비전)
 - Agent Teams 통합 (`claude --teammate-mode tmux`)
 - Gemini Extension 개발
@@ -54,6 +71,14 @@ Claude Code Hooks를 통해 Write/Edit 도구 사용 시 자동 트리거됩니�
 | `.gemini/review.md` | Gemini Code Assist PR 리뷰 규칙 |
 | `.env` | API key 저장 (gitignore) |
 | `gemini_feedback.md` | Gemini 평가 결과 로그 (append-only) |
+
+### Skills (Phase 6)
+
+| Skill | 진입점 | 역할 |
+|---|---|---|
+| `skills/gemini-reviewer/` | `scripts/evaluate.py` | Gemini 코드/문서 리뷰 (Exp. Backoff, JSON 출력) |
+| `skills/agent-parser/` | `scripts/parse.py` | Codex/Gemini/Claude 통합 파서 (자동 감지) |
+| `skills/cross-agent-bridge/` | `scripts/bridge.py` | 통합 오케스트레이터 (review/parse/doctor/setup) |
 
 ## 디렉토리 구조
 
@@ -78,6 +103,37 @@ claude-gemini-communicator/
 │   ├── setup.sh             ← 의존성 설치
 │   ├── .cooldown_state.json ← 런타임 생성 (gitignore)
 │   └── .error_history.json  ← 런타임 생성 (gitignore)
+├── skills/
+│   ├── gemini-reviewer/     ← Skill 1: Gemini 리뷰
+│   │   ├── SKILL.md
+│   │   ├── scripts/
+│   │   │   ├── evaluate.py      ← 리뷰 엔진 + Exp. Backoff + --format json
+│   │   │   ├── codex_notify.py  ← Codex notify hook
+│   │   │   └── _common.py      ← 공용 유틸리티
+│   │   └── references/
+│   │       └── prompts.md       ← 리뷰 프롬프트 템플릿
+│   ├── agent-parser/        ← Skill 2: 통합 파서
+│   │   ├── SKILL.md
+│   │   ├── scripts/
+│   │   │   ├── parse.py             ← 통합 진입점 + 자동 감지
+│   │   │   ├── _codex_parser.py     ← Codex JSONL 파서
+│   │   │   ├── _gemini_parser.py    ← Gemini JSON 파서
+│   │   │   ├── _transcript_parser.py ← Claude transcript 파서
+│   │   │   └── _common.py          ← 공용 유틸리티
+│   │   └── references/
+│   │       └── format-examples.md   ← 입출력 예시
+│   └── cross-agent-bridge/  ← Skill 3: 통합 오케스트레이터
+│       ├── SKILL.md
+│       ├── scripts/
+│       │   ├── bridge.py        ← 메인 CLI (review|parse|doctor|setup)
+│       │   ├── _gemini_client.py ← SDK/CLI caller + Exp. Backoff
+│       │   ├── _a2a_protocol.py ← A2A 메시지 프로토콜
+│       │   ├── _doctor.py       ← 시스템 진단
+│       │   ├── _config.py       ← config 로딩/검증
+│       │   └── _common.py      ← 공용 유틸리티
+│       └── references/
+│           ├── a2a-protocol.md  ← A2A JSON 스키마 사양
+│           └── config-schema.md ← config.json 필드 스키마
 ├── plans/
 │   ├── test.md              ← 테스트용 문서
 │   ├── phase2_implementation_plan.md
