@@ -1,7 +1,7 @@
 # 04 — 새 아키텍처 의존성 분석 (마이그레이션 후)
 
 > 작성: CTO(Claude) | 도구: depsolve-analyzer + graph-structure-classifier
-> 날짜: 2026-02-16 (rev.2: 마이그레이션 완료 후 실측)
+> 날짜: 2026-02-16 (rev.3: 갭 해소 완료 후 최종 검증)
 
 ---
 
@@ -89,10 +89,10 @@ flowchart TD
 
 | 패키지 | 심각도 | 사용 위치 | 조치 |
 |---|---|---|---|
-| `httpx` | HIGH | `gemini_service.py` (OAuth REST 호출) | requirements.txt에 추가 필요 |
+| `httpx` | ~~HIGH~~ **해소** | `gemini_service.py` (OAuth REST 호출) | ✅ requirements.txt에 추가 완료 |
 
-현재 requirements.txt: `google-genai`, `google-auth` 2개만 선언.
-`httpx`는 OAuth fallback 경로에서 lazy import로 사용되나 미선언 상태.
+~~현재 requirements.txt: `google-genai`, `google-auth` 2개만 선언.~~
+requirements.txt: `google-genai`, `google-auth`, `httpx` 3개 선언 (rev.3 반영).
 
 ---
 
@@ -231,16 +231,29 @@ plans/
 
 ## 5. 001 Framework 체크리스트 교차 검증
 
-| Critical 항목 | 현재 상태 | Gap |
-|---|---|---|
-| 상위 목적 = 메시지 버스 | **충족** — plans/가 de facto 버스 | 공통 필드 미강제 |
-| 공통 최소 8필드 | A2A에 5/8 존재 | `message_id`, `target_agent`, `status` 누락 |
-| 추적 가능성 | `request_id` 존재 | feedback.md 엔트리와 request_id 미연결 |
-| 실패 상태 구조화 | `[SDK_ERROR]` 문자열 | 구조화된 status 필요 |
+| Critical 항목 | 현재 상태 | Gap | 해소 |
+|---|---|---|---|
+| 상위 목적 = 메시지 버스 | **충족** — plans/가 de facto 버스 | ~~공통 필드 미강제~~ | ✅ 8필드 구현 |
+| 공통 최소 8필드 | ~~A2A에 5/8 존재~~ **8/8 완료** | ~~`message_id`, `target_agent`, `status` 누락~~ | ✅ `build_a2a_request()` |
+| 추적 가능성 | ~~`request_id` 미연결~~ **전 경로 연결** | ~~feedback.md와 미연결~~ | ✅ `save_feedback(request_id=)` |
+| 실패 상태 구조화 | ~~문자열~~ **구조화 완료** | ~~구조화된 status 필요~~ | ✅ `parse_error_status()` |
 
-### 다음 단계 (메시지 버스 정합성 확보)
+### 해소 완료 요약 (rev.3)
 
-1. **A2A 엔벨로프 확장**: `message_id`(uuid), `target_agent`, 구조화된 `status` 추가
-2. **feedback.md 엔트리에 request_id 포함**: `## [timestamp] source | request_id: xxx`
-3. **실패 상태 구조화**: `[SDK_ERROR]` → `{"status":"error","error_type":"sdk"}` 형태
-4. **httpx** → requirements.txt에 추가
+| # | 갭 | 구현 | 커밋 |
+|---|---|---|---|
+| 1 | A2A 8필드 엔벨로프 | `src/core/a2a_protocol.py:build_a2a_request()` — message_id, target_agent, status 추가 | `d17a8ce` |
+| 2 | request_id 추적 | `src/shared/feedback.py:save_feedback(request_id=)` — 전 Hook에서 UUID 생성/전파 | `d17a8ce` |
+| 3 | 에러 구조화 | `src/core/a2a_protocol.py:parse_error_status()` — [SDK_ERROR]/[ERROR]/[FALLBACK] → dict | `d17a8ce` |
+| 4 | httpx 미선언 | `requirements.txt` — httpx>=0.24.0 추가 | `af234e1` |
+
+### 테스트 검증
+
+- 47건 전체 통과 (`tests/test_shared.py`, `test_core.py`, `test_hooks.py`)
+- A2A 8필드 엔벨로프, parse_error_status, request_id 전파 모두 테스트 커버
+
+### 다음 단계 (Phase 2-3)
+
+1. **JSONL 버스 도입** (001 §6 Phase 3): `plans/gemini/a2a_events.jsonl` 병행 기록
+2. **parent_message_id** (001 §7 선택 확장): 멀티홉 체인 추적
+3. **scripts/ 정리**: 레거시 `scripts/a2a_bridge.py` 호환 레이어 제거 또는 유지 결정
