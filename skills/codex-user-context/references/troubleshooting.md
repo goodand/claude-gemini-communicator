@@ -18,6 +18,7 @@ codex exec -m gpt-5 "Reply exactly: OK"
 
 - 5.3-codex가 실패하고 gpt-5가 성공하면 권한/플랜 이슈다.
 - 운영 기본 모델을 접근 가능한 모델로 고정한다.
+- `run_codex_user_context.sh`는 5.3 권한 오류 문구를 감지하면 `gpt-5`로 자동 재시도한다.
 
 ## 2) 사용자와 에이전트 실행 결과가 다름
 

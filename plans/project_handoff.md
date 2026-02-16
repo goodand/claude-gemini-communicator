@@ -17,6 +17,9 @@ AI 코딩 에이전트(Claude Code, Codex CLI, Gemini CLI)가 코드/문서를 �
 | 5 | 크로스 플랫폼 확장: Codex/Gemini 파서, 구조화 스키마 | ✅ |
 | 6 | 3-Skill 패키징 (gemini-reviewer, agent-parser, cross-agent-bridge) | ✅ |
 | 7 | src/ 모듈 아키텍처 마이그레이션 (836줄 God Object → 3-레이어 DAG) | ✅ |
+| 8 | A2A 엔벨로프 확장 (`message_id`, `target_agent`, 구조화 `status`) | ✅ |
+| 9 | feedback.md 엔트리에 request_id 포함 (추적 가능성) | ✅ |
+| 10 | 실패 상태 구조화 (`[SDK_ERROR]` → `{"status":"error","error_type":"sdk"}`) | ✅ |
 
 ## 3. 아키텍처 (Phase 7: src/ 3-레이어 DAG)
 
@@ -52,9 +55,6 @@ claude-gemini-communicator/
 │   ├── async_runner.py
 │   └── cli.py (doctor/status/stats/search/test/clear)
 │
-├── scripts/                     # 레거시 + 설정
-│   ├── config.json              # 전체 설정
-│   └── a2a_bridge.py            # 레거시 오케스트레이터 (참조용)
 │
 ├── skills/                      # Phase 6: 자립형 Skill (cp -r 설치)
 │   ├── gemini-reviewer/         # Gemini 코드/문서 리뷰 (Exp. Backoff)
@@ -96,15 +96,14 @@ Codex가 턴 완료 (agent-turn-complete)
 
 ## 7. 다음 단계
 
-### 단기
-- [ ] A2A 엔벨로프 확장 (`message_id`, `target_agent`, 구조화 `status`)
-- [ ] feedback.md 엔트리에 request_id 포함 (추적 가능성)
-- [ ] 실패 상태 구조화 (`[SDK_ERROR]` → `{"status":"error","error_type":"sdk"}`)
+### 단기 (현재 주요 작업)
+- [ ] JSONL 버스 도입 (`plans/gemini/a2a_events.jsonl` 병행 기록)
+- [ ] `parent_message_id` (멀티홉 체인 추적)
+- [ ] CLI 검색 확장 (JSONL 쿼리, 필터 추가)
 
 ### 중기
 - [ ] Agent Teams 통합 (`claude --teammate-mode tmux`)
 - [ ] CI/CD 파이프라인 (GitHub Actions)
-
 ### 장기
 - [ ] Reference Architecture (Scheduler/Router/Memory 분리)
 
