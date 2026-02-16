@@ -5,9 +5,9 @@
 
 ## Project Context
 Claude Code Hooks 기반 Claude↔Gemini 협업 평가 시스템.
-- `scripts/a2a_bridge.py`: 핵심 모듈 (Gemini SDK/CLI 호출, 에러 감지)
-- `scripts/hook_*.py`: Claude Code Hook 스크립트
-- `scripts/config.json`: 설정 파일
+- `src/core/`: 핵심 모듈 (gemini_service, a2a_protocol, error_analyzer, cooldown)
+- `src/hooks/`: Claude Code Hook 스크립트
+- `config.json`: 설정 파일
 
 ## Focus Areas
 - **보안**: API 키 노출, .env 파일 커밋 여부, 환경변수 하드코딩

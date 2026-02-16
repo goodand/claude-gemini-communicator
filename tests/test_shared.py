@@ -34,7 +34,7 @@ def test_load_config_from_custom_path(tmp_path):
 
 
 def test_load_config_default_path():
-    # 기본 경로(scripts/config.json) 로드 검증
+    # 기본 경로(config.json) 로드 검증
     result = load_config()
     assert isinstance(result, dict)
     assert "gemini_cmd" in result

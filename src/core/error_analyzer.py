@@ -14,7 +14,7 @@ import uuid
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
-ERROR_HISTORY_PATH = PROJECT_ROOT / "scripts" / ".error_history.json"
+ERROR_HISTORY_PATH = PROJECT_ROOT / ".error_history.json"
 
 # 심각도별 에러 패턴
 _ERROR_SEVERITY = {

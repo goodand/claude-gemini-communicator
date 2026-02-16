@@ -8,7 +8,7 @@ import time
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
-COOLDOWN_STATE_PATH = PROJECT_ROOT / "scripts" / ".cooldown_state.json"
+COOLDOWN_STATE_PATH = PROJECT_ROOT / ".cooldown_state.json"
 
 
 def _load_cooldown_state() -> dict:

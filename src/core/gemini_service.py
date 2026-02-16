@@ -15,7 +15,7 @@ from src.shared.config import load_env
 from src.shared.hook_io import read_file_content
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
-SCRIPT_DIR = PROJECT_ROOT / "scripts"
+SRC_DIR = PROJECT_ROOT / "src"
 
 
 def _sdk_available() -> bool:
@@ -271,7 +271,7 @@ def call_gemini_async(content: str, prompt: str, config: dict,
     with os.fdopen(fd, "w", encoding="utf-8") as f:
         json.dump(args, f, ensure_ascii=False)
 
-    async_runner = SCRIPT_DIR / "async_runner.py"
+    async_runner = SRC_DIR / "async_runner.py"
 
     subprocess.Popen(
         [sys.executable, str(async_runner), args_path],

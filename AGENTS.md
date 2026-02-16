@@ -29,8 +29,8 @@ python3 skills/gemini-reviewer/scripts/evaluate.py --file <path> --save
 
 | File | Role |
 |---|---|
-| `scripts/a2a_bridge.py` | Core orchestrator (Gemini SDK/CLI dual mode) |
-| `scripts/config.json` | Configuration |
+| `src/core/gemini_service.py` | Gemini SDK/CLI caller (rate limit rotation, fallback) |
+| `config.json` | Configuration |
 | `skills/gemini-reviewer/` | Cross-platform Gemini review skill |
 | `gemini_feedback.md` | Gemini feedback log (append-only) |
 

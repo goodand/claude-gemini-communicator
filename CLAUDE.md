@@ -49,7 +49,8 @@ Claude Code Hooks를 통해 Write/Edit 도구 사용 시 자동 트리거됩니�
 - **Gemini**: 계획/설계 비판 (Claude Hook 또는 사용자 터미널에서 호출)
 
 ### 미구현 (장기 비전)
-- A2A 엔벨로프 확장 (`message_id`, `target_agent`, 구조화 `status`)
+- JSONL 버스 도입: `plans/gemini/a2a_events.jsonl` 병행 기록
+- `parent_message_id`: 멀티홉 체인 추적
 - Agent Teams 통합 (`claude --teammate-mode tmux`)
 - Reference Architecture (Scheduler/Router/Memory 분리)
 
@@ -76,7 +77,7 @@ Claude Code Hooks를 통해 Write/Edit 도구 사용 시 자동 트리거됩니�
 
 | 파일 | 역할 |
 |---|---|
-| `scripts/config.json` | 전체 설정 (SDK, 에러 감지, 프롬프트 등) |
+| `config.json` | 전체 설정 (SDK, 에러 감지, 프롬프트 등) |
 | `.claude/settings.local.json` | Hook 등록 설정 (→ src/hooks/) |
 | `.gemini/review.md` | Gemini Code Assist PR 리뷰 규칙 |
 | `.env` | API key 저장 (gitignore) |
@@ -119,10 +120,7 @@ claude-gemini-communicator/
 │   ├── async_runner.py
 │   └── cli.py
 │
-├── scripts/                     ← 레거시 (config.json 호스트, 점진적 축소)
-│   ├── config.json              ← 전체 설정
-│   ├── a2a_bridge.py            ← 레거시 오케스트레이터 (참조용)
-│   └── setup.sh
+├── config.json                  ← 전체 설정 (SDK, 에러 감지, 프롬프트 등)
 │
 ├── skills/                      ← Phase 6: 자립형 Skill (cp -r 설치)
 │   ├── gemini-reviewer/         ← Gemini 코드/문서 리뷰
@@ -198,7 +196,7 @@ hook_pre_tool.py ─→ a2a_protocol.py ───→ hook_io.py
 **주의: PostToolUse Hook은 Bash 실패(exit code != 0) 시 발동하지 않음!**
 → 에러 감지는 Stop Hook의 transcript 스캔으로 해결.
 
-## 핵심 설정 (`scripts/config.json`)
+## 핵심 설정 (`config.json`)
 
 ### 기본 설정
 | 키 | 기본값 | 설명 |
@@ -240,7 +238,7 @@ hook_pre_tool.py ─→ a2a_protocol.py ───→ hook_io.py
 - Gemini CLI (`/usr/local/bin/gemini`, CLI fallback용)
 - Claude Code (hooks 기능)
 
-설치: `bash scripts/setup.sh` 또는 `pip install -r requirements.txt`
+설치: `pip install -r requirements.txt`
 
 ## 테스트 방법
 
@@ -252,7 +250,7 @@ python3 src/cli.py test
 python3 -c "from src.core.gemini_service import call_gemini; from src.shared.config import load_config; print(call_gemini('Hi','Say OK.',load_config())[:100])"
 
 # 3. PostToolUse Hook 테스트
-rm -f scripts/.cooldown_state.json
+rm -f .cooldown_state.json
 echo '{"tool_name":"Write","tool_input":{"file_path":"plans/test.md"}}' | python3 src/hooks/hook_auto_task.py
 
 # 4. PreToolUse Hook 테스트

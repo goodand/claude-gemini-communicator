@@ -38,7 +38,7 @@ tail -f gemini_feedback.md
 
 ## 설정 커스터마이징
 
-`scripts/config.json`에서 수정:
+`config.json`에서 수정:
 
 - **타임아웃**: `gemini_timeout` (기본 90초)
 - **쿨다운**: `cooldown_seconds_per_file` (기본 300초, 동일 파일 재평가 방지)

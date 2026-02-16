@@ -9,7 +9,7 @@ import re
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
-CONFIG_PATH = PROJECT_ROOT / "scripts" / "config.json"
+CONFIG_PATH = PROJECT_ROOT / "config.json"
 ENV_PATH = PROJECT_ROOT / ".env"
 
 

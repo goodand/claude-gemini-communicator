@@ -144,7 +144,7 @@ User ──→ plans/gemini/feedback      (Gemini 결과 확인)
 | **`plans/gemini/gemini_feedback.md`** | Claude(read), Codex-notify(write), User(read), Gemini-service(write) | **6** | **메시지 버스 핵심** — 모든 에이전트의 피드백 수렴점 |
 | **`plans/project_handoff.md`** | Claude, Codex, User | 3 | 에이전트 간 컨텍스트 전달 문서 |
 | **`plans/`** (디렉토리) | User, Claude, Codex | 3 | **사용자-에이전트 공유 허브** |
-| **`scripts/config.json`** | 3개 Hook, CLI | 4 | 런타임 설정 허브 |
+| **`config.json`** | 3개 Hook, CLI | 4 | 런타임 설정 허브 |
 | **`src.core.gemini_service`** | hooks, error_analyzer, async_runner | 4 | Gemini 호출 단일 경로 |
 
 ### Mermaid: 3관점 통합
@@ -173,7 +173,7 @@ flowchart TB
     subgraph HUB["허브 (메시지 수렴점)"]
         FEEDBACK["plans/gemini/<br/>gemini_feedback.md"]
         HANDOFF["plans/<br/>project_handoff.md"]
-        CONFIG["scripts/<br/>config.json"]
+        CONFIG["config.json"]
     end
 
     subgraph EXT["External"]
@@ -256,4 +256,4 @@ plans/
 
 1. **JSONL 버스 도입** (001 §6 Phase 3): `plans/gemini/a2a_events.jsonl` 병행 기록
 2. **parent_message_id** (001 §7 선택 확장): 멀티홉 체인 추적
-3. **scripts/ 정리**: 레거시 `scripts/a2a_bridge.py` 호환 레이어 제거 또는 유지 결정
+3. ~~**scripts/ 정리**~~ ✅ 완료 — 레거시 11개 파일 삭제, `config.json` 루트 이동, `scripts/` 디렉토리 제거
