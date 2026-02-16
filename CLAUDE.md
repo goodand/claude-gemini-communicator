@@ -9,70 +9,80 @@ Claude Code Hooks를 통해 Write/Edit 도구 사용 시 자동 트리거됩니�
 - 세션 id : "session ID: 8aafa760-be1e-4993-a1f9-780453b2c88e"
 - 세션 디렉토리 및 작업 경로 : /Users/jaehyuntak/.gemini/skills/skill_evaluator/plans
 
-## 현재 상태: Phase 6 구현 완료
+## 현재 상태: Phase 7 구현 완료
 
 ### Phase 1 (MVP) — 완료
 - Gemini CLI subprocess 기반 평가 파이프라인
-- PostToolUse Hook + Stop Hook
-- 쿨다운 메커니즘, 피드백 로그
+- PostToolUse Hook + Stop Hook, 쿨다운, 피드백 로그
 
 ### Phase 2 — 완료
-- google-genai SDK 직접 호출 (Dual Mode: SDK 우선, CLI fallback)
-- 비동기 모드 (fire-and-forget 백그라운드)
-- 복수 API key + 복수 모델 자동 순회 (429 Rate Limit 대응)
-- `.env` 기반 환경변수 관리
+- google-genai SDK (Dual Mode: SDK 우선, CLI fallback)
+- 비동기 모드, 복수 API key/모델 자동 순회, `.env` 관리
 
 ### Phase 3 — 완료
-- A2A 구조화된 JSON 메시지 프로토콜
-- 평가 요청/응답 JSON 스키마 강제 + 잘린 JSON 자동 복구
-- `a2a_schema_enabled` 설정으로 활성화 (기본 비활성, 하위 호환)
+- A2A 구조화 JSON 메시지 프로토콜
 
 ### Phase 4 — 완료
-- **에러 감지**: Stop Hook에서 transcript 스캔 → 에러 패턴 매칭
-- **Lazy Analysis**: 심각도별 가중치 (Critical 1회, High 1회, Medium 2회, Low 3회)
-- **에러 해시 정규화**: 경로/라인/시간 마스킹으로 동일 에러 인식
-- **file lock**: fcntl로 gemini_feedback.md 동시 쓰기 보호
-- **Gemini Code Assist**: `.gemini/review.md`로 PR 리뷰 규칙 설정
+- 에러 감지 (transcript 스캔 → Lazy Analysis), 에러 해시 정규화, fcntl file lock
 
 ### Phase 5 — 완료
 - 크로스 플랫폼 확장: Codex/Gemini 파서, 구조화 스키마, 프로젝트 핸드오프
 
 ### Phase 6 — 완료 (3-Skill 패키징)
 - **3개 자립형 Skill**: `cp -r`로 다른 프로젝트에 설치 가능
-- **Skill 1: gemini-reviewer** — Exponential Backoff 재시도, `--format json`, `_common.py` 추출
-- **Skill 2: agent-parser** — Codex/Gemini/Claude 통합 파서 + 자동 포맷 감지
-- **Skill 3: cross-agent-bridge** — 통합 오케스트레이터 (review/parse/doctor/setup)
-- 각 skill별 `_common.py` 복사 (자립성 > DRY)
-- 공식 skill-creator 가이드 규격 SKILL.md (Progressive Disclosure)
+- **gemini-reviewer**: Exponential Backoff, `--format json`, `_common.py`
+- **agent-parser**: Codex/Gemini/Claude 통합 파서 + 자동 포맷 감지
+- **cross-agent-bridge**: 통합 오케스트레이터 (review/parse/doctor/setup)
+
+### Phase 7 — 완료 (src/ 모듈 아키텍처 마이그레이션)
+- `scripts/a2a_bridge.py` (836줄, God Object) → `src/` 3-레이어 DAG 구조로 분해
+- **shared/** (config, feedback, hook_io) — 설정/저장/IO 유틸리티
+- **core/** (gemini_service, a2a_protocol, error_analyzer, cooldown) — 비즈니스 로직
+- **hooks/** (hook_auto_task, hook_stop, hook_pre_tool) — Claude Code Hook 진입점
+- DAG 의존성 보장: hooks/ → core/ → shared/ (역방향 금지, 순환 없음)
+- Hook 경로 `.claude/settings.local.json`에서 `src/hooks/`로 변경 완료
+- 의존성 분석: depsolve-analyzer + graph-structure-classifier 검증
 
 ### 3-Agent 역할 분담 (검증 완료)
-- **Codex**: 설계 + 코딩 (샌드박스 내 로컬 작업, 네트워크 차단됨)
+- **Codex**: 설계 + 코딩 (샌드박스, 네트워크 차단)
 - **Claude**: 의존성 분석, 병렬 실행, Code Review, Gemini API 호출
 - **Gemini**: 계획/설계 비판 (Claude Hook 또는 사용자 터미널에서 호출)
-- 제약: Codex 샌드박스는 네트워크 차단 → Gemini 호출은 Codex 외부에서 수행
 
 ### 미구현 (장기 비전)
+- A2A 엔벨로프 확장 (`message_id`, `target_agent`, 구조화 `status`)
 - Agent Teams 통합 (`claude --teammate-mode tmux`)
-- Gemini Extension 개발
-- Reference Architecture 기반 리팩토링 (Scheduler/Router/Memory 분리)
-  - 참고: `plans/reference_communicator.md`
+- Reference Architecture (Scheduler/Router/Memory 분리)
 
 ## 핵심 파일
 
+### src/ 모듈 (Phase 7, 실행 경로)
+
+| 모듈 | 역할 | 줄 수 |
+|---|---|---|
+| `src/shared/config.py` | 설정 로더 (load_config, load_env, validate) | ~85 |
+| `src/shared/feedback.py` | 피드백 저장 (fcntl file lock) | ~30 |
+| `src/shared/hook_io.py` | Hook I/O (format_hook_output, read_file_content) | ~35 |
+| `src/core/gemini_service.py` | Gemini SDK/CLI 호출 (rate limit 순회, fallback) | ~230 |
+| `src/core/a2a_protocol.py` | A2A JSON 메시지 빌드/파싱/렌더링 | ~150 |
+| `src/core/error_analyzer.py` | 에러 감지 (transcript 스캔, Lazy Analysis) | ~170 |
+| `src/core/cooldown.py` | 쿨다운 (파일별/전역) | ~50 |
+| `src/hooks/hook_auto_task.py` | PostToolUse Hook (.md Write/Edit → Gemini 평가) | ~90 |
+| `src/hooks/hook_stop.py` | Stop Hook (Plan 감지 + 에러 감지) | ~140 |
+| `src/hooks/hook_pre_tool.py` | PreToolUse Hook (위험 명령 차단/경고) | ~160 |
+| `src/async_runner.py` | 비동기 백그라운드 Gemini 호출 실행기 | ~60 |
+| `src/cli.py` | CLI 관리 도구 (doctor/status/stats/search/test/clear) | ~420 |
+
+### 설정 + 환경
+
 | 파일 | 역할 |
 |---|---|
-| `scripts/a2a_bridge.py` | 핵심 오케스트레이터 (SDK/CLI 이중화, 비동기, 에러 감지, A2A) |
 | `scripts/config.json` | 전체 설정 (SDK, 에러 감지, 프롬프트 등) |
-| `scripts/hook_auto_task.py` | PostToolUse Hook (.md Write/Edit → Gemini 평가) |
-| `scripts/hook_stop.py` | Stop Hook (Plan 감지 + 에러 감지) |
-| `scripts/async_runner.py` | 비동기 백그라운드 Gemini 호출 실행기 |
-| `scripts/setup.sh` | 의존성 설치 스크립트 |
-| `.claude/settings.local.json` | Hook 등록 설정 |
+| `.claude/settings.local.json` | Hook 등록 설정 (→ src/hooks/) |
 | `.gemini/review.md` | Gemini Code Assist PR 리뷰 규칙 |
 | `.env` | API key 저장 (gitignore) |
-| `gemini_feedback.md` | Gemini 평가 결과 로그 (append-only) |
+| `plans/gemini/gemini_feedback.md` | Gemini 평가 결과 로그 (append-only) |
 
-### Skills (Phase 6)
+### Skills (Phase 6, 자립형)
 
 | Skill | 진입점 | 역할 |
 |---|---|---|
@@ -84,86 +94,77 @@ Claude Code Hooks를 통해 Write/Edit 도구 사용 시 자동 트리거됩니�
 
 ```
 claude-gemini-communicator/
-├── CLAUDE.md                ← 이 파일
-├── README.md                ← 프로젝트 소개 + 사용법
-├── requirements.txt         ← Python 패키지 의존성
-├── .gitignore
-├── .env                     ← API key (gitignore)
-├── .env.example             ← API key 템플릿
+├── CLAUDE.md                    ← 이 파일
+├── AGENTS.md                    ← Codex CLI용 지침
+├── requirements.txt
 ├── .claude/
-│   └── settings.local.json  ← Hook 설정 (PostToolUse, Stop)
+│   └── settings.local.json      ← Hook 설정 (→ src/hooks/)
 ├── .gemini/
-│   └── review.md            ← Gemini Code Assist PR 리뷰 규칙
-├── scripts/
-│   ├── config.json          ← 전체 설정
-│   ├── a2a_bridge.py        ← 핵심 오케스트레이터
-│   ├── hook_auto_task.py    ← PostToolUse Hook
-│   ├── hook_stop.py         ← Stop Hook (Plan + Error)
-│   ├── async_runner.py      ← 비동기 실행기
-│   ├── setup.sh             ← 의존성 설치
-│   ├── .cooldown_state.json ← 런타임 생성 (gitignore)
-│   └── .error_history.json  ← 런타임 생성 (gitignore)
-├── skills/
-│   ├── gemini-reviewer/     ← Skill 1: Gemini 리뷰
-│   │   ├── SKILL.md
-│   │   ├── scripts/
-│   │   │   ├── evaluate.py      ← 리뷰 엔진 + Exp. Backoff + --format json
-│   │   │   ├── codex_notify.py  ← Codex notify hook
-│   │   │   └── _common.py      ← 공용 유틸리티
-│   │   └── references/
-│   │       └── prompts.md       ← 리뷰 프롬프트 템플릿
-│   ├── agent-parser/        ← Skill 2: 통합 파서
-│   │   ├── SKILL.md
-│   │   ├── scripts/
-│   │   │   ├── parse.py             ← 통합 진입점 + 자동 감지
-│   │   │   ├── _codex_parser.py     ← Codex JSONL 파서
-│   │   │   ├── _gemini_parser.py    ← Gemini JSON 파서
-│   │   │   ├── _transcript_parser.py ← Claude transcript 파서
-│   │   │   └── _common.py          ← 공용 유틸리티
-│   │   └── references/
-│   │       └── format-examples.md   ← 입출력 예시
-│   └── cross-agent-bridge/  ← Skill 3: 통합 오케스트레이터
-│       ├── SKILL.md
-│       ├── scripts/
-│       │   ├── bridge.py        ← 메인 CLI (review|parse|doctor|setup)
-│       │   ├── _gemini_client.py ← SDK/CLI caller + Exp. Backoff
-│       │   ├── _a2a_protocol.py ← A2A 메시지 프로토콜
-│       │   ├── _doctor.py       ← 시스템 진단
-│       │   ├── _config.py       ← config 로딩/검증
-│       │   └── _common.py      ← 공용 유틸리티
-│       └── references/
-│           ├── a2a-protocol.md  ← A2A JSON 스키마 사양
-│           └── config-schema.md ← config.json 필드 스키마
-├── plans/
-│   ├── test.md              ← 테스트용 문서
-│   ├── phase2_implementation_plan.md
-│   ├── a2a_message_schema.md
-│   ├── phase4_architecture.md
-│   ├── error_auto_injection.md
-│   └── reference_communicator.md  ← 장기 비전 아키텍처
-└── gemini_feedback.md       ← Gemini 피드백 로그
+│   └── review.md                ← Gemini Code Assist PR 리뷰 규칙
+│
+├── src/                         ← Phase 7: 모듈 아키텍처 (실행 코드)
+│   ├── shared/                  ← 레이어 3: 설정/저장/IO
+│   │   ├── config.py
+│   │   ├── feedback.py
+│   │   └── hook_io.py
+│   ├── core/                    ← 레이어 2: 비즈니스 로직
+│   │   ├── gemini_service.py
+│   │   ├── a2a_protocol.py
+│   │   ├── error_analyzer.py
+│   │   └── cooldown.py
+│   ├── hooks/                   ← 레이어 1: Hook 진입점
+│   │   ├── hook_auto_task.py
+│   │   ├── hook_stop.py
+│   │   └── hook_pre_tool.py
+│   ├── async_runner.py
+│   └── cli.py
+│
+├── scripts/                     ← 레거시 (config.json 호스트, 점진적 축소)
+│   ├── config.json              ← 전체 설정
+│   ├── a2a_bridge.py            ← 레거시 오케스트레이터 (참조용)
+│   └── setup.sh
+│
+├── skills/                      ← Phase 6: 자립형 Skill (cp -r 설치)
+│   ├── gemini-reviewer/         ← Gemini 코드/문서 리뷰
+│   ├── agent-parser/            ← Codex/Gemini/Claude 통합 파서
+│   ├── cross-agent-bridge/      ← 통합 오케스트레이터
+│   └── codex-user-context/      ← Codex 사용자 컨텍스트 실행
+│
+├── architecture/                ← 아키텍처 분석 문서
+│   ├── 001_decision_framework.md
+│   ├── 001_decision_framework_checklist.md
+│   └── 04_new_architecture_analysis.md
+│
+├── plans/                       ← 메시지 버스 (에이전트 허브)
+│   ├── claude/                  ← Claude 전용 작업 공간
+│   ├── codex/                   ← Codex 전용 작업 공간
+│   ├── gemini/
+│   │   └── gemini_feedback.md   ← 전 에이전트 피드백 수렴점 (in-degree 6)
+│   └── project_handoff.md       ← 에이전트 간 컨텍스트 전달
+│
+└── schemas/                     ← Codex 구조화 출력 스키마
 ```
 
-## 아키텍처
+## 아키텍처 (Phase 7: src/ 3-레이어 DAG)
 
 ```
-Hook Scripts (hook_auto_task.py, hook_stop.py)
-    │
-    ▼
-a2a_bridge.py → call_gemini() 오케스트레이터
-    │
-    ├─ SDK: _call_gemini_with_api_key() → google-genai
-    │     └─ 429 → 다음 API key/모델 자동 전환
-    │     └─ 실패 → CLI fallback
-    │
-    ├─ CLI: _call_gemini_cli() → subprocess (Phase 1)
-    │
-    ├─ Async: call_gemini_async() → async_runner.py (백그라운드)
-    │
-    └─ Error: scan_transcript_for_errors() → check_error_and_analyze()
-              → Lazy Analysis (심각도별 임계값)
-              → Gemini 분석 → "[SYSTEM ADVISORY]" prefix로 Claude에 주입
+hooks/ (진입점)           → core/ (비즈니스 로직)    → shared/ (인프라)
+                              ↓
+hook_auto_task.py ──→ gemini_service.py ──→ config.py
+hook_stop.py ─────→ error_analyzer.py ──→ feedback.py
+hook_pre_tool.py ─→ a2a_protocol.py ───→ hook_io.py
+                    cooldown.py
 ```
+
+### 의존성 그래프 (순환 없음, DAG 검증 완료)
+- 허브 #1: `shared.config` (in-degree 6, ~85줄) — 작고 안정적
+- 이전 허브: `a2a_bridge.py` (5 dependents, 836줄, God Object) → 분해됨
+- 레이어 규칙: hooks/ → core/ → shared/ (역방향 없음)
+
+### 메시지 버스: plans/
+- `plans/gemini/gemini_feedback.md`가 전체 프로젝트 최고 in-degree (6)
+- 모든 에이전트(Claude, Codex, Gemini, User)가 접근하는 수렴점
+- 상세: `architecture/04_new_architecture_analysis.md`
 
 ## 동작 흐름
 
@@ -244,24 +245,24 @@ a2a_bridge.py → call_gemini() 오케스트레이터
 ## 테스트 방법
 
 ```bash
-# 1. SDK 호출 테스트
-python3 -c "import sys; sys.path.insert(0,'scripts'); from a2a_bridge import load_config, call_gemini; print(call_gemini('Hi','Say OK.',load_config())[:100])"
+# 1. CLI 전체 자동 테스트 (16건 — config, 에러감지, A2A, PreToolUse 등)
+python3 src/cli.py test
 
-# 2. PostToolUse Hook 테스트
+# 2. SDK 호출 테스트
+python3 -c "from src.core.gemini_service import call_gemini; from src.shared.config import load_config; print(call_gemini('Hi','Say OK.',load_config())[:100])"
+
+# 3. PostToolUse Hook 테스트
 rm -f scripts/.cooldown_state.json
-echo '{"tool_name":"Write","tool_input":{"file_path":"plans/test.md"}}' | python3 scripts/hook_auto_task.py
+echo '{"tool_name":"Write","tool_input":{"file_path":"plans/test.md"}}' | python3 src/hooks/hook_auto_task.py
 
-# 3. 에러 감지 테스트 (단위)
-python3 -c "import sys; sys.path.insert(0,'scripts'); from a2a_bridge import normalize_error_text, hash_error, classify_error_severity; print(hash_error('TypeError: foo')); print(classify_error_severity('ModuleNotFoundError: bar'))"
+# 4. PreToolUse Hook 테스트
+echo '{"tool_name":"Bash","tool_input":{"command":"rm -rf /"}}' | python3 src/hooks/hook_pre_tool.py
 
-# 4. CLI 폴백 테스트
-python3 -c "import sys; sys.path.insert(0,'scripts'); from a2a_bridge import load_config, call_gemini; c=load_config(); c['sdk']={'enabled':False}; print(call_gemini('Hi','Say OK.',c)[:100])"
+# 5. 시스템 진단
+python3 src/cli.py doctor
 
-# 5. 피드백 실시간 확인
-tail -f gemini_feedback.md
-
-# 6. 상태 파일 초기화 (재테스트 시)
-rm -f scripts/.cooldown_state.json scripts/.error_history.json
+# 6. Skill 자립성 테스트
+cp -r skills/agent-parser /tmp/test-parser && cd /tmp/test-parser && python3 scripts/parse.py --help
 ```
 
 ## 롤백

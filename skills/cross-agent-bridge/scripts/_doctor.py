@@ -68,14 +68,14 @@ def run_doctor(config: dict, project_root: Path = None):
 
     # 3. Feedback 파일
     print("\n[3] 피드백 상태")
-    feedback_path = project_root / "gemini_feedback.md"
+    feedback_path = project_root / "plans" / "gemini" / "gemini_feedback.md"
     if feedback_path.exists():
         content = feedback_path.read_text("utf-8")
         entries = content.count("\n---\n")
         size_kb = len(content.encode("utf-8")) / 1024
-        check("ok", f"gemini_feedback.md: {entries}개 항목, {size_kb:.1f}KB")
+        check("ok", f"plans/gemini/gemini_feedback.md: {entries}개 항목, {size_kb:.1f}KB")
     else:
-        check("warn", "gemini_feedback.md 없음")
+        check("warn", "plans/gemini/gemini_feedback.md 없음")
 
     # 결과
     print(f"\n{'='*40}")

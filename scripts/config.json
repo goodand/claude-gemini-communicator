@@ -7,6 +7,7 @@
     ".md", ".py"
   ],
   "exclude_files": [
+    "plans/gemini/gemini_feedback.md",
     "gemini_feedback.md"
   ],
   "evaluation_prompt": "다음 문서를 평가해줘:\n- 논리적 일관성\n- 실현 가능성\n- 누락된 고려사항\n- 개선 제안\n간결하게 한국어로 답해줘.",

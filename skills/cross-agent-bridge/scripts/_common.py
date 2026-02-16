@@ -57,8 +57,8 @@ def read_input(file_path: str = None, max_chars: int = 50000) -> str | None:
 
 def save_feedback(feedback: str, source: str, file_path: str = None):
     """gemini_feedback.md에 피드백을 추가 (fcntl lock)."""
-    feedback_path = Path.cwd() / "gemini_feedback.md"
-    for candidate in [feedback_path, Path(__file__).resolve().parent.parent.parent.parent / "gemini_feedback.md"]:
+    feedback_path = Path.cwd() / "plans" / "gemini" / "gemini_feedback.md"
+    for candidate in [feedback_path, Path(__file__).resolve().parent.parent.parent.parent / "plans" / "gemini" / "gemini_feedback.md"]:
         if candidate.parent.exists():
             feedback_path = candidate
             break
@@ -66,6 +66,7 @@ def save_feedback(feedback: str, source: str, file_path: str = None):
     target = f" | 대상: `{file_path}`" if file_path else ""
     entry = f"\n---\n\n## [{timestamp}] {source}{target}\n\n{feedback}\n"
     try:
+        feedback_path.parent.mkdir(parents=True, exist_ok=True)
         with open(feedback_path, "a", encoding="utf-8") as f:
             fcntl.flock(f, fcntl.LOCK_EX)
             try:

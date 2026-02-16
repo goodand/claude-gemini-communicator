@@ -23,7 +23,7 @@ SCRIPT_DIR = Path(__file__).parent
 PROJECT_ROOT = SCRIPT_DIR.parent
 CONFIG_PATH = SCRIPT_DIR / "config.json"
 COOLDOWN_STATE_PATH = SCRIPT_DIR / ".cooldown_state.json"
-FEEDBACK_PATH = PROJECT_ROOT / "gemini_feedback.md"
+FEEDBACK_PATH = PROJECT_ROOT / "plans" / "gemini" / "gemini_feedback.md"
 ENV_PATH = PROJECT_ROOT / ".env"
 ERROR_HISTORY_PATH = SCRIPT_DIR / ".error_history.json"
 
@@ -111,6 +111,7 @@ def save_feedback(feedback: str, source: str, file_path: str = None) -> None:
 
     entry = f"\n---\n\n## [{timestamp}] {source}{target_info}\n\n{feedback}\n"
 
+    FEEDBACK_PATH.parent.mkdir(parents=True, exist_ok=True)
     with open(FEEDBACK_PATH, "a", encoding="utf-8") as f:
         fcntl.flock(f, fcntl.LOCK_EX)
         try:

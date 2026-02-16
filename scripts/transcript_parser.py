@@ -230,11 +230,12 @@ def render_summary(parsed: dict) -> str:
 
 def save_feedback(content: str, source_desc: str):
     """gemini_feedback.md에 결과를 append합니다."""
-    feedback_path = Path.cwd() / "gemini_feedback.md"
+    feedback_path = Path.cwd() / "plans" / "gemini" / "gemini_feedback.md"
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     entry = f"\n---\n\n## [{timestamp}] {source_desc}\n\n{content}\n"
 
     try:
+        feedback_path.parent.mkdir(parents=True, exist_ok=True)
         with open(feedback_path, "a", encoding="utf-8") as f:
             f.write(entry)
         print(f"[저장됨] {feedback_path}", file=sys.stderr)

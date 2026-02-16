@@ -31,14 +31,15 @@ def read_input(file_path: str = None) -> str | None:
 
 def save_feedback(content: str, source_desc: str):
     """gemini_feedback.md에 결과를 append (fcntl lock)."""
-    feedback_path = Path.cwd() / "gemini_feedback.md"
-    for candidate in [feedback_path, Path(__file__).resolve().parent.parent.parent.parent / "gemini_feedback.md"]:
+    feedback_path = Path.cwd() / "plans" / "gemini" / "gemini_feedback.md"
+    for candidate in [feedback_path, Path(__file__).resolve().parent.parent.parent.parent / "plans" / "gemini" / "gemini_feedback.md"]:
         if candidate.parent.exists():
             feedback_path = candidate
             break
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     entry = f"\n---\n\n## [{timestamp}] {source_desc}\n\n{content}\n"
     try:
+        feedback_path.parent.mkdir(parents=True, exist_ok=True)
         with open(feedback_path, "a", encoding="utf-8") as f:
             fcntl.flock(f, fcntl.LOCK_EX)
             try:

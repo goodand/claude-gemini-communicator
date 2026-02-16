@@ -11,7 +11,7 @@ DEFAULT_CONFIG = {
     "cooldown_seconds_per_file": 300,
     "min_content_length": 300,
     "watch_extensions": [".md", ".py"],
-    "exclude_files": ["gemini_feedback.md"],
+    "exclude_files": ["plans/gemini/gemini_feedback.md", "gemini_feedback.md"],
     "evaluation_prompt": "다음 문서를 평가해줘:\n- 논리적 일관성\n- 실현 가능성\n- 누락된 고려사항\n- 개선 제안\n간결하게 한국어로 답해줘.",
     "code_evaluation_prompt": "다음 코드를 리뷰해줘:\n- 버그 또는 잠재적 오류\n- 보안 취약점\n- 에러 처리 누락\n- 개선 제안\n간결하게 한국어로 답해줘.",
     "code_extensions": [".py", ".js", ".ts", ".jsx", ".tsx"],

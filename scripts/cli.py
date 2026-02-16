@@ -24,7 +24,7 @@ PROJECT_ROOT = SCRIPT_DIR.parent
 CONFIG_PATH = SCRIPT_DIR / "config.json"
 COOLDOWN_PATH = SCRIPT_DIR / ".cooldown_state.json"
 ERROR_HISTORY_PATH = SCRIPT_DIR / ".error_history.json"
-FEEDBACK_PATH = PROJECT_ROOT / "gemini_feedback.md"
+FEEDBACK_PATH = PROJECT_ROOT / "plans" / "gemini" / "gemini_feedback.md"
 
 
 SETTINGS_PATH = PROJECT_ROOT / ".claude" / "settings.local.json"
