@@ -133,8 +133,27 @@ def cmd_doctor(args=None):
         except json.JSONDecodeError:
             check("err", "settings.local.json", "JSON 파싱 실패")
 
-    # 4. 스크립트 존재
-    print("\n[4] src/hooks/ 파일 점검")
+    # 4. JSONL 버스
+    print("\n[4] JSONL 버스 점검")
+    if config:
+        jsonl_cfg = config.get("jsonl_bus", {})
+        if jsonl_cfg.get("enabled"):
+            check("ok", "JSONL 버스: ON")
+            jsonl_path_str = jsonl_cfg.get("path", "")
+            if jsonl_path_str:
+                jp = PROJECT_ROOT / jsonl_path_str
+                if jp.exists():
+                    line_count = sum(1 for l in jp.read_text("utf-8").splitlines() if l.strip())
+                    check("ok", f"JSONL 파일: {line_count}개 이벤트")
+                else:
+                    check("warn", "JSONL 파일 미존재", "아직 이벤트 미기록")
+            else:
+                check("err", "jsonl_bus.path 미설정")
+        else:
+            check("warn", "JSONL 버스: OFF")
+
+    # 5. 스크립트 존재
+    print("\n[5] src/hooks/ 파일 점검")
     hooks_dir = PROJECT_ROOT / "src" / "hooks"
     for script, desc in HOOKS_SCRIPTS.items():
         path = hooks_dir / script
@@ -919,10 +938,15 @@ def cmd_chain(args):
 def cmd_clear(args=None):
     """런타임 상태 파일을 초기화한다."""
     cleared = []
-    for path, name in [
+    targets = [
         (COOLDOWN_STATE_PATH, "쿨다운 상태"),
         (ERROR_HISTORY_PATH, "에러 이력"),
-    ]:
+    ]
+    # --jsonl 옵션: JSONL 이벤트 로그도 초기화
+    if getattr(args, "jsonl", False):
+        targets.append((_get_jsonl_path(), "JSONL 이벤트 로그"))
+
+    for path, name in targets:
         if path.exists():
             path.unlink()
             cleared.append(name)
@@ -965,6 +989,8 @@ def main():
         if name == "chain":
             subparser.add_argument("id", nargs="?", default="", help="추적할 request_id 또는 message_id (prefix 매칭)")
             subparser.add_argument("--list", action="store_true", help="모든 request_id 목록 표시")
+        if name == "clear":
+            subparser.add_argument("--jsonl", action="store_true", help="JSONL 이벤트 로그도 초기화")
         subparser.set_defaults(func=fn)
 
     args = parser.parse_args()
