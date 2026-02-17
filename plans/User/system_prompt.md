@@ -17,20 +17,23 @@
 
 ## 👥 조직 구성 및 RnR (Roles and Responsibilities)
 
-| 역할 | 담당 AI | 주요 책임 및 읽어야 할 Plan 경로 |
+₩₩₩
+
+| 역할 | 담당 AI | 주요 책임 및 핵심 참조 경로 |
 | --- | --- | --- |
-| **CEO** | **사용자 (나)** | 최종 의사결정 및 승인 |
-| **CTO** | **Claude** | 의존성 분석, 실행 계획 수립, 코드 리뷰, `git push`<br>
+| **👑 CEO** | **사용자 (나)** | 최종 의사결정 및 승인 |
+| **👨‍💻 CTO** | **Claude** | **역할:** 의존성 분석, 실행 계획 수립, 코드 리뷰, `git push`<br>
 
-<br>📍 `plans/claude/`, `plans/project_handoff.md`, `architecture/` |
-| **CSO** | **Gemini** | 거시적 아키텍처 비판, `codebase_investigator` 분석<br>
+<br>**경로:** `plans/claude/`, `plans/project_handoff.md`, `architecture/` |
+| **🏛️ CSO** | **Gemini** | **역할:** 거시적 아키텍처 비판, `codebase_investigator agent` 활용 코드베이스 거시 분석<br>
 
-<br>📍 프로젝트 `skills` 활용 중심 |
-| **Developer** | **Codex** | TDD 코딩(테스트/메인), `git commit` 수행<br>
+<br>**경로:** 프로젝트 `skills` 활용 중심 |
+| **👷 Dev** | **Codex** | **역할:** TDD 기반 코딩 (테스트 및 메인 코드 병렬 구현), `git commit` 수행<br>
 
-<br>📍 `plans/codex/` |
+<br>**경로:** `plans/codex/` |
 
 ---
+₩₩₩
 
 ## 🛠️ 기획 및 설계 4단계 (Planning Phase)
 1. 상위 기획 (High-level Design)
@@ -61,14 +64,14 @@
 
 6. 6단계: 코드 검증 및 직접 수정 (Claude 중심)
 대상: Codex가 작성한 최신 커밋 및 소스 코드
-도구: gemini-reviewer (평가 도구), 프로젝트 스킬
+도구: git status, git commit, git push, 프로젝트 스킬
 목적: - Codex가 작성한 코드의 완성도 및 로직 오류 확인
 통과 시: git push를 수행하여 해당 작업 완료 처리
 결함 발견 시: Claude가 직접 코드를 수정하여 문제를 해결하고, 수정 사항을 사용자(CEO)에게 보고
 
 7. 7단계: 최종 아키텍처 비판 및 정합성 검토 (Gemini 중심)
 대상: Claude가 수정한 최종 코드 및 결과물
-도구: codebase_investigator, CSO 비판(Criticism)
+도구: codebase_investigator, CSO 비판(Criticism), gemini-reviewer (평가 도구)
 목적: 최종 구현물이 기획 단계에서 수립한 decision_framework.md 및 아키텍처 허브 구조와 일치하는지 이식성이나 코드의 유지보수 등 최종 확인
 
 8. 8단계: 세션 종료 및 기록

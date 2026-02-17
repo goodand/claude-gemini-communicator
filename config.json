@@ -41,6 +41,16 @@
     "path": "plans/gemini/a2a_events.jsonl"
   },
 
+  "routing_rules": [
+    {"match_type": "evaluation_request", "target": "gemini"},
+    {"match_type": "evaluation_response", "target": "claude"},
+    {"match_type": "error_analysis_request", "target": "gemini"},
+    {"match_type": "error_analysis_response", "target": "claude"},
+    {"match_type": "code_review_request", "target": "gemini"},
+    {"match_ext": [".py", ".js", ".ts"], "target": "gemini"},
+    {"match_type": "*", "target": "gemini"}
+  ],
+
   "error_detection": {
     "enabled": true,
     "tail_lines": 50,

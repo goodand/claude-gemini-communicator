@@ -785,6 +785,147 @@ def cmd_test(args=None):
     run_test("요청→응답 쌍 체인", test_build_chain_req_resp_pair)
     run_test("log_jsonl_event 기록", test_log_jsonl_event)
 
+    # 8. Reference Architecture (Router, Memory, Scheduler)
+    print("\n[8] Reference Architecture")
+    from src.core.router import resolve_target, list_available_targets
+    from src.core.memory import load_events, get_recent, get_by_agent, get_by_type, summarize
+    from src.core.scheduler import register_job, get_job, complete_job, list_jobs, summarize_jobs, cleanup_old_jobs
+
+    def test_router_default():
+        """기본 라우팅 규칙으로 gemini가 반환되는지 확인."""
+        target = resolve_target("evaluation_request", {})
+        return target == "gemini"
+
+    def test_router_with_config():
+        """config의 routing_rules가 적용되는지 확인."""
+        cfg = {"routing_rules": [
+            {"match_type": "custom_request", "target": "codex"},
+            {"match_type": "*", "target": "gemini"},
+        ]}
+        return (resolve_target("custom_request", cfg) == "codex"
+                and resolve_target("other", cfg) == "gemini")
+
+    def test_router_file_ext():
+        """파일 확장자 매칭이 작동하는지 확인."""
+        cfg = {"routing_rules": [
+            {"match_ext": [".py", ".js"], "target": "codex"},
+            {"match_type": "*", "target": "gemini"},
+        ]}
+        return (resolve_target("any", cfg, file_path="test.py") == "codex"
+                and resolve_target("any", cfg, file_path="test.md") == "gemini")
+
+    def test_router_list_targets():
+        """사용 가능한 대상 에이전트 목록이 반환되는지 확인."""
+        cfg = {"routing_rules": [
+            {"match_type": "a", "target": "gemini"},
+            {"match_type": "b", "target": "codex"},
+        ]}
+        targets = list_available_targets(cfg)
+        return "codex" in targets and "gemini" in targets
+
+    def test_memory_load_empty():
+        """빈 config에서 이벤트 로드가 빈 리스트를 반환하는지 확인."""
+        cfg = {"jsonl_bus": {"path": "nonexistent_test_path.jsonl"}}
+        events = load_events(cfg)
+        return events == []
+
+    def test_memory_summarize_empty():
+        """빈 이벤트에서 요약이 total=0을 반환하는지 확인."""
+        cfg = {"jsonl_bus": {"path": "nonexistent_test_path.jsonl"}}
+        s = summarize(cfg)
+        return s["total"] == 0
+
+    def test_memory_functions():
+        """Memory 함수들이 JSONL 이벤트를 올바르게 필터하는지 확인."""
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".jsonl", delete=False, encoding="utf-8") as tmp:
+            events_data = [
+                {"message_type": "evaluation_request", "source_agent": "claude", "timestamp": "2026-02-17T00:00:00"},
+                {"message_type": "evaluation_response", "source_agent": "gemini", "timestamp": "2026-02-17T00:01:00"},
+                {"message_type": "error_analysis_request", "source_agent": "claude", "timestamp": "2026-02-17T00:02:00"},
+            ]
+            for e in events_data:
+                tmp.write(json.dumps(e, ensure_ascii=False) + "\n")
+            tmp_path = tmp.name
+        try:
+            cfg = {"jsonl_bus": {"path": tmp_path}}
+            import src.core.memory as mem_mod
+            original_root = mem_mod.PROJECT_ROOT
+            mem_mod.PROJECT_ROOT = Path("/")
+
+            all_events = load_events(cfg)
+            recent = get_recent(cfg, n=2)
+            by_agent = get_by_agent(cfg, "gemini")
+            by_type = get_by_type(cfg, "error_analysis_request")
+            summary = summarize(cfg)
+
+            mem_mod.PROJECT_ROOT = original_root
+            return (len(all_events) == 3
+                    and len(recent) == 2
+                    and len(by_agent) == 1 and by_agent[0]["source_agent"] == "gemini"
+                    and len(by_type) == 1
+                    and summary["total"] == 3)
+        finally:
+            Path(tmp_path).unlink(missing_ok=True)
+
+    def test_scheduler_lifecycle():
+        """Scheduler 작업 등록→조회→완료 라이프사이클이 작동하는지 확인."""
+        import src.core.scheduler as sched_mod
+        original_path = sched_mod._JOBS_PATH
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as tmp:
+            sched_mod._JOBS_PATH = Path(tmp.name)
+        try:
+            # 등록
+            job = register_job("test-job-1", "evaluation", "gemini")
+            assert job["status"] == "pending"
+            # 조회
+            fetched = get_job("test-job-1")
+            assert fetched is not None and fetched["status"] == "pending"
+            # 완료
+            assert complete_job("test-job-1") is True
+            fetched = get_job("test-job-1")
+            assert fetched["status"] == "completed"
+            # 목록
+            jobs = list_jobs()
+            assert len(jobs) == 1
+            # 요약
+            s = summarize_jobs()
+            assert s["total"] == 1 and s["by_status"]["completed"] == 1
+            return True
+        except AssertionError:
+            return False
+        finally:
+            sched_mod._JOBS_PATH.unlink(missing_ok=True)
+            sched_mod._JOBS_PATH = original_path
+
+    def test_scheduler_cleanup():
+        """Scheduler 오래된 작업 정리가 작동하는지 확인."""
+        import src.core.scheduler as sched_mod
+        original_path = sched_mod._JOBS_PATH
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as tmp:
+            sched_mod._JOBS_PATH = Path(tmp.name)
+        try:
+            register_job("old-job", "test", "gemini")
+            complete_job("old-job")
+            # completed_at를 과거로 변경
+            data = sched_mod._load_jobs()
+            data["jobs"]["old-job"]["completed_at"] = time.time() - 100000
+            sched_mod._save_jobs(data)
+            cleaned = cleanup_old_jobs(max_age_seconds=1)
+            return cleaned == 1 and len(list_jobs()) == 0
+        finally:
+            sched_mod._JOBS_PATH.unlink(missing_ok=True)
+            sched_mod._JOBS_PATH = original_path
+
+    run_test("Router: 기본 라우팅", test_router_default)
+    run_test("Router: config 규칙 적용", test_router_with_config)
+    run_test("Router: 파일 확장자 매칭", test_router_file_ext)
+    run_test("Router: 대상 에이전트 목록", test_router_list_targets)
+    run_test("Memory: 빈 이벤트 로드", test_memory_load_empty)
+    run_test("Memory: 빈 이벤트 요약", test_memory_summarize_empty)
+    run_test("Memory: 필터 함수들", test_memory_functions)
+    run_test("Scheduler: 작업 라이프사이클", test_scheduler_lifecycle)
+    run_test("Scheduler: 오래된 작업 정리", test_scheduler_cleanup)
+
     # 결과
     print(f"\n{'='*40}")
     print(f"결과: {passed}/{total} 통과", end="")

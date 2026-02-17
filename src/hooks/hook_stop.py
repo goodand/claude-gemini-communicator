@@ -27,6 +27,7 @@ from src.core.a2a_protocol import (
     a2a_response_to_markdown,
 )
 from src.core.error_analyzer import scan_transcript_for_errors, check_error_and_analyze
+from src.core.router import resolve_target
 
 
 def extract_last_assistant_text(stop_input: dict) -> str:
@@ -106,9 +107,13 @@ def handle_plan_detection(text: str, config: dict) -> str | None:
             source="Stop Hook (Plan 감지)",
         )
 
+    # 라우팅: 대상 에이전트 결정
+    target_agent = resolve_target("evaluation_request", config)
+
     # 요청 엔벨로프 생성 + JSONL 기록
     req_envelope = build_a2a_request(
         "evaluation_request", {"source": "plan_detection"}, hook_source="Stop",
+        target_agent=target_agent,
     )
     request_id = req_envelope["request_id"]
     req_message_id = req_envelope["message_id"]
@@ -119,7 +124,7 @@ def handle_plan_detection(text: str, config: dict) -> str | None:
         "request_id": request_id,
         "message_type": "evaluation_request",
         "source_agent": "claude",
-        "target_agent": "gemini",
+        "target_agent": target_agent,
         "source": "Stop Hook (Plan 감지)",
     })
 
@@ -131,10 +136,9 @@ def handle_plan_detection(text: str, config: dict) -> str | None:
     else:
         feedback = raw_feedback
 
-    jsonl_config = config.get("jsonl_bus")
     a2a_envelope = {
         "message_type": "evaluation_response",
-        "source_agent": "gemini",
+        "source_agent": target_agent,
         "target_agent": "claude",
         "parent_message_id": req_message_id,
     }

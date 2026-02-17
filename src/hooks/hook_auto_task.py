@@ -24,6 +24,7 @@ from src.core.a2a_protocol import (
     parse_a2a_response,
     a2a_response_to_markdown,
 )
+from src.core.router import resolve_target
 
 
 def main():
@@ -78,9 +79,13 @@ def main():
         print(format_hook_output(pending_msg))
         sys.exit(0)
 
+    # 라우팅: 대상 에이전트 결정
+    target_agent = resolve_target("evaluation_request", config, file_path=file_path)
+
     # 동기 모드: 요청 엔벨로프 생성 + JSONL 기록
     req_envelope = build_a2a_request(
         "evaluation_request", {"file_path": file_path}, hook_source="PostToolUse",
+        target_agent=target_agent,
     )
     request_id = req_envelope["request_id"]
     req_message_id = req_envelope["message_id"]
@@ -92,7 +97,7 @@ def main():
         "request_id": request_id,
         "message_type": "evaluation_request",
         "source_agent": "claude",
-        "target_agent": "gemini",
+        "target_agent": target_agent,
         "source": "PostToolUse Hook",
         "file_path": file_path,
     })
@@ -110,7 +115,7 @@ def main():
 
     a2a_envelope = {
         "message_type": "evaluation_response",
-        "source_agent": "gemini",
+        "source_agent": target_agent,
         "target_agent": "claude",
         "parent_message_id": req_message_id,
     }
