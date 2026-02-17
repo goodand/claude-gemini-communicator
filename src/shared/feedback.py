@@ -4,12 +4,13 @@ a2a_bridge.py의 save_feedback()를 분리한 모듈.
 프로젝트 내 유일한 정본 (skills/는 자체 _common.py 복사본 사용).
 """
 
-import fcntl
 import json
 from datetime import datetime, timezone
 from pathlib import Path
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+from src.shared.config import PROJECT_ROOT
+from src.shared.filelock import lock_exclusive, unlock
+
 FEEDBACK_PATH = PROJECT_ROOT / "plans" / "gemini" / "gemini_feedback.md"
 
 
@@ -30,11 +31,11 @@ def save_feedback(feedback: str, source: str, file_path: str | None = None,
     # 1) Markdown append (기존 유지)
     FEEDBACK_PATH.parent.mkdir(parents=True, exist_ok=True)
     with open(FEEDBACK_PATH, "a", encoding="utf-8") as f:
-        fcntl.flock(f, fcntl.LOCK_EX)
+        lock_exclusive(f)
         try:
             f.write(entry)
         finally:
-            fcntl.flock(f, fcntl.LOCK_UN)
+            unlock(f)
 
     # 2) JSONL append (jsonl_config.enabled == true일 때)
     if jsonl_config and jsonl_config.get("enabled"):
@@ -57,11 +58,11 @@ def log_jsonl_event(jsonl_config: dict | None, envelope: dict) -> None:
     line = json.dumps(record, ensure_ascii=False) + "\n"
 
     with open(jsonl_path, "a", encoding="utf-8") as f:
-        fcntl.flock(f, fcntl.LOCK_EX)
+        lock_exclusive(f)
         try:
             f.write(line)
         finally:
-            fcntl.flock(f, fcntl.LOCK_UN)
+            unlock(f)
 
 
 def _append_jsonl(jsonl_config: dict, feedback: str, source: str,
@@ -85,8 +86,8 @@ def _append_jsonl(jsonl_config: dict, feedback: str, source: str,
     line = json.dumps(record, ensure_ascii=False) + "\n"
 
     with open(jsonl_path, "a", encoding="utf-8") as f:
-        fcntl.flock(f, fcntl.LOCK_EX)
+        lock_exclusive(f)
         try:
             f.write(line)
         finally:
-            fcntl.flock(f, fcntl.LOCK_UN)
+            unlock(f)

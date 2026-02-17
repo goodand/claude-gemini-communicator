@@ -362,13 +362,16 @@ def parse_feedback_entries(content: str) -> list:
         if not raw:
             continue
         match = re.search(
-            r"## \[(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\] (.+?)(?:\s*\|\s*대상:\s*`(.+?)`)?$",
+            r"## \[(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\] (.+?)(?:\s*\|.*)?\s*$",
             raw, re.MULTILINE,
         )
+        # 헤더에서 세부 필드 추출: 대상, request_id
+        header_line = match.group(0) if match else ""
+        target_match = re.search(r"대상:\s*`(.+?)`", header_line)
         entries.append({
             "date": match.group(1) if match else "",
             "source": match.group(2).strip() if match else "",
-            "target": match.group(3) if match and match.group(3) else "",
+            "target": target_match.group(1) if target_match else "",
             "body": raw,
         })
     return entries
@@ -603,7 +606,7 @@ def cmd_test(args=None):
 
     # 4. PreToolUse Guard
     print("\n[4] PreToolUse Guard")
-    from src.hooks.hook_pre_tool import check_command
+    from src.shared.command_guard import check_command
 
     def _check(cmd, expected_severity):
         result = check_command(cmd, load_config())

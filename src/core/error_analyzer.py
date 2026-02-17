@@ -4,7 +4,6 @@ a2a_bridge.py의 에러 관련 함수들을 분리한 모듈.
 transcript 스캔 → 패턴 매칭 → 심각도 분류 → 임계값 도달 시 Gemini 분석.
 """
 
-import fcntl
 import hashlib
 import json
 import os
@@ -13,7 +12,9 @@ import time
 import uuid
 from pathlib import Path
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+from src.shared.config import PROJECT_ROOT
+from src.shared.filelock import lock_exclusive, lock_shared, unlock
+
 ERROR_HISTORY_PATH = PROJECT_ROOT / ".error_history.json"
 
 # 심각도별 에러 패턴
@@ -59,11 +60,11 @@ def _load_error_history() -> dict:
         return {"last_analysis_time": 0, "errors": {}}
     try:
         with open(ERROR_HISTORY_PATH, "r", encoding="utf-8") as f:
-            fcntl.flock(f, fcntl.LOCK_SH)
+            lock_shared(f)
             try:
                 return json.load(f)
             finally:
-                fcntl.flock(f, fcntl.LOCK_UN)
+                unlock(f)
     except (json.JSONDecodeError, IOError):
         return {"last_analysis_time": 0, "errors": {}}
 
@@ -71,11 +72,11 @@ def _load_error_history() -> dict:
 def _save_error_history(history: dict) -> None:
     """에러 이력 파일을 저장한다."""
     with open(ERROR_HISTORY_PATH, "w", encoding="utf-8") as f:
-        fcntl.flock(f, fcntl.LOCK_EX)
+        lock_exclusive(f)
         try:
             json.dump(history, f, ensure_ascii=False, indent=2)
         finally:
-            fcntl.flock(f, fcntl.LOCK_UN)
+            unlock(f)
 
 
 def normalize_error_text(error_text: str) -> str:
@@ -219,6 +220,7 @@ def check_error_and_analyze(errors: list, config: dict) -> str | None:
 
     prefixed_feedback = f"{prefix}\n\n{feedback}"
     a2a_envelope = {
+        "message_id": str(uuid.uuid4()),
         "message_type": "error_analysis_response",
         "source_agent": "gemini",
         "target_agent": "claude",

@@ -11,10 +11,9 @@ import sys
 import tempfile
 from pathlib import Path
 
-from src.shared.config import load_env
+from src.shared.config import PROJECT_ROOT, load_env
 from src.shared.hook_io import read_file_content
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 SRC_DIR = PROJECT_ROOT / "src"
 
 

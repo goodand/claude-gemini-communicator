@@ -7,7 +7,8 @@ import json
 import time
 from pathlib import Path
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+from src.shared.config import PROJECT_ROOT
+
 COOLDOWN_STATE_PATH = PROJECT_ROOT / ".cooldown_state.json"
 
 
