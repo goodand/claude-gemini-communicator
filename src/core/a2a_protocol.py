@@ -30,10 +30,11 @@ _A2A_CLASSIFICATION_INSTRUCTION = """반드시 아래 JSON 형식으로만 응�
 
 def build_a2a_request(message_type: str, payload: dict,
                       hook_source: str = "unknown",
-                      target_agent: str = "gemini") -> dict:
-    """A2A 요청 메시지를 생성한다 (8필드 공통 엔벨로프)."""
+                      target_agent: str = "gemini",
+                      parent_message_id: str | None = None) -> dict:
+    """A2A 요청 메시지를 생성한다 (8필드 공통 엔벨로프 + 선택적 parent_message_id)."""
     request_id = str(uuid.uuid4())
-    return {
+    envelope = {
         "a2a_version": A2A_VERSION,
         "message_id": str(uuid.uuid4()),
         "request_id": request_id,
@@ -46,6 +47,9 @@ def build_a2a_request(message_type: str, payload: dict,
         # 하위 호환: 이전 형식 유지
         "source": {"agent": "claude", "hook": hook_source},
     }
+    if parent_message_id:
+        envelope["parent_message_id"] = parent_message_id
+    return envelope
 
 
 def _try_parse_json(text: str):

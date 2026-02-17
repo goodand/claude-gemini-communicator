@@ -36,6 +36,11 @@
     "custom_block_patterns": []
   },
 
+  "jsonl_bus": {
+    "enabled": true,
+    "path": "plans/gemini/a2a_events.jsonl"
+  },
+
   "error_detection": {
     "enabled": true,
     "tail_lines": 50,

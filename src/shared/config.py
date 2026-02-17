@@ -73,6 +73,14 @@ def validate_config(config: dict) -> list:
                 if val is not None and (not isinstance(val, int) or val < 1):
                     issues.append(("error", f"thresholds.{sev}={val} — 1 이상 정수"))
 
+    jsonl = config.get("jsonl_bus")
+    if jsonl is not None and isinstance(jsonl, dict):
+        jpath = jsonl.get("path")
+        if jsonl.get("enabled") and not jpath:
+            issues.append(("error", "jsonl_bus.enabled=true이지만 path 미설정"))
+        if jpath is not None and not isinstance(jpath, str):
+            issues.append(("error", "jsonl_bus.path는 문자열이어야 합니다"))
+
     guard = config.get("pre_tool_guard")
     if guard is not None and isinstance(guard, dict):
         for i, pat in enumerate(guard.get("custom_block_patterns", [])):

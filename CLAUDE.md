@@ -9,7 +9,7 @@ Claude Code Hooks를 통해 Write/Edit 도구 사용 시 자동 트리거됩니�
 - 세션 id : "session ID: 8aafa760-be1e-4993-a1f9-780453b2c88e"
 - 세션 디렉토리 및 작업 경로 : /Users/jaehyuntak/.gemini/skills/skill_evaluator/plans
 
-## 현재 상태: Phase 7 구현 완료
+## 현재 상태: Phase 8 구현 완료
 
 ### Phase 1 (MVP) — 완료
 - Gemini CLI subprocess 기반 평가 파이프라인
@@ -48,9 +48,14 @@ Claude Code Hooks를 통해 Write/Edit 도구 사용 시 자동 트리거됩니�
 - **Claude**: 의존성 분석, 병렬 실행, Code Review, Gemini API 호출
 - **Gemini**: 계획/설계 비판 (Claude Hook 또는 사용자 터미널에서 호출)
 
+### Phase 8 — 완료 (JSONL 메시지 버스 + parent_message_id)
+- **JSONL 버스**: `plans/gemini/a2a_events.jsonl` 병행 기록 (Markdown 경로 유지, additive)
+- **parent_message_id**: 요청→응답 메시지 체인 추적
+- **CLI 확장**: `--jsonl`, `--agent`, `--request-id`, `--since` 검색 옵션
+- **Hook Python**: `python3` → `python3.13` (Homebrew, 3.9.6 호환성 문제 해결)
+- 기존 A2A 테스트 버그 수정 (status dict vs 문자열 비교)
+
 ### 미구현 (장기 비전)
-- JSONL 버스 도입: `plans/gemini/a2a_events.jsonl` 병행 기록
-- `parent_message_id`: 멀티홉 체인 추적
 - Agent Teams 통합 (`claude --teammate-mode tmux`)
 - Reference Architecture (Scheduler/Router/Memory 분리)
 
@@ -61,17 +66,17 @@ Claude Code Hooks를 통해 Write/Edit 도구 사용 시 자동 트리거됩니�
 | 모듈 | 역할 | 줄 수 |
 |---|---|---|
 | `src/shared/config.py` | 설정 로더 (load_config, load_env, validate) | ~85 |
-| `src/shared/feedback.py` | 피드백 저장 (fcntl file lock) | ~30 |
+| `src/shared/feedback.py` | 피드백 저장 (fcntl file lock) + JSONL 병행 기록 | ~70 |
 | `src/shared/hook_io.py` | Hook I/O (format_hook_output, read_file_content) | ~35 |
 | `src/core/gemini_service.py` | Gemini SDK/CLI 호출 (rate limit 순회, fallback) | ~230 |
-| `src/core/a2a_protocol.py` | A2A JSON 메시지 빌드/파싱/렌더링 | ~150 |
+| `src/core/a2a_protocol.py` | A2A JSON 메시지 빌드/파싱/렌더링 + parent_message_id | ~155 |
 | `src/core/error_analyzer.py` | 에러 감지 (transcript 스캔, Lazy Analysis) | ~170 |
 | `src/core/cooldown.py` | 쿨다운 (파일별/전역) | ~50 |
 | `src/hooks/hook_auto_task.py` | PostToolUse Hook (.md Write/Edit → Gemini 평가) | ~90 |
 | `src/hooks/hook_stop.py` | Stop Hook (Plan 감지 + 에러 감지) | ~140 |
 | `src/hooks/hook_pre_tool.py` | PreToolUse Hook (위험 명령 차단/경고) | ~160 |
 | `src/async_runner.py` | 비동기 백그라운드 Gemini 호출 실행기 | ~60 |
-| `src/cli.py` | CLI 관리 도구 (doctor/status/stats/search/test/clear) | ~420 |
+| `src/cli.py` | CLI 관리 도구 (doctor/status/stats/search/test/clear) + JSONL 검색 | ~550 |
 
 ### 설정 + 환경
 
@@ -137,7 +142,8 @@ claude-gemini-communicator/
 │   ├── claude/                  ← Claude 전용 작업 공간
 │   ├── codex/                   ← Codex 전용 작업 공간
 │   ├── gemini/
-│   │   └── gemini_feedback.md   ← 전 에이전트 피드백 수렴점 (in-degree 6)
+│   │   ├── gemini_feedback.md   ← 전 에이전트 피드백 수렴점 (Markdown, 사람 소비)
+│   │   └── a2a_events.jsonl    ← Phase 8: 구조화 이벤트 로그 (기계 소비)
 │   └── project_handoff.md       ← 에이전트 간 컨텍스트 전달
 │
 └── schemas/                     ← Codex 구조화 출력 스키마
@@ -225,6 +231,12 @@ hook_pre_tool.py ─→ a2a_protocol.py ───→ hook_io.py
 | `error_detection.global_cooldown_seconds` | `60` | 분석 간 최소 간격 |
 | `error_detection.thresholds` | `{"critical":1,"high":1,"medium":2,"low":3}` | 심각도별 트리거 횟수 |
 
+### JSONL 버스 설정 (Phase 8)
+| 키 | 기본값 | 설명 |
+|---|---|---|
+| `jsonl_bus.enabled` | `true` | JSONL 병행 기록 |
+| `jsonl_bus.path` | `plans/gemini/a2a_events.jsonl` | JSONL 파일 경로 |
+
 ### A2A 설정 (Phase 3)
 | 키 | 기본값 | 설명 |
 |---|---|---|
@@ -243,8 +255,8 @@ hook_pre_tool.py ─→ a2a_protocol.py ───→ hook_io.py
 ## 테스트 방법
 
 ```bash
-# 1. CLI 전체 자동 테스트 (16건 — config, 에러감지, A2A, PreToolUse 등)
-python3 src/cli.py test
+# 1. CLI 전체 자동 테스트 (22건 — config, 에러감지, A2A, PreToolUse, JSONL 등)
+python3.13 src/cli.py test
 
 # 2. SDK 호출 테스트
 python3 -c "from src.core.gemini_service import call_gemini; from src.shared.config import load_config; print(call_gemini('Hi','Say OK.',load_config())[:100])"
@@ -271,7 +283,8 @@ cp -r skills/agent-parser /tmp/test-parser && cd /tmp/test-parser && python3 scr
 | 에러 감지 끄기 | `"error_detection": {"enabled": false}` |
 | A2A 스키마 끄기 | `"a2a_schema_enabled": false` |
 | 비동기 끄기 | `"async_mode": false` |
-| 전체 Phase 1 복귀 | SDK + 에러감지 + A2A 모두 비활성화 |
+| JSONL 버스 끄기 | `"jsonl_bus": {"enabled": false}` |
+| 전체 Phase 1 복귀 | SDK + 에러감지 + A2A + JSONL 모두 비활성화 |
 
 ## Git 정보
 

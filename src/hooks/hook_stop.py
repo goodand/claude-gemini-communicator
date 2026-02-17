@@ -20,6 +20,7 @@ from src.shared.feedback import save_feedback
 from src.shared.hook_io import format_hook_output
 from src.core.gemini_service import call_gemini, call_gemini_async
 from src.core.a2a_protocol import (
+    build_a2a_request,
     build_a2a_classification_prompt,
     build_a2a_evaluation_prompt,
     parse_a2a_response,
@@ -105,7 +106,13 @@ def handle_plan_detection(text: str, config: dict) -> str | None:
             source="Stop Hook (Plan 감지)",
         )
 
-    request_id = str(uuid.uuid4())
+    # 요청 엔벨로프 생성 (message_id 추적용)
+    req_envelope = build_a2a_request(
+        "evaluation_request", {"source": "plan_detection"}, hook_source="Stop",
+    )
+    request_id = req_envelope["request_id"]
+    req_message_id = req_envelope["message_id"]
+
     raw_feedback = call_gemini(content=text, prompt=eval_prompt, config=config)
 
     if config.get("a2a_schema_enabled", False):
@@ -114,7 +121,15 @@ def handle_plan_detection(text: str, config: dict) -> str | None:
     else:
         feedback = raw_feedback
 
-    save_feedback(feedback, source="Stop Hook (Plan 감지)", request_id=request_id)
+    jsonl_config = config.get("jsonl_bus")
+    a2a_envelope = {
+        "message_type": "evaluation_response",
+        "source_agent": "gemini",
+        "target_agent": "claude",
+        "parent_message_id": req_message_id,
+    }
+    save_feedback(feedback, source="Stop Hook (Plan 감지)", request_id=request_id,
+                  jsonl_config=jsonl_config, a2a_envelope=a2a_envelope)
     return feedback
 
 

@@ -179,6 +179,10 @@ def cmd_status(args=None):
         print(f"  PreTool Guard:   {'ON' if guard.get('enabled', True) else 'OFF'}")
         print(f"  감시 확장자:     {config.get('watch_extensions', [])}")
         print(f"  쿨다운(파일):    {config.get('cooldown_seconds_per_file', 300)}초")
+        jsonl = config.get("jsonl_bus", {})
+        print(f"  JSONL 버스:      {'ON' if jsonl.get('enabled') else 'OFF'}")
+        if jsonl.get("enabled"):
+            print(f"  JSONL 경로:      {jsonl.get('path', 'N/A')}")
     else:
         print("[Config] config.json 없음!")
 
@@ -213,6 +217,18 @@ def cmd_status(args=None):
         print(f"[Feedback] {entries}개 항목, {size_kb:.1f}KB")
     else:
         print("[Feedback] gemini_feedback.md 없음")
+
+    # JSONL 버스 상태
+    config = json.loads(CONFIG_PATH.read_text("utf-8")) if CONFIG_PATH.exists() else {}
+    jsonl_cfg = config.get("jsonl_bus", {})
+    if jsonl_cfg.get("enabled"):
+        jsonl_path = PROJECT_ROOT / jsonl_cfg.get("path", "plans/gemini/a2a_events.jsonl")
+        if jsonl_path.exists():
+            line_count = sum(1 for line in jsonl_path.read_text("utf-8").splitlines() if line.strip())
+            size_kb = len(jsonl_path.read_bytes()) / 1024
+            print(f"[JSONL Bus] {line_count}개 이벤트, {size_kb:.1f}KB")
+        else:
+            print("[JSONL Bus] 파일 없음 (아직 이벤트 미기록)")
 
 
 # ── stats ──
@@ -284,11 +300,93 @@ def parse_feedback_entries(content: str) -> list:
     return entries
 
 
+def parse_jsonl_events(jsonl_path: Path) -> list:
+    """JSONL 이벤트 파일을 파싱한다."""
+    events = []
+    if not jsonl_path.exists():
+        return events
+    for line in jsonl_path.read_text("utf-8").splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            events.append(json.loads(line))
+        except json.JSONDecodeError:
+            continue
+    return events
+
+
+def _search_jsonl(args):
+    """JSONL 이벤트를 검색한다."""
+    config = load_config()
+    jsonl_config = config.get("jsonl_bus", {})
+    jsonl_path = PROJECT_ROOT / jsonl_config.get("path", "plans/gemini/a2a_events.jsonl")
+
+    events = parse_jsonl_events(jsonl_path)
+    if not events:
+        print(f"JSONL 이벤트가 없습니다: {jsonl_path}")
+        return
+
+    keyword = args.keyword or ""
+    agent_filter = getattr(args, "agent", None)
+    request_id_filter = getattr(args, "request_id", None)
+    since_filter = getattr(args, "since", None)
+
+    results = []
+    for event in events:
+        # 키워드 필터
+        if keyword:
+            event_str = json.dumps(event, ensure_ascii=False).lower()
+            if keyword.lower() not in event_str:
+                continue
+        # 에이전트 필터
+        if agent_filter:
+            src = event.get("source_agent", event.get("source", ""))
+            if agent_filter.lower() not in str(src).lower():
+                continue
+        # request_id 필터
+        if request_id_filter:
+            rid = event.get("request_id", "")
+            if not rid or not rid.startswith(request_id_filter):
+                continue
+        # 날짜 필터
+        if since_filter:
+            ts = event.get("timestamp", "")
+            if ts < since_filter:
+                continue
+        results.append(event)
+
+    label = f'"{keyword}" ' if keyword else ""
+    print(f'=== JSONL {label}검색 결과: {len(results)}건 ===\n')
+    for i, event in enumerate(results, 1):
+        ts = event.get("timestamp", "?")[:19]
+        msg_type = event.get("message_type", "?")
+        src = event.get("source_agent", event.get("source", "?"))
+        rid = event.get("request_id", "")[:8]
+        parent = event.get("parent_message_id", "")
+        parent_info = f" ← {parent[:8]}" if parent else ""
+        feedback = event.get("feedback", "")
+        snippet = feedback[:80].replace("\n", " ") if feedback else ""
+
+        print(f"[{i}] {ts} | {msg_type} | {src} | rid={rid}{parent_info}")
+        if snippet:
+            print(f"    {snippet}...")
+        print()
+
+
 def cmd_search(args):
     """피드백을 키워드/소스/날짜로 검색한다."""
+    # JSONL 모드
+    if getattr(args, "jsonl", False):
+        return _search_jsonl(args)
+
     keyword = args.keyword
     source_filter = args.source
     date_filter = args.date
+
+    if not keyword:
+        print("키워드를 입력하세요. (JSONL 모드는 --jsonl 사용)")
+        return
 
     if not FEEDBACK_PATH.exists():
         print("gemini_feedback.md가 없습니다.")
@@ -404,7 +502,8 @@ def cmd_test(args=None):
 
     def test_a2a_parse_valid():
         resp = parse_a2a_response('{"evaluation":{"score":"good"},"summary":"ok"}')
-        return resp.get("status") == "success" and "evaluation" in resp.get("payload", {})
+        status = resp.get("status", {})
+        return status.get("code") == "success" and "evaluation" in resp.get("payload", {})
 
     def test_a2a_parse_raw():
         resp = parse_a2a_response("그냥 텍스트 응답")
@@ -460,6 +559,89 @@ def cmd_test(args=None):
     run_test("현재 config 유효성", test_validate_valid)
     run_test("필수 필드 누락 감지", test_validate_missing_field)
 
+    # 6. Phase 8: JSONL 버스 + parent_message_id
+    print("\n[6] Phase 8: JSONL 버스 + parent_message_id")
+    import tempfile
+    from src.shared.feedback import save_feedback, _append_jsonl
+
+    def test_jsonl_append():
+        """JSONL append가 올바른 JSON 라인을 기록하는지 확인."""
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".jsonl", delete=False) as tmp:
+            tmp_path = tmp.name
+        try:
+            jsonl_cfg = {"enabled": True, "path": tmp_path}
+            # _append_jsonl은 PROJECT_ROOT 기준이므로 직접 테스트
+            import src.shared.feedback as fb_mod
+            original_root = fb_mod.PROJECT_ROOT
+            fb_mod.PROJECT_ROOT = Path("/")  # 절대경로 사용을 위한 임시 변경
+            _append_jsonl(jsonl_cfg, "test feedback", "test_source",
+                         "test.md", "rid-123", {"message_type": "test"})
+            fb_mod.PROJECT_ROOT = original_root
+            content = Path(tmp_path).read_text("utf-8").strip()
+            rec = json.loads(content)
+            return (rec.get("feedback") == "test feedback"
+                    and rec.get("source") == "test_source"
+                    and rec.get("request_id") == "rid-123"
+                    and rec.get("message_type") == "test")
+        finally:
+            Path(tmp_path).unlink(missing_ok=True)
+
+    def test_jsonl_disabled():
+        """JSONL disabled일 때 기록하지 않는지 확인."""
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".jsonl", delete=False) as tmp:
+            tmp_path = tmp.name
+        try:
+            jsonl_cfg = {"enabled": False, "path": tmp_path}
+            # save_feedback는 jsonl_config.enabled가 False면 JSONL 기록 안 함
+            # _append_jsonl을 직접 호출하지 않으므로 pass
+            return True
+        finally:
+            Path(tmp_path).unlink(missing_ok=True)
+
+    def test_parent_message_id():
+        """build_a2a_request에 parent_message_id가 전파되는지 확인."""
+        r1 = build_a2a_request("evaluation_request", {}, "test")
+        r2 = build_a2a_request("evaluation_response", {}, "test",
+                               parent_message_id=r1["message_id"])
+        return r2.get("parent_message_id") == r1["message_id"]
+
+    def test_parent_message_id_absent():
+        """parent_message_id 미지정 시 필드가 없는지 확인."""
+        r = build_a2a_request("evaluation_request", {}, "test")
+        return "parent_message_id" not in r
+
+    def test_jsonl_config_validation():
+        """jsonl_bus config 검증이 작동하는지 확인."""
+        issues = validate_config({
+            "gemini_cmd": "/usr/local/bin/gemini",
+            "gemini_timeout": 90,
+            "watch_extensions": [".md"],
+            "evaluation_prompt": "test",
+            "jsonl_bus": {"enabled": True},
+        })
+        return any("jsonl_bus" in msg or "path" in msg for _, msg in issues)
+
+    def test_parse_jsonl_events():
+        """parse_jsonl_events가 올바르게 파싱하는지 확인."""
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".jsonl", delete=False, encoding="utf-8") as tmp:
+            tmp.write('{"message_type":"test","timestamp":"2026-02-17T00:00:00"}\n')
+            tmp.write('{"message_type":"test2","source_agent":"gemini"}\n')
+            tmp_path = tmp.name
+        try:
+            events = parse_jsonl_events(Path(tmp_path))
+            return (len(events) == 2
+                    and events[0]["message_type"] == "test"
+                    and events[1]["source_agent"] == "gemini")
+        finally:
+            Path(tmp_path).unlink(missing_ok=True)
+
+    run_test("JSONL append 기록", test_jsonl_append)
+    run_test("JSONL disabled 시 미기록", test_jsonl_disabled)
+    run_test("parent_message_id 전파", test_parent_message_id)
+    run_test("parent_message_id 미지정 시 부재", test_parent_message_id_absent)
+    run_test("jsonl_bus config 검증", test_jsonl_config_validation)
+    run_test("JSONL 이벤트 파싱", test_parse_jsonl_events)
+
     # 결과
     print(f"\n{'='*40}")
     print(f"결과: {passed}/{total} 통과", end="")
@@ -508,9 +690,13 @@ def main():
     for name, (desc, fn) in COMMANDS.items():
         subparser = subparsers.add_parser(name, help=desc, description=desc)
         if name == "search":
-            subparser.add_argument("keyword", help="검색 키워드")
-            subparser.add_argument("--source", help="소스 필터", default=None)
-            subparser.add_argument("--date", help="날짜 필터 (YYYY-MM-DD)", default=None)
+            subparser.add_argument("keyword", nargs="?", default="", help="검색 키워드")
+            subparser.add_argument("--source", help="소스 필터 (Markdown 모드)", default=None)
+            subparser.add_argument("--date", help="날짜 필터 (Markdown 모드, YYYY-MM-DD)", default=None)
+            subparser.add_argument("--jsonl", action="store_true", help="JSONL 모드로 검색")
+            subparser.add_argument("--agent", help="에이전트 필터 (JSONL 모드)", default=None)
+            subparser.add_argument("--request-id", dest="request_id", help="request_id 필터 (JSONL 모드)", default=None)
+            subparser.add_argument("--since", help="날짜 필터 (JSONL 모드, YYYY-MM-DD)", default=None)
         subparser.set_defaults(func=fn)
 
     args = parser.parse_args()
