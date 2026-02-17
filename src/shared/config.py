@@ -31,6 +31,12 @@ def load_env() -> None:
         pass
 
 
+def get_jsonl_path(config: dict) -> Path:
+    """config에서 JSONL 파일 경로를 반환한다."""
+    jsonl_cfg = config.get("jsonl_bus", {})
+    return PROJECT_ROOT / jsonl_cfg.get("path", "plans/gemini/a2a_events.jsonl")
+
+
 def load_config(config_path: Path | None = None) -> dict:
     """config.json에서 설정을 로드한다."""
     path = config_path or CONFIG_PATH

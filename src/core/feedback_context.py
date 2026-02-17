@@ -3,7 +3,7 @@
 import json
 from pathlib import Path
 
-from src.shared.config import PROJECT_ROOT
+from src.shared.config import get_jsonl_path
 
 
 def build_feedback_context(config: dict,
@@ -26,7 +26,7 @@ def build_feedback_context(config: dict,
     if not jsonl_config.get("enabled"):
         return ""
 
-    jsonl_path = PROJECT_ROOT / jsonl_config.get("path", "plans/gemini/a2a_events.jsonl")
+    jsonl_path = get_jsonl_path(config)
     if not jsonl_path.exists():
         return ""
 

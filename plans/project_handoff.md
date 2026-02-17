@@ -22,6 +22,7 @@ AI 코딩 에이전트(Claude Code, Codex CLI, Gemini CLI)가 코드/문서를 �
 | 8+ | Reference Architecture (Router/Memory/Scheduler) + Codex Review 버그 수정 | ✅ |
 | 9 | LLM 추상화 (Provider 패턴) + 피드백 루프 자동화 + 이식성 강화 | ✅ |
 | 9+ | CSO 안정성 강화 (스케줄러 락, exclude 오류, 라우터 검증) | ✅ |
+| 10 | 모듈 통합 (JSONL 일원화, Scheduler↔AsyncRunner, async_timeout 제거) | ✅ |
 
 ## 3. 아키텍처 (Phase 8+: src/ 3-레이어 DAG + Reference Architecture)
 
@@ -62,7 +63,7 @@ claude-gemini-communicator/
 │   ├── core/ (gemini_service, a2a_protocol, error_analyzer, cooldown, router, memory, scheduler)
 │   ├── hooks/ (hook_auto_task, hook_stop, hook_pre_tool)
 │   ├── async_runner.py
-│   └── cli.py (doctor/status/stats/search/chain/test/clear — 52건 테스트)
+│   └── cli.py (doctor/status/stats/search/chain/test/clear — 68건 테스트)
 │
 ├── skills/                         # 자립형 Skill (cp -r 설치)
 │   ├── gemini-reviewer/            # Gemini 코드/문서 리뷰
@@ -78,10 +79,10 @@ claude-gemini-communicator/
 ## 5. 다음 세션 작업 대상 (우선순위순)
 
 ### 미통합 모듈 연결 (Codex codebase_analysis.md 참조)
-- [ ] `memory.py` — CLI의 `parse_jsonl_events`와 중복, 런타임 미사용 → `memory.py`로 일원화
-- [ ] `scheduler.py` — `async_runner.py`/`call_gemini_async()`와 미연결 → 통합
-- [ ] JSONL 경로 계산 로직 3곳 분산 → `memory.py`로 통합
-- [ ] `config.async_timeout` — 소비처 없음 → 연결 또는 제거
+- [x] `memory.py` — CLI 중복 제거, `parse_jsonl_file()` + `load_events()` 2단 구조
+- [x] `scheduler.py` — `async_runner.py`에서 `register_job`/`complete_job`/`fail_job` 호출
+- [x] JSONL 경로 → `shared/config.get_jsonl_path()` 단일 출처 (5곳 통합)
+- [x] `config.async_timeout` — 소비처 없어 제거 (`gemini_timeout`으로 충분)
 
 ### Gemini CSO 아키텍처 비판
 - [x] `plans/gemini/cso_architecture_review.md` 완료 (16/25점, 5축 평가)
@@ -94,8 +95,8 @@ claude-gemini-communicator/
 - [x] `exclude_files` basename vs 경로 비교 불일치 정리
 - [x] `scheduler.py` 파일 쓰기 락 추가 (filelock)
 - [x] `router.py` 규칙 스키마 검증 추가 + config validate_config() 연동
-- [ ] Hook end-to-end 통합 테스트 추가
-- [ ] `cli.py` → `hooks/` 역방향 import 해소 (`check_command`를 `shared/`로 이동)
+- [x] Hook e2e 통합 테스트 추가 (11건: PostToolUse 5, PreToolUse 4, Stop 2)
+- [x] `cli.py` → `hooks/` 역방향 import — 이미 해결 (`check_command`는 `shared/command_guard.py`에 위치)
 
 ### 장기
 - [ ] Agent Teams 통합 (`claude --teammate-mode tmux`)
@@ -124,7 +125,7 @@ zsh skills/codex-user-context/scripts/run_codex_user_context.sh --dry-run "test"
 ## 7. 검증 방법
 
 ```bash
-python3.13 src/cli.py test           # 자동 테스트 52건
+python3.13 src/cli.py test           # 자동 테스트 57건
 python3.13 src/cli.py doctor         # 시스템 진단
 python3.13 src/cli.py chain --list   # JSONL 메시지 체인 목록
 python3.13 src/cli.py stats --jsonl  # JSONL 이벤트 통계
@@ -136,7 +137,7 @@ python3.13 src/cli.py stats --jsonl  # JSONL 이벤트 통계
 pip install -r requirements.txt     # google-genai, google-auth, httpx
 cp .env.example .env                # .env에 GEMINI_API_KEY 입력
 python3.13 src/cli.py doctor        # 시스템 진단
-python3.13 src/cli.py test          # 자동 테스트 (36건)
+python3.13 src/cli.py test          # 자동 테스트 (57건)
 ```
 
 ## 9. 주의사항

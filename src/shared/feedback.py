@@ -8,7 +8,7 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 
-from src.shared.config import PROJECT_ROOT
+from src.shared.config import PROJECT_ROOT, get_jsonl_path
 from src.shared.filelock import lock_exclusive, unlock
 
 FEEDBACK_PATH = PROJECT_ROOT / "plans" / "gemini" / "gemini_feedback.md"
@@ -50,7 +50,7 @@ def log_jsonl_event(jsonl_config: dict | None, envelope: dict) -> None:
     """
     if not jsonl_config or not jsonl_config.get("enabled"):
         return
-    jsonl_path = PROJECT_ROOT / jsonl_config.get("path", "plans/gemini/a2a_events.jsonl")
+    jsonl_path = get_jsonl_path({"jsonl_bus": jsonl_config})
     jsonl_path.parent.mkdir(parents=True, exist_ok=True)
 
     record = {"timestamp": datetime.now(timezone.utc).isoformat()}
@@ -69,7 +69,7 @@ def _append_jsonl(jsonl_config: dict, feedback: str, source: str,
                   file_path: str | None, request_id: str | None,
                   a2a_envelope: dict | None) -> None:
     """JSONL 파일에 구조화된 이벤트를 추가한다."""
-    jsonl_path = PROJECT_ROOT / jsonl_config.get("path", "plans/gemini/a2a_events.jsonl")
+    jsonl_path = get_jsonl_path({"jsonl_bus": jsonl_config})
     jsonl_path.parent.mkdir(parents=True, exist_ok=True)
 
     record = {

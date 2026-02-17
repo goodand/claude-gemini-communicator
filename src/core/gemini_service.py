@@ -275,8 +275,10 @@ def call_gemini_async(content: str, prompt: str, config: dict,
                       file_path: str | None = None,
                       source: str = "Async") -> str:
     """비동기 모드: 별도 프로세스에서 Gemini 호출 (fire-and-forget)."""
+    import uuid
     from src.shared.feedback import FEEDBACK_PATH
 
+    job_id = str(uuid.uuid4())
     args = {
         "content": content,
         "prompt": prompt,
@@ -284,6 +286,7 @@ def call_gemini_async(content: str, prompt: str, config: dict,
         "file_path": file_path,
         "source": source,
         "feedback_path": str(FEEDBACK_PATH),
+        "job_id": job_id,
     }
 
     fd, args_path = tempfile.mkstemp(suffix=".json", prefix="gemini_async_")

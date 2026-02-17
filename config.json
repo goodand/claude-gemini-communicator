@@ -27,7 +27,6 @@
     "oauth_client_secret_env": "GEMINI_OAUTH_CLIENT_SECRET"
   },
   "async_mode": false,
-  "async_timeout": 120,
 
   "a2a_schema_enabled": false,
 

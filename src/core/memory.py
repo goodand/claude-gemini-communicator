@@ -7,18 +7,11 @@ hooks/ 또는 cli.py에서 사용. DAG 규칙: core/ → shared/ 방향만 허�
 import json
 from pathlib import Path
 
-from src.shared.config import PROJECT_ROOT
+from src.shared.config import get_jsonl_path  # noqa: F401 — 재export용
 
 
-def _get_jsonl_path(config: dict) -> Path:
-    """config에서 JSONL 파일 경로를 반환한다."""
-    jsonl_cfg = config.get("jsonl_bus", {})
-    return PROJECT_ROOT / jsonl_cfg.get("path", "plans/gemini/a2a_events.jsonl")
-
-
-def load_events(config: dict) -> list:
-    """JSONL 파일에서 모든 이벤트를 로드한다."""
-    jsonl_path = _get_jsonl_path(config)
+def parse_jsonl_file(jsonl_path: Path) -> list:
+    """JSONL 파일을 파싱하여 이벤트 리스트를 반환한다 (경로 기반)."""
     if not jsonl_path.exists():
         return []
     events = []
@@ -31,6 +24,11 @@ def load_events(config: dict) -> list:
         except json.JSONDecodeError:
             continue
     return events
+
+
+def load_events(config: dict) -> list:
+    """config에서 JSONL 경로를 추출하여 모든 이벤트를 로드한다."""
+    return parse_jsonl_file(get_jsonl_path(config))
 
 
 def get_recent(config: dict, n: int = 10) -> list:

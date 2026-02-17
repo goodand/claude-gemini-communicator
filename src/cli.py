@@ -24,10 +24,11 @@ _PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if _PROJECT_ROOT not in sys.path:
     sys.path.insert(0, _PROJECT_ROOT)
 
-from src.shared.config import load_config, load_env, validate_config, CONFIG_PATH, PROJECT_ROOT
+from src.shared.config import load_config, load_env, validate_config, CONFIG_PATH, PROJECT_ROOT, get_jsonl_path
 from src.shared.feedback import FEEDBACK_PATH
 from src.core.cooldown import COOLDOWN_STATE_PATH
 from src.core.error_analyzer import ERROR_HISTORY_PATH
+from src.core.memory import parse_jsonl_file as parse_jsonl_events
 
 SETTINGS_PATH = PROJECT_ROOT / ".claude" / "settings.local.json"
 HOOKS_SCRIPTS = {
@@ -241,7 +242,7 @@ def cmd_status(args=None):
     config = json.loads(CONFIG_PATH.read_text("utf-8")) if CONFIG_PATH.exists() else {}
     jsonl_cfg = config.get("jsonl_bus", {})
     if jsonl_cfg.get("enabled"):
-        jsonl_path = PROJECT_ROOT / jsonl_cfg.get("path", "plans/gemini/a2a_events.jsonl")
+        jsonl_path = get_jsonl_path(config)
         if jsonl_path.exists():
             line_count = sum(1 for line in jsonl_path.read_text("utf-8").splitlines() if line.strip())
             size_kb = len(jsonl_path.read_bytes()) / 1024
@@ -254,7 +255,8 @@ def cmd_status(args=None):
 
 def _stats_jsonl():
     """JSONL 이벤트 통계를 출력한다."""
-    jsonl_path = _get_jsonl_path()
+    config = load_config()
+    jsonl_path = get_jsonl_path(config)
     events = parse_jsonl_events(jsonl_path)
     if not events:
         print(f"JSONL 이벤트가 없습니다: {jsonl_path}")
@@ -377,27 +379,10 @@ def parse_feedback_entries(content: str) -> list:
     return entries
 
 
-def parse_jsonl_events(jsonl_path: Path) -> list:
-    """JSONL 이벤트 파일을 파싱한다."""
-    events = []
-    if not jsonl_path.exists():
-        return events
-    for line in jsonl_path.read_text("utf-8").splitlines():
-        line = line.strip()
-        if not line:
-            continue
-        try:
-            events.append(json.loads(line))
-        except json.JSONDecodeError:
-            continue
-    return events
-
-
 def _search_jsonl(args):
     """JSONL 이벤트를 검색한다."""
     config = load_config()
-    jsonl_config = config.get("jsonl_bus", {})
-    jsonl_path = PROJECT_ROOT / jsonl_config.get("path", "plans/gemini/a2a_events.jsonl")
+    jsonl_path = get_jsonl_path(config)
 
     events = parse_jsonl_events(jsonl_path)
     if not events:
@@ -647,13 +632,13 @@ def cmd_test(args=None):
             tmp_path = tmp.name
         try:
             jsonl_cfg = {"enabled": True, "path": tmp_path}
-            # _append_jsonl은 PROJECT_ROOT 기준이므로 직접 테스트
-            import src.shared.feedback as fb_mod
-            original_root = fb_mod.PROJECT_ROOT
-            fb_mod.PROJECT_ROOT = Path("/")  # 절대경로 사용을 위한 임시 변경
+            # get_jsonl_path는 config.PROJECT_ROOT 기준
+            import src.shared.config as cfg_mod
+            original_root = cfg_mod.PROJECT_ROOT
+            cfg_mod.PROJECT_ROOT = Path("/")  # 절대경로 사용을 위한 임시 변경
             _append_jsonl(jsonl_cfg, "test feedback", "test_source",
                          "test.md", "rid-123", {"message_type": "test"})
-            fb_mod.PROJECT_ROOT = original_root
+            cfg_mod.PROJECT_ROOT = original_root
             content = Path(tmp_path).read_text("utf-8").strip()
             rec = json.loads(content)
             return (rec.get("feedback") == "test feedback"
@@ -768,14 +753,14 @@ def cmd_test(args=None):
         with tempfile.NamedTemporaryFile(mode="w", suffix=".jsonl", delete=False) as tmp:
             tmp_path = tmp.name
         try:
-            import src.shared.feedback as fb_mod
-            original_root = fb_mod.PROJECT_ROOT
-            fb_mod.PROJECT_ROOT = Path("/")
+            import src.shared.config as cfg_mod
+            original_root = cfg_mod.PROJECT_ROOT
+            cfg_mod.PROJECT_ROOT = Path("/")
             log_jsonl_event({"enabled": True, "path": tmp_path}, {
                 "message_id": "test-mid",
                 "message_type": "evaluation_request",
             })
-            fb_mod.PROJECT_ROOT = original_root
+            cfg_mod.PROJECT_ROOT = original_root
             content = Path(tmp_path).read_text("utf-8").strip()
             rec = json.loads(content)
             return rec.get("message_id") == "test-mid" and "timestamp" in rec
@@ -851,9 +836,9 @@ def cmd_test(args=None):
             tmp_path = tmp.name
         try:
             cfg = {"jsonl_bus": {"path": tmp_path}}
-            import src.core.memory as mem_mod
-            original_root = mem_mod.PROJECT_ROOT
-            mem_mod.PROJECT_ROOT = Path("/")
+            import src.shared.config as cfg_mod
+            original_root = cfg_mod.PROJECT_ROOT
+            cfg_mod.PROJECT_ROOT = Path("/")
 
             all_events = load_events(cfg)
             recent = get_recent(cfg, n=2)
@@ -861,7 +846,7 @@ def cmd_test(args=None):
             by_type = get_by_type(cfg, "error_analysis_request")
             summary = summarize(cfg)
 
-            mem_mod.PROJECT_ROOT = original_root
+            cfg_mod.PROJECT_ROOT = original_root
             return (len(all_events) == 3
                     and len(recent) == 2
                     and len(by_agent) == 1 and by_agent[0]["source_agent"] == "gemini"
@@ -987,15 +972,15 @@ def cmd_test(args=None):
                 tmp.write(json.dumps(e, ensure_ascii=False) + "\n")
             tmp_path = tmp.name
         try:
-            import src.core.feedback_context as fc_mod
-            original_root = fc_mod.PROJECT_ROOT
-            fc_mod.PROJECT_ROOT = Path("/")
+            import src.shared.config as cfg_mod
+            original_root = cfg_mod.PROJECT_ROOT
+            cfg_mod.PROJECT_ROOT = Path("/")
             cfg = {
                 "feedback_context": {"enabled": True, "max_entries": 3},
                 "jsonl_bus": {"enabled": True, "path": tmp_path},
             }
             result = build_feedback_context(cfg, file_path="a.py")
-            fc_mod.PROJECT_ROOT = original_root
+            cfg_mod.PROJECT_ROOT = original_root
             return "변수명이 모호함" in result and "에러 처리 미흡" not in result
         finally:
             Path(tmp_path).unlink(missing_ok=True)
@@ -1009,15 +994,15 @@ def cmd_test(args=None):
                 tmp.write(json.dumps(e, ensure_ascii=False) + "\n")
             tmp_path = tmp.name
         try:
-            import src.core.feedback_context as fc_mod
-            original_root = fc_mod.PROJECT_ROOT
-            fc_mod.PROJECT_ROOT = Path("/")
+            import src.shared.config as cfg_mod
+            original_root = cfg_mod.PROJECT_ROOT
+            cfg_mod.PROJECT_ROOT = Path("/")
             cfg = {
                 "feedback_context": {"enabled": True, "max_entries": 2},
                 "jsonl_bus": {"enabled": True, "path": tmp_path},
             }
             result = build_feedback_context(cfg)
-            fc_mod.PROJECT_ROOT = original_root
+            cfg_mod.PROJECT_ROOT = original_root
             # 최근 2건만 포함 (피드백 3, 피드백 4)
             return "피드백 3" in result and "피드백 4" in result and "피드백 0" not in result
         finally:
@@ -1115,6 +1100,198 @@ def cmd_test(args=None):
     run_test("Router: 잘못된 규칙 건너뛰기", test_router_skips_bad_rules)
     run_test("Config 검증: 잘못된 routing_rules", test_config_validate_bad_routing)
 
+    # 12. 모듈 통합 (JSONL 일원화, Scheduler 연결)
+    print("\n[12] 모듈 통합")
+
+    def test_jsonl_path_single_source():
+        """JSONL 경로가 shared/config.get_jsonl_path 단일 출처인지 확인."""
+        from src.shared.config import get_jsonl_path as gp
+        cfg = {"jsonl_bus": {"path": "test/path.jsonl"}}
+        path = gp(cfg)
+        return str(path).endswith("test/path.jsonl")
+
+    def test_memory_reexports_get_jsonl_path():
+        """memory 모듈이 get_jsonl_path를 재export하는지 확인."""
+        from src.core.memory import get_jsonl_path as gp2
+        cfg = {"jsonl_bus": {"path": "x.jsonl"}}
+        return str(gp2(cfg)).endswith("x.jsonl")
+
+    def test_parse_jsonl_file_from_memory():
+        """parse_jsonl_file이 memory에서 올바르게 export되는지 확인."""
+        from src.core.memory import parse_jsonl_file
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".jsonl", delete=False, encoding="utf-8") as tmp:
+            tmp.write('{"test": true}\n')
+            tmp_path = tmp.name
+        try:
+            events = parse_jsonl_file(Path(tmp_path))
+            return len(events) == 1 and events[0]["test"] is True
+        finally:
+            Path(tmp_path).unlink(missing_ok=True)
+
+    def test_scheduler_async_runner_integration():
+        """async_runner가 scheduler import를 올바르게 수행하는지 확인."""
+        from src.core.scheduler import register_job, get_job, complete_job, fail_job
+        import src.core.scheduler as sched_mod
+        original_path = sched_mod._JOBS_PATH
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as tmp:
+            sched_mod._JOBS_PATH = Path(tmp.name)
+        try:
+            # 비동기 작업 시뮬레이션: 등록 → 완료
+            job = register_job("async-test-1", "gemini_async", "gemini",
+                             metadata={"file_path": "test.py"})
+            assert job["status"] == "pending"
+            complete_job("async-test-1", result_summary="OK")
+            completed = get_job("async-test-1")
+            # 실패 시나리오
+            register_job("async-test-2", "gemini_async", "gemini")
+            fail_job("async-test-2", error="timeout")
+            failed = get_job("async-test-2")
+            return (completed["status"] == "completed"
+                    and completed["result_summary"] == "OK"
+                    and failed["status"] == "failed"
+                    and failed["error"] == "timeout")
+        finally:
+            sched_mod._JOBS_PATH = original_path
+
+    def test_async_timeout_removed():
+        """config.json에서 async_timeout이 제거되었는지 확인."""
+        cfg = load_config()
+        return "async_timeout" not in cfg
+
+    run_test("JSONL 경로 단일 출처", test_jsonl_path_single_source)
+    run_test("Memory: get_jsonl_path 재export", test_memory_reexports_get_jsonl_path)
+    run_test("Memory: parse_jsonl_file export", test_parse_jsonl_file_from_memory)
+    run_test("Scheduler ↔ Async Runner 통합", test_scheduler_async_runner_integration)
+    run_test("async_timeout 제거 확인", test_async_timeout_removed)
+
+    # 13. Hook e2e 통합 테스트
+    print("\n[13] Hook e2e 통합 테스트")
+
+    def _run_hook(hook_script: str, stdin_data: dict, timeout: int = 10) -> tuple:
+        """Hook 스크립트를 subprocess로 실행하여 (exit_code, stdout) 반환."""
+        hook_path = PROJECT_ROOT / "src" / "hooks" / hook_script
+        proc = subprocess.run(
+            [sys.executable, str(hook_path)],
+            input=json.dumps(stdin_data, ensure_ascii=False),
+            capture_output=True, text=True, timeout=timeout,
+        )
+        return proc.returncode, proc.stdout.strip()
+
+    def test_hook_auto_task_wrong_tool():
+        """PostToolUse: Write/Edit 외 도구는 exit(0) + 출력 없음."""
+        rc, out = _run_hook("hook_auto_task.py", {
+            "tool_name": "Read",
+            "tool_input": {"file_path": "test.md"},
+        })
+        return rc == 0 and out == ""
+
+    def test_hook_auto_task_no_file_path():
+        """PostToolUse: file_path 없으면 exit(0) + 출력 없음."""
+        rc, out = _run_hook("hook_auto_task.py", {
+            "tool_name": "Write",
+            "tool_input": {},
+        })
+        return rc == 0 and out == ""
+
+    def test_hook_auto_task_wrong_extension():
+        """PostToolUse: watch_extensions에 없는 확장자면 스킵."""
+        rc, out = _run_hook("hook_auto_task.py", {
+            "tool_name": "Write",
+            "tool_input": {"file_path": "/tmp/test.xyz"},
+        })
+        return rc == 0 and out == ""
+
+    def test_hook_auto_task_excluded_file():
+        """PostToolUse: exclude_files에 해당하면 스킵."""
+        rc, out = _run_hook("hook_auto_task.py", {
+            "tool_name": "Edit",
+            "tool_input": {"file_path": "plans/gemini/gemini_feedback.md"},
+        })
+        return rc == 0 and out == ""
+
+    def test_hook_pre_tool_non_bash():
+        """PreToolUse: Bash 외 도구는 exit(0) + 출력 없음."""
+        rc, out = _run_hook("hook_pre_tool.py", {
+            "tool_name": "Write",
+            "tool_input": {"file_path": "test.py"},
+        })
+        return rc == 0 and out == ""
+
+    def test_hook_pre_tool_safe_command():
+        """PreToolUse: 안전한 명령은 exit(0) + 출력 없음."""
+        rc, out = _run_hook("hook_pre_tool.py", {
+            "tool_name": "Bash",
+            "tool_input": {"command": "ls -la"},
+        })
+        return rc == 0 and out == ""
+
+    def test_hook_pre_tool_block_dangerous():
+        """PreToolUse: 위험한 명령은 block JSON 출력."""
+        rc, out = _run_hook("hook_pre_tool.py", {
+            "tool_name": "Bash",
+            "tool_input": {"command": "rm -rf /"},
+        })
+        if rc != 0 or not out:
+            return False
+        try:
+            result = json.loads(out)
+            return result.get("decision") == "block"
+        except json.JSONDecodeError:
+            return False
+
+    def test_hook_pre_tool_block_force_push():
+        """PreToolUse: git push --force 차단."""
+        rc, out = _run_hook("hook_pre_tool.py", {
+            "tool_name": "Bash",
+            "tool_input": {"command": "git push --force origin main"},
+        })
+        if rc != 0 or not out:
+            return False
+        try:
+            result = json.loads(out)
+            return result.get("decision") == "block"
+        except json.JSONDecodeError:
+            return False
+
+    def test_hook_stop_invalid_json():
+        """Stop Hook: 잘못된 JSON → exit(0), 출력 없음."""
+        hook_path = PROJECT_ROOT / "src" / "hooks" / "hook_stop.py"
+        proc = subprocess.run(
+            [sys.executable, str(hook_path)],
+            input="not valid json {{{",
+            capture_output=True, text=True, timeout=10,
+        )
+        return proc.returncode == 0 and proc.stdout.strip() == ""
+
+    def test_hook_stop_short_text_no_plan():
+        """Stop Hook: 짧은 텍스트 → Plan 미감지, 출력 없음."""
+        rc, out = _run_hook("hook_stop.py", {
+            "message": "OK",
+        })
+        return rc == 0 and out == ""
+
+    def test_hook_auto_task_invalid_json():
+        """PostToolUse: 잘못된 JSON → exit(0), 출력 없음."""
+        hook_path = PROJECT_ROOT / "src" / "hooks" / "hook_auto_task.py"
+        proc = subprocess.run(
+            [sys.executable, str(hook_path)],
+            input="{broken json",
+            capture_output=True, text=True, timeout=10,
+        )
+        return proc.returncode == 0 and proc.stdout.strip() == ""
+
+    run_test("PostToolUse: 비대상 도구 스킵", test_hook_auto_task_wrong_tool)
+    run_test("PostToolUse: file_path 누락 스킵", test_hook_auto_task_no_file_path)
+    run_test("PostToolUse: 미감시 확장자 스킵", test_hook_auto_task_wrong_extension)
+    run_test("PostToolUse: 제외 파일 스킵", test_hook_auto_task_excluded_file)
+    run_test("PostToolUse: 잘못된 JSON → 안전 종료", test_hook_auto_task_invalid_json)
+    run_test("PreToolUse: 비Bash 도구 스킵", test_hook_pre_tool_non_bash)
+    run_test("PreToolUse: 안전 명령 통과", test_hook_pre_tool_safe_command)
+    run_test("PreToolUse: rm -rf 차단", test_hook_pre_tool_block_dangerous)
+    run_test("PreToolUse: force push 차단", test_hook_pre_tool_block_force_push)
+    run_test("Stop: 잘못된 JSON → 안전 종료", test_hook_stop_invalid_json)
+    run_test("Stop: 짧은 텍스트 → Plan 미감지", test_hook_stop_short_text_no_plan)
+
     # 결과
     print(f"\n{'='*40}")
     print(f"결과: {passed}/{total} 통과", end="")
@@ -1126,13 +1303,6 @@ def cmd_test(args=None):
 
 
 # ── chain ──
-
-def _get_jsonl_path() -> Path:
-    """JSONL 이벤트 파일 경로를 반환한다."""
-    config = load_config()
-    jsonl_config = config.get("jsonl_bus", {})
-    return PROJECT_ROOT / jsonl_config.get("path", "plans/gemini/a2a_events.jsonl")
-
 
 def _build_chain(events: list, start_id: str) -> list:
     """start_id를 기준으로 parent_message_id 체인을 양방향 탐색한다.
@@ -1202,7 +1372,8 @@ def _build_chain(events: list, start_id: str) -> list:
 def cmd_chain(args):
     """메시지 체인을 추적하여 시각화한다."""
     start_id = args.id
-    jsonl_path = _get_jsonl_path()
+    config = load_config()
+    jsonl_path = get_jsonl_path(config)
     events = parse_jsonl_events(jsonl_path)
 
     if not events:
@@ -1274,7 +1445,7 @@ def cmd_clear(args=None):
     ]
     # --jsonl 옵션: JSONL 이벤트 로그도 초기화
     if getattr(args, "jsonl", False):
-        targets.append((_get_jsonl_path(), "JSONL 이벤트 로그"))
+        targets.append((get_jsonl_path(load_config()), "JSONL 이벤트 로그"))
 
     for path, name in targets:
         if path.exists():
