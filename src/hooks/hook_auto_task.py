@@ -14,7 +14,7 @@ if _PROJECT_ROOT not in sys.path:
     sys.path.insert(0, _PROJECT_ROOT)
 
 from src.shared.config import load_config, load_env
-from src.shared.feedback import save_feedback
+from src.shared.feedback import save_feedback, log_jsonl_event
 from src.shared.hook_io import format_hook_output
 from src.core.cooldown import check_cooldown
 from src.core.gemini_service import call_gemini, call_gemini_async
@@ -78,12 +78,24 @@ def main():
         print(format_hook_output(pending_msg))
         sys.exit(0)
 
-    # 동기 모드: 요청 엔벨로프 생성 (message_id 추적용)
+    # 동기 모드: 요청 엔벨로프 생성 + JSONL 기록
     req_envelope = build_a2a_request(
         "evaluation_request", {"file_path": file_path}, hook_source="PostToolUse",
     )
     request_id = req_envelope["request_id"]
     req_message_id = req_envelope["message_id"]
+
+    # 요청 이벤트 JSONL 기록
+    jsonl_config = config.get("jsonl_bus")
+    log_jsonl_event(jsonl_config, {
+        "message_id": req_message_id,
+        "request_id": request_id,
+        "message_type": "evaluation_request",
+        "source_agent": "claude",
+        "target_agent": "gemini",
+        "source": "PostToolUse Hook",
+        "file_path": file_path,
+    })
 
     raw_feedback = call_gemini(
         content="", prompt=prompt, config=config, file_path=file_path,
@@ -96,7 +108,6 @@ def main():
     else:
         feedback = raw_feedback
 
-    jsonl_config = config.get("jsonl_bus")
     a2a_envelope = {
         "message_type": "evaluation_response",
         "source_agent": "gemini",

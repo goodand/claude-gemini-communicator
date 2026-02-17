@@ -16,7 +16,7 @@ if _PROJECT_ROOT not in sys.path:
     sys.path.insert(0, _PROJECT_ROOT)
 
 from src.shared.config import load_config, load_env
-from src.shared.feedback import save_feedback
+from src.shared.feedback import save_feedback, log_jsonl_event
 from src.shared.hook_io import format_hook_output
 from src.core.gemini_service import call_gemini, call_gemini_async
 from src.core.a2a_protocol import (
@@ -106,12 +106,22 @@ def handle_plan_detection(text: str, config: dict) -> str | None:
             source="Stop Hook (Plan 감지)",
         )
 
-    # 요청 엔벨로프 생성 (message_id 추적용)
+    # 요청 엔벨로프 생성 + JSONL 기록
     req_envelope = build_a2a_request(
         "evaluation_request", {"source": "plan_detection"}, hook_source="Stop",
     )
     request_id = req_envelope["request_id"]
     req_message_id = req_envelope["message_id"]
+
+    jsonl_config = config.get("jsonl_bus")
+    log_jsonl_event(jsonl_config, {
+        "message_id": req_message_id,
+        "request_id": request_id,
+        "message_type": "evaluation_request",
+        "source_agent": "claude",
+        "target_agent": "gemini",
+        "source": "Stop Hook (Plan 감지)",
+    })
 
     raw_feedback = call_gemini(content=text, prompt=eval_prompt, config=config)
 

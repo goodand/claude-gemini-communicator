@@ -42,6 +42,28 @@ def save_feedback(feedback: str, source: str, file_path: str | None = None,
                       request_id, a2a_envelope)
 
 
+def log_jsonl_event(jsonl_config: dict | None, envelope: dict) -> None:
+    """JSONL에 임의의 A2A 이벤트를 기록한다 (요청/응답 모두 가능).
+
+    jsonl_config가 None이거나 enabled=false이면 아무것도 하지 않는다.
+    """
+    if not jsonl_config or not jsonl_config.get("enabled"):
+        return
+    jsonl_path = PROJECT_ROOT / jsonl_config.get("path", "plans/gemini/a2a_events.jsonl")
+    jsonl_path.parent.mkdir(parents=True, exist_ok=True)
+
+    record = {"timestamp": datetime.now(timezone.utc).isoformat()}
+    record.update(envelope)
+    line = json.dumps(record, ensure_ascii=False) + "\n"
+
+    with open(jsonl_path, "a", encoding="utf-8") as f:
+        fcntl.flock(f, fcntl.LOCK_EX)
+        try:
+            f.write(line)
+        finally:
+            fcntl.flock(f, fcntl.LOCK_UN)
+
+
 def _append_jsonl(jsonl_config: dict, feedback: str, source: str,
                   file_path: str | None, request_id: str | None,
                   a2a_envelope: dict | None) -> None:

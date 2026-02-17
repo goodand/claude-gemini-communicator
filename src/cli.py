@@ -670,9 +670,46 @@ def cmd_test(args=None):
         ]
         return _build_chain(events, "nonexistent") == []
 
+    def test_build_chain_req_resp_pair():
+        """요청→응답 쌍이 동일 chain으로 묶이는지 확인."""
+        events = [
+            {"message_id": "req-1", "request_id": "r1", "message_type": "evaluation_request",
+             "source_agent": "claude", "timestamp": "2026-01-01T00:00:00"},
+            {"message_id": "resp-1", "parent_message_id": "req-1", "request_id": "r1",
+             "message_type": "evaluation_response", "source_agent": "gemini",
+             "timestamp": "2026-01-01T00:00:30"},
+        ]
+        chain = _build_chain(events, "r1")
+        return (len(chain) == 2
+                and chain[0]["message_type"] == "evaluation_request"
+                and chain[1]["message_type"] == "evaluation_response"
+                and chain[1].get("parent_message_id") == chain[0]["message_id"])
+
+    def test_log_jsonl_event():
+        """log_jsonl_event가 올바르게 기록하는지 확인."""
+        from src.shared.feedback import log_jsonl_event
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".jsonl", delete=False) as tmp:
+            tmp_path = tmp.name
+        try:
+            import src.shared.feedback as fb_mod
+            original_root = fb_mod.PROJECT_ROOT
+            fb_mod.PROJECT_ROOT = Path("/")
+            log_jsonl_event({"enabled": True, "path": tmp_path}, {
+                "message_id": "test-mid",
+                "message_type": "evaluation_request",
+            })
+            fb_mod.PROJECT_ROOT = original_root
+            content = Path(tmp_path).read_text("utf-8").strip()
+            rec = json.loads(content)
+            return rec.get("message_id") == "test-mid" and "timestamp" in rec
+        finally:
+            Path(tmp_path).unlink(missing_ok=True)
+
     run_test("체인 추적 (parent_message_id)", test_build_chain_basic)
     run_test("체인 prefix 매칭", test_build_chain_prefix)
     run_test("체인 미존재 ID → 빈 결과", test_build_chain_empty)
+    run_test("요청→응답 쌍 체인", test_build_chain_req_resp_pair)
+    run_test("log_jsonl_event 기록", test_log_jsonl_event)
 
     # 결과
     print(f"\n{'='*40}")
