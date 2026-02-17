@@ -1,10 +1,20 @@
 #!/usr/bin/env python3
 """agent-parser 공용 유틸리티."""
 
+import os
 import sys
-import fcntl
 from datetime import datetime
 from pathlib import Path
+
+# 크로스플랫폼 파일 락
+if os.name == "nt":
+    import msvcrt
+    def _lock(f): msvcrt.locking(f.fileno(), msvcrt.LK_LOCK, 1)
+    def _unlock(f): msvcrt.locking(f.fileno(), msvcrt.LK_UNLCK, 1)
+else:
+    import fcntl
+    def _lock(f): fcntl.flock(f, fcntl.LOCK_EX)
+    def _unlock(f): fcntl.flock(f, fcntl.LOCK_UN)
 
 
 def read_input(file_path: str = None) -> str | None:
@@ -30,7 +40,7 @@ def read_input(file_path: str = None) -> str | None:
 
 
 def save_feedback(content: str, source_desc: str):
-    """gemini_feedback.md에 결과를 append (fcntl lock)."""
+    """gemini_feedback.md에 결과를 append (크로스플랫폼 lock)."""
     feedback_path = Path.cwd() / "plans" / "gemini" / "gemini_feedback.md"
     for candidate in [feedback_path, Path(__file__).resolve().parent.parent.parent.parent / "plans" / "gemini" / "gemini_feedback.md"]:
         if candidate.parent.exists():
@@ -41,11 +51,11 @@ def save_feedback(content: str, source_desc: str):
     try:
         feedback_path.parent.mkdir(parents=True, exist_ok=True)
         with open(feedback_path, "a", encoding="utf-8") as f:
-            fcntl.flock(f, fcntl.LOCK_EX)
+            _lock(f)
             try:
                 f.write(entry)
             finally:
-                fcntl.flock(f, fcntl.LOCK_UN)
+                _unlock(f)
         print(f"[저장됨] {feedback_path}", file=sys.stderr)
     except IOError as e:
         print(f"[ERROR] 저장 실패: {e}", file=sys.stderr)

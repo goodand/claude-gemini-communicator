@@ -51,6 +51,11 @@
     {"match_type": "*", "target": "gemini"}
   ],
 
+  "feedback_context": {
+    "enabled": true,
+    "max_entries": 3
+  },
+
   "error_detection": {
     "enabled": true,
     "tail_lines": 50,

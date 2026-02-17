@@ -34,7 +34,8 @@ def main():
             pass
 
     from src.shared.config import load_env
-    from src.core.gemini_service import call_gemini
+    from src.core.llm_registry import get_provider
+    import src.core.gemini_service  # noqa: F401 — 레지스트리 등록
 
     load_env()
 
@@ -49,7 +50,8 @@ def main():
     config["async_mode"] = False
 
     try:
-        feedback = call_gemini(content, prompt, config, file_path)
+        provider = get_provider("gemini")
+        feedback = provider.call(content, prompt, config, file_path)
     except Exception as e:
         feedback = f"[ASYNC_ERROR] 백그라운드 Gemini 호출 실패: {e}"
 

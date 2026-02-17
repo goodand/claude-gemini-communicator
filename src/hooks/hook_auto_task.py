@@ -17,7 +17,7 @@ from src.shared.config import load_config, load_env
 from src.shared.feedback import save_feedback, log_jsonl_event
 from src.shared.hook_io import format_hook_output
 from src.core.cooldown import check_cooldown
-from src.core.gemini_service import call_gemini, call_gemini_async
+from src.core.llm_registry import get_provider
 from src.core.a2a_protocol import (
     build_a2a_request,
     build_a2a_evaluation_prompt,
@@ -25,6 +25,10 @@ from src.core.a2a_protocol import (
     a2a_response_to_markdown,
 )
 from src.core.router import resolve_target
+from src.core.feedback_context import build_feedback_context
+
+# GeminiProvider 모듈 로드 → 레지스트리 자동 등록
+import src.core.gemini_service  # noqa: F401
 
 
 def main():
@@ -70,17 +74,23 @@ def main():
         prompt = config.get("evaluation_prompt", "이 문서를 평가해줘.")
     prompt = build_a2a_evaluation_prompt(prompt, config)
 
+    # 피드백 컨텍스트 주입
+    context = build_feedback_context(config, file_path=file_path)
+    if context:
+        prompt = context + "\n\n" + prompt
+
+    # 라우팅: 대상 에이전트 결정
+    target_agent = resolve_target("evaluation_request", config, file_path=file_path)
+    provider = get_provider(target_agent)
+
     # 비동기 모드
     if config.get("async_mode", False):
-        pending_msg = call_gemini_async(
+        pending_msg = provider.call_async(
             content="", prompt=prompt, config=config,
             file_path=file_path, source="PostToolUse Hook",
         )
         print(format_hook_output(pending_msg))
         sys.exit(0)
-
-    # 라우팅: 대상 에이전트 결정
-    target_agent = resolve_target("evaluation_request", config, file_path=file_path)
 
     # 동기 모드: 요청 엔벨로프 생성 + JSONL 기록
     req_envelope = build_a2a_request(
@@ -102,7 +112,7 @@ def main():
         "file_path": file_path,
     })
 
-    raw_feedback = call_gemini(
+    raw_feedback = provider.call(
         content="", prompt=prompt, config=config, file_path=file_path,
     )
 
@@ -114,6 +124,7 @@ def main():
         feedback = raw_feedback
 
     a2a_envelope = {
+        "message_id": str(uuid.uuid4()),
         "message_type": "evaluation_response",
         "source_agent": target_agent,
         "target_agent": "claude",

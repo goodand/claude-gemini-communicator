@@ -13,6 +13,8 @@ from pathlib import Path
 
 from src.shared.config import PROJECT_ROOT, load_env
 from src.shared.hook_io import read_file_content
+from src.core.llm_base import LLMProvider
+from src.core.llm_registry import register
 
 SRC_DIR = PROJECT_ROOT / "src"
 
@@ -114,7 +116,8 @@ def _call_gemini_with_oauth(full_prompt: str, config: dict) -> str:
     timeout = config.get("gemini_timeout", 90)
 
     creds_path = Path(
-        sdk_config.get("oauth_creds_path", "~/.gemini/oauth_creds.json")
+        os.environ.get("GEMINI_OAUTH_CREDS_PATH",
+                        sdk_config.get("oauth_creds_path", "~/.gemini/oauth_creds.json"))
     ).expanduser()
 
     if not creds_path.exists():
@@ -222,6 +225,23 @@ def _call_gemini_cli(content: str, prompt: str, config: dict,
         return f"[ERROR] Gemini CLI를 찾을 수 없습니다: {gemini_cmd}"
     except Exception as e:
         return f"[ERROR] Gemini CLI 호출 중 예외 발생: {e}"
+
+
+class GeminiProvider(LLMProvider):
+    """Gemini LLM 프로바이더 — SDK/CLI 이중화."""
+
+    def call(self, content: str, prompt: str, config: dict,
+             file_path: str | None = None) -> str:
+        return call_gemini(content, prompt, config, file_path)
+
+    def call_async(self, content: str, prompt: str, config: dict,
+                   file_path: str | None = None,
+                   source: str = "Async") -> str:
+        return call_gemini_async(content, prompt, config, file_path, source)
+
+
+# 모듈 로드 시 자동 등록
+register("gemini", GeminiProvider)
 
 
 def call_gemini(content: str, prompt: str, config: dict,

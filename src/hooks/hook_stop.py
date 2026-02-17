@@ -18,7 +18,7 @@ if _PROJECT_ROOT not in sys.path:
 from src.shared.config import load_config, load_env
 from src.shared.feedback import save_feedback, log_jsonl_event
 from src.shared.hook_io import format_hook_output
-from src.core.gemini_service import call_gemini, call_gemini_async
+from src.core.llm_registry import get_provider
 from src.core.a2a_protocol import (
     build_a2a_request,
     build_a2a_classification_prompt,
@@ -28,6 +28,10 @@ from src.core.a2a_protocol import (
 )
 from src.core.error_analyzer import scan_transcript_for_errors, check_error_and_analyze
 from src.core.router import resolve_target
+from src.core.feedback_context import build_feedback_context
+
+# GeminiProvider 모듈 로드 → 레지스트리 자동 등록
+import src.core.gemini_service  # noqa: F401
 
 
 def extract_last_assistant_text(stop_input: dict) -> str:
@@ -78,12 +82,16 @@ def handle_plan_detection(text: str, config: dict) -> str | None:
     if len(text) < min_length:
         return None
 
+    # 분류용 프롬프트 — 라우팅으로 프로바이더 결정
+    target_agent = resolve_target("evaluation_request", config)
+    provider = get_provider(target_agent)
+
     plan_prompt = config.get(
         "plan_detection_prompt",
         "이 텍스트는 소프트웨어 개발 계획입니까? '예' 또는 '아니오'로만 답하시오.",
     )
     plan_prompt = build_a2a_classification_prompt(plan_prompt, config)
-    classification = call_gemini(content=text[:2000], prompt=plan_prompt, config=config)
+    classification = provider.call(content=text[:2000], prompt=plan_prompt, config=config)
 
     is_plan = False
     if config.get("a2a_schema_enabled", False):
@@ -101,14 +109,16 @@ def handle_plan_detection(text: str, config: dict) -> str | None:
     eval_prompt = config.get("evaluation_prompt", "이 문서를 평가해줘.")
     eval_prompt = build_a2a_evaluation_prompt(eval_prompt, config)
 
+    # 피드백 컨텍스트 주입
+    context = build_feedback_context(config)
+    if context:
+        eval_prompt = context + "\n\n" + eval_prompt
+
     if config.get("async_mode", False):
-        return call_gemini_async(
+        return provider.call_async(
             content=text, prompt=eval_prompt, config=config,
             source="Stop Hook (Plan 감지)",
         )
-
-    # 라우팅: 대상 에이전트 결정
-    target_agent = resolve_target("evaluation_request", config)
 
     # 요청 엔벨로프 생성 + JSONL 기록
     req_envelope = build_a2a_request(
@@ -128,7 +138,7 @@ def handle_plan_detection(text: str, config: dict) -> str | None:
         "source": "Stop Hook (Plan 감지)",
     })
 
-    raw_feedback = call_gemini(content=text, prompt=eval_prompt, config=config)
+    raw_feedback = provider.call(content=text, prompt=eval_prompt, config=config)
 
     if config.get("a2a_schema_enabled", False):
         a2a_resp = parse_a2a_response(raw_feedback, request_id=request_id)
@@ -137,6 +147,7 @@ def handle_plan_detection(text: str, config: dict) -> str | None:
         feedback = raw_feedback
 
     a2a_envelope = {
+        "message_id": str(uuid.uuid4()),
         "message_type": "evaluation_response",
         "source_agent": target_agent,
         "target_agent": "claude",

@@ -3,9 +3,18 @@
 
 import os
 import sys
-import fcntl
 from datetime import datetime
 from pathlib import Path
+
+# 크로스플랫폼 파일 락
+if os.name == "nt":
+    import msvcrt
+    def _lock(f): msvcrt.locking(f.fileno(), msvcrt.LK_LOCK, 1)
+    def _unlock(f): msvcrt.locking(f.fileno(), msvcrt.LK_UNLCK, 1)
+else:
+    import fcntl
+    def _lock(f): fcntl.flock(f, fcntl.LOCK_EX)
+    def _unlock(f): fcntl.flock(f, fcntl.LOCK_UN)
 
 
 def load_env(env_path: Path = None):
@@ -56,7 +65,7 @@ def read_input(file_path: str = None, max_chars: int = 50000) -> str | None:
 
 
 def save_feedback(feedback: str, source: str, file_path: str = None):
-    """gemini_feedback.md에 피드백을 추가 (fcntl lock)."""
+    """gemini_feedback.md에 피드백을 추가 (크로스플랫폼 lock)."""
     feedback_path = Path.cwd() / "plans" / "gemini" / "gemini_feedback.md"
     for candidate in [feedback_path, Path(__file__).resolve().parent.parent.parent.parent / "plans" / "gemini" / "gemini_feedback.md"]:
         if candidate.parent.exists():
@@ -68,10 +77,10 @@ def save_feedback(feedback: str, source: str, file_path: str = None):
     try:
         feedback_path.parent.mkdir(parents=True, exist_ok=True)
         with open(feedback_path, "a", encoding="utf-8") as f:
-            fcntl.flock(f, fcntl.LOCK_EX)
+            _lock(f)
             try:
                 f.write(entry)
             finally:
-                fcntl.flock(f, fcntl.LOCK_UN)
+                _unlock(f)
     except IOError as e:
         print(f"[ERROR] 피드백 저장 실패: {e}", file=sys.stderr)

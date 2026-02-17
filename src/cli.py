@@ -929,6 +929,113 @@ def cmd_test(args=None):
     run_test("Scheduler: 작업 라이프사이클", test_scheduler_lifecycle)
     run_test("Scheduler: 오래된 작업 정리", test_scheduler_cleanup)
 
+    # 9. LLM 추상화
+    print("\n[9] LLM 추상화")
+    from src.core.llm_base import LLMProvider
+    from src.core.llm_registry import get_provider, register, _PROVIDERS
+
+    def test_gemini_provider_registered():
+        """GeminiProvider가 레지스트리에 등록되어 있는지 확인."""
+        import src.core.gemini_service  # noqa: F401 — 등록 트리거
+        return "gemini" in _PROVIDERS
+
+    def test_get_provider_gemini():
+        """get_provider('gemini')가 LLMProvider 인스턴스를 반환하는지 확인."""
+        provider = get_provider("gemini")
+        return isinstance(provider, LLMProvider)
+
+    def test_get_provider_unknown():
+        """get_provider('unknown')이 KeyError를 발생시키는지 확인."""
+        try:
+            get_provider("unknown_provider_xyz")
+            return False
+        except KeyError:
+            return True
+
+    def test_call_gemini_compat():
+        """call_gemini() 하위 호환 함수가 여전히 존재하는지 확인."""
+        from src.core.gemini_service import call_gemini, call_gemini_async
+        return callable(call_gemini) and callable(call_gemini_async)
+
+    run_test("GeminiProvider 등록 확인", test_gemini_provider_registered)
+    run_test("get_provider('gemini') 반환", test_get_provider_gemini)
+    run_test("get_provider('unknown') → KeyError", test_get_provider_unknown)
+    run_test("call_gemini() 하위 호환 유지", test_call_gemini_compat)
+
+    # 10. 피드백 컨텍스트
+    print("\n[10] 피드백 컨텍스트")
+    from src.core.feedback_context import build_feedback_context
+
+    def test_feedback_context_empty_jsonl():
+        """빈 JSONL → 빈 문자열 반환."""
+        cfg = {
+            "feedback_context": {"enabled": True, "max_entries": 3},
+            "jsonl_bus": {"enabled": True, "path": "nonexistent_test_fc.jsonl"},
+        }
+        return build_feedback_context(cfg) == ""
+
+    def test_feedback_context_file_path_filter():
+        """file_path 필터가 작동하는지 확인."""
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".jsonl", delete=False, encoding="utf-8") as tmp:
+            events_data = [
+                {"message_type": "evaluation_response", "file_path": "a.py",
+                 "feedback": "변수명이 모호함", "timestamp": "2026-02-17T10:00:00"},
+                {"message_type": "evaluation_response", "file_path": "b.py",
+                 "feedback": "에러 처리 미흡", "timestamp": "2026-02-17T11:00:00"},
+            ]
+            for e in events_data:
+                tmp.write(json.dumps(e, ensure_ascii=False) + "\n")
+            tmp_path = tmp.name
+        try:
+            import src.core.feedback_context as fc_mod
+            original_root = fc_mod.PROJECT_ROOT
+            fc_mod.PROJECT_ROOT = Path("/")
+            cfg = {
+                "feedback_context": {"enabled": True, "max_entries": 3},
+                "jsonl_bus": {"enabled": True, "path": tmp_path},
+            }
+            result = build_feedback_context(cfg, file_path="a.py")
+            fc_mod.PROJECT_ROOT = original_root
+            return "변수명이 모호함" in result and "에러 처리 미흡" not in result
+        finally:
+            Path(tmp_path).unlink(missing_ok=True)
+
+    def test_feedback_context_max_entries():
+        """max_entries 제한이 작동하는지 확인."""
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".jsonl", delete=False, encoding="utf-8") as tmp:
+            for i in range(5):
+                e = {"message_type": "evaluation_response",
+                     "feedback": f"피드백 {i}", "timestamp": f"2026-02-17T{10+i:02d}:00:00"}
+                tmp.write(json.dumps(e, ensure_ascii=False) + "\n")
+            tmp_path = tmp.name
+        try:
+            import src.core.feedback_context as fc_mod
+            original_root = fc_mod.PROJECT_ROOT
+            fc_mod.PROJECT_ROOT = Path("/")
+            cfg = {
+                "feedback_context": {"enabled": True, "max_entries": 2},
+                "jsonl_bus": {"enabled": True, "path": tmp_path},
+            }
+            result = build_feedback_context(cfg)
+            fc_mod.PROJECT_ROOT = original_root
+            # 최근 2건만 포함 (피드백 3, 피드백 4)
+            return "피드백 3" in result and "피드백 4" in result and "피드백 0" not in result
+        finally:
+            Path(tmp_path).unlink(missing_ok=True)
+
+    def test_feedback_context_disabled():
+        """disabled일 때 빈 문자열 반환."""
+        cfg = {
+            "feedback_context": {"enabled": False},
+            "jsonl_bus": {"enabled": True, "path": "some.jsonl"},
+        }
+        return build_feedback_context(cfg) == ""
+
+    run_test("빈 JSONL → 빈 문자열 반환", test_feedback_context_empty_jsonl)
+    run_test("file_path 필터 작동", test_feedback_context_file_path_filter)
+    run_test("max_entries 제한 작동", test_feedback_context_max_entries)
+    run_test("disabled일 때 빈 문자열 반환", test_feedback_context_disabled)
+
     # 결과
     print(f"\n{'='*40}")
     print(f"결과: {passed}/{total} 통과", end="")

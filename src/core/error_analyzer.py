@@ -148,7 +148,8 @@ def check_error_and_analyze(errors: list, config: dict) -> str | None:
         return None
 
     # 지연 import — 순환 의존 방지
-    from src.core.gemini_service import call_gemini
+    from src.core.llm_registry import get_provider
+    import src.core.gemini_service  # noqa: F401 — 레지스트리 등록
     from src.shared.feedback import save_feedback, log_jsonl_event
 
     error_config = config.get("error_detection", {})
@@ -208,7 +209,8 @@ def check_error_and_analyze(errors: list, config: dict) -> str | None:
         "error_count": len(errors_to_analyze),
     })
 
-    feedback = call_gemini(content="", prompt=full_prompt, config=config)
+    provider = get_provider("gemini")
+    feedback = provider.call(content="", prompt=full_prompt, config=config)
 
     history = _load_error_history()
     history["last_analysis_time"] = time.time()

@@ -1,11 +1,20 @@
 #!/usr/bin/env python3
 """gemini-reviewer 공용 유틸리티."""
 
-import fcntl
 import os
 import sys
 from datetime import datetime
 from pathlib import Path
+
+# 크로스플랫폼 파일 락
+if os.name == "nt":
+    import msvcrt
+    def _lock(f): msvcrt.locking(f.fileno(), msvcrt.LK_LOCK, 1)
+    def _unlock(f): msvcrt.locking(f.fileno(), msvcrt.LK_UNLCK, 1)
+else:
+    import fcntl
+    def _lock(f): fcntl.flock(f, fcntl.LOCK_EX)
+    def _unlock(f): fcntl.flock(f, fcntl.LOCK_UN)
 
 CODE_EXTENSIONS = {
     ".py", ".js", ".ts", ".jsx", ".tsx",
@@ -57,7 +66,7 @@ def read_input(file_path: str = None, max_chars: int = 50000) -> str:
 
 
 def save_feedback(feedback: str, source: str = "Gemini Reviewer Skill", file_path: str = None):
-    """gemini_feedback.md에 결과를 저장 (fcntl lock)."""
+    """gemini_feedback.md에 결과를 저장 (크로스플랫폼 lock)."""
     feedback_path = Path.cwd() / "plans" / "gemini" / "gemini_feedback.md"
     for candidate in [
         feedback_path,
@@ -73,9 +82,9 @@ def save_feedback(feedback: str, source: str = "Gemini Reviewer Skill", file_pat
 
     feedback_path.parent.mkdir(parents=True, exist_ok=True)
     with open(feedback_path, "a", encoding="utf-8") as f:
-        fcntl.flock(f, fcntl.LOCK_EX)
+        _lock(f)
         try:
             f.write(entry)
         finally:
-            fcntl.flock(f, fcntl.LOCK_UN)
+            _unlock(f)
     print(f"[저장됨] {feedback_path}", file=sys.stderr)
