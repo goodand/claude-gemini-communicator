@@ -76,7 +76,7 @@ Claude Code Hooks를 통해 Write/Edit 도구 사용 시 자동 트리거됩니�
 | `src/hooks/hook_stop.py` | Stop Hook (Plan 감지 + 에러 감지) | ~140 |
 | `src/hooks/hook_pre_tool.py` | PreToolUse Hook (위험 명령 차단/경고) | ~160 |
 | `src/async_runner.py` | 비동기 백그라운드 Gemini 호출 실행기 | ~60 |
-| `src/cli.py` | CLI 관리 도구 (doctor/status/stats/search/test/clear) + JSONL 검색 | ~550 |
+| `src/cli.py` | CLI (doctor/status/stats/search/chain/test/clear) + JSONL 전체 지원 | ~700 |
 
 ### 설정 + 환경
 
@@ -255,7 +255,7 @@ hook_pre_tool.py ─→ a2a_protocol.py ───→ hook_io.py
 ## 테스트 방법
 
 ```bash
-# 1. CLI 전체 자동 테스트 (22건 — config, 에러감지, A2A, PreToolUse, JSONL 등)
+# 1. CLI 전체 자동 테스트 (27건 — config, 에러감지, A2A, PreToolUse, JSONL, 체인 등)
 python3.13 src/cli.py test
 
 # 2. SDK 호출 테스트
@@ -268,10 +268,20 @@ echo '{"tool_name":"Write","tool_input":{"file_path":"plans/test.md"}}' | python
 # 4. PreToolUse Hook 테스트
 echo '{"tool_name":"Bash","tool_input":{"command":"rm -rf /"}}' | python3 src/hooks/hook_pre_tool.py
 
-# 5. 시스템 진단
-python3 src/cli.py doctor
+# 5. 시스템 진단 (JSONL 버스 포함)
+python3.13 src/cli.py doctor
 
-# 6. Skill 자립성 테스트
+# 6. JSONL 체인 추적
+python3.13 src/cli.py chain --list
+python3.13 src/cli.py chain <request-id-prefix>
+
+# 7. JSONL 통계
+python3.13 src/cli.py stats --jsonl
+
+# 8. JSONL 검색
+python3.13 src/cli.py search --jsonl --agent gemini
+
+# 9. Skill 자립성 테스트
 cp -r skills/agent-parser /tmp/test-parser && cd /tmp/test-parser && python3 scripts/parse.py --help
 ```
 
