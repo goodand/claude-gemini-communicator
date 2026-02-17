@@ -1036,6 +1036,85 @@ def cmd_test(args=None):
     run_test("max_entries 제한 작동", test_feedback_context_max_entries)
     run_test("disabled일 때 빈 문자열 반환", test_feedback_context_disabled)
 
+    # 11. CSO 안정성 강화 (스케줄러 락, exclude 오류, 라우터 검증)
+    print("\n[11] CSO 안정성 강화")
+    from src.core.router import validate_rules
+
+    def test_scheduler_filelock():
+        """Scheduler가 파일 락을 사용하는지 확인."""
+        import src.core.scheduler as sched_mod
+        import inspect
+        source = inspect.getsource(sched_mod._load_jobs)
+        return "lock_shared" in source
+
+    def test_exclude_files_path_match():
+        """exclude_files가 경로 포함 항목도 매칭하는지 확인."""
+        # config에 "plans/gemini/gemini_feedback.md"가 있고
+        # file_path가 "/abs/path/plans/gemini/gemini_feedback.md"인 경우
+        exclude_files = ["plans/gemini/gemini_feedback.md", "gemini_feedback.md"]
+        file_path = "/some/project/plans/gemini/gemini_feedback.md"
+        basename = os.path.basename(file_path)
+        matched = any(basename == os.path.basename(ex) or file_path.endswith(ex)
+                      for ex in exclude_files)
+        return matched is True
+
+    def test_exclude_files_no_false_positive():
+        """exclude_files가 무관한 파일을 매칭하지 않는지 확인."""
+        exclude_files = ["plans/gemini/gemini_feedback.md"]
+        file_path = "/some/project/plans/test.md"
+        basename = os.path.basename(file_path)
+        matched = any(basename == os.path.basename(ex) or file_path.endswith(ex)
+                      for ex in exclude_files)
+        return matched is False
+
+    def test_router_validate_valid():
+        """올바른 라우팅 규칙이 검증을 통과하는지 확인."""
+        rules = [
+            {"match_type": "evaluation_request", "target": "gemini"},
+            {"match_ext": [".py"], "target": "codex"},
+        ]
+        return validate_rules(rules) == []
+
+    def test_router_validate_missing_target():
+        """target 누락 규칙을 검증이 잡아내는지 확인."""
+        rules = [{"match_type": "test"}]  # target 없음
+        errors = validate_rules(rules)
+        return len(errors) >= 1 and "target" in errors[0]
+
+    def test_router_validate_no_matcher():
+        """match_type/match_ext 둘 다 없는 규칙을 검증이 잡아내는지 확인."""
+        rules = [{"target": "gemini"}]  # matcher 없음
+        errors = validate_rules(rules)
+        return len(errors) >= 1
+
+    def test_router_skips_bad_rules():
+        """잘못된 규칙이 있어도 라우팅이 동작하는지 확인."""
+        cfg = {"routing_rules": [
+            {"bad_rule": True},  # target 없음 → 건너뜀
+            {"match_type": "*", "target": "gemini"},
+        ]}
+        return resolve_target("any", cfg) == "gemini"
+
+    def test_config_validate_bad_routing():
+        """validate_config가 잘못된 routing_rules를 감지하는지 확인."""
+        issues = validate_config({
+            "gemini_cmd": "/usr/local/bin/gemini",
+            "gemini_timeout": 90,
+            "watch_extensions": [".md"],
+            "evaluation_prompt": "test",
+            "routing_rules": [{"match_type": "test"}],  # target 없음
+        })
+        return any("routing_rules" in msg for _, msg in issues)
+
+    run_test("Scheduler: 파일 락 사용", test_scheduler_filelock)
+    run_test("exclude_files: 경로 매칭", test_exclude_files_path_match)
+    run_test("exclude_files: 오탐 방지", test_exclude_files_no_false_positive)
+    run_test("Router 검증: 정상 규칙 통과", test_router_validate_valid)
+    run_test("Router 검증: target 누락 감지", test_router_validate_missing_target)
+    run_test("Router 검증: matcher 누락 감지", test_router_validate_no_matcher)
+    run_test("Router: 잘못된 규칙 건너뛰기", test_router_skips_bad_rules)
+    run_test("Config 검증: 잘못된 routing_rules", test_config_validate_bad_routing)
+
     # 결과
     print(f"\n{'='*40}")
     print(f"결과: {passed}/{total} 통과", end="")

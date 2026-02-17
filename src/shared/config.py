@@ -89,4 +89,11 @@ def validate_config(config: dict) -> list:
             except re.error as e:
                 issues.append(("error", f"custom_block_patterns[{i}] 정규식 오류: {e}"))
 
+    # 라우팅 규칙 검증
+    routing = config.get("routing_rules")
+    if routing is not None:
+        from src.core.router import validate_rules
+        for err_msg in validate_rules(routing):
+            issues.append(("error", f"routing_rules: {err_msg}"))
+
     return issues

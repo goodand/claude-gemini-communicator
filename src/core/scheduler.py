@@ -9,23 +9,34 @@ import time
 from pathlib import Path
 
 from src.shared.config import PROJECT_ROOT
+from src.shared.filelock import lock_exclusive, lock_shared, unlock
 
 _JOBS_PATH = PROJECT_ROOT / ".scheduler_jobs.json"
 
 
 def _load_jobs() -> dict:
-    """작업 상태 파일을 로드한다."""
+    """작업 상태 파일을 로드한다 (공유 락)."""
     if not _JOBS_PATH.exists():
         return {"jobs": {}}
     try:
-        return json.loads(_JOBS_PATH.read_text("utf-8"))
+        with open(_JOBS_PATH, "r", encoding="utf-8") as f:
+            lock_shared(f)
+            try:
+                return json.load(f)
+            finally:
+                unlock(f)
     except (json.JSONDecodeError, IOError):
         return {"jobs": {}}
 
 
 def _save_jobs(data: dict) -> None:
-    """작업 상태 파일을 저장한다."""
-    _JOBS_PATH.write_text(json.dumps(data, ensure_ascii=False, indent=2), "utf-8")
+    """작업 상태 파일을 저장한다 (배타적 락)."""
+    with open(_JOBS_PATH, "w", encoding="utf-8") as f:
+        lock_exclusive(f)
+        try:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+        finally:
+            unlock(f)
 
 
 def register_job(job_id: str, job_type: str, target_agent: str,

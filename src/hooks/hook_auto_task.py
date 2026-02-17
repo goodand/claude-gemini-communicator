@@ -56,10 +56,11 @@ def main():
     if not any(file_path.endswith(ext) for ext in extensions):
         sys.exit(0)
 
-    # 제외 파일 확인
+    # 제외 파일 확인 (basename 또는 경로 부분 매칭)
     exclude_files = config.get("exclude_files", [])
     basename = os.path.basename(file_path)
-    if basename in exclude_files:
+    if any(basename == os.path.basename(ex) or file_path.endswith(ex)
+           for ex in exclude_files):
         sys.exit(0)
 
     # 쿨다운 확인
