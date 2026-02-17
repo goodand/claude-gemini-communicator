@@ -233,8 +233,63 @@ def cmd_status(args=None):
 
 # ── stats ──
 
+def _stats_jsonl():
+    """JSONL 이벤트 통계를 출력한다."""
+    jsonl_path = _get_jsonl_path()
+    events = parse_jsonl_events(jsonl_path)
+    if not events:
+        print(f"JSONL 이벤트가 없습니다: {jsonl_path}")
+        return
+
+    print(f"=== JSONL Event Statistics ===\n")
+    print(f"총 이벤트 수: {len(events)}")
+
+    # 메시지 타입별
+    types = {}
+    agents = {}
+    dates = []
+    pairs = 0
+    for e in events:
+        mt = e.get("message_type", "unknown")
+        types[mt] = types.get(mt, 0) + 1
+        sa = e.get("source_agent", e.get("source", "unknown"))
+        agents[sa] = agents.get(sa, 0) + 1
+        ts = e.get("timestamp", "")[:10]
+        if ts:
+            dates.append(ts)
+        if e.get("parent_message_id"):
+            pairs += 1
+
+    print()
+    print("[메시지 타입별]")
+    for mt, count in sorted(types.items(), key=lambda x: x[1], reverse=True):
+        print(f"  {mt}: {count}건")
+
+    print()
+    print("[에이전트별]")
+    for ag, count in sorted(agents.items(), key=lambda x: x[1], reverse=True):
+        print(f"  {ag}: {count}건")
+
+    print()
+    print(f"[체인 연결] parent_message_id 있는 이벤트: {pairs}건")
+
+    if dates:
+        print()
+        print(f"[기간] {min(dates)} ~ {max(dates)}")
+        day_counts = {}
+        for d in dates:
+            day_counts[d] = day_counts.get(d, 0) + 1
+        print("[일별]")
+        for day, count in sorted(day_counts.items())[-7:]:
+            bar = "█" * count
+            print(f"  {day}: {bar} ({count})")
+
+
 def cmd_stats(args=None):
-    """gemini_feedback.md에서 통계를 추출한다."""
+    """gemini_feedback.md 또는 JSONL에서 통계를 추출한다."""
+    if getattr(args, "jsonl", False):
+        return _stats_jsonl()
+
     print("=== Feedback Statistics ===\n")
     if not FEEDBACK_PATH.exists():
         print("gemini_feedback.md가 없습니다.")
@@ -905,6 +960,8 @@ def main():
             subparser.add_argument("--agent", help="에이전트 필터 (JSONL 모드)", default=None)
             subparser.add_argument("--request-id", dest="request_id", help="request_id 필터 (JSONL 모드)", default=None)
             subparser.add_argument("--since", help="날짜 필터 (JSONL 모드, YYYY-MM-DD)", default=None)
+        if name == "stats":
+            subparser.add_argument("--jsonl", action="store_true", help="JSONL 이벤트 통계")
         if name == "chain":
             subparser.add_argument("id", nargs="?", default="", help="추적할 request_id 또는 message_id (prefix 매칭)")
             subparser.add_argument("--list", action="store_true", help="모든 request_id 목록 표시")
