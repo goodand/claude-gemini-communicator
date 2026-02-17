@@ -55,9 +55,24 @@ Claude Code Hooks를 통해 Write/Edit 도구 사용 시 자동 트리거됩니�
 - **Hook Python**: `python3` → `python3.13` (Homebrew, 3.9.6 호환성 문제 해결)
 - 기존 A2A 테스트 버그 수정 (status dict vs 문자열 비교)
 
-### 미구현 (장기 비전)
+### Phase 8+ — 완료 (Reference Architecture + Codex Review 버그 수정)
+- **Reference Architecture**: Router/Memory/Scheduler 3레이어 분리
+  - `src/core/router.py`: 메시지 라우팅 규칙 엔진 (match_type/match_ext, config.routing_rules)
+  - `src/core/memory.py`: JSONL 이벤트 조회/필터/요약 인터페이스
+  - `src/core/scheduler.py`: 비동기 작업 등록/추적/정리 (라이프사이클 관리)
+- **Router Hook 통합**: hook_auto_task, hook_stop에서 resolve_target() 사용
+- **Codex Review 버그 수정 (3건)**:
+  - P2: 응답 JSONL envelope에 message_id 누락 → 3곳 수정
+  - P2: Router가 gemini 외 에이전트 선택 시 fallback 가드 추가
+  - P3: Markdown 파서 정규식이 request_id 포함 헤더 미대응 → 2단계 추출로 변경
+- **Codex 코드베이스 분석**: `plans/codex/codebase_analysis.md` (Codex gpt-5.3-codex 자동 생성)
+
+### 미통합 (다음 세션 작업 대상)
+- `memory.py` — CLI의 `parse_jsonl_events`와 중복, 런타임 미사용 → 일원화 필요
+- `scheduler.py` — `async_runner`와 미연결 → 통합 필요
+- `config.async_timeout` — 소비처 없음
+- Gemini CSO 아키텍처 비판 (Gemini 쿼터 회복 후)
 - Agent Teams 통합 (`claude --teammate-mode tmux`)
-- Reference Architecture (Scheduler/Router/Memory 분리)
 
 ## 핵심 파일
 
