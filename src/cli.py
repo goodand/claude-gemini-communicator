@@ -1,4 +1,4 @@
-"""CLI 관리 도구: 시스템 진단, 상태, 통계, 검색, 테스트, 초기화.
+"""CLI 관리 도구: 시스템 진단, 상태, 통계, 검색, 테스트, 초기화, Hook 설치.
 
 Usage:
     python3 src/cli.py doctor   — 시스템 진단
@@ -7,6 +7,8 @@ Usage:
     python3 src/cli.py search <keyword>  — 피드백 검색
     python3 src/cli.py test     — 전체 자동 테스트
     python3 src/cli.py clear    — 상태 파일 초기화
+    python3 src/cli.py install  — 다른 프로젝트에 Hook 등록
+    python3 src/cli.py uninstall — Hook 등록 해제
 """
 
 import argparse
@@ -1434,6 +1436,143 @@ def cmd_chain(args):
         print()
 
 
+# ── install / uninstall ──
+
+_HOOK_MARKER = "claude-gemini-communicator/src/hooks/"
+
+_INSTALL_HOOKS = {
+    "PreToolUse": {
+        "matcher": "Bash",
+        "hook": {"type": "command",
+                 "command": f"python3.13 {PROJECT_ROOT}/src/hooks/hook_pre_tool.py",
+                 "timeout": 10},
+    },
+    "PostToolUse": {
+        "matcher": "Write|Edit",
+        "hook": {"type": "command",
+                 "command": f"python3.13 {PROJECT_ROOT}/src/hooks/hook_auto_task.py",
+                 "timeout": 120},
+    },
+    "Stop": {
+        "matcher": None,
+        "hook": {"type": "command",
+                 "command": f"python3.13 {PROJECT_ROOT}/src/hooks/hook_stop.py",
+                 "timeout": 120},
+    },
+}
+
+
+def _load_settings(target_dir: Path) -> dict:
+    """대상 디렉토리의 .claude/settings.local.json을 읽거나 기본값 반환."""
+    settings_file = target_dir / ".claude" / "settings.local.json"
+    if settings_file.exists():
+        return json.loads(settings_file.read_text("utf-8"))
+    return {"hooks": {}}
+
+
+def _save_settings(target_dir: Path, settings: dict):
+    """대상 디렉토리의 .claude/settings.local.json에 저장."""
+    claude_dir = target_dir / ".claude"
+    claude_dir.mkdir(parents=True, exist_ok=True)
+    settings_file = claude_dir / "settings.local.json"
+    settings_file.write_text(json.dumps(settings, indent=2, ensure_ascii=False) + "\n", "utf-8")
+
+
+def cmd_install(args):
+    """다른 프로젝트 디렉토리에 Hook을 등록한다."""
+    target_dir = Path(getattr(args, "target", ".")).resolve()
+    settings = _load_settings(target_dir)
+    hooks = settings.setdefault("hooks", {})
+
+    installed = 0
+    skipped = 0
+
+    for hook_type, spec in _INSTALL_HOOKS.items():
+        hook_list = hooks.setdefault(hook_type, [])
+
+        # 이미 등록 여부 확인
+        already = False
+        for group in hook_list:
+            for h in group.get("hooks", []):
+                if _HOOK_MARKER in h.get("command", ""):
+                    already = True
+                    break
+            if already:
+                break
+
+        if already:
+            skipped += 1
+            continue
+
+        # matcher가 같은 그룹이 있으면 거기에 추가, 없으면 새 그룹
+        matcher = spec["matcher"]
+        target_group = None
+        for group in hook_list:
+            if group.get("matcher") == matcher:
+                target_group = group
+                break
+
+        if target_group:
+            target_group["hooks"].append(spec["hook"])
+        else:
+            new_group = {"hooks": [spec["hook"]]}
+            if matcher is not None:
+                new_group["matcher"] = matcher
+            hook_list.append(new_group)
+
+        installed += 1
+
+    _save_settings(target_dir, settings)
+
+    if installed > 0:
+        print(f"설치 완료: {installed}개 Hook 등록 ({target_dir})")
+    if skipped > 0:
+        print(f"이미 설치됨: {skipped}개 Hook 건너뜀")
+    if installed == 0 and skipped == len(_INSTALL_HOOKS):
+        print("모든 Hook이 이미 설치되어 있습니다.")
+
+
+def cmd_uninstall(args):
+    """프로젝트 디렉토리에서 communicator Hook을 제거한다."""
+    target_dir = Path(getattr(args, "target", ".")).resolve()
+    settings_file = target_dir / ".claude" / "settings.local.json"
+
+    if not settings_file.exists():
+        print("설치된 Hook이 없습니다. (.claude/settings.local.json 없음)")
+        return
+
+    settings = json.loads(settings_file.read_text("utf-8"))
+    hooks = settings.get("hooks", {})
+    removed = 0
+
+    for hook_type in list(hooks.keys()):
+        hook_list = hooks[hook_type]
+        new_list = []
+        for group in hook_list:
+            new_hooks = [h for h in group.get("hooks", [])
+                         if _HOOK_MARKER not in h.get("command", "")]
+            if new_hooks:
+                group["hooks"] = new_hooks
+                new_list.append(group)
+            else:
+                # 그룹의 모든 hook이 제거됨
+                pass
+            removed += len(group.get("hooks", [])) - len(new_hooks)
+
+        if new_list:
+            hooks[hook_type] = new_list
+        else:
+            del hooks[hook_type]
+
+    settings["hooks"] = hooks
+    _save_settings(target_dir, settings)
+
+    if removed > 0:
+        print(f"제거 완료: {removed}개 Hook 삭제 ({target_dir})")
+    else:
+        print("제거할 communicator Hook이 없습니다.")
+
+
 # ── clear ──
 
 def cmd_clear(args=None):
@@ -1468,6 +1607,8 @@ COMMANDS = {
     "chain": ("메시지 체인 추적", cmd_chain),
     "test": ("전체 자동 테스트", cmd_test),
     "clear": ("상태 파일 초기화", cmd_clear),
+    "install": ("다른 프로젝트에 Hook 등록", cmd_install),
+    "uninstall": ("Hook 등록 해제", cmd_uninstall),
 }
 
 
