@@ -642,6 +642,38 @@ def cmd_test(args=None):
     run_test("jsonl_bus config 검증", test_jsonl_config_validation)
     run_test("JSONL 이벤트 파싱", test_parse_jsonl_events)
 
+    # 7. 멀티홉 체인 추적
+    print("\n[7] 멀티홉 체인 추적")
+
+    def test_build_chain_basic():
+        """parent_message_id로 연결된 체인을 올바르게 추적하는지 확인."""
+        events = [
+            {"message_id": "m1", "request_id": "r1", "message_type": "req", "timestamp": "2026-01-01T00:00:00"},
+            {"message_id": "m2", "parent_message_id": "m1", "request_id": "r1", "message_type": "resp", "timestamp": "2026-01-01T00:01:00"},
+            {"message_id": "m3", "request_id": "r2", "message_type": "other", "timestamp": "2026-01-01T00:02:00"},
+        ]
+        chain = _build_chain(events, "r1")
+        return len(chain) == 2 and chain[0]["message_id"] == "m1" and chain[1]["message_id"] == "m2"
+
+    def test_build_chain_prefix():
+        """prefix 매칭으로 체인을 찾는지 확인."""
+        events = [
+            {"message_id": "abc-123-456", "request_id": "xyz-789", "timestamp": "2026-01-01T00:00:00"},
+        ]
+        chain = _build_chain(events, "abc-123")
+        return len(chain) == 1
+
+    def test_build_chain_empty():
+        """존재하지 않는 ID에 대해 빈 체인을 반환하는지 확인."""
+        events = [
+            {"message_id": "m1", "request_id": "r1", "timestamp": "2026-01-01T00:00:00"},
+        ]
+        return _build_chain(events, "nonexistent") == []
+
+    run_test("체인 추적 (parent_message_id)", test_build_chain_basic)
+    run_test("체인 prefix 매칭", test_build_chain_prefix)
+    run_test("체인 미존재 ID → 빈 결과", test_build_chain_empty)
+
     # 결과
     print(f"\n{'='*40}")
     print(f"결과: {passed}/{total} 통과", end="")
@@ -650,6 +682,144 @@ def cmd_test(args=None):
     else:
         print(" — ALL PASSED ✓")
     return failed == 0
+
+
+# ── chain ──
+
+def _get_jsonl_path() -> Path:
+    """JSONL 이벤트 파일 경로를 반환한다."""
+    config = load_config()
+    jsonl_config = config.get("jsonl_bus", {})
+    return PROJECT_ROOT / jsonl_config.get("path", "plans/gemini/a2a_events.jsonl")
+
+
+def _build_chain(events: list, start_id: str) -> list:
+    """start_id를 기준으로 parent_message_id 체인을 양방향 탐색한다.
+
+    start_id는 request_id, message_id, parent_message_id 중 어디든 매칭.
+    """
+    # 인덱스 구축
+    by_message_id = {}
+    by_parent = {}  # parent_message_id → children
+    by_request_id = {}
+    for e in events:
+        mid = e.get("message_id", "")
+        if mid:
+            by_message_id[mid] = e
+        pid = e.get("parent_message_id", "")
+        if pid:
+            by_parent.setdefault(pid, []).append(e)
+        rid = e.get("request_id", "")
+        if rid:
+            by_request_id.setdefault(rid, []).append(e)
+
+    # 시작점 탐색: request_id → message_id → parent_message_id prefix 매칭
+    seed_events = []
+    if start_id in by_request_id:
+        seed_events = by_request_id[start_id]
+    elif start_id in by_message_id:
+        seed_events = [by_message_id[start_id]]
+    else:
+        # prefix 매칭
+        for e in events:
+            for field in ("request_id", "message_id", "parent_message_id"):
+                val = e.get(field, "")
+                if val and val.startswith(start_id):
+                    seed_events.append(e)
+                    break
+
+    if not seed_events:
+        return []
+
+    # BFS: seed에서 위아래로 탐색
+    visited = set()
+    chain = []
+    queue = list(seed_events)
+    while queue:
+        e = queue.pop(0)
+        mid = e.get("message_id", id(e))
+        if mid in visited:
+            continue
+        visited.add(mid)
+        chain.append(e)
+        # 위로: 이 이벤트의 parent를 찾기
+        pid = e.get("parent_message_id", "")
+        if pid and pid in by_message_id and pid not in visited:
+            queue.append(by_message_id[pid])
+        # 아래로: 이 이벤트를 parent로 가진 자식 찾기
+        if mid in by_parent:
+            for child in by_parent[mid]:
+                cmid = child.get("message_id", "")
+                if cmid not in visited:
+                    queue.append(child)
+
+    # 타임스탬프 순 정렬
+    chain.sort(key=lambda e: e.get("timestamp", ""))
+    return chain
+
+
+def cmd_chain(args):
+    """메시지 체인을 추적하여 시각화한다."""
+    start_id = args.id
+    jsonl_path = _get_jsonl_path()
+    events = parse_jsonl_events(jsonl_path)
+
+    if not events:
+        print(f"JSONL 이벤트가 없습니다: {jsonl_path}")
+        return
+
+    # --list 모드: 모든 request_id 목록
+    if getattr(args, "list", False):
+        rids = {}
+        for e in events:
+            rid = e.get("request_id", "")
+            if rid:
+                ts = e.get("timestamp", "?")[:19]
+                src = e.get("source", e.get("source_agent", "?"))
+                msg_type = e.get("message_type", "?")
+                if rid not in rids:
+                    rids[rid] = {"ts": ts, "src": src, "type": msg_type, "count": 0}
+                rids[rid]["count"] += 1
+
+        print(f"=== JSONL request_id 목록: {len(rids)}개 ===\n")
+        for rid, info in sorted(rids.items(), key=lambda x: x[1]["ts"]):
+            print(f"  {rid[:12]}  {info['ts']}  {info['src']}  ({info['count']}건)")
+        return
+
+    if not start_id:
+        print("추적할 ID를 지정하세요: python3.13 src/cli.py chain <id>")
+        print("전체 목록: python3.13 src/cli.py chain --list")
+        return
+
+    chain = _build_chain(events, start_id)
+    if not chain:
+        print(f"'{start_id}'와 일치하는 체인을 찾을 수 없습니다.")
+        return
+
+    print(f"=== 메시지 체인 ({len(chain)}건) ===\n")
+    for i, e in enumerate(chain):
+        ts = e.get("timestamp", "?")[:19]
+        msg_type = e.get("message_type", "?")
+        src = e.get("source_agent", e.get("source", "?"))
+        mid = e.get("message_id", "?")[:12]
+        pid = e.get("parent_message_id", "")
+        rid = e.get("request_id", "")[:12]
+        feedback = e.get("feedback", "")
+        snippet = feedback[:100].replace("\n", " ") if feedback else ""
+
+        # 트리 형태 표시
+        if i == 0:
+            prefix = "●"
+        else:
+            prefix = "└→"
+
+        print(f"  {prefix} [{ts}] {msg_type}")
+        print(f"     agent: {src} | mid: {mid} | rid: {rid}")
+        if pid:
+            print(f"     parent: {pid[:12]}")
+        if snippet:
+            print(f"     {snippet}...")
+        print()
 
 
 # ── clear ──
@@ -678,6 +848,7 @@ COMMANDS = {
     "status": ("시스템 상태 확인", cmd_status),
     "stats": ("피드백 통계", cmd_stats),
     "search": ("피드백 검색", cmd_search),
+    "chain": ("메시지 체인 추적", cmd_chain),
     "test": ("전체 자동 테스트", cmd_test),
     "clear": ("상태 파일 초기화", cmd_clear),
 }
@@ -697,6 +868,9 @@ def main():
             subparser.add_argument("--agent", help="에이전트 필터 (JSONL 모드)", default=None)
             subparser.add_argument("--request-id", dest="request_id", help="request_id 필터 (JSONL 모드)", default=None)
             subparser.add_argument("--since", help="날짜 필터 (JSONL 모드, YYYY-MM-DD)", default=None)
+        if name == "chain":
+            subparser.add_argument("id", nargs="?", default="", help="추적할 request_id 또는 message_id (prefix 매칭)")
+            subparser.add_argument("--list", action="store_true", help="모든 request_id 목록 표시")
         subparser.set_defaults(func=fn)
 
     args = parser.parse_args()
