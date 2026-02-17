@@ -148,7 +148,7 @@ def check_error_and_analyze(errors: list, config: dict) -> str | None:
 
     # 지연 import — 순환 의존 방지
     from src.core.gemini_service import call_gemini
-    from src.shared.feedback import save_feedback
+    from src.shared.feedback import save_feedback, log_jsonl_event
 
     error_config = config.get("error_detection", {})
     thresholds = error_config.get("thresholds", {"critical": 1, "high": 1, "medium": 2, "low": 3})
@@ -193,6 +193,20 @@ def check_error_and_analyze(errors: list, config: dict) -> str | None:
     combined = "\n\n---\n\n".join(errors_to_analyze[:3])
     full_prompt = f"{error_prompt}\n\n{combined}"
 
+    # 요청 JSONL 기록
+    request_id = str(uuid.uuid4())
+    req_message_id = str(uuid.uuid4())
+    jsonl_config = config.get("jsonl_bus")
+    log_jsonl_event(jsonl_config, {
+        "message_id": req_message_id,
+        "request_id": request_id,
+        "message_type": "error_analysis_request",
+        "source_agent": "claude",
+        "target_agent": "gemini",
+        "source": "Error Analysis (Stop Hook)",
+        "error_count": len(errors_to_analyze),
+    })
+
     feedback = call_gemini(content="", prompt=full_prompt, config=config)
 
     history = _load_error_history()
@@ -203,9 +217,15 @@ def check_error_and_analyze(errors: list, config: dict) -> str | None:
             history["errors"][error_hash]["analyzed"] = True
     _save_error_history(history)
 
-    request_id = str(uuid.uuid4())
     prefixed_feedback = f"{prefix}\n\n{feedback}"
+    a2a_envelope = {
+        "message_type": "error_analysis_response",
+        "source_agent": "gemini",
+        "target_agent": "claude",
+        "parent_message_id": req_message_id,
+    }
     save_feedback(prefixed_feedback, source="Error Analysis (Stop Hook)",
-                  request_id=request_id)
+                  request_id=request_id, jsonl_config=jsonl_config,
+                  a2a_envelope=a2a_envelope)
 
     return prefixed_feedback
