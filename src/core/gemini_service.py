@@ -276,7 +276,7 @@ def call_gemini_async(content: str, prompt: str, config: dict,
                       source: str = "Async") -> str:
     """비동기 모드: 별도 프로세스에서 Gemini 호출 (fire-and-forget)."""
     import uuid
-    from src.shared.feedback import FEEDBACK_PATH
+    from src.shared.feedback import get_feedback_path
 
     job_id = str(uuid.uuid4())
     args = {
@@ -285,7 +285,7 @@ def call_gemini_async(content: str, prompt: str, config: dict,
         "config": config,
         "file_path": file_path,
         "source": source,
-        "feedback_path": str(FEEDBACK_PATH),
+        "feedback_path": str(get_feedback_path()),
         "job_id": job_id,
     }
 

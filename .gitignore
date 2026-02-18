@@ -23,6 +23,9 @@ venv/
 # OS
 .DS_Store
 
+# Gemini Code Assist (로컬 전용)
+.gemini/
+
 # Pytest
 .pytest_cache/
 tests/

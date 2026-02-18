@@ -1488,10 +1488,17 @@ def _save_settings(target_dir: Path, settings: dict):
     settings_file.write_text(json.dumps(settings, indent=2, ensure_ascii=False) + "\n", "utf-8")
 
 
-def _install_hooks(target_dir: Path) -> tuple[int, int]:
-    """대상 디렉토리에 Hook을 등록한다. (installed, skipped) 반환."""
+def _install_hooks(target_dir: Path, feedback_dir: Path | None = None) -> tuple[int, int]:
+    """대상 디렉토리에 Hook을 등록한다. (installed, skipped) 반환.
+
+    feedback_dir이 지정되면 피드백 기록 Hook(PostToolUse, Stop)에
+    GEMINI_FEEDBACK_DIR 환경변수를 프리픽스로 주입한다.
+    """
     settings = _load_settings(target_dir)
     hooks = settings.setdefault("hooks", {})
+
+    # 피드백 기록하는 Hook (환경변수 주입 대상)
+    _FEEDBACK_HOOKS = {"PostToolUse", "Stop"}
 
     installed = 0
     skipped = 0
@@ -1513,6 +1520,11 @@ def _install_hooks(target_dir: Path) -> tuple[int, int]:
             skipped += 1
             continue
 
+        # Hook command 구성 (외부 프로젝트면 env 프리픽스 추가)
+        hook_entry = dict(spec["hook"])
+        if feedback_dir and hook_type in _FEEDBACK_HOOKS:
+            hook_entry["command"] = f"GEMINI_FEEDBACK_DIR={feedback_dir} {hook_entry['command']}"
+
         # matcher가 같은 그룹이 있으면 거기에 추가, 없으면 새 그룹
         matcher = spec["matcher"]
         target_group = None
@@ -1522,9 +1534,9 @@ def _install_hooks(target_dir: Path) -> tuple[int, int]:
                 break
 
         if target_group:
-            target_group["hooks"].append(spec["hook"])
+            target_group["hooks"].append(hook_entry)
         else:
-            new_group = {"hooks": [spec["hook"]]}
+            new_group = {"hooks": [hook_entry]}
             if matcher is not None:
                 new_group["matcher"] = matcher
             hook_list.append(new_group)
@@ -1581,9 +1593,10 @@ def cmd_install(args):
 
     print(f"대상: {target_dir}\n")
 
-    # 1) Hook 등록
+    # 1) Hook 등록 (외부 프로젝트면 피드백 경로를 대상 프로젝트로 지정)
+    feedback_dir = target_dir / "plans" / "gemini"
     print("── Hook 등록 ──")
-    h_installed, h_skipped = _install_hooks(target_dir)
+    h_installed, h_skipped = _install_hooks(target_dir, feedback_dir=feedback_dir)
     if h_installed > 0:
         print(f"  {h_installed}개 Hook 등록")
     if h_skipped > 0:

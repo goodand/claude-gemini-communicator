@@ -5,6 +5,7 @@ a2a_bridge.py의 save_feedback()를 분리한 모듈.
 """
 
 import json
+import os
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -12,6 +13,18 @@ from src.shared.config import PROJECT_ROOT, get_jsonl_path
 from src.shared.filelock import lock_exclusive, unlock
 
 FEEDBACK_PATH = PROJECT_ROOT / "plans" / "gemini" / "gemini_feedback.md"
+
+
+def get_feedback_path() -> Path:
+    """피드백 저장 경로를 반환한다.
+
+    1순위: 환경변수 GEMINI_FEEDBACK_DIR (절대 경로 디렉토리) → 그 안의 gemini_feedback.md
+    2순위: 기존 FEEDBACK_PATH (communicator 내부)
+    """
+    env_dir = os.environ.get("GEMINI_FEEDBACK_DIR")
+    if env_dir:
+        return Path(env_dir) / "gemini_feedback.md"
+    return FEEDBACK_PATH
 
 
 def save_feedback(feedback: str, source: str, file_path: str | None = None,
@@ -28,9 +41,10 @@ def save_feedback(feedback: str, source: str, file_path: str | None = None,
 
     entry = f"\n---\n\n## [{timestamp}] {source}{target_info}{rid_info}\n\n{feedback}\n"
 
-    # 1) Markdown append (기존 유지)
-    FEEDBACK_PATH.parent.mkdir(parents=True, exist_ok=True)
-    with open(FEEDBACK_PATH, "a", encoding="utf-8") as f:
+    # 1) Markdown append (환경변수 오버라이드 지원)
+    fb_path = get_feedback_path()
+    fb_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(fb_path, "a", encoding="utf-8") as f:
         lock_exclusive(f)
         try:
             f.write(entry)
