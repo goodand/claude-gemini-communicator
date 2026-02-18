@@ -111,7 +111,7 @@ def _call_cli(full_prompt: str, config: dict) -> tuple[str | None, str]:
 
     try:
         result = subprocess.run(
-            [gemini_cmd, full_prompt[:10000]],
+            [gemini_cmd, "-p", full_prompt[:10000]],
             capture_output=True, text=True, timeout=timeout,
         )
         if result.returncode == 0 and result.stdout.strip():
@@ -122,13 +122,13 @@ def _call_cli(full_prompt: str, config: dict) -> tuple[str | None, str]:
 
 
 def call_gemini(content: str, prompt: str, config: dict, file_path: str = None) -> tuple[str, str]:
-    """Gemini 호출 오케스트레이터: SDK → CLI 폴백.
+    """Gemini 호출 오케스트레이터: CLI(계정 로그인) 우선, SDK(API key) 폴백.
 
     Returns: (result_text, model_used)
     """
     sdk_config = config.get("sdk", {})
     sdk_enabled = sdk_config.get("enabled", True)
-    fallback_to_cli = sdk_config.get("fallback_to_cli", True)
+    fallback_to_sdk = sdk_config.get("fallback_to_sdk", True)
 
     # 프롬프트 구성
     if file_path:
@@ -136,19 +136,15 @@ def call_gemini(content: str, prompt: str, config: dict, file_path: str = None) 
     else:
         full_prompt = f"{prompt}\n\n---\n{content}"
 
-    # SDK 시도
-    if sdk_enabled and _sdk_available():
-        result, model = _call_sdk(full_prompt, config)
-        if result:
-            return result, model
-        if fallback_to_cli:
-            result, model = _call_cli(full_prompt, config)
-            if result:
-                return f"[FALLBACK] {result}", "cli"
-        return "[ERROR] 모든 SDK/CLI 호출 실패", ""
-
-    # CLI 직접 호출
+    # 1) CLI 우선 (계정 로그인 — 기본/주 방식)
     result, model = _call_cli(full_prompt, config)
     if result:
         return result, model
-    return "[ERROR] Gemini CLI 호출 실패", ""
+
+    # 2) CLI 실패 시 SDK 폴백 (API key 방식)
+    if fallback_to_sdk and sdk_enabled and _sdk_available():
+        result, model = _call_sdk(full_prompt, config)
+        if result:
+            return f"[FALLBACK] CLI 실패 → SDK 사용\n{result}", model
+
+    return "[ERROR] 모든 CLI/SDK 호출 실패", ""

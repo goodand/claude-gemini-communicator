@@ -143,8 +143,8 @@ def call_gemini_cli(content: str, prompt: str) -> tuple[str | None, str]:
     full_prompt = f"{prompt}\n\n---\n{content[:10000]}"
     try:
         result = subprocess.run(
-            [gemini_cmd, full_prompt],
-            capture_output=True, text=True, timeout=90,
+            [gemini_cmd, "-p", full_prompt],
+            capture_output=True, text=True, timeout=120,
         )
         if result.returncode == 0 and result.stdout.strip():
             return result.stdout.strip(), "cli"
@@ -154,20 +154,22 @@ def call_gemini_cli(content: str, prompt: str) -> tuple[str | None, str]:
 
 
 def call_gemini(content: str, prompt: str) -> tuple[str, str]:
-    """Gemini 호출 (SDK 우선, CLI 폴백).
+    """Gemini 호출 (CLI 계정 로그인 우선, SDK API key 폴백).
 
     Returns:
         (결과 텍스트, 사용된 모델명)
     """
-    result, model = call_gemini_sdk(content, prompt)
+    # 1) CLI 우선 (계정 로그인 — 기본/주 방식)
+    result, model = call_gemini_cli(content, prompt)
     if result:
         return result, model
 
-    result, model = call_gemini_cli(content, prompt)
+    # 2) SDK 폴백 (API key 방식)
+    result, model = call_gemini_sdk(content, prompt)
     if result:
-        return f"[CLI] {result}", "cli"
+        return f"[FALLBACK] CLI 실패 → SDK 사용\n{result}", model
 
-    print("[ERROR] Gemini 호출 실패. GEMINI_API_KEY를 확인하세요.", file=sys.stderr)
+    print("[ERROR] Gemini 호출 실패. gemini CLI 로그인 또는 GEMINI_API_KEY를 확인하세요.", file=sys.stderr)
     sys.exit(1)
 
 

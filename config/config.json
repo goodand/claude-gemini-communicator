@@ -1,6 +1,6 @@
 {
   "gemini_cmd": "/usr/local/bin/gemini",
-  "gemini_timeout": 90,
+  "gemini_timeout": 120,
   "cooldown_seconds_per_file": 300,
   "min_content_length": 300,
   "watch_extensions": [
@@ -18,7 +18,7 @@
     "enabled": true,
     "model": "gemini-2.5-flash",
     "fallback_models": ["gemini-2.0-flash", "gemini-1.5-flash"],
-    "fallback_to_cli": true,
+    "fallback_to_sdk": true,
     "oauth_creds_path": "~/.gemini/oauth_creds.json",
     "api_key_env": "GEMINI_API_KEY",
     "max_output_tokens": 2048,

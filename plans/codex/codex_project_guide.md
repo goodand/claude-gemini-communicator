@@ -30,7 +30,7 @@ python3 skills/gemini-reviewer/scripts/evaluate.py --file <path> --save
 | File | Role |
 |---|---|
 | `src/core/gemini_service.py` | Gemini SDK/CLI caller (rate limit rotation, fallback) |
-| `config.json` | Configuration |
+| `config/config.json` | Configuration |
 | `skills/gemini-reviewer/` | Cross-platform Gemini review skill |
 | `gemini_feedback.md` | Gemini feedback log (append-only) |
 

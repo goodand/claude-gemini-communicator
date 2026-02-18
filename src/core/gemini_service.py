@@ -207,7 +207,7 @@ def _call_gemini_cli(content: str, prompt: str, config: dict,
 
     try:
         result = subprocess.run(
-            [gemini_cmd, full_prompt],
+            [gemini_cmd, "-p", full_prompt],
             capture_output=True, text=True, timeout=timeout,
         )
         if result.returncode != 0:
@@ -248,27 +248,27 @@ def call_gemini(content: str, prompt: str, config: dict,
                 file_path: str | None = None) -> str:
     """Gemini를 호출하여 평가를 받는다.
 
-    SDK 우선 호출, 실패 시 CLI 폴백.
+    CLI(계정 로그인) 우선 호출, 실패 시 SDK(API key) 폴백.
     """
     sdk_config = config.get("sdk", {})
     sdk_enabled = sdk_config.get("enabled", True)
-    fallback_to_cli = sdk_config.get("fallback_to_cli", True)
+    fallback_to_sdk = sdk_config.get("fallback_to_sdk", True)
 
-    if sdk_enabled and _sdk_available():
+    # 1) CLI 우선 (계정 로그인 — 기본/주 방식)
+    cli_result = _call_gemini_cli(content, prompt, config, file_path)
+    if not cli_result.startswith("[ERROR]"):
+        return cli_result
+
+    # 2) CLI 실패 시 SDK 폴백 (API key 방식)
+    if fallback_to_sdk and sdk_enabled and _sdk_available():
         try:
-            result = _call_gemini_sdk(content, prompt, config, file_path)
-            if not result.startswith("[SDK_ERROR]"):
-                return result
-        except Exception as e:
-            result = f"[SDK_ERROR] {e}"
+            sdk_result = _call_gemini_sdk(content, prompt, config, file_path)
+            if not sdk_result.startswith("[SDK_ERROR]"):
+                return f"[FALLBACK] CLI 실패 → SDK 사용\n{sdk_result}"
+        except Exception:
+            pass
 
-        if fallback_to_cli:
-            cli_result = _call_gemini_cli(content, prompt, config, file_path)
-            return f"[FALLBACK] SDK 실패 → CLI 사용\n{cli_result}"
-        else:
-            return result
-
-    return _call_gemini_cli(content, prompt, config, file_path)
+    return cli_result
 
 
 def call_gemini_async(content: str, prompt: str, config: dict,

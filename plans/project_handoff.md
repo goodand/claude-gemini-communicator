@@ -56,7 +56,9 @@ plans/
 ```
 claude-gemini-communicator/
 ├── CLAUDE.md                       # Claude 지침 (프로젝트 루트)
-├── config.json                     # 전체 설정 (SDK, routing_rules, error_detection 등)
+├── config/
+│   ├── config.json                 # 전체 설정 (SDK, routing_rules, error_detection 등)
+│   └── .env.example                # 환경변수 템플릿
 │
 ├── src/                            # 실행 코드 (3-레이어 DAG)
 │   ├── shared/ (config, feedback, hook_io)

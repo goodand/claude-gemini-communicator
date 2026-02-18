@@ -36,15 +36,17 @@ DEFAULT_CONFIG = {
 
 
 def find_config(start_dir: Path = None) -> Path | None:
-    """프로젝트 내 config.json을 탐색."""
+    """프로젝트 내 config/config.json을 탐색."""
     candidates = []
+    project_root = Path(__file__).resolve().parent.parent.parent.parent
     if start_dir:
-        candidates.append(start_dir / "scripts" / "config.json")
-        candidates.append(start_dir / "config.json")
+        candidates.append(start_dir / "config" / "config.json")
+        candidates.append(start_dir / "config.json")  # 하위 호환
     candidates.extend([
-        Path.cwd() / "scripts" / "config.json",
-        Path.cwd() / "config.json",
-        Path(__file__).resolve().parent.parent.parent.parent / "scripts" / "config.json",
+        Path.cwd() / "config" / "config.json",
+        Path.cwd() / "config.json",  # 하위 호환
+        project_root / "config" / "config.json",
+        project_root / "config.json",  # 하위 호환
     ])
     for c in candidates:
         if c.exists():

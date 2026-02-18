@@ -8,12 +8,18 @@ set -euo pipefail
 #   run_gemini_cli.sh [OPTIONS] "PROMPT"
 #   cat file.py | run_gemini_cli.sh "리뷰해줘"
 
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+SKILL_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+COMMUNICATOR_ROOT="$(cd "${SKILL_ROOT}/../.." && pwd)"
+
 GEMINI_CMD="${GEMINI_CLI_PATH:-gemini}"
 MODEL="${GEMINI_MODEL:-gemini-2.5-flash}"
 FALLBACK_MODEL="${GEMINI_FALLBACK_MODEL:-gemini-2.0-flash}"
 TIMEOUT="${GEMINI_TIMEOUT:-120}"
+FEEDBACK_DIR="${GEMINI_FEEDBACK_DIR:-${COMMUNICATOR_ROOT}/plans/gemini}"
 DRY_RUN=0
 YOLO=0
+SAVE_FEEDBACK=0
 FILE_PATH=""
 PROMPT=""
 
@@ -28,6 +34,7 @@ Options:
   --yolo           도구 사용 자동 승인
   --dry-run        실행하지 않고 명령만 출력
   --timeout SEC    타임아웃 초 (기본: 120)
+  --save           결과를 gemini_feedback.md에 기록
   -h, --help       도움말
 
 Examples:
@@ -60,6 +67,10 @@ while [[ $# -gt 0 ]]; do
     --timeout)
       TIMEOUT="$2"
       shift 2
+      ;;
+    --save)
+      SAVE_FEEDBACK=1
+      shift
       ;;
     -h|--help)
       usage
@@ -122,11 +133,58 @@ if [[ "${DRY_RUN}" -eq 1 ]]; then
   echo "TIMEOUT=${TIMEOUT}"
   echo "FILE_PATH=${FILE_PATH}"
   echo "YOLO=${YOLO}"
+  echo "SAVE_FEEDBACK=${SAVE_FEEDBACK}"
+  echo "FEEDBACK_DIR=${FEEDBACK_DIR}"
   printf 'CMD='
   printf '%q ' "${CMD[@]}"
   echo
   exit 0
 fi
+
+# 피드백 기록
+save_to_feedback() {
+  local output="$1"
+  local used_model="$2"
+  local rc="$3"
+
+  if [[ "${SAVE_FEEDBACK}" -ne 1 ]]; then
+    return
+  fi
+
+  local feedback_file="${FEEDBACK_DIR}/gemini_feedback.md"
+  mkdir -p "${FEEDBACK_DIR}"
+
+  # 헤더가 없으면 생성
+  if [[ ! -f "${feedback_file}" ]]; then
+    cat > "${feedback_file}" <<'HEADER'
+# Gemini Feedback Log
+
+이 파일은 Gemini CLI 평가 결과가 자동으로 추가됩니다.
+`tail -f gemini_feedback.md`로 실시간 모니터링 가능합니다.
+HEADER
+  fi
+
+  local timestamp="$(date '+%Y-%m-%d %H:%M:%S')"
+  local file_info=""
+  if [[ -n "${FILE_PATH}" ]]; then
+    file_info=" | 대상: \`${FILE_PATH}\`"
+  fi
+  local status="성공"
+  if [[ "${rc}" -ne 0 ]]; then
+    status="실패 (exit ${rc})"
+  fi
+
+  cat >> "${feedback_file}" <<ENTRY
+
+---
+
+## [${timestamp}] Gemini CLI Skill | 모델: ${used_model} | ${status}${file_info}
+
+${output}
+ENTRY
+
+  echo "[INFO] 피드백 기록: ${feedback_file}" >&2
+}
 
 # 타임아웃 유틸리티 (macOS 호환 — timeout/gtimeout 없이 동작)
 _run_with_timeout() {
@@ -181,8 +239,10 @@ if [[ ${FIRST_RC} -ne 0 ]] && is_model_error "${FIRST_OUTPUT}"; then
   SECOND_RC=$?
   set -e
   printf "%s\n" "${SECOND_OUTPUT}"
+  save_to_feedback "${SECOND_OUTPUT}" "${FALLBACK_MODEL}" "${SECOND_RC}"
   exit ${SECOND_RC}
 fi
 
 printf "%s\n" "${FIRST_OUTPUT}"
+save_to_feedback "${FIRST_OUTPUT}" "${MODEL}" "${FIRST_RC}"
 exit ${FIRST_RC}

@@ -1461,6 +1461,16 @@ _INSTALL_HOOKS = {
     },
 }
 
+# 심링크 설치 대상 Skills
+_INSTALL_SKILLS = [
+    "agent-parser",
+    "codex-user-context",
+    "cross-agent-bridge",
+    "gemini-cli-context",
+    "gemini-reviewer",
+    "install",
+]
+
 
 def _load_settings(target_dir: Path) -> dict:
     """대상 디렉토리의 .claude/settings.local.json을 읽거나 기본값 반환."""
@@ -1478,9 +1488,8 @@ def _save_settings(target_dir: Path, settings: dict):
     settings_file.write_text(json.dumps(settings, indent=2, ensure_ascii=False) + "\n", "utf-8")
 
 
-def cmd_install(args):
-    """다른 프로젝트 디렉토리에 Hook을 등록한다."""
-    target_dir = Path(getattr(args, "target", ".")).resolve()
+def _install_hooks(target_dir: Path) -> tuple[int, int]:
+    """대상 디렉토리에 Hook을 등록한다. (installed, skipped) 반환."""
     settings = _load_settings(target_dir)
     hooks = settings.setdefault("hooks", {})
 
@@ -1523,23 +1532,84 @@ def cmd_install(args):
         installed += 1
 
     _save_settings(target_dir, settings)
-
-    if installed > 0:
-        print(f"설치 완료: {installed}개 Hook 등록 ({target_dir})")
-    if skipped > 0:
-        print(f"이미 설치됨: {skipped}개 Hook 건너뜀")
-    if installed == 0 and skipped == len(_INSTALL_HOOKS):
-        print("모든 Hook이 이미 설치되어 있습니다.")
+    return installed, skipped
 
 
-def cmd_uninstall(args):
-    """프로젝트 디렉토리에서 communicator Hook을 제거한다."""
+def _install_skills(target_dir: Path) -> tuple[int, int]:
+    """대상 디렉토리에 Skills 심링크를 생성한다. (linked, skipped) 반환."""
+    skills_src = PROJECT_ROOT / "skills"
+    skills_dst = target_dir / ".claude" / "skills"
+    skills_dst.mkdir(parents=True, exist_ok=True)
+
+    linked = 0
+    skipped = 0
+
+    for skill_name in _INSTALL_SKILLS:
+        src = skills_src / skill_name
+        dst = skills_dst / skill_name
+
+        if not src.exists():
+            print(f"  [WARN] 소스 없음: {src}")
+            continue
+
+        if dst.is_symlink():
+            if dst.resolve() == src.resolve():
+                skipped += 1
+                continue
+            # 다른 곳을 가리키는 심링크 → 제거 후 재생성
+            dst.unlink()
+
+        if dst.exists():
+            # 실제 디렉토리가 있으면 건너뜀 (사용자 커스텀일 수 있음)
+            print(f"  [SKIP] 이미 존재 (심링크 아님): {dst}")
+            skipped += 1
+            continue
+
+        dst.symlink_to(src)
+        linked += 1
+
+    return linked, skipped
+
+
+def cmd_install(args):
+    """다른 프로젝트 디렉토리에 Hook + Skills를 설치한다."""
     target_dir = Path(getattr(args, "target", ".")).resolve()
+
+    if target_dir.resolve() == PROJECT_ROOT.resolve():
+        print("[WARN] communicator 자체 디렉토리입니다. 외부 프로젝트를 지정하세요.")
+        return
+
+    print(f"대상: {target_dir}\n")
+
+    # 1) Hook 등록
+    print("── Hook 등록 ──")
+    h_installed, h_skipped = _install_hooks(target_dir)
+    if h_installed > 0:
+        print(f"  {h_installed}개 Hook 등록")
+    if h_skipped > 0:
+        print(f"  {h_skipped}개 Hook 건너뜀 (이미 설치)")
+
+    # 2) Skills 심링크
+    print("── Skills 심링크 ──")
+    s_linked, s_skipped = _install_skills(target_dir)
+    if s_linked > 0:
+        print(f"  {s_linked}개 Skill 심링크 생성")
+    if s_skipped > 0:
+        print(f"  {s_skipped}개 Skill 건너뜀 (이미 설치)")
+
+    total = h_installed + s_linked
+    if total == 0:
+        print("\n모든 항목이 이미 설치되어 있습니다.")
+    else:
+        print(f"\n설치 완료: Hook {h_installed}개 + Skill {s_linked}개 ({target_dir})")
+
+
+def _uninstall_hooks(target_dir: Path) -> int:
+    """대상 디렉토리에서 communicator Hook을 제거한다. 제거 수 반환."""
     settings_file = target_dir / ".claude" / "settings.local.json"
 
     if not settings_file.exists():
-        print("설치된 Hook이 없습니다. (.claude/settings.local.json 없음)")
-        return
+        return 0
 
     settings = json.loads(settings_file.read_text("utf-8"))
     hooks = settings.get("hooks", {})
@@ -1554,9 +1624,6 @@ def cmd_uninstall(args):
             if new_hooks:
                 group["hooks"] = new_hooks
                 new_list.append(group)
-            else:
-                # 그룹의 모든 hook이 제거됨
-                pass
             removed += len(group.get("hooks", [])) - len(new_hooks)
 
         if new_list:
@@ -1566,11 +1633,61 @@ def cmd_uninstall(args):
 
     settings["hooks"] = hooks
     _save_settings(target_dir, settings)
+    return removed
 
-    if removed > 0:
-        print(f"제거 완료: {removed}개 Hook 삭제 ({target_dir})")
+
+def _uninstall_skills(target_dir: Path) -> int:
+    """대상 디렉토리에서 communicator Skills 심링크를 제거한다. 제거 수 반환."""
+    skills_src = PROJECT_ROOT / "skills"
+    skills_dst = target_dir / ".claude" / "skills"
+    removed = 0
+
+    if not skills_dst.exists():
+        return 0
+
+    for skill_name in _INSTALL_SKILLS:
+        dst = skills_dst / skill_name
+        if dst.is_symlink():
+            src = skills_src / skill_name
+            # communicator 심링크만 제거 (다른 프로젝트의 심링크는 보존)
+            if dst.resolve() == src.resolve():
+                dst.unlink()
+                removed += 1
+
+    # skills 디렉토리가 비었으면 정리
+    if skills_dst.exists() and not any(skills_dst.iterdir()):
+        skills_dst.rmdir()
+
+    return removed
+
+
+def cmd_uninstall(args):
+    """프로젝트 디렉토리에서 communicator Hook + Skills를 제거한다."""
+    target_dir = Path(getattr(args, "target", ".")).resolve()
+
+    print(f"대상: {target_dir}\n")
+
+    # 1) Hook 제거
+    print("── Hook 제거 ──")
+    h_removed = _uninstall_hooks(target_dir)
+    if h_removed > 0:
+        print(f"  {h_removed}개 Hook 삭제")
     else:
-        print("제거할 communicator Hook이 없습니다.")
+        print("  제거할 Hook 없음")
+
+    # 2) Skills 심링크 제거
+    print("── Skills 심링크 제거 ──")
+    s_removed = _uninstall_skills(target_dir)
+    if s_removed > 0:
+        print(f"  {s_removed}개 Skill 심링크 삭제")
+    else:
+        print("  제거할 Skill 심링크 없음")
+
+    total = h_removed + s_removed
+    if total > 0:
+        print(f"\n제거 완료: Hook {h_removed}개 + Skill {s_removed}개 ({target_dir})")
+    else:
+        print("\n제거할 communicator 항목이 없습니다.")
 
 
 # ── clear ──
@@ -1607,8 +1724,8 @@ COMMANDS = {
     "chain": ("메시지 체인 추적", cmd_chain),
     "test": ("전체 자동 테스트", cmd_test),
     "clear": ("상태 파일 초기화", cmd_clear),
-    "install": ("다른 프로젝트에 Hook 등록", cmd_install),
-    "uninstall": ("Hook 등록 해제", cmd_uninstall),
+    "install": ("다른 프로젝트에 Hook + Skills 설치", cmd_install),
+    "uninstall": ("Hook + Skills 제거", cmd_uninstall),
 }
 
 
@@ -1633,6 +1750,8 @@ def main():
             subparser.add_argument("--list", action="store_true", help="모든 request_id 목록 표시")
         if name == "clear":
             subparser.add_argument("--jsonl", action="store_true", help="JSONL 이벤트 로그도 초기화")
+        if name in ("install", "uninstall"):
+            subparser.add_argument("--target", default=".", help="대상 프로젝트 디렉토리 (기본: 현재)")
         subparser.set_defaults(func=fn)
 
     args = parser.parse_args()

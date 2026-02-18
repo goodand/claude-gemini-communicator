@@ -12,7 +12,7 @@ venv/
 # Environment
 .env
 .env.*
-!.env.example
+!config/.env.example
 
 # IDE / Local History
 .history/
@@ -32,3 +32,5 @@ tests/
 
 # Claude plans (시스템 생성)
 .claude/plans/
+
+plans/gemini/

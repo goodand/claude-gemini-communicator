@@ -9,7 +9,7 @@ description: Claude Code, Codex CLI, Gemini CLI/SDK를 하나의 CLI로 오케�
 
 ## Workflow
 
-1. `setup`으로 기본 `config.json`과 `.env` 템플릿을 준비한다.
+1. `setup`으로 기본 `config/config.json`과 `.env` 템플릿을 준비한다.
 2. `doctor`로 API key, SDK, CLI, 피드백 파일 상태를 점검한다.
 3. `review`로 Gemini 리뷰를 호출하거나 `codex-review`로 Codex 리뷰를 호출한다.
 4. `parse`로 Codex JSONL / Gemini JSON / Claude transcript를 자동 감지해 요약한다.

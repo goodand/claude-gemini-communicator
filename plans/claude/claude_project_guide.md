@@ -97,7 +97,7 @@ Claude Code Hooks를 통해 Write/Edit 도구 사용 시 자동 트리거됩니�
 
 | 파일 | 역할 |
 |---|---|
-| `config.json` | 전체 설정 (SDK, 에러 감지, 프롬프트 등) |
+| `config/config.json` | 전체 설정 (SDK, 에러 감지, 프롬프트 등) |
 | `.claude/settings.local.json` | Hook 등록 설정 (→ src/hooks/) |
 | `.gemini/review.md` | Gemini Code Assist PR 리뷰 규칙 |
 | `.env` | API key 저장 (gitignore) |
@@ -140,13 +140,17 @@ claude-gemini-communicator/
 │   ├── async_runner.py
 │   └── cli.py
 │
-├── config.json                  ← 전체 설정 (SDK, 에러 감지, 프롬프트 등)
+├── config/                      ← 설정 디렉토리
+│   ├── config.json              ← 전체 설정 (SDK, 에러 감지, 프롬프트 등)
+│   └── .env.example             ← 환경변수 템플릿
 │
-├── skills/                      ← Phase 6: 자립형 Skill (cp -r 설치)
-│   ├── gemini-reviewer/         ← Gemini 코드/문서 리뷰
-│   ├── agent-parser/            ← Codex/Gemini/Claude 통합 파서
+├── skills/                      ← 자립형 Skill (심링크 설치)
+│   ├── install/                 ← 다른 프로젝트에 설치/제거
+│   ├── gemini-cli-context/      ← Gemini CLI 비대화형 호출
+│   ├── codex-user-context/      ← Codex CLI 비대화형 호출
 │   ├── cross-agent-bridge/      ← 통합 오케스트레이터
-│   └── codex-user-context/      ← Codex 사용자 컨텍스트 실행
+│   ├── agent-parser/            ← Codex/Gemini/Claude 통합 파서
+│   └── gemini-reviewer/         ← Gemini 코드/문서 리뷰
 │
 ├── architecture/                ← 아키텍처 분석 문서
 │   ├── 001_decision_framework.md
@@ -217,7 +221,7 @@ hook_pre_tool.py ─→ a2a_protocol.py ───→ hook_io.py
 **주의: PostToolUse Hook은 Bash 실패(exit code != 0) 시 발동하지 않음!**
 → 에러 감지는 Stop Hook의 transcript 스캔으로 해결.
 
-## 핵심 설정 (`config.json`)
+## 핵심 설정 (`config/config.json`)
 
 ### 기본 설정
 | 키 | 기본값 | 설명 |

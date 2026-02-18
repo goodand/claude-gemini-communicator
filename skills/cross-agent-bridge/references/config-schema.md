@@ -1,4 +1,4 @@
-# Config Schema (`config.json`)
+# Config Schema (`config/config.json`)
 
 ## Core
 

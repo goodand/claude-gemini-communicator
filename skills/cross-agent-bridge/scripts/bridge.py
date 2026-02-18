@@ -366,7 +366,9 @@ def cmd_setup(args):
     """초기 설정 (config 생성, .env 템플릿)."""
     from _config import generate_config
 
-    output = Path(args.output) if args.output else Path.cwd() / "config.json"
+    config_dir = Path.cwd() / "config"
+    config_dir.mkdir(exist_ok=True)
+    output = Path(args.output) if args.output else config_dir / "config.json"
     if output.exists():
         print(f"[SKIP] 이미 존재: {output}")
     else:
