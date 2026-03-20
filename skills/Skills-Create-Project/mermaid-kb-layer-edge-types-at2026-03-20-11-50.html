@@ -205,110 +205,95 @@
 
             <h2>Adjacency List</h2>
             <pre class="adjacency">contains:
-Paper-first KB -> Identity
-Paper-first KB -> Guardrail
-Paper-first KB -> Uncertainty Rule
-Local-analysis KB -> Input Contract
-Local-analysis KB -> Output Contract
-Local-analysis KB -> Parsing Reality
-Human-decision KB -> Priority
-Human-decision KB -> What To Give Up
-Human-decision KB -> What To Delete
-Memory-density KB -> Central Memory
-Memory-density KB -> Edge Memory
-Memory-density KB -> Drop Policy
+Paper KB -> Identity
+Paper KB -> Guardrail
+Paper KB -> Uncertainty
+Local KB -> Input Contract
+Local KB -> Output Contract
+Local KB -> Parsing Reality
+Human KB -> Priority
+Human KB -> Give Up
+Human KB -> Delete
+Memory KB -> Central Memory
+Memory KB -> Edge Memory
+Memory KB -> Drop Policy
 Relation KB -> Dependency
-Relation KB -> Support / Contradiction
+Relation KB -> Support Contradiction
 Relation KB -> Provenance
-Logical-limit KB -> Auto Reasoning Boundary
-Logical-limit KB -> Weak Support Rule
-Logical-limit KB -> HITL Escalation
+Limit KB -> Auto Boundary
+Limit KB -> Weak Support
+Limit KB -> HITL Rule
 
 feeds:
-Local-analysis KB -> Boundary Decision Layer
-Memory-density KB -> Boundary Decision Layer
-Relation KB -> Boundary Decision Layer
-Boundary Decision Layer -> Multi-agent Routing
-Boundary Decision Layer -> Graph RAG / Knowledge Graph
-Boundary Decision Layer -> Structured Context
-Relation KB -> Graph RAG / Knowledge Graph
-Memory-density KB -> Structured Context
+Local KB -> Boundary Layer
+Memory KB -> Boundary Layer
+Relation KB -> Boundary Layer
+Boundary Layer -> Routing
+Boundary Layer -> Graph RAG KG
+Boundary Layer -> Structured Context
+Relation KB -> Graph RAG KG
+Memory KB -> Structured Context
 
 constrains:
-Paper-first KB -> Boundary Decision Layer
-Logical-limit KB -> Boundary Decision Layer
-Human-decision KB -> Boundary Decision Layer
-Parsing Reality -> Graph RAG / Knowledge Graph
-Weak Support Rule -> Structured Context
-Priority -> Multi-agent Routing
+Paper KB -> Boundary Layer
+Limit KB -> Boundary Layer
+Human KB -> Boundary Layer
+Parsing Reality -> Graph RAG KG
+Weak Support -> Structured Context
+Priority -> Routing
 
 escalates_to:
-Human-decision KB -> HITL Review
-Logical-limit KB -> HITL Review
-Boundary Decision Layer -> HITL Review</pre>
+Human KB -> HITL Review
+Limit KB -> HITL Review
+Boundary Layer -> HITL Review</pre>
           </aside>
           <div class="diagram-wrap">
             <pre class="mermaid">
-flowchart TD
-    A[Paper-first KB] -->|contains| A1[Identity]
-    A -->|contains| A2[Guardrail]
-    A -->|contains| A3[Uncertainty Rule]
+graph TD
+    PK[Paper KB] -->|contains| ID[Identity]
+    PK -->|contains| GR[Guardrail]
+    PK -->|contains| UN[Uncertainty]
 
-    B[Local-analysis KB] -->|contains| B1[Input Contract]
-    B -->|contains| B2[Output Contract]
-    B -->|contains| B3[Parsing Reality]
+    LK[Local KB] -->|contains| IC[Input Contract]
+    LK -->|contains| OC[Output Contract]
+    LK -->|contains| PR[Parsing Reality]
 
-    C[Human-decision KB] -->|contains| C1[Priority]
-    C -->|contains| C2[What To Give Up]
-    C -->|contains| C3[What To Delete]
+    HK[Human KB] -->|contains| PY[Priority]
+    HK -->|contains| GU[Give Up]
+    HK -->|contains| DL[Delete]
 
-    D[Memory-density KB] -->|contains| D1[Central Memory]
-    D -->|contains| D2[Edge Memory]
-    D -->|contains| D3[Drop Policy]
+    MK[Memory KB] -->|contains| CM[Central Memory]
+    MK -->|contains| EM[Edge Memory]
+    MK -->|contains| DP[Drop Policy]
 
-    E[Relation KB] -->|contains| E1[Dependency]
-    E -->|contains| E2[Support / Contradiction]
-    E -->|contains| E3[Provenance]
+    RK[Relation KB] -->|contains| DE[Dependency]
+    RK -->|contains| SC[Support Contradiction]
+    RK -->|contains| PV[Provenance]
 
-    F[Logical-limit KB] -->|contains| F1[Auto Reasoning Boundary]
-    F -->|contains| F2[Weak Support Rule]
-    F -->|contains| F3[HITL Escalation]
+    XK[Limit KB] -->|contains| AB[Auto Boundary]
+    XK -->|contains| WS[Weak Support]
+    XK -->|contains| HR[HITL Rule]
 
-    B -->|feeds| G[Boundary Decision Layer]
-    D -->|feeds| G
-    E -->|feeds| G
+    LK -->|feeds| BL[Boundary Layer]
+    MK -->|feeds| BL
+    RK -->|feeds| BL
 
-    G -->|feeds| H[Multi-agent Routing]
-    G -->|feeds| I[Graph RAG / Knowledge Graph]
-    G -->|feeds| J[Structured Context]
-    E -->|feeds| I
-    D -->|feeds| J
+    BL -->|feeds| RT[Routing]
+    BL -->|feeds| GG[Graph RAG KG]
+    BL -->|feeds| CT[Structured Context]
+    RK -->|feeds| GG
+    MK -->|feeds| CT
 
-    A -->|constrains| G
-    F -->|constrains| G
-    C -->|constrains| G
-    B3 -->|constrains| I
-    F2 -->|constrains| J
-    C1 -->|constrains| H
+    PK -->|constrains| BL
+    XK -->|constrains| BL
+    HK -->|constrains| BL
+    PR -->|constrains| GG
+    WS -->|constrains| CT
+    PY -->|constrains| RT
 
-    C -->|escalates_to| K[HITL Review]
-    F -->|escalates_to| K
-    G -->|escalates_to| K
-
-    classDef kb fill:#fff8e8,stroke:#8f6b3d,stroke-width:1.4px,color:#2a241d;
-    classDef decision fill:#e7f5f1,stroke:#1f6f5f,stroke-width:1.6px,color:#153e36;
-    classDef out fill:#eef3fc,stroke:#4e6a8a,stroke-width:1.3px,color:#1f2f42;
-    classDef hitl fill:#fff0ee,stroke:#b34b3c,stroke-width:1.6px,color:#5b231c;
-
-    class A,B,C,D,E,F,A1,A2,A3,B1,B2,B3,C1,C2,C3,D1,D2,D3,E1,E2,E3,F1,F2,F3 kb;
-    class G decision;
-    class H,I,J out;
-    class K hitl;
-
-    linkStyle 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17 stroke:#8f6b3d,stroke-width:1.8px,color:#8f6b3d;
-    linkStyle 18,19,20,21,22,23,24,25 stroke:#1f6f5f,stroke-width:3.5px,color:#1f6f5f;
-    linkStyle 26,27,28,29,30,31 stroke:#5a6473,stroke-width:2px,stroke-dasharray:6 4,color:#5a6473;
-    linkStyle 32,33,34 stroke:#b34b3c,stroke-width:2.5px,stroke-dasharray:3 5,color:#b34b3c;
+    HK -->|escalates_to| HI[HITL Review]
+    XK -->|escalates_to| HI
+    BL -->|escalates_to| HI
             </pre>
           </div>
         </div>
