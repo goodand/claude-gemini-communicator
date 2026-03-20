@@ -17,6 +17,7 @@
 ## References
 
 - `references/progressive-context-injection.md` — 3-Layer 설계 원리, 링크 규칙, 왜 이렇게 하는가
+- `references/markdown-artifact-writing-patterns-at2026-03-20-14-13.md` — MD, KB, checklist, reference 문서를 쓸 때 재사용할 writing rules 집약본
 - `references/phase-guide.md` — Phase -1~7 전체 상세 절차 + 산출물
 - `references/reference-acquisition-modes-at2026-03-17-09-35.md` — `external_research`와 `internal_codebase_only` 분기 규칙
 - `references/portable-skill-hierarchy-rules-at2026-03-17-09-22.md` — portable install을 위한 link/bridge 계층 규칙

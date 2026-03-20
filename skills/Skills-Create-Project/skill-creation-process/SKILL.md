@@ -33,6 +33,7 @@ description: >-
 ## Details
 
 - `Scripts`, `References`, `Notes` 상세는 [references/skill-entrypoint-details-at2026-03-18-23-32.md](references/skill-entrypoint-details-at2026-03-18-23-32.md)
+- MD 작성 규칙과 재사용 노하우는 [references/markdown-artifact-writing-patterns-at2026-03-20-14-13.md](references/markdown-artifact-writing-patterns-at2026-03-20-14-13.md)
 - split 기준은 entrypoint 경량화만이며, 상세 내용은 그대로 분리했다
 - subagent 작업은 [references/subagent-preservation-rule-at2026-03-19-21-34.md](references/subagent-preservation-rule-at2026-03-19-21-34.md) 의 preservation-first rule을 기본 계약으로 쓴다
 - canonical skill name은 `workspace-artifact-production-process`로 보되, 디렉토리 경로 `skill-creation-process/`는 호환성을 위해 유지한다
