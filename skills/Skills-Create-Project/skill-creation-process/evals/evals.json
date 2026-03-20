@@ -1,0 +1,40 @@
+{
+  "skill_name": "workspace-artifact-production-process",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "로깅 관련 반복 실수를 줄이는 새 skill을 만들고 싶어. 어떻게 시작해?",
+      "expected_output": "Phase -1(동기 정의)부터 시작: 반복 패턴 식별 → 목표 1문장 → 비목표 → 의존성 분석",
+      "files": ["references/phase-guide.md"],
+      "assertions": ["Phase -1", "동기", "반복", "비목표"]
+    },
+    {
+      "id": 1,
+      "prompt": "이 skill의 SKILL.md가 80줄인데 괜찮아?",
+      "expected_output": "45줄 이하로 줄여야 함. 상세 내용은 references/로 이동. Progressive Context Injection 원칙",
+      "files": ["references/progressive-context-injection.md"],
+      "assertions": ["45줄", "references", "Progressive Context Injection"]
+    },
+    {
+      "id": 2,
+      "prompt": "skill 구조 검증은 어떻게 해?",
+      "expected_output": "Phase 5 3단계: quick_validate.py 정적 검증 → tmux+Codex 실전 → troubleshooting 기록",
+      "files": ["references/phase-guide.md"],
+      "assertions": ["quick_validate", "tmux", "Codex", "troubleshooting"]
+    },
+    {
+      "id": 3,
+      "prompt": "새 skill에 troubleshooting.md가 없는데 린터가 뭐라고 해?",
+      "expected_output": "quick_validate.py가 [WARN] references/troubleshooting.md 없음 경고 출력",
+      "files": ["references/skill-directory-structure.md"],
+      "assertions": ["troubleshooting.md", "WARN", "필수"]
+    },
+    {
+      "id": 4,
+      "prompt": "자료 조사 안 하고 바로 SKILL.md부터 쓰면 안 돼?",
+      "expected_output": "Anti-pattern: 자료 조사 없이 Phase 1 진입 금지. Phase 0에서 references/에 조사 결과 저장 먼저",
+      "files": ["references/anti-patterns.md"],
+      "assertions": ["Phase 0", "anti-pattern", "조사", "references"]
+    }
+  ]
+}
