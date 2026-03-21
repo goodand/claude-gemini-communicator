@@ -1,0 +1,72 @@
+{
+  "graph_id": "codebase_graph_sample_2026-03-20-22-45",
+  "generated_at": "2026-03-20T22:45:00+09:00",
+  "source_scope": "sample_fixture",
+  "graph_kind": "codebase_graph",
+  "schema_version": "1",
+  "node_schema_version": "1",
+  "edge_schema_version": "1",
+  "metadata": {
+    "generator": "fixture",
+    "source_tools": ["manual_fixture"],
+    "notes": ["minimal sample for export smoke"]
+  },
+  "nodes": [
+    {
+      "id": "file:src/app.py",
+      "kind": "File",
+      "name": "app.py",
+      "path": "src/app.py",
+      "parent_id": "folder:src",
+      "region": "src",
+      "source_tool": "manual_fixture",
+      "confidence": 1.0,
+      "attrs": {"language": "python"}
+    },
+    {
+      "id": "file:src/core.py",
+      "kind": "File",
+      "name": "core.py",
+      "path": "src/core.py",
+      "parent_id": "folder:src",
+      "region": "src",
+      "source_tool": "manual_fixture",
+      "confidence": 1.0,
+      "attrs": {"language": "python"}
+    },
+    {
+      "id": "func:src/app.py:main",
+      "kind": "Function",
+      "name": "main",
+      "path": "src/app.py",
+      "parent_id": "file:src/app.py",
+      "region": "src",
+      "source_tool": "manual_fixture",
+      "confidence": 1.0,
+      "attrs": {"line": 10}
+    }
+  ],
+  "edges": [
+    {
+      "src": "file:src/app.py",
+      "dst": "file:src/core.py",
+      "rel": "IMPORTS",
+      "kind": "static_dependency",
+      "source_tool": "manual_fixture",
+      "confidence": 1.0,
+      "evidence_path": "src/app.py",
+      "attrs": {"line": 3}
+    },
+    {
+      "src": "file:src/app.py",
+      "dst": "func:src/app.py:main",
+      "rel": "DECLARES",
+      "kind": "containment",
+      "source_tool": "manual_fixture",
+      "confidence": 1.0,
+      "evidence_path": "src/app.py",
+      "attrs": {}
+    }
+  ],
+  "overlays": []
+}

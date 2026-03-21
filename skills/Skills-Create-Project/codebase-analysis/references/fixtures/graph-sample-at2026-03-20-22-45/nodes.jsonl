@@ -1,0 +1,3 @@
+{"id":"file:src/app.py","kind":"File","name":"app.py","path":"src/app.py","parent_id":"folder:src","region":"src","source_tool":"manual_fixture","confidence":1.0,"attrs":{"language":"python"}}
+{"id":"file:src/core.py","kind":"File","name":"core.py","path":"src/core.py","parent_id":"folder:src","region":"src","source_tool":"manual_fixture","confidence":1.0,"attrs":{"language":"python"}}
+{"id":"func:src/app.py:main","kind":"Function","name":"main","path":"src/app.py","parent_id":"file:src/app.py","region":"src","source_tool":"manual_fixture","confidence":1.0,"attrs":{"line":10}}

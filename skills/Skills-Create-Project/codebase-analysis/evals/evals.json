@@ -1,0 +1,11 @@
+{
+  "skill": "codebase-analysis",
+  "mode": "document_output",
+  "checks": [
+    "agents directory exists",
+    "skill distinguishes role nickname agent_type",
+    "broker role exists",
+    "dependency worker roles exist",
+    "references and KB exist"
+  ]
+}

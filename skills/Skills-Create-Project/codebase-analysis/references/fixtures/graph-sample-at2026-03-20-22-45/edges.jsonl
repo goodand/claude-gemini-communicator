@@ -1,0 +1,2 @@
+{"src":"file:src/app.py","dst":"file:src/core.py","rel":"IMPORTS","kind":"static_dependency","source_tool":"manual_fixture","confidence":1.0,"evidence_path":"src/app.py","attrs":{"line":3}}
+{"src":"file:src/app.py","dst":"func:src/app.py:main","rel":"DECLARES","kind":"containment","source_tool":"manual_fixture","confidence":1.0,"evidence_path":"src/app.py","attrs":{}}
