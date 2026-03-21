@@ -7,6 +7,7 @@
 
 Store:
 - `references/*-smoke-*.json`
+- `logs/smoke/<command>/<timestamp>/...`
 - raw logs
 - raw artifact files
 - evidence ledger
@@ -15,6 +16,8 @@ Store:
 Rule:
 - 실행 중 관측된 사실과 원본 산출물은 먼저 이 층에 남긴다.
 - issue 해석 전에 raw evidence를 덮어쓰거나 요약만 남기지 않는다.
+- multi-file smoke/test archive는 `logs/smoke/<command>/<timestamp>/...` 레이아웃을 우선 적용한다.
+- detailed archive layout은 `smoke-archive-layout-rule-at2026-03-21-19-06.md`를 따른다.
 
 ## Layer 2: Issue Narrative
 

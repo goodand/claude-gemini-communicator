@@ -40,10 +40,11 @@
 ## Issue And Evidence Storage
 
 - smoke/test raw evidence는 `references/*smoke*`, 로그, evidence ledger 같은 실행 증거 층에 남긴다.
+- multi-file smoke raw archive는 `logs/smoke/<command>/<timestamp>/...`에 분리하고, smoke report는 그 `archive_dir`를 링크한다.
 - 사람이 읽는 issue narrative는 `references/troubleshooting.md`의 `CASE-XXX` 형식으로 적는다.
 - entrypoint에는 해결 규칙 1줄만 올리고, 상세는 troubleshooting case로 보낸다.
 - `references/fixtures/`는 sample input/output bundle 계층이며 issue log 저장소가 아니다.
-- 자세한 저장 경계는 `issue-evidence-storage-rule-at2026-03-21-16-33.md`를 따른다.
+- 자세한 저장 경계는 `issue-evidence-storage-rule-at2026-03-21-16-33.md`, archive layout은 `smoke-archive-layout-rule-at2026-03-21-19-06.md`를 따른다.
 
 ## KB Writing
 

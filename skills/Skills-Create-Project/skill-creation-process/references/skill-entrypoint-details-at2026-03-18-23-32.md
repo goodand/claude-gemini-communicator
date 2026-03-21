@@ -24,6 +24,7 @@
 - `references/portable-skill-hierarchy-rules-at2026-03-17-09-22.md` — portable install을 위한 link/bridge 계층 규칙
 - `references/execution-evidence-pattern-at2026-03-17-04-03.md` — 실행 계약을 smoke/evidence/audit/diff로 내리는 공용 패턴
 - `references/issue-evidence-storage-rule-at2026-03-21-16-33.md` — smoke evidence / troubleshooting case / entrypoint note / fixture boundary 저장 규칙
+- `references/smoke-archive-layout-rule-at2026-03-21-19-06.md` — `logs/smoke/<command>/<timestamp>/...` raw archive 경로와 `stdout.json` / `stderr.log` / `warnings.log` 규칙
 - `references/vertical-slice-execution-handoff-validator-at2026-03-18-22-52.md` — planner payload handoff schema validator slice
 - `references/evidence-promotion-pattern-at2026-03-17-03-45.md` — 실험 결과를 KB insight로 승격하는 공용 파이프라인
 - `references/vertical-slice-static-dependency-overlay-contract-at2026-03-19-14-14.md` — static dependency overlay contract slice
@@ -45,6 +46,7 @@
 - `references/`는 가장 넓은 문서 층 — 조사 원자료, task 문서, 실험 후 보강 문서까지 포함
 - `knowledge_bases/`는 `references/`를 구조화·정리한 중간 지식층
 - smoke issue 저장은 `references/*smoke*` -> `references/troubleshooting.md` -> `SKILL.md Notes` 3층으로 두고, `references/fixtures/`는 sample bundle 계층으로 분리한다 (→ `references/issue-evidence-storage-rule-at2026-03-21-16-33.md`)
+- multi-file smoke raw archive는 `logs/smoke/<command>/<timestamp>/...`를 기본으로 두고 smoke report에서 `archive_dir`를 링크한다 (→ `references/smoke-archive-layout-rule-at2026-03-21-19-06.md`)
 - 모든 skill에 `references/troubleshooting.md` 필수 — 린터가 검사 (→ `references/skill-directory-structure.md`)
 - Phase -1(동기 정의) 없이 착수 금지 — 반복 문제에서 출발 (→ `references/anti-patterns.md`)
 - 정적 검증만으로 완료 선언 금지 — Phase 5-2 tmux+Codex 실전 필수 (→ `references/phase-guide.md` Phase 5)

@@ -290,10 +290,12 @@ python3 tmux-controller/scripts/tmux_helper.py kill codex-test
 - 최대 재시도 초과 상태에서 전이 시도
 
 > 정적 검증(--help, validate)으로는 발견 불가능한 버그가 실전 테스트에서 노출된다. (→ `practical-lessons.md` §6)
+> multi-file smoke raw archive는 `logs/smoke/<command>/<timestamp>/...`에 보관하고, detailed layout은 `(→ smoke-archive-layout-rule-at2026-03-21-19-06.md)`를 따른다.
 
 ### 5-3. 실험 결과 기반 Reference 갱신
 이 단계의 저장 경계는 `(→ issue-evidence-storage-rule-at2026-03-21-16-33.md)`를 따른다.
 `references/fixtures/`는 sample bundle 계층이며 smoke issue 저장소가 아니다.
+raw multi-file archive가 필요하면 `logs/smoke/<command>/<timestamp>/...`로 분리하고 smoke report에 `archive_dir`를 기록한다.
 
 1. **`references/troubleshooting.md`** 에 상세 케이스 추가 (증상 → 원인 → 해결 → 교훈)
 2. 새로 얻은 운영 규칙/예시/경계 설명을 `references/`에 반영
