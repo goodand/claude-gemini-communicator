@@ -37,6 +37,14 @@
 - 실험 후 새 교훈이 생기면 `troubleshooting.md`와 관련 reference에 먼저 남긴다.
 - reference끼리도 역할이 다르면 `families/`, `indexes/`, 단일 note를 구분한다.
 
+## Issue And Evidence Storage
+
+- smoke/test raw evidence는 `references/*smoke*`, 로그, evidence ledger 같은 실행 증거 층에 남긴다.
+- 사람이 읽는 issue narrative는 `references/troubleshooting.md`의 `CASE-XXX` 형식으로 적는다.
+- entrypoint에는 해결 규칙 1줄만 올리고, 상세는 troubleshooting case로 보낸다.
+- `references/fixtures/`는 sample input/output bundle 계층이며 issue log 저장소가 아니다.
+- 자세한 저장 경계는 `issue-evidence-storage-rule-at2026-03-21-16-33.md`를 따른다.
+
 ## KB Writing
 
 - KB는 reference를 다시 적는 문서가 아니라 채택된 설계를 구조화한 문서다.
