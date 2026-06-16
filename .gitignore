@@ -13,6 +13,10 @@ venv/
 .env
 .env.*
 !config/.env.example
+!skills/Skills-Create-Project/.env.example
+
+# MCP local config (bootstrap이 .mcp.example.json으로부터 생성 — commit 금지)
+.mcp.json
 
 # IDE / Local History
 .history/
