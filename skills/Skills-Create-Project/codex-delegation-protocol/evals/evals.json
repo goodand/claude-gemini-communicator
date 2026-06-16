@@ -1,0 +1,40 @@
+{
+  "skill_name": "codex-delegation-protocol",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "이 task-packet을 Codex에게 보낼 위임 메시지로 변환해줘",
+      "expected_output": "delegation_builder.py compose --packet <packet.json> 실행. 5-section 구조(Mission/Scope/Context/Constraints/Done Definition) 출력",
+      "files": ["scripts/delegation_builder.py", "references/prompt-anatomy.md"],
+      "assertions": ["compose", "Mission", "Scope", "Done Definition"]
+    },
+    {
+      "id": 1,
+      "prompt": "이 위임 메시지가 제대로 작성됐는지 검증해줘",
+      "expected_output": "delegation_builder.py validate --message <msg.md> 실행. 필수 섹션 존재, 금지 패턴 부재, 모호한 done 표현 경고",
+      "files": ["scripts/delegation_builder.py"],
+      "assertions": ["validate", "섹션", "금지 패턴"]
+    },
+    {
+      "id": 2,
+      "prompt": "Codex 실행 커맨드를 만들어줘. worktree는 .worktrees/auth-module이야",
+      "expected_output": "delegation_builder.py command --packet <packet.json> --worktree .worktrees/auth-module 실행. cd + codex exec 문자열 출력",
+      "files": ["scripts/delegation_builder.py"],
+      "assertions": ["command", "codex exec", "worktree", "--full-auto"]
+    },
+    {
+      "id": 3,
+      "prompt": "위임 전에 전체 미리보기를 보고 싶어",
+      "expected_output": "delegation_builder.py preview --packet <packet.json> 실행. 메시지 + 검증 결과 + 실행 커맨드 + 메타 정보 일괄 출력",
+      "files": ["scripts/delegation_builder.py"],
+      "assertions": ["preview", "VALIDATION", "EXECUTION COMMAND", "META"]
+    },
+    {
+      "id": 4,
+      "prompt": "done_definition에 '잘 작성하라'고만 써놓은 패킷이 있어. 이거 검증하면?",
+      "expected_output": "validate에서 모호한 표현 경고. '잘'은 기계 검증 불가 — 구체적 조건으로 변경 권장",
+      "files": ["scripts/delegation_builder.py", "references/delegation-checklist.md"],
+      "assertions": ["모호", "검증", "WARN"]
+    }
+  ]
+}

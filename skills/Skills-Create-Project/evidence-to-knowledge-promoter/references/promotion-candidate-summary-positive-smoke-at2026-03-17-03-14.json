@@ -1,0 +1,112 @@
+{
+  "status": "ok",
+  "generated_at": "2026-03-17T03:07:53+09:00",
+  "contract_family": "promotion_candidate_summary",
+  "input_support_audit": "evidence-trace-auditor/references/support-audit-smoke-at2026-03-17-02-00.json",
+  "input_baseline_diff": "baseline-diff-lab/references/doc-code-sync-path-pre-metrics-fix-diff-at2026-03-17-00-10.json",
+  "summary_counts": {
+    "finding": 3,
+    "delta": 3,
+    "lesson_candidate": 1,
+    "residual_uncertainty": 0
+  },
+  "entries": [
+    {
+      "kind": "finding",
+      "name": "status:ready",
+      "source": "evidence-trace-auditor/references/support-audit-smoke-at2026-03-17-02-00.json",
+      "value": {
+        "finding_family": "missing_in_code",
+        "observed_bucket": "missing_contract_unit",
+        "trace_status": "verified_evidence"
+      },
+      "evidence": "missing_in_code:status:ready",
+      "promotion_decision": "observe",
+      "reason": "verified evidence가 있어 reusable finding으로 남길 수 있다."
+    },
+    {
+      "kind": "finding",
+      "name": "status:running",
+      "source": "evidence-trace-auditor/references/support-audit-smoke-at2026-03-17-02-00.json",
+      "value": {
+        "finding_family": "missing_in_doc",
+        "observed_bucket": "extra_contract_unit",
+        "trace_status": "verified_evidence"
+      },
+      "evidence": "missing_in_doc:status:running",
+      "promotion_decision": "observe",
+      "reason": "verified evidence가 있어 reusable finding으로 남길 수 있다."
+    },
+    {
+      "kind": "finding",
+      "name": "status",
+      "source": "evidence-trace-auditor/references/support-audit-smoke-at2026-03-17-02-00.json",
+      "value": {
+        "finding_family": "typed_mismatch",
+        "observed_bucket": "contract_value_changed",
+        "trace_status": "verified_evidence"
+      },
+      "evidence": "typed_mismatch:status",
+      "promotion_decision": "observe",
+      "reason": "verified evidence가 있어 reusable finding으로 남길 수 있다."
+    },
+    {
+      "kind": "delta",
+      "name": "typed_mismatch_count",
+      "source": "baseline-diff-lab/references/doc-code-sync-path-pre-metrics-fix-diff-at2026-03-17-00-10.json",
+      "value": {
+        "before": 1,
+        "after": 0,
+        "delta": -1,
+        "relative_change": -1.0,
+        "reduction_after_fix": 1.0
+      },
+      "evidence": "typed_mismatch_count",
+      "promotion_decision": "candidate",
+      "reason": "before/after diff가 수치로 닫혀 reusable delta 후보가 된다."
+    },
+    {
+      "kind": "delta",
+      "name": "total_finding_count",
+      "source": "baseline-diff-lab/references/doc-code-sync-path-pre-metrics-fix-diff-at2026-03-17-00-10.json",
+      "value": {
+        "before": 3,
+        "after": 0,
+        "delta": -3,
+        "relative_change": -1.0,
+        "reduction_after_fix": 1.0
+      },
+      "evidence": "total_finding_count",
+      "promotion_decision": "candidate",
+      "reason": "before/after diff가 수치로 닫혀 reusable delta 후보가 된다."
+    },
+    {
+      "kind": "delta",
+      "name": "zero_drift_pair_rate",
+      "source": "baseline-diff-lab/references/doc-code-sync-path-pre-metrics-fix-diff-at2026-03-17-00-10.json",
+      "value": {
+        "before": 0.0,
+        "after": 1.0,
+        "delta": 1.0,
+        "relative_change": null,
+        "reduction_after_fix": null
+      },
+      "evidence": "zero_drift_pair_rate",
+      "promotion_decision": "observe",
+      "reason": "수치 변화는 있지만 바로 lesson 규칙으로 승격하기엔 추가 반복 검증이 필요하다."
+    },
+    {
+      "kind": "lesson_candidate",
+      "name": "verified-evidence-backed-fix-pattern",
+      "source": "baseline-diff-lab/references/doc-code-sync-path-pre-metrics-fix-diff-at2026-03-17-00-10.json",
+      "value": {
+        "delta_count": 2,
+        "finding_count": 3,
+        "support_ratio": 1.0
+      },
+      "evidence": "typed_mismatch_count",
+      "promotion_decision": "candidate",
+      "reason": "verified evidence와 positive delta가 함께 있어 lesson candidate로 승격할 수 있다."
+    }
+  ]
+}

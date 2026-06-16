@@ -1,0 +1,13 @@
+cross_skill_dependencies:
+  - provider: "async-migration-verify"
+    contract: "checklist-forconsistency-evaluation/async-migration-6-checkpoint.md"
+    consumed_facts:
+      - "API-surface change trigger: when Codex patch introduces async migration, route changed area through async-migration-verify 6-checkpoint"
+      - "guardrail 5 in review-convergence-guardrails.md references this skill"
+    last_synced_at: "2026-04-08T01:00:00+09:00"
+  - provider: "verification-decision-gate"
+    contract: "references/owner-task-bands-at2026-04-02.md"
+    consumed_facts:
+      - "Band 1 direct-call specialist: cross-repo-product-review"
+      - "owner verbs: verify, judge, gate, route"
+    last_synced_at: "2026-04-08T01:00:00+09:00"

@@ -1,0 +1,20 @@
+{
+  "status": "ok",
+  "generated_at": "2026-03-17T01:24:52+09:00",
+  "target": "edge-case-generator/scripts/edgegen.py",
+  "runtime_gate": {
+    "ok": true,
+    "tool": "py_compile",
+    "message": "py_compile passed"
+  },
+  "finding_count": 1,
+  "findings": [
+    {
+      "category": "unused_variable",
+      "name": "RULE_TYPES",
+      "line": 34,
+      "evidence": "assigned name `RULE_TYPES` is never loaded",
+      "recommendation": "remove it or rename to `_` if intentionally unused"
+    }
+  ]
+}

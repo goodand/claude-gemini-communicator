@@ -1,0 +1,7 @@
+{
+  "slice_id": "slice_01",
+  "root_dirs": ["src/rag"],
+  "files": ["src/rag/graph.py"],
+  "entrypoints": ["src/rag/graph.py"],
+  "allowed_paths": "src/rag"
+}

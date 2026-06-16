@@ -1,0 +1,468 @@
+####################################################################################################
+# EXACT FINAL OUTPUT TEMPLATE
+# Use these headings exactly unless the user explicitly requests another format.
+# 한국어: 별도 요청이 없으면 이 heading 구조를 그대로 지켜라.
+####################################################################################################
+
+# 사용자 의도 파악
+## 정규화된 목표 기능
+- [Describe the normalized feature as a validation-ready target.]
+- [State whether the feature is expected to be core, primary, optional, or peripheral.]
+
+## 필수 요구사항
+- [List must-have capabilities.]
+- [Tie each requirement to observable evidence when possible.]
+
+## 선택 요구사항
+- [List nice-to-have capabilities.]
+- [Clarify that failure on these does not automatically reject a repo.]
+
+## 제외 조건
+- [List anti-goals, forbidden architectures, disallowed licenses, or other hard exclusions.]
+
+## 성공 판정 기준
+- [State exactly what would count as a successful recommendation.]
+- [Differentiate structural proof, test/example proof, and runtime proof.]
+
+# 표현 및 계측 전략
+## R0. 표현 / 파서 / 프레임워크 선택 라우팅
+### 평가 기준
+- route_depth_estimate = [...]
+- loop_nesting_depth_estimate = [...]
+- need_parent_scope_tracking = [...]
+- need_metric_attachment = [...]
+- need_runtime_traceability = [...]
+- need_round_trip_validation = [...]
+
+### 분류 결과
+- parser_required = [...]
+- latex_primary = [...]
+- langfuse_primary = [...]
+- mermaid_secondary = [...]
+- hybrid_representation = [...]
+
+### 선택된 parser / SDK / framework
+- selected_parser_or_sdk = [...]
+- selection_reason = [...]
+- why_manual_parsing_was_not_used_first = [...]
+
+### IR 정규화 계획
+- IR_required = [...]
+- IR fields used = [...]
+- round_trip_validation_plan = [...]
+
+### LaTeX / Mermaid / Langfuse 생성 계획
+- LaTeX = [generated / planned / skipped]
+- Mermaid = [generated / planned / skipped]
+- Langfuse = [generated / planned / skipped]
+- reason = [...]
+
+# 제어 구조 개요
+## 노드 타입 정의
+- Task = [...]
+- Router = [...]
+- Loop = [...]
+- Exit = [...]
+
+## 노드 인덱스
+- T0 = 사용자 의도 정규화
+- T0a = 구조/표현 요구 분석
+- R0 = 표현 / 파서 / 프레임워크 선택
+- T1 = 검색 쿼리 생성
+- T2 = repo 후보 수집
+- L1 = repo 탐색 루프
+- R1 = repo 적합성 라우팅
+- T3 = module 후보 추출
+- L2 = module 검증 루프
+- R2 = 핵심 module 분류 라우팅
+- R3 = 검증 전략 선택 라우팅
+- L3 = 실행 / 트러블슈팅 루프
+- R4 = 정합성 / fallback 라우팅
+- E1 = 성공 종료
+- E2 = 부분 성공 종료
+- E3 = 실패 종료
+
+## parent scope 맵
+- parent(R0) = [...]
+- parent(R1) = [...]
+- parent(L2) = [...]
+- parent(R2) = [...]
+- parent(R3) = [...]
+- parent(L3) = [...]
+- parent(R4) = [...]
+
+## route depth / loop nesting depth
+- route_depth = [...]
+- loop_nesting_depth = [...]
+- representative_scope_paths =
+  - [...]
+  - [...]
+
+# 라우팅 / 루프 진입 전의 Task
+## T0. 사용자 요구 정규화
+- input = [...]
+- output = [...]
+- assumptions = [...]
+- hidden_constraints_inferred = [...]
+
+## T1. GitHub 검색 쿼리 생성
+- broad queries = [...]
+- targeted queries = [...]
+- fallback queries = [...]
+- negative filters = [...]
+
+## T2. repo 후보 수집 및 초기 점수화
+- collected_candidates = [...]
+- initial_shortlist = [...]
+- initial_reasons = [...]
+
+## T3. 현재 repo 내부 module 후보 추출
+- source_tree_signals = [...]
+- likely_modules = [...]
+- likely_entrypoints = [...]
+- likely_tests_examples = [...]
+
+# 라우팅 규칙
+## R1. Repo 적합성 라우팅
+### 입력 신호
+- README / docs evidence = [...]
+- code structure evidence = [...]
+- tests/examples evidence = [...]
+- execution feasibility evidence = [...]
+
+### 평가 기준
+- FunctionalMatchScore = [...]
+- CoreModuleVisibilityScore = [...]
+- ExecutionFeasibilityScore = [...]
+- TestExampleEvidenceScore = [...]
+- StructuralClarityScore = [...]
+- ExclusionPenalty = [...]
+- MaintenanceSignalScore = [...]
+- DocumentationSupportScore = [...]
+
+### 집계 방식
+- RepoFitScore formula = [...]
+- RepoFitScore actual = [...]
+
+### 구체적인 분류 방법
+- Pass 조건 = [...]
+- Hold 조건 = [...]
+- Reject 조건 = [...]
+
+### 현재 판정
+- decision = [...]
+- why_this_branch = [...]
+- why_not_other_branches = [...]
+- next_node = [...]
+
+## R2. 핵심 module 라우팅
+### 입력 신호
+- module candidate = [...]
+- anchoring files = [...]
+- entrypoints = [...]
+- tests/examples = [...]
+
+### 평가 기준
+- FeatureCentralityScore = [...]
+- EntrypointPresenceScore = [...]
+- TestCoverageForFeatureScore = [...]
+- ExampleCoverageScore = [...]
+- DependencyFocusScore = [...]
+- ArchitecturalProximityScore = [...]
+- InvocationClarityScore = [...]
+- DocumentationMentionScore = [...]
+
+### 집계 방식
+- ModuleFitScore formula = [...]
+- ModuleFitScore actual = [...]
+
+### 구체적인 분류 방법
+- Core 조건 = [...]
+- Supporting 조건 = [...]
+- Irrelevant 조건 = [...]
+
+### 현재 판정
+- decision = [...]
+- why_this_module_is_or_is_not_core = [...]
+- next_node = [...]
+
+## R3. 코드 양 / 실행 가능성 라우팅
+### 입력 신호
+- estimated_core_loc = [...]
+- runnable_entrypoint_exists = [...]
+- environment_ready = [...]
+- tests/examples_available = [...]
+- dependency_complexity = [...]
+
+### 평가 기준
+- LOC bucket = [...]
+- static_semantic_readability = [...]
+- runtime_value = [...]
+- runtime_feasibility = [...]
+- structure_only_risk = [...]
+
+### 구체적인 분류 방법
+- Static-first 조건 = [...]
+- Dynamic-first 조건 = [...]
+- Structure-only 조건 = [...]
+
+### 현재 판정
+- decision = [...]
+- why_this_path_was_selected = [...]
+- next_node = [...]
+
+## R4. 정합성 / fallback 라우팅
+### 입력 신호
+- intent-module alignment evidence = [...]
+- execution output evidence = [...]
+- structure consistency evidence = [...]
+- mismatch log = [...]
+
+### 평가 기준
+- IntentModuleAlignmentScore = [...]
+- ExecutionOutputAlignmentScore = [...]
+- StructuralConsistencyScore = [...]
+- DocumentationConsistencyScore = [...]
+- MismatchSeverityScore = [...]
+- ConfidenceScore = [...]
+
+### 구체적인 분류 방법
+- Accept 조건 = [...]
+- Retry_with_other_module_in_same_repo 조건 = [...]
+- Retry_with_another_repo 조건 = [...]
+- Partial_accept_with_limitations 조건 = [...]
+- Reject_current_path 조건 = [...]
+
+### 현재 판정
+- decision = [...]
+- why_this_branch = [...]
+- why_not_other_branches = [...]
+- next_node = [...]
+
+# 루프
+## L1. Repo 후보 탐색 루프
+### iterator
+- repo_candidates = [...]
+
+### entry
+- entry_condition = [...]
+
+### body
+- main_tasks = [...]
+- routers_invoked = [...]
+
+### continue
+- continue_condition = [...]
+
+### exit
+- exit_condition = [...]
+- actual_exit_reason = [...]
+
+### iteration log
+- iteration_1 = [...]
+- iteration_2 = [...]
+- ...
+
+## L2. Repo 내부 module 검증 루프
+### iterator
+- module_candidates = [...]
+
+### entry
+- entry_condition = [...]
+
+### body
+- main_tasks = [...]
+- routers_invoked = [...]
+
+### continue
+- continue_condition = [...]
+
+### exit
+- exit_condition = [...]
+- actual_exit_reason = [...]
+
+### iteration log
+- module_iteration_1 = [...]
+- module_iteration_2 = [...]
+- ...
+
+## L3. 실행 / 트러블슈팅 루프
+### iterator
+- troubleshooting_attempts = [...]
+
+### entry
+- entry_condition = [...]
+
+### body
+- environment inspection = [...]
+- execution command selection = [...]
+- execution = [...]
+- error classification = [...]
+- retry hypothesis = [...]
+
+### continue
+- continue_condition = [...]
+
+### exit
+- exit_condition = [...]
+- actual_exit_reason = [...]
+
+### attempt log
+- attempt_1 = [...]
+- attempt_2 = [...]
+- ...
+
+# Repo 검증 로그
+## 후보별 요약
+| repo | claimed feature | repo fit score | status | main evidence | main rejection or acceptance reason |
+|------|-----------------|----------------|--------|---------------|-------------------------------------|
+| ...  | ...             | ...            | ...    | ...           | ...                                 |
+
+## 보류/탈락 repo 상세
+- repo = [...]
+- status = [Hold / Reject]
+- reason = [...]
+- whether_same_feature_exists_but_peripheral = [...]
+- whether_execution_path_was_viable = [...]
+
+# 핵심 module 검증 로그
+## module 후보별 요약
+| repo | module | module fit score | classification | validation path | main evidence | main reason |
+|------|--------|------------------|----------------|-----------------|---------------|-------------|
+| ...  | ...    | ...              | ...            | ...             | ...           | ...         |
+
+## 추천 핵심 module 상세
+- repo = [...]
+- module = [...]
+- anchoring files = [...]
+- why_core = [...]
+- why_not_supporting_only = [...]
+- why_not_irrelevant = [...]
+- likely minimal entrypoint = [...]
+- likely minimal proof artifact = [...]
+
+# 실행 / 트러블슈팅 로그
+## 실행 전략
+- preferred execution path = [...]
+- why this path = [...]
+- smallest proving command or test = [...]
+
+## 실행 시도별 기록
+### attempt 1
+- command = [...]
+- setup = [...]
+- observed output = [...]
+- error = [...]
+- hypothesis = [...]
+- result = [...]
+
+### attempt 2
+- command = [...]
+- setup = [...]
+- observed output = [...]
+- error = [...]
+- hypothesis = [...]
+- result = [...]
+
+## 실행 결과 해석
+- what was proven = [...]
+- what remains unproven = [...]
+- whether runtime evidence changed recommendation = [...]
+
+# 불일치 및 fallback 처리
+## mismatch taxonomy 적용 결과
+| mismatch_id | scope | type | severity | expected | observed | likely cause | fallback |
+|-------------|-------|------|----------|----------|----------|--------------|----------|
+| ...         | ...   | ...  | ...      | ...      | ...      | ...          | ...      |
+
+## 같은 repo 내 대안 module 검토 여부
+- attempted = [...]
+- modules_checked = [...]
+- reason_for_staying_in_same_repo_or_leaving = [...]
+
+## 다음 repo로 넘어간 이유
+- triggered_at = [R1 / R4 / other]
+- reason = [...]
+- why same-repo fallback was insufficient = [...]
+
+# 표현 산출물
+## LaTeX spec
+- generated = [...]
+- summary_of_contents = [...]
+- what LaTeX made clearer = [...]
+
+## Langfuse instrumentation / trace plan
+- generated = [...]
+- trace root = [...]
+- observation mapping = [...]
+- score schema = [...]
+- tag schema = [...]
+- retry / mismatch representation = [...]
+- why Langfuse was or was not the better choice here = [...]
+
+## Mermaid summary (optional)
+- generated = [...]
+- summary_of_contents = [...]
+- why Mermaid was secondary or sufficient = [...]
+
+# 최종 추천
+## 추천 repo
+- name = [...]
+- reason = [...]
+- repo_fit_score = [...]
+
+## 추천 핵심 module
+- module = [...]
+- reason = [...]
+- module_fit_score = [...]
+
+## 검증 근거
+- strongest structural evidence = [...]
+- strongest code-level evidence = [...]
+- strongest test/example evidence = [...]
+- strongest runtime evidence = [...]
+
+## 발견한 한계
+- evidence gaps = [...]
+- runtime limitations = [...]
+- parser / tooling limitations = [...]
+- residual ambiguity = [...]
+
+## 최종 정합성 판단
+- alignment verdict = [Accept / Partial Accept / Reject]
+- alignment score = [...]
+- confidence score = [...]
+- confidence explanation = [...]
+
+# 종료 규칙 적용 결과
+## 종료 노드
+- exit_node = [E1 / E2 / E3]
+
+## 종료 사유
+- reason = [...]
+
+## 추가 탐색 가치
+- whether_more_search_is_likely_to_change_result = [...]
+- why = [...]
+
+# 부록
+## 사용한 parser / SDK / framework 목록
+- parser_or_sdk_1 = [...]
+- purpose = [...]
+- why chosen = [...]
+- why alternatives were not preferred = [...]
+
+## IR 요약
+- canonical fields used = [...]
+- how parent_scope was represented = [...]
+- how loops and routers were represented = [...]
+- whether round-trip validation succeeded = [...]
+
+## 제어 구조 한 줄 요약
+- accepted path = [...]
+- representative rejected path = [...]
+- highest-risk uncertainty node = [...]
+
+####################################################################################################
+# End of output template
+####################################################################################################

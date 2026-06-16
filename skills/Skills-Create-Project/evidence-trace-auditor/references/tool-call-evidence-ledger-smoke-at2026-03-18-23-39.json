@@ -1,0 +1,106 @@
+{
+  "status": "ok",
+  "generated_at": "2026-03-18T23:42:43+09:00",
+  "contract_family": "evidence_ledger",
+  "source_report": "evidence-trace-auditor/references/tool-call-manifest-sample-at2026-03-18-23-39.json",
+  "source_report_type": "tool_call_manifest",
+  "scope": "tool_call_evidence",
+  "rule_kind": "tool_call",
+  "pair": {
+    "doc": null,
+    "script": null
+  },
+  "entry_count": 3,
+  "entries": [
+    {
+      "entry_id": "tool_call:validated-rule-schema",
+      "finding_family": "tool_call",
+      "kind": "tool_call_result",
+      "name": "validated-rule-schema",
+      "observed_bucket": "contract_value_changed",
+      "evidence": {
+        "doc": [],
+        "code": [
+          "python3 | python3 scripts/execution_contract_mapper.py emit-schema-contract | . | args=emit-schema-contract,--rule-schema,references/rule-schema-smoke.json | exit_code=0 | stdout=schema contract emitted | outputs=evidence-trace-auditor/references/tool-call-output-sample-at2026-03-18-23-39.json"
+        ]
+      },
+      "trace_status": "verified_evidence",
+      "action": "tool call result 검토",
+      "reason": "tool call produced verifiable result signal",
+      "tool_call": {
+        "tool_name": "python3",
+        "command": "python3 scripts/execution_contract_mapper.py emit-schema-contract",
+        "args": [
+          "emit-schema-contract",
+          "--rule-schema",
+          "references/rule-schema-smoke.json"
+        ],
+        "cwd": ".",
+        "exit_code": 0,
+        "stdout_excerpt": "schema contract emitted",
+        "stderr_excerpt": "",
+        "output_paths": [
+          "evidence-trace-auditor/references/tool-call-output-sample-at2026-03-18-23-39.json"
+        ]
+      }
+    },
+    {
+      "entry_id": "tool_call:missing-output-call",
+      "finding_family": "tool_call",
+      "kind": "tool_call_result",
+      "name": "missing-output-call",
+      "observed_bucket": "missing_contract_unit",
+      "evidence": {
+        "doc": [],
+        "code": [
+          "python3 | python3 scripts/run.py --missing | . | args=--missing | exit_code=0 | stdout=planned output missing | outputs=evidence-trace-auditor/references/tool-call-missing-output-at2026-03-18-23-39.json"
+        ]
+      },
+      "trace_status": "missing_evidence",
+      "action": "missing output call 검토",
+      "reason": "required tool output missing: evidence-trace-auditor/references/tool-call-missing-output-at2026-03-18-23-39.json",
+      "tool_call": {
+        "tool_name": "python3",
+        "command": "python3 scripts/run.py --missing",
+        "args": [
+          "--missing"
+        ],
+        "cwd": ".",
+        "exit_code": 0,
+        "stdout_excerpt": "planned output missing",
+        "stderr_excerpt": "",
+        "output_paths": [
+          "evidence-trace-auditor/references/tool-call-missing-output-at2026-03-18-23-39.json"
+        ]
+      }
+    },
+    {
+      "entry_id": "tool_call:failing-call",
+      "finding_family": "tool_call",
+      "kind": "tool_call_result",
+      "name": "failing-call",
+      "observed_bucket": "contract_value_changed",
+      "evidence": {
+        "doc": [],
+        "code": [
+          "python3 | python3 scripts/run.py --fail | . | args=--fail | exit_code=1 | stderr=traceback"
+        ]
+      },
+      "trace_status": "residual_uncertainty",
+      "action": "failing call 검토",
+      "reason": "tool call exited non-zero: 1",
+      "tool_call": {
+        "tool_name": "python3",
+        "command": "python3 scripts/run.py --fail",
+        "args": [
+          "--fail"
+        ],
+        "cwd": ".",
+        "exit_code": 1,
+        "stdout_excerpt": "",
+        "stderr_excerpt": "traceback",
+        "output_paths": []
+      }
+    }
+  ]
+}

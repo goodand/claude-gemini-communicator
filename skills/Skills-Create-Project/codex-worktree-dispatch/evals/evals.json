@@ -1,0 +1,40 @@
+{
+  "skill_name": "codex-worktree-dispatch",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "인증 모듈 task-packet을 Codex worker에게 배정해줘. src/auth/ 경로만 수정 가능해.",
+      "expected_output": "dispatch_manager.py new --packet으로 dispatch 생성, branch=feat/codex-..., worktree 생성, locked_paths=[src/auth/]",
+      "files": ["scripts/dispatch_manager.py"],
+      "assertions": ["dispatch_manager.py", "new", "--packet", "locked_paths", "worktree"]
+    },
+    {
+      "id": 1,
+      "prompt": "두 개의 dispatch가 src/auth/ 경로를 동시에 점유하려 하는데 겹침 검사해줘",
+      "expected_output": "dispatch_manager.py check-overlap으로 활성 dispatch의 locked_paths prefix-level 겹침 감지",
+      "files": ["scripts/dispatch_manager.py"],
+      "assertions": ["check-overlap", "overlap", "locked_paths"]
+    },
+    {
+      "id": 2,
+      "prompt": "DISPATCH-0012가 DISPATCH-0010에 의존하는데 ready 상태로 바꿀 수 있어?",
+      "expected_output": "dispatch_manager.py ready로 depends_on_dispatch_ids 확인, DISPATCH-0010이 complete/merged가 아니면 blocked",
+      "files": ["scripts/dispatch_manager.py"],
+      "assertions": ["ready", "depends_on", "blocked", "complete"]
+    },
+    {
+      "id": 3,
+      "prompt": "DISPATCH-0010 작업이 끝났어. merge 가능한지 확인해줘",
+      "expected_output": "dispatch_manager.py merge-check로 status=complete, branch 존재, worktree clean, conflict 없음 확인",
+      "files": ["scripts/dispatch_manager.py"],
+      "assertions": ["merge-check", "status", "complete", "branch", "worktree"]
+    },
+    {
+      "id": 4,
+      "prompt": "이 dispatch에 goal 필드가 있는데 validation이 통과돼?",
+      "expected_output": "dispatch_manager.py validate 실행 시 '금지 필드 포함: goal' 에러로 실패 (exit 1). goal은 packet에만 존재해야 한다",
+      "files": ["scripts/dispatch_manager.py"],
+      "assertions": ["금지 필드", "goal", "validate", "packet"]
+    }
+  ]
+}

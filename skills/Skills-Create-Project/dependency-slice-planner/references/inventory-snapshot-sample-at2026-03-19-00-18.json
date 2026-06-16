@@ -1,0 +1,18 @@
+{
+  "root_path": "src",
+  "file_count": 14,
+  "total_bytes": 48216,
+  "language_buckets": {
+    "python": 11,
+    "markdown": 2,
+    "yaml": 1
+  },
+  "manifest_files": [
+    "pyproject.toml",
+    "requirements.txt"
+  ],
+  "known_entrypoints": [
+    "src/main.py",
+    "src/bootstrap.py"
+  ]
+}

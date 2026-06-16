@@ -1,0 +1,40 @@
+{
+  "status": "ok",
+  "generated_at": "2026-03-19T00:24:49+09:00",
+  "contract_family": "slice_seed_candidates_contract",
+  "version": "v0.1.0",
+  "required_top_level_fields": [
+    "candidate_count",
+    "candidates"
+  ],
+  "candidate_required_fields": [
+    "candidate_id",
+    "root_dir",
+    "file_count",
+    "total_bytes",
+    "max_depth",
+    "seed_action",
+    "tags",
+    "reason"
+  ],
+  "seed_action_enum": [
+    "keep",
+    "merge_candidate",
+    "split_candidate",
+    "stop_candidate"
+  ],
+  "top_level_schema": {
+    "candidate_count": "int",
+    "candidates": "list[dict]"
+  },
+  "candidate_field_schema": {
+    "candidate_id": "str",
+    "root_dir": "str",
+    "file_count": "int",
+    "total_bytes": "int",
+    "max_depth": "int",
+    "seed_action": "enum(keep|merge_candidate|split_candidate|stop_candidate)",
+    "tags": "list[str]",
+    "reason": "str"
+  }
+}

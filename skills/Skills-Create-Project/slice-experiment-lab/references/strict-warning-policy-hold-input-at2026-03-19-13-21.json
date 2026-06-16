@@ -1,0 +1,24 @@
+{
+  "status": "passed",
+  "generated_at": "2026-03-19T13:21:00+09:00",
+  "contract_family": "quick_validate_capture",
+  "skill_dir": "slice-experiment-lab",
+  "strict": false,
+  "command": [
+    "python3",
+    "../super-skill-creator/scripts/quick_validate.py",
+    "slice-experiment-lab"
+  ],
+  "exit_code": 0,
+  "stdout_lines": [
+    "Validation passed"
+  ],
+  "stderr_lines": [
+    "[WARN] references/troubleshooting.md 내용을 더 구체화하세요."
+  ],
+  "warnings": [
+    "references/troubleshooting.md 내용을 더 구체화하세요."
+  ],
+  "errors": [],
+  "final_stdout": "Validation passed"
+}

@@ -1,0 +1,15 @@
+{
+  "status": "valid",
+  "generated_at": "2026-04-08T00:18:20+09:00",
+  "contract_family": "smoke_command_capture",
+  "label": "async-migration-scan-dead-imports",
+  "expected_status": "valid",
+  "command": [
+    "python3",
+    "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/async-migration-verify/scripts/test_scan_dead_imports.py"
+  ],
+  "exit_code": 0,
+  "stdout": "",
+  "stderr": "",
+  "parsed_stdout_status": null
+}

@@ -1,0 +1,84 @@
+# execution-contract-mapper rule_schema summary
+
+- generated_at: `2026-03-17T01:07:03+09:00`
+- input_checklist: `execution-contract-mapper/checklist-forconsistency-evaluation/consistency-checklist-at2026-03-17-01-00.md`
+- source_of_truth: ``knowledge_bases/execution-contract-mapper-knowledge_base-at2026-03-17-00-44.md`의 `Canonical Design Takeaways``
+- rule_count: `15`
+
+## Rules
+
+- `identity__skill`
+  - kind: `rule_schema`
+  - section: `A. Identity`
+  - expectation: 이 skill의 핵심 목적이 `개념 공간 -> 실행 계약 공간` 변환으로 고정돼 있다
+  - evidence: `consistency-checklist-at2026-03-17-01-00.md:8 :: A. Identity :: 이 skill의 핵심 목적이 `개념 공간 -> 실행 계약 공간` 변환으로 고정돼 있다`
+- `identity__skill-checklist-schema-cli-surface-rule-schema-contract-artifact`
+  - kind: `rule_schema`
+  - section: `A. Identity`
+  - expectation: 이 skill이 checklist, schema, CLI surface, rule schema 같은 contract artifact를 만드는 중간층으로 정의돼 있다
+  - evidence: `consistency-checklist-at2026-03-17-01-00.md:9 :: A. Identity :: 이 skill이 checklist, schema, CLI surface, rule schema 같은 contract artifact를 만드는 중간층으로 정의돼 있다`
+- `boundary__runtime-evidence-evidence-trace-auditor`
+  - kind: `rule_schema`
+  - section: `B. Boundary`
+  - expectation: runtime evidence 수집/해석은 `evidence-trace-auditor`의 후행 책임으로 분리돼 있다
+  - evidence: `consistency-checklist-at2026-03-17-01-00.md:13 :: B. Boundary :: runtime evidence 수집/해석은 `evidence-trace-auditor`의 후행 책임으로 분리돼 있다`
+- `boundary__concept-space-lifting-contract-to-concept-mapper`
+  - kind: `rule_schema`
+  - section: `B. Boundary`
+  - expectation: concept-space 역방향 lifting은 `contract-to-concept-mapper`의 인접 책임으로 분리돼 있다
+  - evidence: `consistency-checklist-at2026-03-17-01-00.md:14 :: B. Boundary :: concept-space 역방향 lifting은 `contract-to-concept-mapper`의 인접 책임으로 분리돼 있다`
+- `boundary__implementation-checklist-consistency-checklist-source-of-truth`
+  - kind: `rule_schema`
+  - section: `B. Boundary`
+  - expectation: implementation checklist가 consistency checklist보다 먼저 source of truth처럼 취급되지 않는다
+  - evidence: `consistency-checklist-at2026-03-17-01-00.md:15 :: B. Boundary :: implementation checklist가 consistency checklist보다 먼저 source of truth처럼 취급되지 않는다`
+- `source-of-truth-order__source-of-truth-canonical-design-takeaways-canonical-kb-consistency-checklist-implementation-checklist-scripts`
+  - kind: `rule_schema`
+  - section: `C. Source Of Truth Order`
+  - expectation: source of truth 순서가 `Canonical Design Takeaways 또는 더 좁은 canonical KB -> consistency checklist -> implementation checklist -> scripts`로 고정돼 있다
+  - evidence: `consistency-checklist-at2026-03-17-01-00.md:19 :: C. Source Of Truth Order :: source of truth 순서가 `Canonical Design Takeaways 또는 더 좁은 canonical KB -> consistency checklist -> implementation checklist -> scripts`로 고정돼 있다`
+- `source-of-truth-order__consistency-checklist-implementation-checklist`
+  - kind: `rule_schema`
+  - section: `C. Source Of Truth Order`
+  - expectation: consistency checklist가 implementation checklist의 입력임이 명시돼 있다
+  - evidence: `consistency-checklist-at2026-03-17-01-00.md:20 :: C. Source Of Truth Order :: consistency checklist가 implementation checklist의 입력임이 명시돼 있다`
+- `contract-family-priority__v0-1-contract-family-rule-schema-schema-contract-cli-contract`
+  - kind: `rule_schema`
+  - section: `D. Contract Family Priority`
+  - expectation: v0.1 우선 contract family가 `rule_schema`, `schema_contract`, `cli_contract`로 명시돼 있다
+  - evidence: `consistency-checklist-at2026-03-17-01-00.md:24 :: D. Contract Family Priority :: v0.1 우선 contract family가 `rule_schema`, `schema_contract`, `cli_contract`로 명시돼 있다`
+- `contract-family-priority__contract-diff-basis-stable-contract-artifact`
+  - kind: `rule_schema`
+  - section: `D. Contract Family Priority`
+  - expectation: `contract_diff_basis`는 stable contract artifact 이후의 후속 층으로 분리돼 있다
+  - evidence: `consistency-checklist-at2026-03-17-01-00.md:25 :: D. Contract Family Priority :: `contract_diff_basis`는 stable contract artifact 이후의 후속 층으로 분리돼 있다`
+- `contract-family-priority__vertical-slice-rule-schema`
+  - kind: `rule_schema`
+  - section: `D. Contract Family Priority`
+  - expectation: 첫 vertical slice가 `rule_schema`로 고정돼 있다
+  - evidence: `consistency-checklist-at2026-03-17-01-00.md:26 :: D. Contract Family Priority :: 첫 vertical slice가 `rule_schema`로 고정돼 있다`
+- `contract-unit__contract-unit-kind-name-source-value-evidence`
+  - kind: `rule_schema`
+  - section: `E. Contract Unit`
+  - expectation: 최소 contract unit이 `kind`, `name`, `source`, `value`, `evidence`를 가진다고 명시돼 있다
+  - evidence: `consistency-checklist-at2026-03-17-01-00.md:30 :: E. Contract Unit :: 최소 contract unit이 `kind`, `name`, `source`, `value`, `evidence`를 가진다고 명시돼 있다`
+- `contract-unit__machine-readable-contract-artifact-human-readable-contract-summary`
+  - kind: `rule_schema`
+  - section: `E. Contract Unit`
+  - expectation: machine-readable contract artifact와 human-readable contract summary를 분리해 남긴다고 명시돼 있다
+  - evidence: `consistency-checklist-at2026-03-17-01-00.md:31 :: E. Contract Unit :: machine-readable contract artifact와 human-readable contract summary를 분리해 남긴다고 명시돼 있다`
+- `compareability__rule-schema-checklist-item-codebase-compare-object`
+  - kind: `rule_schema`
+  - section: `F. Compareability`
+  - expectation: rule schema가 checklist item을 codebase와 compare 가능한 구조적 object로 내리는 층으로 정의돼 있다
+  - evidence: `consistency-checklist-at2026-03-17-01-00.md:35 :: F. Compareability :: rule schema가 checklist item을 codebase와 compare 가능한 구조적 object로 내리는 층으로 정의돼 있다`
+- `compareability__schema-contract-field-type-required-constraint`
+  - kind: `rule_schema`
+  - section: `F. Compareability`
+  - expectation: schema contract가 `field`, `type`, `required`, `constraint`를 구조화한다고 명시돼 있다
+  - evidence: `consistency-checklist-at2026-03-17-01-00.md:36 :: F. Compareability :: schema contract가 `field`, `type`, `required`, `constraint`를 구조화한다고 명시돼 있다`
+- `compareability__cli-contract-subcommand-option-argument-help-exit-behavior-surface`
+  - kind: `rule_schema`
+  - section: `F. Compareability`
+  - expectation: CLI contract가 `subcommand`, `option`, `argument`, `help`, `exit behavior`를 안정적으로 추출 가능한 surface로 정의돼 있다
+  - evidence: `consistency-checklist-at2026-03-17-01-00.md:37 :: F. Compareability :: CLI contract가 `subcommand`, `option`, `argument`, `help`, `exit behavior`를 안정적으로 추출 가능한 surface로 정의돼 있다`

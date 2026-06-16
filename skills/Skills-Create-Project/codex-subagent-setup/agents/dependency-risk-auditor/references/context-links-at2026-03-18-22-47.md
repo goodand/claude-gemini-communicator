@@ -1,0 +1,6 @@
+# Context Links — Dependency Risk Auditor
+
+- [depsolve-analyzer SKILL](/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/depsolve-analyzer/SKILL.md)
+- [MECE subagent fan-in](/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/depsolve-analyzer/references/MECE_SUBAGENT_FANIN_FOR_DEPGRAPH_2026-03-18-21-22.md)
+- [initial_graph_summary.json](/Users/jaehyuntak/Desktop/Project_____현재_진행중인/my-second-identity/plans/claude/graphs/dependency_graph_analysis_2026-03-18/initial_graph_summary.json)
+- [risk_report.md](/Users/jaehyuntak/Desktop/Project_____현재_진행중인/my-second-identity/plans/claude/graphs/dependency_graph_analysis_2026-03-18/risk_report.md)

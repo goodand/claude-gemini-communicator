@@ -1,0 +1,29 @@
+{
+  "overlay_count": 1,
+  "overlays": [
+    {
+      "overlay_id": "overlay_01",
+      "root_path": "src",
+      "source_import_edges": [
+        "src/core/a.py -> src/core/b.py",
+        "src/bootstrap.py -> src/core/a.py"
+      ],
+      "manifest_edges": [
+        "pyproject.toml -> src/package/__init__.py"
+      ],
+      "wrapper_path_edges": [
+        "scripts/run.sh -> src/bootstrap.py"
+      ],
+      "cross_region_edges": [
+        "src/core -> plans/analysis"
+      ],
+      "shared_hubs": [
+        "src/shared/utils.py"
+      ],
+      "anomaly_ledger": [
+        "cycle: src/core/a.py <-> src/core/b.py"
+      ],
+      "reason": "static overlay summary for planner refinement"
+    }
+  ]
+}

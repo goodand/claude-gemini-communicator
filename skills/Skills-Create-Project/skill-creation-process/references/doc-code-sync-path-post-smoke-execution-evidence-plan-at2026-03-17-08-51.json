@@ -1,0 +1,51 @@
+{
+  "status": "planned",
+  "skill": "doc-code-sync-checker",
+  "stage": "post_smoke",
+  "target": "doc-code-sync path rule",
+  "experiment": "typed-mismatch-path-rule",
+  "inputs": {
+    "implementation_checklist": "doc-code-sync-checker/checklist-forimplementation/mismatch-semantics-implementation-checklist-at2026-03-16-22-36.md",
+    "contract_diff_basis": "execution-contract-mapper/references/contract-diff-basis-smoke-at2026-03-17-01-40.json",
+    "smoke_artifacts": [
+      "doc-code-sync-checker/references/typed-mismatch-path-rule-smoke-report-at2026-03-17-00-08.json"
+    ],
+    "pre_fix": null,
+    "post_fix": null,
+    "metrics": []
+  },
+  "suggested_outputs": {
+    "smoke_json": "references/typed-mismatch-path-rule-smoke-report-at2026-03-17-08-51.json",
+    "smoke_md": "references/typed-mismatch-path-rule-smoke-report-at2026-03-17-08-51.md",
+    "evidence_ledger_json": "references/typed-mismatch-path-rule-evidence-ledger-at2026-03-17-08-51.json",
+    "evidence_ledger_md": "references/typed-mismatch-path-rule-evidence-ledger-at2026-03-17-08-51.md",
+    "support_audit_json": "references/typed-mismatch-path-rule-support-audit-at2026-03-17-08-51.json",
+    "support_audit_md": "references/typed-mismatch-path-rule-support-audit-at2026-03-17-08-51.md"
+  },
+  "handoffs": [
+    {
+      "target_skill": "evidence-trace-auditor",
+      "when": "now",
+      "purpose": "raw smoke를 evidence ledger와 support audit로 정규화",
+      "entrypoint": "evidence-trace-auditor/scripts/evidence_trace_auditor.py"
+    },
+    {
+      "target_skill": "baseline-diff-lab",
+      "when": "when pre/post pair exists",
+      "purpose": "fix effect를 주장해야 할 때 before/after diff 계산",
+      "entrypoint": "baseline-diff-lab/scripts/baseline_diff_planner.py"
+    }
+  ],
+  "next_actions": [
+    "raw smoke artifact를 evidence ledger로 정규화한다",
+    "contract_diff_basis 기준 support audit를 계산한다",
+    "troubleshooting과 residual uncertainty를 정리한다",
+    "fix effect를 주장해야 하면 pre/post artifact를 모아 baseline-diff-lab으로 넘긴다"
+  ],
+  "notes": [
+    "execution contract artifact 없이 smoke/evidence 단계로 넘어가지 않는다",
+    "evidence ledger와 support audit 없이 lesson을 KB로 바로 승격하지 않는다",
+    "pre-fix와 post-fix는 같은 target과 같은 metric family를 기준으로 비교한다"
+  ],
+  "pattern_doc": "skill-creation-process/references/execution-evidence-pattern-at2026-03-17-04-03.md"
+}

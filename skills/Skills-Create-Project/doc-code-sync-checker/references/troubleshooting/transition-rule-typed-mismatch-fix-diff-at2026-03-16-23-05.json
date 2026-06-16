@@ -1,0 +1,31 @@
+{
+  "measured_at": "2026-03-16T23:06:10+09:00",
+  "experiment": "transition_rule typed mismatch reduction after fix",
+  "pre_fix": {
+    "artifact": "typed-mismatch-transition-rule-smoke-report-at2026-03-16-22-57.json",
+    "missing_in_code": 1,
+    "missing_in_doc": 1,
+    "typed_mismatch": 1
+  },
+  "post_fix": {
+    "artifact": "typed-mismatch-transition-rule-post-fix-smoke-report-at2026-03-16-23-05.json",
+    "missing_in_code": 0,
+    "missing_in_doc": 0,
+    "typed_mismatch": 0
+  },
+  "delta": {
+    "missing_in_code": -1,
+    "missing_in_doc": -1,
+    "typed_mismatch": -1
+  },
+  "metrics": {
+    "typed_mismatch_reduction_after_fix": {
+      "value": 1.0,
+      "absolute_reduction": 1,
+      "before": 1,
+      "after": 0,
+      "class": "strict-on-experiment",
+      "formula": "(typed_mismatch_before_fix - typed_mismatch_after_fix) / typed_mismatch_before_fix"
+    }
+  }
+}

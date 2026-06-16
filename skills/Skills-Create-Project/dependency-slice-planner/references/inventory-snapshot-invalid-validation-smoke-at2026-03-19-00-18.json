@@ -1,0 +1,22 @@
+{
+  "status": "invalid",
+  "generated_at": "2026-03-19T00:21:54+09:00",
+  "contract_family": "inventory_snapshot_validation",
+  "input_snapshot": "dependency-slice-planner/references/inventory-snapshot-invalid-sample-at2026-03-19-00-18.json",
+  "error_count": 6,
+  "errors": [
+    "missing field: total_bytes",
+    "root_path must be non-empty str",
+    "file_count must be non-negative int",
+    "language_buckets values must be non-negative int",
+    "manifest_files must be list[str]",
+    "known_entrypoints must contain non-empty strings"
+  ],
+  "snapshot_summary": {
+    "root_path": null,
+    "file_count": null,
+    "manifest_file_count": null,
+    "entrypoint_count": 1,
+    "language_bucket_count": 1
+  }
+}
