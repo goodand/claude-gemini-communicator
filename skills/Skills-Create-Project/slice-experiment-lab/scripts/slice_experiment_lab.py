@@ -138,7 +138,7 @@ def suggest_triad_names(slice_name: str, timestamp: str, references_dir: str = "
 def capture_quick_validate(skill_dir: str, strict: bool = False) -> dict[str, object]:
     command = [
         sys.executable,
-        str(Path(__file__).resolve().parents[3] / "super-skill-creator" / "scripts" / "quick_validate.py"),
+        str(Path(__file__).resolve().parents[2] / "_shared" / "scripts" / "quick_validate.py"),
         skill_dir,
     ]
     if strict:
