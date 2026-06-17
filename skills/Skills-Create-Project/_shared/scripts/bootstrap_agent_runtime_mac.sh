@@ -6,9 +6,14 @@ set -euo pipefail
 
 # ── 0. Apple Silicon Homebrew PATH ───────────────────────────────────────────
 # /opt/homebrew is the arm64 prefix; Intel uses /usr/local.
-# Prepend arm64 path when running in a fresh shell where Homebrew is not on PATH.
+# Also add python@3.13 libexec so the unversioned python3 symlink resolves to 3.13
+# even when brew install python@3.13 is keg-only (not globally linked).
 if [ -d /opt/homebrew/bin ] && [[ ":$PATH:" != *":/opt/homebrew/bin:"* ]]; then
   export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+fi
+if [ -d /opt/homebrew/opt/python@3.13/libexec/bin ] && \
+   [[ ":$PATH:" != *":/opt/homebrew/opt/python@3.13/libexec/bin:"* ]]; then
+  export PATH="/opt/homebrew/opt/python@3.13/libexec/bin:$PATH"
 fi
 
 # ── 1. CWD guard ─────────────────────────────────────────────────────────────
@@ -21,6 +26,27 @@ if [ "$ACTUAL_DIR" != "$EXPECTED_DIR" ]; then
 fi
 SKILLS_ROOT="$(pwd)"
 echo "SKILLS_ROOT: $SKILLS_ROOT"
+
+# ── 1b. PYTHON_BIN resolution ────────────────────────────────────────────────
+# Priority: python@3.13 libexec → /opt/homebrew/bin/python3.13 → PATH python3.
+# Explicit paths handle keg-only installs where 'python3' on PATH is still 3.9.
+PYTHON_BIN=""
+for _candidate in \
+  "/opt/homebrew/opt/python@3.13/libexec/bin/python3" \
+  "/opt/homebrew/bin/python3.13" \
+  "$(command -v python3 2>/dev/null || true)"; do
+  if [ -x "${_candidate:-}" ]; then
+    PYTHON_BIN="$_candidate"
+    break
+  fi
+done
+if [ -z "$PYTHON_BIN" ]; then
+  echo "ERROR: python3 not found. Install via: brew install python@3.13"
+  exit 1
+fi
+echo ""
+echo "=== Python interpreter ==="
+echo "OK:      PYTHON_BIN=$PYTHON_BIN ($("$PYTHON_BIN" --version 2>&1))"
 
 # ── 2. Dependency checks ──────────────────────────────────────────────────────
 MISSING=0
@@ -67,8 +93,8 @@ check_version() {
 
 echo ""
 echo "=== Dependency check ==="
-check_version git     "--version"  2  40
-check_version python3 "--version"  3  11  true   # strict: FAIL if < 3.11
+check_version git          "--version"  2  40
+check_version "$PYTHON_BIN" "--version"  3  11  true   # strict: FAIL if < 3.11
 check_version node    "--version"  18   0
 check_version tmux    "-V"         3   6
 check_version rg      "--version"  13   0
@@ -81,12 +107,6 @@ if [ "$MISSING" -gt 0 ]; then
   echo "       Install missing tools via Homebrew and retry."
   exit 1
 fi
-
-# Resolve canonical PYTHON_BIN (used for pytest install and exported for verify)
-PYTHON_BIN="$(command -v python3)"
-echo ""
-echo "=== Python interpreter ==="
-echo "OK:      PYTHON_BIN=$PYTHON_BIN ($("$PYTHON_BIN" --version 2>&1))"
 
 # ── 3. .env setup ─────────────────────────────────────────────────────────────
 echo ""
