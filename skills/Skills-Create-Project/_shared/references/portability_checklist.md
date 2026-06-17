@@ -47,7 +47,7 @@ cd claude-gemini-communicator/skills/Skills-Create-Project
 
 # 2-3. bootstrap 실행
 bash _shared/scripts/bootstrap_agent_runtime_mac.sh
-# 기대: exit 0, .env / .mcp.json 생성, no /Users/ ABS-PATH 경고 없음
+# 기대: exit 0, .venv 생성, .runtime/python_bin 기록, .env / .mcp.json 생성, no /Users/ ABS-PATH 경고 없음
 ```
 
 ### Bootstrap 후 수동 작업
@@ -64,21 +64,27 @@ bash _shared/scripts/bootstrap_agent_runtime_mac.sh
 ```bash
 # 3-1. verify 실행 (CWD = skills/Skills-Create-Project 필수)
 bash _shared/scripts/verify_agent_runtime_mac.sh
-# 기대: smoke 34/34, unit 446/446, audit PASS, no-abs-path PASS → exit 0
+# 기대: dep-preflight PASS, smoke 34/34, unit 446/446, audit PASS, no-abs-path PASS → exit 0
 ```
 
 개별 gate 수동 실행 (verify script 내부와 동일):
 
 ```bash
+# PYTHON_BIN: bootstrap이 생성한 venv 사용 권장
+PYTHON_BIN="$(cat .runtime/python_bin 2>/dev/null || echo python3)"
+
+# dep-preflight
+$PYTHON_BIN -c "import pytest, pydantic; print('OK')"
+
 # smoke
-python3 _shared/scripts/smoke_runner.py --skills-root .
+$PYTHON_BIN _shared/scripts/smoke_runner.py --skills-root .
 
 # unit (CWD 계약: Skills-Create-Project/ 에서 실행)
 # --ignore-glob: skip backups/ on dev machines; no-op on clean clone
-python3 -m pytest . -q -p no:cacheprovider --ignore-glob="**/backups/**"
+$PYTHON_BIN -m pytest . -q -p no:cacheprovider --ignore-glob="**/backups/**"
 
 # audit
-python3 _shared/scripts/audit_cross_skill_dependencies.py --skills-root .
+$PYTHON_BIN _shared/scripts/audit_cross_skill_dependencies.py --skills-root .
 
 # no-abs-path
 if grep -r "/Users/" . \
@@ -98,7 +104,8 @@ fi
 
 | Gate | 명령 | 기대 결과 |
 |------|------|-----------|
-| bootstrap | `bash _shared/scripts/bootstrap_agent_runtime_mac.sh` | exit 0 |
+| bootstrap | `bash _shared/scripts/bootstrap_agent_runtime_mac.sh` | exit 0, .venv + .runtime/python_bin 생성 |
+| dep-preflight | `$PYTHON_BIN -c "import pytest, pydantic"` | exit 0 |
 | smoke | `smoke_runner.py --skills-root .` | 34/34 PASS |
 | unit | `pytest . -q -p no:cacheprovider --ignore-glob="**/backups/**"` | 446 passed |
 | audit | `audit_cross_skill_dependencies.py --skills-root .` | exit 0 |

@@ -33,10 +33,24 @@ echo "SKILLS_ROOT: $SKILLS_ROOT"
 echo ""
 
 # ── 1b. PYTHON_BIN resolution ────────────────────────────────────────────────
-# Resolve canonical python3 (post-Homebrew PATH prepend) for all gate commands.
-PYTHON_BIN="$(command -v python3 2>/dev/null || echo '')"
+# Priority: .runtime/python_bin (written by bootstrap) → .venv/bin/python → PATH python3.
+# bootstrap_agent_runtime_mac.sh writes .runtime/python_bin when venv setup succeeds.
+RUNTIME_BIN_FILE=".runtime/python_bin"
+if [ -f "$RUNTIME_BIN_FILE" ]; then
+  PYTHON_BIN="$(cat "$RUNTIME_BIN_FILE")"
+  if [ ! -x "$PYTHON_BIN" ]; then
+    echo "WARN:    .runtime/python_bin points to missing binary ($PYTHON_BIN) — falling back"
+    PYTHON_BIN=""
+  fi
+fi
+if [ -z "${PYTHON_BIN:-}" ] && [ -x ".venv/bin/python" ]; then
+  PYTHON_BIN="$(pwd)/.venv/bin/python"
+fi
+if [ -z "${PYTHON_BIN:-}" ]; then
+  PYTHON_BIN="$(command -v python3 2>/dev/null || echo '')"
+fi
 if [ -z "$PYTHON_BIN" ]; then
-  echo "ERROR: python3 not found on PATH after Homebrew prepend"
+  echo "ERROR: python3 not found — run bootstrap first"
   exit 1
 fi
 
@@ -59,6 +73,28 @@ if [ "$PREFLIGHT_FAIL" -gt 0 ]; then
   echo "       Run bootstrap first, or ensure feat/skill-v0-import-baseline is merged."
   exit 1
 fi
+
+# ── 1d. Python dependency preflight (blocking) ────────────────────────────────
+# Checks that the Python runtime used for all gates has the required packages.
+# Fails before any gate runs so the error message is actionable.
+echo "--- Gate: dep-preflight ---"
+DEP_FAIL=0
+for pkg in pytest pydantic; do
+  if "$PYTHON_BIN" -c "import $pkg" 2>/dev/null; then
+    echo "OK:      $pkg"
+  else
+    echo "MISSING: $pkg (interpreter: $PYTHON_BIN)"
+    DEP_FAIL=$((DEP_FAIL + 1))
+  fi
+done
+if [ "$DEP_FAIL" -gt 0 ]; then
+  echo ""
+  echo "ERROR: $DEP_FAIL Python package(s) missing in $PYTHON_BIN"
+  echo "       Fix: run bootstrap_agent_runtime_mac.sh (creates .venv + installs deps)"
+  echo "            or:  $PYTHON_BIN -m pip install -r _shared/requirements-verify.txt"
+  exit 1
+fi
+ok "dep-preflight: pytest pydantic present in $PYTHON_BIN"
 
 # ── 2. Smoke 34/34 ───────────────────────────────────────────────────────────
 echo "--- Gate: smoke ---"
@@ -130,6 +166,7 @@ ABS_HITS="$(grep -r "/Users/" . \
   --exclude-dir=__pycache__ --exclude-dir=.git \
   --exclude-dir=evals --exclude-dir=backups \
   --exclude-dir=references --exclude-dir=.claude \
+  --exclude-dir=.venv --exclude-dir=.runtime \
   --exclude="bootstrap_agent_runtime_mac.sh" \
   --exclude="verify_agent_runtime_mac.sh" \
   -l 2>/dev/null || true)"
@@ -163,7 +200,7 @@ echo "=== Verify summary ==="
 echo "  PASS: $PASS  FAIL: $FAIL  WARN: $WARN"
 echo ""
 
-REQUIRED_PASS=4   # smoke, unit, audit, no-abs-path
+REQUIRED_PASS=5   # dep-preflight, smoke, unit, audit, no-abs-path
 if [ "$PASS" -ge "$REQUIRED_PASS" ] && [ "$FAIL" -eq 0 ]; then
   echo "verify: ALL GATES PASS"
   exit 0

@@ -117,23 +117,39 @@ else
   echo "SKIP:    .mcp.example.json not found — skipping .mcp.json creation"
 fi
 
-# ── 5. pytest availability ────────────────────────────────────────────────────
-# verify_agent_runtime_mac.sh uses python3 -m pytest for the unit gate.
-# On a fresh Mac, pytest may not be installed. Install it now if absent.
+# ── 5. venv + Python dependencies ────────────────────────────────────────────
+# Create a repo-local .venv so verify_agent_runtime_mac.sh gets reproducible
+# dependency state (pytest, pydantic, ...) without polluting the system Python.
+# _shared/requirements-verify.txt is the source-of-truth.
 echo ""
-echo "=== pytest ==="
-if "$PYTHON_BIN" -m pytest --version >/dev/null 2>&1; then
-  echo "OK:      pytest $("$PYTHON_BIN" -m pytest --version 2>&1 | head -1)"
+echo "=== Python venv + dependencies ==="
+VENV_DIR="$SKILLS_ROOT/.venv"
+REQUIREMENTS="$SKILLS_ROOT/_shared/requirements-verify.txt"
+RUNTIME_DIR="$SKILLS_ROOT/.runtime"
+
+if [ ! -f "$REQUIREMENTS" ]; then
+  echo "WARN:    $REQUIREMENTS not found — skipping venv setup"
+  echo "         verify may fail at dependency preflight"
 else
-  echo "Installing pytest ..."
-  "$PYTHON_BIN" -m pip install pytest --quiet --break-system-packages 2>/dev/null \
-    || "$PYTHON_BIN" -m pip install pytest --quiet
-  if "$PYTHON_BIN" -m pytest --version >/dev/null 2>&1; then
-    echo "OK:      pytest installed ($("$PYTHON_BIN" -m pytest --version 2>&1 | head -1))"
+  # Create venv if absent
+  if [ ! -d "$VENV_DIR" ]; then
+    echo "Creating .venv with $PYTHON_BIN ..."
+    "$PYTHON_BIN" -m venv "$VENV_DIR"
+    echo "OK:      .venv created at $VENV_DIR"
   else
-    echo "WARN:    pytest install failed — verify will fail at unit gate"
-    echo "         Manual fix: $PYTHON_BIN -m pip install pytest"
+    echo "OK:      .venv already exists at $VENV_DIR"
   fi
+
+  VENV_PYTHON="$VENV_DIR/bin/python"
+
+  echo "Installing from _shared/requirements-verify.txt ..."
+  "$VENV_PYTHON" -m pip install --quiet -r "$REQUIREMENTS"
+  echo "OK:      installed: $(tr '\n' ' ' < "$REQUIREMENTS")"
+
+  # Write .runtime/python_bin so verify_agent_runtime_mac.sh uses the same interpreter.
+  mkdir -p "$RUNTIME_DIR"
+  echo "$VENV_PYTHON" > "$RUNTIME_DIR/python_bin"
+  echo "OK:      interpreter pinned → .runtime/python_bin ($VENV_PYTHON)"
 fi
 
 # ── 6. Absolute path scan (warning, non-blocking) ─────────────────────────────
@@ -147,6 +163,7 @@ ABS_HITS_BOOTSTRAP="$(grep -r "/Users/" "$SKILLS_ROOT" \
   --exclude-dir=__pycache__ --exclude-dir=.git \
   --exclude-dir=evals --exclude-dir=backups \
   --exclude-dir=references --exclude-dir=.claude \
+  --exclude-dir=.venv --exclude-dir=.runtime \
   --exclude="bootstrap_agent_runtime_mac.sh" \
   --exclude="verify_agent_runtime_mac.sh" \
   -l 2>/dev/null || true)"
