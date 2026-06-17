@@ -36,7 +36,9 @@ check_cmd() {
 }
 
 check_version() {
-  local cmd="$1" arg="$2" min_major="$3" min_minor="${4:-0}"
+  # Usage: check_version <cmd> <version-arg> <min_major> [min_minor] [strict]
+  # strict=true: version below minimum increments MISSING (FAIL); default is WARN only.
+  local cmd="$1" arg="$2" min_major="$3" min_minor="${4:-0}" strict="${5:-false}"
   if ! command -v "$cmd" >/dev/null 2>&1; then
     echo "MISSING: $cmd"
     MISSING=$((MISSING + 1))
@@ -44,7 +46,6 @@ check_version() {
   fi
   local raw
   raw="$($cmd $arg 2>&1 | head -1)"
-  # extract first X.Y from output
   local ver
   ver="$(echo "$raw" | grep -oE '[0-9]+\.[0-9]+' | head -1)"
   local major minor
@@ -55,25 +56,37 @@ check_version() {
      { [ "${major:-0}" -eq "$min_major" ] && [ "${minor:-0}" -ge "$min_minor" ]; }; then
     echo "OK:      $cmd $ver (>= ${min_major}.${min_minor})"
   else
-    echo "WARN:    $cmd $ver is below recommended ${min_major}.${min_minor}"
+    if [ "$strict" = "true" ]; then
+      echo "FATAL:   $cmd $ver < required ${min_major}.${min_minor} — install via Homebrew and retry"
+      MISSING=$((MISSING + 1))
+    else
+      echo "WARN:    $cmd $ver is below recommended ${min_major}.${min_minor}"
+    fi
   fi
 }
 
 echo ""
 echo "=== Dependency check ==="
-check_version git  "--version"   2  40
-check_version python3 "--version" 3  11
-check_version node "--version"   18   0
-check_version tmux "-V"          3   6
-check_version rg   "--version"   13   0
+check_version git     "--version"  2  40
+check_version python3 "--version"  3  11  true   # strict: FAIL if < 3.11
+check_version node    "--version"  18   0
+check_version tmux    "-V"         3   6
+check_version rg      "--version"  13   0
 check_cmd gh
 check_cmd uv
 
 if [ "$MISSING" -gt 0 ]; then
   echo ""
-  echo "ERROR: $MISSING required tool(s) not found. Install via Homebrew and retry."
+  echo "ERROR: $MISSING required tool(s) not found or below minimum version."
+  echo "       Install missing tools via Homebrew and retry."
   exit 1
 fi
+
+# Resolve canonical PYTHON_BIN (used for pytest install and exported for verify)
+PYTHON_BIN="$(command -v python3)"
+echo ""
+echo "=== Python interpreter ==="
+echo "OK:      PYTHON_BIN=$PYTHON_BIN ($("$PYTHON_BIN" --version 2>&1))"
 
 # ── 3. .env setup ─────────────────────────────────────────────────────────────
 echo ""
@@ -104,7 +117,26 @@ else
   echo "SKIP:    .mcp.example.json not found — skipping .mcp.json creation"
 fi
 
-# ── 5. Absolute path scan (warning, non-blocking) ─────────────────────────────
+# ── 5. pytest availability ────────────────────────────────────────────────────
+# verify_agent_runtime_mac.sh uses python3 -m pytest for the unit gate.
+# On a fresh Mac, pytest may not be installed. Install it now if absent.
+echo ""
+echo "=== pytest ==="
+if "$PYTHON_BIN" -m pytest --version >/dev/null 2>&1; then
+  echo "OK:      pytest $("$PYTHON_BIN" -m pytest --version 2>&1 | head -1)"
+else
+  echo "Installing pytest ..."
+  "$PYTHON_BIN" -m pip install pytest --quiet --break-system-packages 2>/dev/null \
+    || "$PYTHON_BIN" -m pip install pytest --quiet
+  if "$PYTHON_BIN" -m pytest --version >/dev/null 2>&1; then
+    echo "OK:      pytest installed ($("$PYTHON_BIN" -m pytest --version 2>&1 | head -1))"
+  else
+    echo "WARN:    pytest install failed — verify will fail at unit gate"
+    echo "         Manual fix: $PYTHON_BIN -m pip install pytest"
+  fi
+fi
+
+# ── 6. Absolute path scan (warning, non-blocking) ─────────────────────────────
 # Scans .py, .sh, and .json runtime files.
 # Excludes frozen artifact dirs (evals, backups, references, .claude) — not runtime defaults.
 # Excludes this script and verify_agent_runtime_mac.sh (which contain the pattern as a grep literal).

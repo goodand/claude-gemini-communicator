@@ -32,16 +32,44 @@ echo "=== verify_agent_runtime_mac.sh ==="
 echo "SKILLS_ROOT: $SKILLS_ROOT"
 echo ""
 
+# ── 1b. PYTHON_BIN resolution ────────────────────────────────────────────────
+# Resolve canonical python3 (post-Homebrew PATH prepend) for all gate commands.
+PYTHON_BIN="$(command -v python3 2>/dev/null || echo '')"
+if [ -z "$PYTHON_BIN" ]; then
+  echo "ERROR: python3 not found on PATH after Homebrew prepend"
+  exit 1
+fi
+
+# ── 1c. Required-file preflight (blocking) ────────────────────────────────────
+echo "--- Gate: preflight ---"
+PREFLIGHT_FAIL=0
+for required_file in \
+  "_shared/scripts/smoke_runner.py" \
+  "_shared/scripts/audit_cross_skill_dependencies.py"; do
+  if [ ! -f "$required_file" ]; then
+    echo "MISSING: $required_file"
+    PREFLIGHT_FAIL=$((PREFLIGHT_FAIL + 1))
+  else
+    echo "OK:      $required_file"
+  fi
+done
+if [ "$PREFLIGHT_FAIL" -gt 0 ]; then
+  echo ""
+  echo "ERROR: $PREFLIGHT_FAIL required script(s) missing."
+  echo "       Run bootstrap first, or ensure feat/skill-v0-import-baseline is merged."
+  exit 1
+fi
+
 # ── 2. Smoke 34/34 ───────────────────────────────────────────────────────────
 echo "--- Gate: smoke ---"
-SMOKE_OUT="$(python3 _shared/scripts/smoke_runner.py --skills-root . 2>&1)"
-SMOKE_PASSED="$(echo "$SMOKE_OUT" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('passed',0))" 2>/dev/null || echo 0)"
-SMOKE_FAILED="$(echo "$SMOKE_OUT" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('failed',0))" 2>/dev/null || echo -1)"
+SMOKE_OUT="$("$PYTHON_BIN" _shared/scripts/smoke_runner.py --skills-root . 2>&1)"
+SMOKE_PASSED="$(echo "$SMOKE_OUT" | "$PYTHON_BIN" -c "import sys,json; d=json.load(sys.stdin); print(d.get('passed',0))" 2>/dev/null || echo 0)"
+SMOKE_FAILED="$(echo "$SMOKE_OUT" | "$PYTHON_BIN" -c "import sys,json; d=json.load(sys.stdin); print(d.get('failed',0))" 2>/dev/null || echo -1)"
 if [ "$SMOKE_PASSED" -eq 34 ] && [ "$SMOKE_FAILED" -eq 0 ]; then
   ok "smoke ${SMOKE_PASSED}/34 PASS"
 else
   fail "smoke ${SMOKE_PASSED}/34 (failed=${SMOKE_FAILED})"
-  echo "$SMOKE_OUT" | python3 -c "
+  echo "$SMOKE_OUT" | "$PYTHON_BIN" -c "
 import sys, json
 try:
   d = json.load(sys.stdin)
@@ -63,7 +91,7 @@ fi
 echo ""
 echo "--- Gate: unit ---"
 set +e
-PYTEST_OUT="$(python3 -m pytest . -q -p no:cacheprovider --ignore-glob="**/backups/**" 2>&1)"
+PYTEST_OUT="$("$PYTHON_BIN" -m pytest . -q -p no:cacheprovider --ignore-glob="**/backups/**" 2>&1)"
 PYTEST_EXIT=$?
 set -e
 PYTEST_SUMMARY="$(echo "$PYTEST_OUT" | tail -1)"
@@ -73,14 +101,14 @@ elif [ "$PYTEST_EXIT" -eq 0 ]; then
   warn "unit pytest exit 0 but count unexpected: $PYTEST_SUMMARY"
 else
   fail "unit pytest exit $PYTEST_EXIT — $PYTEST_SUMMARY"
-  echo "$PYTEST_OUT" | grep -E "FAILED|ERROR" | head -10
+  echo "$PYTEST_OUT" | grep -E "FAILED|ERROR|ModuleNotFoundError|no module" | head -10
 fi
 
 # ── 4. Audit ──────────────────────────────────────────────────────────────────
 echo ""
 echo "--- Gate: audit ---"
 set +e
-python3 _shared/scripts/audit_cross_skill_dependencies.py --skills-root . >/dev/null 2>&1
+"$PYTHON_BIN" _shared/scripts/audit_cross_skill_dependencies.py --skills-root . >/dev/null 2>&1
 AUDIT_EXIT=$?
 set -e
 if [ "$AUDIT_EXIT" -eq 0 ]; then
