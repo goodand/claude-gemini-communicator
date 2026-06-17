@@ -1,0 +1,54 @@
+{
+  "date": "2026-03-16-18-42",
+  "skill": "doc-code-sync-checker",
+  "canonical_kb": "doc-code-sync-checker/knowledge_bases/doc-code-sync-canonical-design-at2026-03-16-18-18.md",
+  "checklist": "doc-code-sync-checker/checklist-forconsistency-evaluation/consistency-checklist.md",
+  "codebase": "doc-code-sync-checker/scripts/doc_code_sync.py",
+  "commands": [
+    "python3 doc-code-sync-checker/scripts/doc_code_sync.py extract-doc --doc doc-code-sync-checker/references/sync-targets.md",
+    "python3 doc-code-sync-checker/scripts/doc_code_sync.py extract-code --script doc-code-sync-checker/scripts/doc_code_sync.py",
+    "python3 doc-code-sync-checker/scripts/doc_code_sync.py compare --doc-rules doc-code-sync-checker/references/smoke-doc-rules.json --code-rules doc-code-sync-checker/references/smoke-code-rules.json",
+    "python3 doc-code-sync-checker/scripts/doc_code_sync.py report --results doc-code-sync-checker/references/smoke-compare-results.json",
+    "python3 doc-code-sync-checker/scripts/test_doc_code_sync.py",
+    "python3 ../super-skill-creator/scripts/quick_validate.py doc-code-sync-checker"
+  ],
+  "observed": {
+    "extract_doc_status": "scaffold",
+    "extract_doc_rules_count": 0,
+    "extract_code_status": "scaffold",
+    "extract_code_rules_count": 0,
+    "compare_status": "scaffold",
+    "compare_has_buckets": true,
+    "normalization_mode": "internal_compare_stage",
+    "normalization_implemented": false,
+    "report_status": "scaffold",
+    "tests_passed": 3,
+    "quick_validate_passed": true
+  },
+  "observed_recheck_2026_03_27": {
+    "extract_doc_status": "implemented",
+    "extract_doc_rule_kinds": ["required_field", "path_safety", "transition_rule", "enum_value"],
+    "extract_code_status": "implemented",
+    "extract_code_rule_kinds": ["required_field", "path_safety", "transition_rule", "enum_value"],
+    "compare_status": "implemented",
+    "normalization_implemented": true,
+    "typed_mismatch_kinds": ["enum_value_set_changed", "transition_rule_set_changed", "path_rule_condition_changed"],
+    "report_status": "implemented",
+    "path_safety_recheck": "doc=5 code=5 missing=0 mismatch=0 — full PASS after forbid_absolute_path + forbid_symlink doc fix",
+    "note": "original observed block preserved for audit trail. code progressed well beyond scaffold since 2026-03-16."
+  },
+  "verdict": {
+    "scope_alignment": "pass",
+    "workflow_alignment": "pass",
+    "output_contract_alignment": "pass",
+    "rule_model_alignment": "pass",
+    "real_drift_detection": "pass",
+    "primary_gap": "none — all 4 rule kinds implemented and verified"
+  },
+  "next_action": [
+    "closed — all 3 original next_actions resolved as of 2026-03-27",
+    "original: define_shared_rule_schema → resolved: _rule() schema + _normalize_rules()",
+    "original: implement_one_real_rule_extractor → resolved: 4 extractors (doc + code)",
+    "original: implement_first_real_compare_case → resolved: compare + typed_mismatch 3 kinds"
+  ]
+}

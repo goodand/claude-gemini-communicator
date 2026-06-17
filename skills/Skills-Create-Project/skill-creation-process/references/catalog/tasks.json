@@ -1,0 +1,149 @@
+{
+  "schema_version": "v0.1.0",
+  "items": [
+    {
+      "key": "TASK-01",
+      "label": "reference_acquisition_mode_selection",
+      "title": "Reference acquisition mode selection",
+      "summary": "Choose external_research vs internal_codebase_only before KB work.",
+      "primary_skill_keys": ["SKILL-skill-creation-process"],
+      "support_skill_keys": ["SKILL-claim-verifier"],
+      "page_links": [
+        "phase-guide.md",
+        "reference-acquisition-modes-at2026-03-17-09-35.md"
+      ]
+    },
+    {
+      "key": "TASK-02",
+      "label": "kb_profile_branching",
+      "title": "KB profile branching",
+      "summary": "Choose research_index_kb, hybrid_kb, or canonical_design_kb and fix checklist source of truth.",
+      "primary_skill_keys": ["SKILL-skill-creation-process", "SKILL-kb-checklist-pipeline"],
+      "support_skill_keys": ["SKILL-contract-to-concept-mapper"],
+      "page_links": [
+        "phase-guide.md",
+        "../templates/progressive-context-skill-strategy-template.md"
+      ]
+    },
+    {
+      "key": "TASK-03",
+      "label": "kb_to_checklists",
+      "title": "KB to consistency and implementation checklists",
+      "summary": "Lower the KB into consistency and then implementation checklists before coding.",
+      "primary_skill_keys": ["SKILL-kb-checklist-pipeline", "SKILL-skill-creation-process"],
+      "support_skill_keys": ["SKILL-execution-contract-mapper"],
+      "page_links": [
+        "phase-guide.md"
+      ]
+    },
+    {
+      "key": "TASK-04",
+      "label": "contract_first_vertical_slice",
+      "title": "Contract-first vertical slice",
+      "summary": "Implement small contract emit/validate/sample/smoke slices instead of full features at once.",
+      "primary_skill_keys": ["SKILL-execution-contract-mapper", "SKILL-slice-experiment-lab"],
+      "support_skill_keys": ["SKILL-doc-code-sync-checker", "SKILL-dependency-slice-planner"],
+      "page_links": [
+        "../../execution-contract-mapper/SKILL.md",
+        "../../slice-experiment-lab/SKILL.md"
+      ]
+    },
+    {
+      "key": "TASK-05",
+      "label": "execution_evidence_loop",
+      "title": "TDD -> implementation -> smoke -> evidence -> quick_validate",
+      "summary": "Run the standard implementation and evidence loop and re-check structure with quick_validate.",
+      "primary_skill_keys": ["SKILL-skill-creation-process", "SKILL-slice-experiment-lab"],
+      "support_skill_keys": ["SKILL-evidence-trace-auditor", "SKILL-baseline-diff-lab"],
+      "page_links": [
+        "execution-evidence-pattern-at2026-03-17-04-03.md",
+        "../../slice-experiment-lab/SKILL.md"
+      ]
+    },
+    {
+      "key": "TASK-06",
+      "label": "artifact_triad_recording",
+      "title": "Artifact triad recording",
+      "summary": "Leave contract, valid, and invalid artifacts under references/ for each contract slice.",
+      "primary_skill_keys": ["SKILL-slice-experiment-lab"],
+      "support_skill_keys": ["SKILL-evidence-trace-auditor"],
+      "page_links": [
+        "../../slice-experiment-lab/references/vertical-slice-experiment-bundle-at2026-03-19-00-45.md"
+      ]
+    },
+    {
+      "key": "TASK-07",
+      "label": "capture_artifact_bridge",
+      "title": "Capture artifact bridge",
+      "summary": "Bridge quick_validate and smoke capture artifacts into canonical evaluator bundle input.",
+      "primary_skill_keys": ["SKILL-slice-experiment-lab"],
+      "support_skill_keys": ["SKILL-evidence-trace-auditor"],
+      "page_links": [
+        "../../slice-experiment-lab/references/vertical-slice-quick-validate-artifact-bridge-at2026-03-19-01-07.md",
+        "../../slice-experiment-lab/references/vertical-slice-captured-smoke-to-bundle-at2026-03-19-13-16.md"
+      ]
+    },
+    {
+      "key": "TASK-08",
+      "label": "next_slice_gate",
+      "title": "Next-slice gate",
+      "summary": "Determine ready_for_next_slice vs hold_current_slice using normalized artifacts and policy gates.",
+      "primary_skill_keys": ["SKILL-slice-experiment-lab"],
+      "support_skill_keys": ["SKILL-skill-creation-process"],
+      "page_links": [
+        "../../slice-experiment-lab/references/vertical-slice-strict-warning-policy-gate-at2026-03-19-13-21.md",
+        "../../slice-experiment-lab/checklist-forimplementation/implementation-checklist-at2026-03-19-00-45.md"
+      ]
+    },
+    {
+      "key": "TASK-09",
+      "label": "evidence_to_kb_promotion",
+      "title": "Evidence to KB promotion",
+      "summary": "Promote experiment findings into hybrid or canonical KB content via trigger and patch planning.",
+      "primary_skill_keys": ["SKILL-evidence-to-knowledge-promoter"],
+      "support_skill_keys": ["SKILL-evidence-trace-auditor", "SKILL-baseline-diff-lab"],
+      "page_links": [
+        "evidence-promotion-pattern-at2026-03-17-03-45.md"
+      ]
+    },
+    {
+      "key": "TASK-10",
+      "label": "portable_install_audit",
+      "title": "Portability and install-readiness audit",
+      "summary": "Audit internal/bridge/external dependency layers and classify portable install risks.",
+      "primary_skill_keys": ["SKILL-skill-creation-process"],
+      "support_skill_keys": ["SKILL-artifact-lifecycle-manager"],
+      "page_links": [
+        "portable-skill-hierarchy-rules-at2026-03-17-09-22.md",
+        "core-skill-portability-audit-at2026-03-17-09-22.md"
+      ]
+    },
+    {
+      "key": "TASK-11",
+      "label": "skill_entrypoint_split",
+      "title": "SKILL.md line-count warning split",
+      "summary": "Split overloaded SKILL.md content into linked detail pages when quick_validate warns.",
+      "primary_skill_keys": ["SKILL-skill-creation-process"],
+      "support_skill_keys": ["SKILL-artifact-lifecycle-manager"],
+      "page_links": [
+        "skill-entrypoint-details-at2026-03-18-23-32.md"
+      ]
+    },
+    {
+      "key": "TASK-12",
+      "label": "bounded_subagent_delegation",
+      "title": "Bounded subagent delegation",
+      "summary": "Use bounded task packets and disjoint ownership to delegate small remaining slices safely.",
+      "primary_skill_keys": ["SKILL-agent-task-packet"],
+      "support_skill_keys": [
+        "SKILL-codex-worktree-dispatch",
+        "SKILL-codex-tmux-orchestrator",
+        "SKILL-worktree-parallel"
+      ],
+      "page_links": [
+        "../../agent-task-packet/SKILL.md",
+        "../../worktree-parallel/SKILL.md"
+      ]
+    }
+  ]
+}

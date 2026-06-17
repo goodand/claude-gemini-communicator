@@ -1,0 +1,41 @@
+{
+  "candidate_count": 3,
+  "candidates": [
+    {
+      "candidate_id": "seed_01",
+      "root_dir": "src/api",
+      "file_count": 6,
+      "total_bytes": 22000,
+      "max_depth": 2,
+      "seed_action": "merge_candidate",
+      "tags": [
+        "coarse_seed"
+      ],
+      "reason": "small api slice with likely downstream coupling"
+    },
+    {
+      "candidate_id": "seed_02",
+      "root_dir": "src/core",
+      "file_count": 18,
+      "total_bytes": 90214,
+      "max_depth": 3,
+      "seed_action": "keep",
+      "tags": [
+        "coarse_seed"
+      ],
+      "reason": "core cohesive seed"
+    },
+    {
+      "candidate_id": "seed_03",
+      "root_dir": "src/jobs",
+      "file_count": 7,
+      "total_bytes": 26000,
+      "max_depth": 2,
+      "seed_action": "keep",
+      "tags": [
+        "coarse_seed"
+      ],
+      "reason": "jobs seed with light coupling"
+    }
+  ]
+}

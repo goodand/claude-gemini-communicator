@@ -1,0 +1,47 @@
+{
+  "skill_name": "edge-case-generator",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "agent-task-packet/scripts/packet_builder.py의 validate 규칙을 먼저 추출해줘",
+      "expected_output": "edgegen.py analyze --script agent-task-packet/scripts/packet_builder.py 실행. required_field, forbidden_field, string_length, enum_value, type_check, cross_field 규칙 요약",
+      "files": ["scripts/edgegen.py", "references/rule-taxonomy.md"],
+      "assertions": ["analyze", "required_field", "string_length", "enum_value"]
+    },
+    {
+      "id": 1,
+      "prompt": "codex-worktree-dispatch/scripts/dispatch_manager.py용 edge case JSON을 생성해줘",
+      "expected_output": "edgegen.py generate --script codex-worktree-dispatch/scripts/dispatch_manager.py --output <dir> 실행. baseline valid object와 cases_summary.json 생성",
+      "files": ["scripts/edgegen.py"],
+      "assertions": ["generate", "dispatch_manager.py", "cases_summary.json", "baseline"]
+    },
+    {
+      "id": 2,
+      "prompt": "방금 만든 packet_builder 케이스를 실제 validate_packet에 실행해줘",
+      "expected_output": "edgegen.py run --script agent-task-packet/scripts/packet_builder.py --cases <dir> 실행. validate_packet() 선택, pass/fail matrix 출력, run_results.json 저장",
+      "files": ["scripts/edgegen.py"],
+      "assertions": ["run", "validate_packet", "run_results.json", "UNEXPECTED"]
+    },
+    {
+      "id": 3,
+      "prompt": "run_results.json을 읽고 어떤 검증 누락이 있는지 보고서로 정리해줘",
+      "expected_output": "edgegen.py report --results <results.json> 실행. unexpected pass/fail을 조치 가이드와 함께 출력",
+      "files": ["scripts/edgegen.py", "references/troubleshooting.md"],
+      "assertions": ["report", "조치 가이드", "unexpected", "validate"]
+    },
+    {
+      "id": 4,
+      "prompt": "왜 dispatch_manager에서 overlap 규칙이 안 나왔는지 설명해줘",
+      "expected_output": "validate 함수 본문만 분석하기 때문이라고 설명. helper 함수나 다른 command 경로의 문자열은 규칙 추출 대상이 아님",
+      "files": ["scripts/edgegen.py", "references/troubleshooting.md"],
+      "assertions": ["validate", "helper", "오탐", "CASE-002"]
+    },
+    {
+      "id": 5,
+      "prompt": "codex-worktree-dispatch/scripts/dispatch_manager.py의 symlink 경로 검증까지 포함해서 edge case를 실행해줘",
+      "expected_output": "edgegen.py run --script codex-worktree-dispatch/scripts/dispatch_manager.py --cases <dir> 실행. run 단계에서 실제 symlink fixture를 만들고, symlink_path 케이스까지 포함해 50/50 OK 또는 symlink_path fail 확인",
+      "files": ["scripts/edgegen.py", "references/troubleshooting.md", "references/rule-taxonomy.md"],
+      "assertions": ["run", "symlink_path", "fixture", "CASE-005"]
+    }
+  ]
+}

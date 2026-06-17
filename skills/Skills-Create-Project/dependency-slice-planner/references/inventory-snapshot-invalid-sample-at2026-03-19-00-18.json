@@ -1,0 +1,11 @@
+{
+  "root_path": "",
+  "file_count": "14",
+  "language_buckets": {
+    "python": -1
+  },
+  "manifest_files": "pyproject.toml",
+  "known_entrypoints": [
+    ""
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "status": "valid",
+  "skill": "doc-code-sync-checker",
+  "stage": "ready_for_diff",
+  "error_count": 0,
+  "warning_count": 0,
+  "errors": [],
+  "warnings": [],
+  "validated_handoffs": [
+    "evidence-trace-auditor",
+    "baseline-diff-lab"
+  ]
+}

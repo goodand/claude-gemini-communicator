@@ -1,0 +1,114 @@
+{
+  "status": "ok",
+  "generated_at": "2026-03-17T01:11:32+09:00",
+  "contract_family": "schema_contract",
+  "source_contract_family": "rule_schema",
+  "input_artifact": "execution-contract-mapper/references/rule-schema-smoke-at2026-03-17-01-06.json",
+  "schema_name": "ExecutionContractMapperRuleSchemaArtifact",
+  "field_count": 9,
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "ExecutionContractMapperRuleSchemaArtifact",
+    "type": "object",
+    "required": [
+      "status",
+      "generated_at",
+      "contract_family",
+      "input_checklist",
+      "source_of_truth",
+      "title",
+      "rule_count",
+      "rules"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "const": "ok"
+      },
+      "generated_at": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "contract_family": {
+        "type": "string",
+        "const": "rule_schema"
+      },
+      "input_checklist": {
+        "type": "string",
+        "minLength": 1
+      },
+      "source_of_truth": {
+        "type": "string",
+        "minLength": 1
+      },
+      "title": {
+        "type": "string",
+        "minLength": 1
+      },
+      "rule_count": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "source_kb": {
+        "type": "string"
+      },
+      "rules": {
+        "type": "array",
+        "minItems": 15,
+        "items": {
+          "type": "object",
+          "required": [
+            "kind",
+            "name",
+            "source",
+            "value",
+            "evidence"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "rule_schema"
+            },
+            "name": {
+              "type": "string",
+              "minLength": 1
+            },
+            "source": {
+              "type": "string",
+              "minLength": 1
+            },
+            "evidence": {
+              "type": "string",
+              "minLength": 1
+            },
+            "value": {
+              "type": "object",
+              "required": [
+                "expectation",
+                "section",
+                "checklist_role"
+              ],
+              "properties": {
+                "expectation": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "section": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "checklist_role": {
+                  "type": "string",
+                  "const": "consistency_evaluation"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    "additionalProperties": false
+  }
+}

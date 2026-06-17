@@ -1,0 +1,8 @@
+cross_skill_dependencies:
+  - provider: "agent-task-packet"
+    contract: "references/contracts/packet_contract_v0_1.json"
+    consumed_facts:
+      - "required fields: task_id, title, allowed_paths"
+      - "core optional fields: branch_hint, worktree_hint, depends_on, parallel_group"
+      - "dispatch boundary rule: locked_paths subset of packet allowed_paths"
+    last_synced_at: "2026-03-27T18:30:00+09:00"

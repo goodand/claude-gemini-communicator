@@ -1,0 +1,23 @@
+{
+  "manifest_count": 3,
+  "manifests": [
+    {
+      "root_path": "src",
+      "wrapper_paths": ["scripts/run.sh", "src/dev_wrapper.py"],
+      "path_mutations": ["src/bootstrap.py", "src/plugins"],
+      "reason": "bootstrap wrapper mutates src imports"
+    },
+    {
+      "root_path": "tools",
+      "wrapper_paths": ["tools/wrapper.py", "tools/entrypoint.py"],
+      "path_mutations": ["tools/bootstrap.py"],
+      "reason": "tooling wrappers mutate bootstrap path"
+    },
+    {
+      "root_path": "src",
+      "wrapper_paths": ["scripts/run.sh"],
+      "path_mutations": ["src/bootstrap.py"],
+      "reason": "duplicate root evidence is merged and deduped"
+    }
+  ]
+}

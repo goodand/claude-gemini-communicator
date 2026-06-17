@@ -1,0 +1,12 @@
+{
+  "slice_count": 1,
+  "slices": [
+    {
+      "slice_id": "slice_01",
+      "root_dirs": ["src/rag"],
+      "files": ["src/rag/graph.py"],
+      "entrypoints": ["src/rag/graph.py"],
+      "classification": "unsafe"
+    }
+  ]
+}

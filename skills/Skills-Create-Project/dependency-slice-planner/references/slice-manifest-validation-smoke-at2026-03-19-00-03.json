@@ -1,0 +1,16 @@
+{
+  "status": "valid",
+  "generated_at": "2026-03-19T00:06:49+09:00",
+  "contract_family": "slice_manifest_validation",
+  "input_manifest": "dependency-slice-planner/references/slice-manifest-sample-at2026-03-19-00-03.json",
+  "error_count": 0,
+  "errors": [],
+  "manifest_summary": {
+    "slice_count": 2,
+    "observed_slice_count": 2,
+    "classifications": [
+      "write_safe",
+      "analysis_only"
+    ]
+  }
+}

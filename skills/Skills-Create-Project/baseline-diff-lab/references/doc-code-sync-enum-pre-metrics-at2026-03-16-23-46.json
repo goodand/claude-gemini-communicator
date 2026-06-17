@@ -1,0 +1,20 @@
+{
+  "status": "metricized",
+  "source_type": "raw_smoke_report",
+  "measured_at": "2026-03-16T23:47:09+09:00",
+  "source": "../doc-code-sync-checker/references/typed-mismatch-enum-value-smoke-report-at2026-03-16-22-43.json",
+  "scope": "pairwise_smoke_test",
+  "rule_kind": "enum_value",
+  "pair": {
+    "doc": "synthetic-doc-rules(enum_value)",
+    "script": "synthetic-code-rules(enum_value)"
+  },
+  "metrics": {
+    "missing_in_code_count": 1,
+    "missing_in_doc_count": 1,
+    "mismatch_count": 0,
+    "typed_mismatch_count": 1,
+    "total_finding_count": 3,
+    "zero_drift_pair_rate": 0.0
+  }
+}

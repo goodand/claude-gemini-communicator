@@ -1,0 +1,68 @@
+{
+  "status": "computed",
+  "experiment": "general-kb",
+  "computed_at": "2026-03-16T23:42:00+09:00",
+  "inputs": {
+    "pre_fix": "../contract-to-concept-mapper/references/general-kb-baseline-measure-at2026-03-16-18-55.json",
+    "post_fix": "../contract-to-concept-mapper/references/general-kb-hybrid-final-at2026-03-16-18-59.json",
+    "debug_evidence": [
+      "../contract-to-concept-mapper/references/kb-profile-generalization-note-at2026-03-16-17-34.md"
+    ],
+    "metrics": [
+      "coverage_ratio",
+      "unsupported_item_ratio",
+      "traceability_ratio",
+      "boundary_preservation_ratio"
+    ]
+  },
+  "metrics": {
+    "coverage_ratio": {
+      "before": null,
+      "after": 1.0,
+      "delta": null,
+      "relative_change": null,
+      "reduction_after_fix": null,
+      "formula": {
+        "delta": "after - before",
+        "relative_change": "(after - before) / abs(before)",
+        "reduction_after_fix": "(before - after) / before"
+      }
+    },
+    "unsupported_item_ratio": {
+      "before": 0.3,
+      "after": 0.0,
+      "delta": -0.3,
+      "relative_change": -1.0,
+      "reduction_after_fix": 1.0,
+      "formula": {
+        "delta": "after - before",
+        "relative_change": "(after - before) / abs(before)",
+        "reduction_after_fix": "(before - after) / before"
+      }
+    },
+    "traceability_ratio": {
+      "before": 0.7,
+      "after": 1.0,
+      "delta": 0.30000000000000004,
+      "relative_change": 0.42857142857142866,
+      "reduction_after_fix": -0.42857142857142866,
+      "formula": {
+        "delta": "after - before",
+        "relative_change": "(after - before) / abs(before)",
+        "reduction_after_fix": "(before - after) / before"
+      }
+    },
+    "boundary_preservation_ratio": {
+      "before": 1.0,
+      "after": 1.0,
+      "delta": 0.0,
+      "relative_change": 0.0,
+      "reduction_after_fix": 0.0,
+      "formula": {
+        "delta": "after - before",
+        "relative_change": "(after - before) / abs(before)",
+        "reduction_after_fix": "(before - after) / before"
+      }
+    }
+  }
+}

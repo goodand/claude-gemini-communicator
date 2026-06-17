@@ -1,0 +1,9 @@
+{
+  "$schema_notes": {
+    "_comment": "LEGACY ALIAS — 새 코드는 이 파일을 사용하지 마세요.",
+    "canonical_file": "template/dispatch_state_extended_template.json",
+    "role": "dispatch = canonical mutable execution-prep state",
+    "migration": "task_state → dispatch_state로 이름 변경됨. phase_enum, phase_transitions 등 phase model 정보는 task_progress_state_template.json이 소유한다.",
+    "phase_model_owner": "template/task_progress_state_template.json"
+  }
+}

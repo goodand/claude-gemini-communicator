@@ -1,0 +1,16 @@
+{
+  "skill_name": "evidence-to-knowledge-promoter",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "Support audit와 baseline diff를 보고 재사용 가능한 lesson learned KB로 올릴지 판단해줘.",
+      "expected_output": "research_index_kb를 먼저 보고 promotion trigger와 provenance 조건을 따져야 한다.",
+      "files": [],
+      "assertions": [
+        "Output includes research_index_kb",
+        "Output includes promotion trigger",
+        "Output includes provenance"
+      ]
+    }
+  ]
+}

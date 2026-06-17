@@ -1,0 +1,19 @@
+{
+  "status": "valid",
+  "generated_at": "2026-03-19T21:56:02+09:00",
+  "contract_family": "inventory_path_index_validation",
+  "input_path_index": "/var/folders/1p/yb8d7hmx6wd564h57_td4k140000gn/T/tmpa8_e5b22/inventory_path_index_valid.json",
+  "error_count": 0,
+  "errors": [],
+  "path_index_summary": {
+    "root_path": "src",
+    "file_record_count": 5,
+    "entrypoint_count": 2,
+    "metadata_record_count": 5,
+    "language_buckets": {
+      "python": 4,
+      "markdown": 1
+    },
+    "total_bytes": 3960
+  }
+}

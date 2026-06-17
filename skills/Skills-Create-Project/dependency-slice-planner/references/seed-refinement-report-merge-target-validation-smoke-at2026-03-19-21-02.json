@@ -1,0 +1,148 @@
+{
+  "status": "ok",
+  "generated_at": "2026-03-19T21:06:17+09:00",
+  "algorithm_family": "seed_to_refinement_report",
+  "version": "v0.1.0",
+  "input_artifacts": {
+    "inventory_snapshot": "dependency-slice-planner/references/inventory-snapshot-sample-at2026-03-19-00-18.json",
+    "slice_seed_candidates": "dependency-slice-planner/references/slice-seed-candidates-merge-target-sample-at2026-03-19-21-02.json",
+    "static_dependency_overlay": "dependency-slice-planner/references/static-dependency-overlay-merge-target-sample-at2026-03-19-21-02.json",
+    "runtime_overlay": null
+  },
+  "runtime_overlay_used": false,
+  "inventory_summary": {
+    "root_path": "src",
+    "file_count": 14,
+    "manifest_file_count": 2,
+    "entrypoint_count": 2,
+    "language_bucket_count": 3
+  },
+  "global_signal_summary": {
+    "static_overlay": {
+      "overlay_count": 1,
+      "observed_overlay_count": 1,
+      "signal_fields": {
+        "source_import_edges": 3,
+        "manifest_edges": 0,
+        "wrapper_path_edges": 0,
+        "cross_region_edges": 3,
+        "shared_hubs": 0,
+        "anomaly_ledger": 0
+      }
+    },
+    "runtime_overlay": null
+  },
+  "recommendation_count": 3,
+  "recommendation_summary": {
+    "keep_seed": 0,
+    "merge_with_neighbor": 3,
+    "re_cut_with_dependency_overlay": 0,
+    "mark_analysis_only": 0,
+    "stop_split": 0
+  },
+  "recommendations": [
+    {
+      "candidate_id": "seed_01",
+      "root_dir": "src/api",
+      "seed_action": "merge_candidate",
+      "recommendation": "merge_with_neighbor",
+      "target_candidate_ids": [
+        "seed_02"
+      ],
+      "scores": {
+        "size_score": 1.0,
+        "internal_cohesion_score": 0.75,
+        "cross_edge_ratio": 0.5,
+        "shared_hub_penalty": 0.0,
+        "runtime_condition_penalty": 0.0,
+        "ownership_conflict_penalty": 0.5
+      },
+      "signal_counts": {
+        "source_import_edge_count": 3,
+        "manifest_edge_count": 0,
+        "wrapper_path_edge_count": 0,
+        "cross_region_edge_count": 3,
+        "shared_hub_count": 0,
+        "anomaly_count": 0,
+        "observed_runtime_edge_count": 0,
+        "probe_entrypoint_count": 0,
+        "confidence_adjustment_count": 0,
+        "unobserved_path_count": 0
+      },
+      "risk_signals": [
+        "cross_edge_ratio",
+        "ownership_conflict_penalty"
+      ],
+      "reason": "seed_action=merge_candidate; size_score=1.0; cross_edge_ratio=0.5; target_candidate_ids=seed_02; risk_signals=cross_edge_ratio,ownership_conflict_penalty"
+    },
+    {
+      "candidate_id": "seed_02",
+      "root_dir": "src/core",
+      "seed_action": "keep",
+      "recommendation": "merge_with_neighbor",
+      "target_candidate_ids": [
+        "seed_01"
+      ],
+      "scores": {
+        "size_score": 0.75,
+        "internal_cohesion_score": 0.75,
+        "cross_edge_ratio": 0.5,
+        "shared_hub_penalty": 0.0,
+        "runtime_condition_penalty": 0.0,
+        "ownership_conflict_penalty": 0.5
+      },
+      "signal_counts": {
+        "source_import_edge_count": 2,
+        "manifest_edge_count": 0,
+        "wrapper_path_edge_count": 0,
+        "cross_region_edge_count": 2,
+        "shared_hub_count": 0,
+        "anomaly_count": 0,
+        "observed_runtime_edge_count": 0,
+        "probe_entrypoint_count": 0,
+        "confidence_adjustment_count": 0,
+        "unobserved_path_count": 0
+      },
+      "risk_signals": [
+        "cross_edge_ratio",
+        "ownership_conflict_penalty"
+      ],
+      "reason": "seed_action=keep; size_score=0.75; cross_edge_ratio=0.5; target_candidate_ids=seed_01; risk_signals=cross_edge_ratio,ownership_conflict_penalty"
+    },
+    {
+      "candidate_id": "seed_03",
+      "root_dir": "src/jobs",
+      "seed_action": "keep",
+      "recommendation": "merge_with_neighbor",
+      "target_candidate_ids": [
+        "seed_01"
+      ],
+      "scores": {
+        "size_score": 1.0,
+        "internal_cohesion_score": 0.75,
+        "cross_edge_ratio": 0.5,
+        "shared_hub_penalty": 0.0,
+        "runtime_condition_penalty": 0.0,
+        "ownership_conflict_penalty": 0.5
+      },
+      "signal_counts": {
+        "source_import_edge_count": 1,
+        "manifest_edge_count": 0,
+        "wrapper_path_edge_count": 0,
+        "cross_region_edge_count": 1,
+        "shared_hub_count": 0,
+        "anomaly_count": 0,
+        "observed_runtime_edge_count": 0,
+        "probe_entrypoint_count": 0,
+        "confidence_adjustment_count": 0,
+        "unobserved_path_count": 0
+      },
+      "risk_signals": [
+        "cross_edge_ratio",
+        "ownership_conflict_penalty"
+      ],
+      "reason": "seed_action=keep; size_score=1.0; cross_edge_ratio=0.5; target_candidate_ids=seed_01; risk_signals=cross_edge_ratio,ownership_conflict_penalty"
+    }
+  ],
+  "next_candidate": "stop_rule_evaluator"
+}

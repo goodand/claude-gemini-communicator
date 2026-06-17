@@ -1,0 +1,9 @@
+{
+  "slice_id": "slice_01",
+  "root_dirs": ["src/rag"],
+  "files": ["src/rag/graph.py", "src/rag/bootstrap.py"],
+  "entrypoints": ["src/rag/graph.py"],
+  "allowed_paths": ["src/rag"],
+  "non_goals": ["do not modify plans/codex"],
+  "upstream_artifacts": ["initial_graph_summary.json", "risk_report.md"]
+}

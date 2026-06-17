@@ -1,0 +1,17 @@
+{
+  "manifest_count": 2,
+  "manifests": [
+    {
+      "root_path": "",
+      "wrapper_paths": [],
+      "path_mutations": [],
+      "reason": ""
+    },
+    {
+      "root_path": "src",
+      "wrapper_paths": "scripts/run.sh",
+      "path_mutations": ["src/bootstrap.py"],
+      "reason": "bad shape"
+    }
+  ]
+}

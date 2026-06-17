@@ -1,0 +1,1268 @@
+{
+  "workspace_root": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project",
+  "summary": {
+    "skill_count": 9,
+    "classification_totals": {
+      "internal": 83,
+      "bridge": 20,
+      "external_dependency": 10,
+      "outside_workspace": 0,
+      "absolute_path": 59,
+      "missing": 0
+    }
+  },
+  "skills": [
+    {
+      "skill": "skill-creation-process",
+      "counts": {
+        "internal": 0,
+        "bridge": 3,
+        "external_dependency": 0,
+        "outside_workspace": 0,
+        "absolute_path": 6,
+        "missing": 0
+      },
+      "findings": [
+        {
+          "source": "references/artifact-lifecycle-bridge-at2026-03-16-23-58.md",
+          "raw_reference": "../../artifact-lifecycle-manager/SKILL.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/artifact-lifecycle-manager/SKILL.md",
+          "classification": "bridge",
+          "target_skill": "artifact-lifecycle-manager"
+        },
+        {
+          "source": "references/artifact-lifecycle-bridge-at2026-03-16-23-58.md",
+          "raw_reference": "../../artifact-lifecycle-manager/knowledge_bases/artifact-lifecycle-manager-canonical-design-at2026-03-16-23-53.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/artifact-lifecycle-manager/knowledge_bases/artifact-lifecycle-manager-canonical-design-at2026-03-16-23-53.md",
+          "classification": "bridge",
+          "target_skill": "artifact-lifecycle-manager"
+        },
+        {
+          "source": "references/artifact-lifecycle-bridge-at2026-03-16-23-58.md",
+          "raw_reference": "../../artifact-lifecycle-manager/scripts/artifact_lifecycle_guard.py",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/artifact-lifecycle-manager/scripts/artifact_lifecycle_guard.py",
+          "classification": "bridge",
+          "target_skill": "artifact-lifecycle-manager"
+        },
+        {
+          "source": "references/evidence-promotion-pattern-at2026-03-17-03-45.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-to-knowledge-promoter/SKILL.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-to-knowledge-promoter/SKILL.md",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/evidence-promotion-pattern-at2026-03-17-03-45.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-to-knowledge-promoter/references/vertical-slice-apply-hybrid-kb-patch-at2026-03-17-03-27.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-to-knowledge-promoter/references/vertical-slice-apply-hybrid-kb-patch-at2026-03-17-03-27.md",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/evidence-promotion-pattern-at2026-03-17-03-45.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-to-knowledge-promoter/references/vertical-slice-canonical-candidate-evaluator-at2026-03-17-03-36.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-to-knowledge-promoter/references/vertical-slice-canonical-candidate-evaluator-at2026-03-17-03-36.md",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/evidence-promotion-pattern-at2026-03-17-03-45.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-to-knowledge-promoter/references/vertical-slice-hybrid-kb-patch-plan-at2026-03-17-03-20.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-to-knowledge-promoter/references/vertical-slice-hybrid-kb-patch-plan-at2026-03-17-03-20.md",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/evidence-promotion-pattern-at2026-03-17-03-45.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-to-knowledge-promoter/references/vertical-slice-promotion-summary-at2026-03-17-03-08.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-to-knowledge-promoter/references/vertical-slice-promotion-summary-at2026-03-17-03-08.md",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/evidence-promotion-pattern-at2026-03-17-03-45.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-to-knowledge-promoter/references/vertical-slice-promotion-trigger-evaluator-at2026-03-17-03-14.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-to-knowledge-promoter/references/vertical-slice-promotion-trigger-evaluator-at2026-03-17-03-14.md",
+          "classification": "absolute_path"
+        }
+      ]
+    },
+    {
+      "skill": "kb-checklist-pipeline",
+      "counts": {
+        "internal": 4,
+        "bridge": 4,
+        "external_dependency": 0,
+        "outside_workspace": 0,
+        "absolute_path": 0,
+        "missing": 0
+      },
+      "findings": [
+        {
+          "source": "references/families/baseline-diff-bridge-at2026-03-16-23-17.md",
+          "raw_reference": "../../../baseline-diff-lab/SKILL.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/baseline-diff-lab/SKILL.md",
+          "classification": "bridge",
+          "target_skill": "baseline-diff-lab"
+        },
+        {
+          "source": "references/families/baseline-diff-bridge-at2026-03-16-23-17.md",
+          "raw_reference": "../../../baseline-diff-lab/knowledge_bases/baseline-diff-lab-canonical-design-at2026-03-16-23-17.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/baseline-diff-lab/knowledge_bases/baseline-diff-lab-canonical-design-at2026-03-16-23-17.md",
+          "classification": "bridge",
+          "target_skill": "baseline-diff-lab"
+        },
+        {
+          "source": "references/families/baseline-diff-bridge-at2026-03-16-23-17.md",
+          "raw_reference": "../../../baseline-diff-lab/references/indexes/baseline-diff-index-at2026-03-16-23-17.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/baseline-diff-lab/references/indexes/baseline-diff-index-at2026-03-16-23-17.md",
+          "classification": "bridge",
+          "target_skill": "baseline-diff-lab"
+        },
+        {
+          "source": "references/families/implementation-output-branch-at2026-03-16-23-11.md",
+          "raw_reference": "../../../skill-creation-process/references/execution-evidence-pattern-at2026-03-17-04-03.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/skill-creation-process/references/execution-evidence-pattern-at2026-03-17-04-03.md",
+          "classification": "bridge",
+          "target_skill": "skill-creation-process"
+        },
+        {
+          "source": "references/families/implementation-output-branch-at2026-03-16-23-11.md",
+          "raw_reference": "./baseline-diff-bridge-at2026-03-16-23-17.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/kb-checklist-pipeline/references/families/baseline-diff-bridge-at2026-03-16-23-17.md",
+          "classification": "internal",
+          "target_skill": "kb-checklist-pipeline"
+        },
+        {
+          "source": "references/indexes/kb-checklist-pipeline-branch-index-at2026-03-16-23-11.md",
+          "raw_reference": "../../knowledge_bases/kb-checklist-pipeline-canonical-design-at2026-03-16-23-11.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/kb-checklist-pipeline/knowledge_bases/kb-checklist-pipeline-canonical-design-at2026-03-16-23-11.md",
+          "classification": "internal",
+          "target_skill": "kb-checklist-pipeline"
+        },
+        {
+          "source": "references/indexes/kb-checklist-pipeline-branch-index-at2026-03-16-23-11.md",
+          "raw_reference": "../families/document-output-branch-at2026-03-16-23-11.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/kb-checklist-pipeline/references/families/document-output-branch-at2026-03-16-23-11.md",
+          "classification": "internal",
+          "target_skill": "kb-checklist-pipeline"
+        },
+        {
+          "source": "references/indexes/kb-checklist-pipeline-branch-index-at2026-03-16-23-11.md",
+          "raw_reference": "../families/implementation-output-branch-at2026-03-16-23-11.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/kb-checklist-pipeline/references/families/implementation-output-branch-at2026-03-16-23-11.md",
+          "classification": "internal",
+          "target_skill": "kb-checklist-pipeline"
+        }
+      ]
+    },
+    {
+      "skill": "execution-contract-mapper",
+      "counts": {
+        "internal": 2,
+        "bridge": 6,
+        "external_dependency": 0,
+        "outside_workspace": 0,
+        "absolute_path": 17,
+        "missing": 0
+      },
+      "findings": [
+        {
+          "source": "knowledge_bases/execution-contract-mapper-knowledge_base-at2026-03-17-00-44.md",
+          "raw_reference": "../SKILL.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/execution-contract-mapper/SKILL.md",
+          "classification": "internal",
+          "target_skill": "execution-contract-mapper"
+        },
+        {
+          "source": "knowledge_bases/execution-contract-mapper-knowledge_base-at2026-03-17-00-44.md",
+          "raw_reference": "./execution-contract-mapper-issues-at2026-03-16.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/execution-contract-mapper/knowledge_bases/execution-contract-mapper-issues-at2026-03-16.md",
+          "classification": "internal",
+          "target_skill": "execution-contract-mapper"
+        },
+        {
+          "source": "references/execution-contract-mapper-metrics-evaluation-at2026-03-17-01-35.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/execution-contract-mapper/checklist-forconsistency-evaluation/consistency-checklist-at2026-03-17-01-00.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/execution-contract-mapper/checklist-forconsistency-evaluation/consistency-checklist-at2026-03-17-01-00.md",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/execution-contract-mapper-metrics-evaluation-at2026-03-17-01-35.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/execution-contract-mapper/knowledge_bases/execution-contract-mapper-knowledge_base-at2026-03-17-00-44.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/execution-contract-mapper/knowledge_bases/execution-contract-mapper-knowledge_base-at2026-03-17-00-44.md",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/execution-contract-mapper-metrics-evaluation-at2026-03-17-01-35.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/execution-contract-mapper/references/cli-contract-smoke-at2026-03-17-01-29.json",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/execution-contract-mapper/references/cli-contract-smoke-at2026-03-17-01-29.json",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/execution-contract-mapper-metrics-evaluation-at2026-03-17-01-35.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/execution-contract-mapper/references/rule-schema-smoke-at2026-03-17-01-06.json",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/execution-contract-mapper/references/rule-schema-smoke-at2026-03-17-01-06.json",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/execution-contract-mapper-metrics-evaluation-at2026-03-17-01-35.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/execution-contract-mapper/references/schema-contract-smoke-at2026-03-17-01-11.json",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/execution-contract-mapper/references/schema-contract-smoke-at2026-03-17-01-11.json",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/execution-contract-mapper-metrics-evaluation-at2026-03-17-01-41.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/execution-contract-mapper/checklist-forconsistency-evaluation/consistency-checklist-at2026-03-17-01-00.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/execution-contract-mapper/checklist-forconsistency-evaluation/consistency-checklist-at2026-03-17-01-00.md",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/execution-contract-mapper-metrics-evaluation-at2026-03-17-01-41.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/execution-contract-mapper/knowledge_bases/execution-contract-mapper-knowledge_base-at2026-03-17-00-44.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/execution-contract-mapper/knowledge_bases/execution-contract-mapper-knowledge_base-at2026-03-17-00-44.md",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/execution-contract-mapper-metrics-evaluation-at2026-03-17-01-41.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/execution-contract-mapper/references/cli-contract-smoke-at2026-03-17-01-29.json",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/execution-contract-mapper/references/cli-contract-smoke-at2026-03-17-01-29.json",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/execution-contract-mapper-metrics-evaluation-at2026-03-17-01-41.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/execution-contract-mapper/references/contract-diff-basis-smoke-at2026-03-17-01-40.json",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/execution-contract-mapper/references/contract-diff-basis-smoke-at2026-03-17-01-40.json",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/execution-contract-mapper-metrics-evaluation-at2026-03-17-01-41.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/execution-contract-mapper/references/rule-schema-smoke-at2026-03-17-01-06.json",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/execution-contract-mapper/references/rule-schema-smoke-at2026-03-17-01-06.json",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/execution-contract-mapper-metrics-evaluation-at2026-03-17-01-41.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/execution-contract-mapper/references/schema-contract-smoke-at2026-03-17-01-11.json",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/execution-contract-mapper/references/schema-contract-smoke-at2026-03-17-01-11.json",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/execution-evidence-bridge-at2026-03-17-04-03.md",
+          "raw_reference": "../../baseline-diff-lab/SKILL.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/baseline-diff-lab/SKILL.md",
+          "classification": "bridge",
+          "target_skill": "baseline-diff-lab"
+        },
+        {
+          "source": "references/execution-evidence-bridge-at2026-03-17-04-03.md",
+          "raw_reference": "../../evidence-trace-auditor/SKILL.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/SKILL.md",
+          "classification": "bridge",
+          "target_skill": "evidence-trace-auditor"
+        },
+        {
+          "source": "references/execution-evidence-bridge-at2026-03-17-04-03.md",
+          "raw_reference": "../../kb-checklist-pipeline/SKILL.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/kb-checklist-pipeline/SKILL.md",
+          "classification": "bridge",
+          "target_skill": "kb-checklist-pipeline"
+        },
+        {
+          "source": "references/execution-evidence-bridge-at2026-03-17-04-03.md",
+          "raw_reference": "../../kb-checklist-pipeline/references/families/implementation-output-branch-at2026-03-16-23-11.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/kb-checklist-pipeline/references/families/implementation-output-branch-at2026-03-16-23-11.md",
+          "classification": "bridge",
+          "target_skill": "kb-checklist-pipeline"
+        },
+        {
+          "source": "references/execution-evidence-bridge-at2026-03-17-04-03.md",
+          "raw_reference": "../../skill-creation-process/references/execution-evidence-pattern-at2026-03-17-04-03.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/skill-creation-process/references/execution-evidence-pattern-at2026-03-17-04-03.md",
+          "classification": "bridge",
+          "target_skill": "skill-creation-process"
+        },
+        {
+          "source": "references/execution-evidence-bridge-at2026-03-17-04-03.md",
+          "raw_reference": "../../skill-creation-process/scripts/execution_evidence_planner.py",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/skill-creation-process/scripts/execution_evidence_planner.py",
+          "classification": "bridge",
+          "target_skill": "skill-creation-process"
+        },
+        {
+          "source": "references/vertical-slice-contract-diff-basis-at2026-03-17-01-41.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/execution-contract-mapper/knowledge_bases/execution-contract-mapper-knowledge_base-at2026-03-17-00-44.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/execution-contract-mapper/knowledge_bases/execution-contract-mapper-knowledge_base-at2026-03-17-00-44.md",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/vertical-slice-contract-diff-basis-at2026-03-17-01-41.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/execution-contract-mapper/references/cli-contract-smoke-at2026-03-17-01-29.json",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/execution-contract-mapper/references/cli-contract-smoke-at2026-03-17-01-29.json",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/vertical-slice-contract-diff-basis-at2026-03-17-01-41.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/execution-contract-mapper/references/contract-diff-basis-smoke-at2026-03-17-01-40.json",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/execution-contract-mapper/references/contract-diff-basis-smoke-at2026-03-17-01-40.json",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/vertical-slice-contract-diff-basis-at2026-03-17-01-41.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/execution-contract-mapper/references/contract-diff-basis-smoke-at2026-03-17-01-40.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/execution-contract-mapper/references/contract-diff-basis-smoke-at2026-03-17-01-40.md",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/vertical-slice-contract-diff-basis-at2026-03-17-01-41.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/execution-contract-mapper/references/rule-schema-smoke-at2026-03-17-01-06.json",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/execution-contract-mapper/references/rule-schema-smoke-at2026-03-17-01-06.json",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/vertical-slice-contract-diff-basis-at2026-03-17-01-41.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/execution-contract-mapper/references/schema-contract-smoke-at2026-03-17-01-11.json",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/execution-contract-mapper/references/schema-contract-smoke-at2026-03-17-01-11.json",
+          "classification": "absolute_path"
+        }
+      ]
+    },
+    {
+      "skill": "doc-code-sync-checker",
+      "counts": {
+        "internal": 30,
+        "bridge": 0,
+        "external_dependency": 10,
+        "outside_workspace": 0,
+        "absolute_path": 5,
+        "missing": 0
+      },
+      "findings": [
+        {
+          "source": "checklist-forconsistency-evaluation/applied-kb-code-review-at2026-03-16.md",
+          "raw_reference": "./consistency-checklist.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/checklist-forconsistency-evaluation/consistency-checklist.md",
+          "classification": "internal",
+          "target_skill": "doc-code-sync-checker"
+        },
+        {
+          "source": "knowledge_bases/doc-code-sync-canonical-design-at2026-03-16-18-18.md",
+          "raw_reference": "../SKILL.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/SKILL.md",
+          "classification": "internal",
+          "target_skill": "doc-code-sync-checker"
+        },
+        {
+          "source": "knowledge_bases/doc-code-sync-canonical-design-at2026-03-16-18-18.md",
+          "raw_reference": "../checklist-forconsistency-evaluation/consistency-checklist.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/checklist-forconsistency-evaluation/consistency-checklist.md",
+          "classification": "internal",
+          "target_skill": "doc-code-sync-checker"
+        },
+        {
+          "source": "knowledge_bases/doc-code-sync-canonical-design-at2026-03-16-18-18.md",
+          "raw_reference": "../checklist-forimplementation/implementation-checklist.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/checklist-forimplementation/implementation-checklist.md",
+          "classification": "internal",
+          "target_skill": "doc-code-sync-checker"
+        },
+        {
+          "source": "knowledge_bases/doc-code-sync-canonical-design-at2026-03-16-18-18.md",
+          "raw_reference": "../references/indexes/doc-code-sync-family-index-at2026-03-16-18-18.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/references/indexes/doc-code-sync-family-index-at2026-03-16-18-18.md",
+          "classification": "internal",
+          "target_skill": "doc-code-sync-checker"
+        },
+        {
+          "source": "knowledge_bases/doc-code-sync-canonical-design-at2026-03-16-18-18.md",
+          "raw_reference": "../scripts/doc_code_sync.py",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/scripts/doc_code_sync.py",
+          "classification": "internal",
+          "target_skill": "doc-code-sync-checker"
+        },
+        {
+          "source": "knowledge_bases/doc-code-sync-checker-knowledge_base-at2026-03-16.md",
+          "raw_reference": "../../_shared/reference-inbox/claim-doc-sync-intent-from-jsonl-at2026-03-16.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/_shared/reference-inbox/claim-doc-sync-intent-from-jsonl-at2026-03-16.md",
+          "classification": "external_dependency"
+        },
+        {
+          "source": "knowledge_bases/doc-code-sync-checker-knowledge_base-at2026-03-16.md",
+          "raw_reference": "../../github-deep-research/references/doc-code-sync-checker-github-search-at2026-03-16.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/github-deep-research/references/doc-code-sync-checker-github-search-at2026-03-16.md",
+          "classification": "external_dependency"
+        },
+        {
+          "source": "knowledge_bases/doc-code-sync-checker-knowledge_base-at2026-03-16.md",
+          "raw_reference": "../SKILL.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/SKILL.md",
+          "classification": "internal",
+          "target_skill": "doc-code-sync-checker"
+        },
+        {
+          "source": "knowledge_bases/doc-code-sync-checker-knowledge_base-at2026-03-16.md",
+          "raw_reference": "../checklist-forimplementation/implementation-checklist.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/checklist-forimplementation/implementation-checklist.md",
+          "classification": "internal",
+          "target_skill": "doc-code-sync-checker"
+        },
+        {
+          "source": "knowledge_bases/doc-code-sync-checker-knowledge_base-at2026-03-16.md",
+          "raw_reference": "../knowledge_bases/doc-code-sync-canonical-design-at2026-03-16-18-18.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/knowledge_bases/doc-code-sync-canonical-design-at2026-03-16-18-18.md",
+          "classification": "internal",
+          "target_skill": "doc-code-sync-checker"
+        },
+        {
+          "source": "knowledge_bases/doc-code-sync-checker-knowledge_base-at2026-03-16.md",
+          "raw_reference": "../references/indexes/doc-code-sync-family-index-at2026-03-16-18-18.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/references/indexes/doc-code-sync-family-index-at2026-03-16-18-18.md",
+          "classification": "internal",
+          "target_skill": "doc-code-sync-checker"
+        },
+        {
+          "source": "knowledge_bases/mismatch-semantics-knowledge_base-at2026-03-16-22-22.md",
+          "raw_reference": "../SKILL.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/SKILL.md",
+          "classification": "internal",
+          "target_skill": "doc-code-sync-checker"
+        },
+        {
+          "source": "knowledge_bases/mismatch-semantics-knowledge_base-at2026-03-16-22-22.md",
+          "raw_reference": "../checklist-forconsistency-evaluation/consistency-checklist.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/checklist-forconsistency-evaluation/consistency-checklist.md",
+          "classification": "internal",
+          "target_skill": "doc-code-sync-checker"
+        },
+        {
+          "source": "knowledge_bases/mismatch-semantics-knowledge_base-at2026-03-16-22-22.md",
+          "raw_reference": "../checklist-forconsistency-evaluation/mismatch-semantics-consistency-checklist-at2026-03-16-22-32.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/checklist-forconsistency-evaluation/mismatch-semantics-consistency-checklist-at2026-03-16-22-32.md",
+          "classification": "internal",
+          "target_skill": "doc-code-sync-checker"
+        },
+        {
+          "source": "knowledge_bases/mismatch-semantics-knowledge_base-at2026-03-16-22-22.md",
+          "raw_reference": "../checklist-forimplementation/implementation-checklist.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/checklist-forimplementation/implementation-checklist.md",
+          "classification": "internal",
+          "target_skill": "doc-code-sync-checker"
+        },
+        {
+          "source": "knowledge_bases/mismatch-semantics-knowledge_base-at2026-03-16-22-22.md",
+          "raw_reference": "../checklist-forimplementation/mismatch-semantics-implementation-checklist-at2026-03-16-22-36.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/checklist-forimplementation/mismatch-semantics-implementation-checklist-at2026-03-16-22-36.md",
+          "classification": "internal",
+          "target_skill": "doc-code-sync-checker"
+        },
+        {
+          "source": "knowledge_bases/mismatch-semantics-knowledge_base-at2026-03-16-22-22.md",
+          "raw_reference": "../knowledge_bases/doc-code-sync-canonical-design-at2026-03-16-18-18.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/knowledge_bases/doc-code-sync-canonical-design-at2026-03-16-18-18.md",
+          "classification": "internal",
+          "target_skill": "doc-code-sync-checker"
+        },
+        {
+          "source": "knowledge_bases/mismatch-semantics-knowledge_base-at2026-03-16-22-22.md",
+          "raw_reference": "../scripts/doc_code_sync.py",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/scripts/doc_code_sync.py",
+          "classification": "internal",
+          "target_skill": "doc-code-sync-checker"
+        },
+        {
+          "source": "references/doc-code-sync-applied-smoke-report-at2026-03-16-18-42.md",
+          "raw_reference": "../checklist-forconsistency-evaluation/consistency-checklist.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/checklist-forconsistency-evaluation/consistency-checklist.md",
+          "classification": "internal",
+          "target_skill": "doc-code-sync-checker"
+        },
+        {
+          "source": "references/doc-code-sync-applied-smoke-report-at2026-03-16-18-42.md",
+          "raw_reference": "../knowledge_bases/doc-code-sync-canonical-design-at2026-03-16-18-18.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/knowledge_bases/doc-code-sync-canonical-design-at2026-03-16-18-18.md",
+          "classification": "internal",
+          "target_skill": "doc-code-sync-checker"
+        },
+        {
+          "source": "references/doc-code-sync-applied-smoke-report-at2026-03-16-18-42.md",
+          "raw_reference": "../scripts/doc_code_sync.py",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/scripts/doc_code_sync.py",
+          "classification": "internal",
+          "target_skill": "doc-code-sync-checker"
+        },
+        {
+          "source": "references/doc-code-sync-kb-checklist-alignment-diff-at2026-03-16-19-49.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/contract-to-concept-mapper/scripts/kb_to_consistency_check.py",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/contract-to-concept-mapper/scripts/kb_to_consistency_check.py",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/doc-code-sync-kb-checklist-alignment-diff-at2026-03-16-19-49.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/checklist-forconsistency-evaluation/consistency-checklist.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/checklist-forconsistency-evaluation/consistency-checklist.md",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/doc-code-sync-kb-checklist-alignment-diff-at2026-03-16-19-49.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/knowledge_bases/doc-code-sync-canonical-design-at2026-03-16-18-18.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/knowledge_bases/doc-code-sync-canonical-design-at2026-03-16-18-18.md",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/doc-code-sync-kb-checklist-alignment-diff-at2026-03-16-19-49.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/knowledge_bases/doc-code-sync-checker-knowledge_base-at2026-03-16.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/knowledge_bases/doc-code-sync-checker-knowledge_base-at2026-03-16.md",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/doc-code-sync-kb-checklist-alignment-diff-at2026-03-16-19-49.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/legacy/2026-03-16-19-39-pre-kb-checklist-alignment",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/legacy/2026-03-16-19-39-pre-kb-checklist-alignment",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/mismatch-metrics-evaluation-at2026-03-16-22-48.md",
+          "raw_reference": "./typed-mismatch-enum-value-post-fix-smoke-report-at2026-03-16-22-48.json",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/references/typed-mismatch-enum-value-post-fix-smoke-report-at2026-03-16-22-48.json",
+          "classification": "internal",
+          "target_skill": "doc-code-sync-checker"
+        },
+        {
+          "source": "references/mismatch-metrics-evaluation-at2026-03-16-22-48.md",
+          "raw_reference": "./typed-mismatch-enum-value-smoke-report-at2026-03-16-22-43.json",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/references/typed-mismatch-enum-value-smoke-report-at2026-03-16-22-43.json",
+          "classification": "internal",
+          "target_skill": "doc-code-sync-checker"
+        },
+        {
+          "source": "references/transition-rule-typed-mismatch-fix-diff-at2026-03-16-23-05.md",
+          "raw_reference": "./typed-mismatch-transition-rule-post-fix-smoke-report-at2026-03-16-23-05.json",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/references/typed-mismatch-transition-rule-post-fix-smoke-report-at2026-03-16-23-05.json",
+          "classification": "internal",
+          "target_skill": "doc-code-sync-checker"
+        },
+        {
+          "source": "references/transition-rule-typed-mismatch-fix-diff-at2026-03-16-23-05.md",
+          "raw_reference": "./typed-mismatch-transition-rule-smoke-report-at2026-03-16-22-57.json",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/references/typed-mismatch-transition-rule-smoke-report-at2026-03-16-22-57.json",
+          "classification": "internal",
+          "target_skill": "doc-code-sync-checker"
+        },
+        {
+          "source": "references/vertical-slice-enum-value-at2026-03-16-22-13.md",
+          "raw_reference": "../../codex-worktree-dispatch/references/dispatch-fields.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/codex-worktree-dispatch/references/dispatch-fields.md",
+          "classification": "external_dependency"
+        },
+        {
+          "source": "references/vertical-slice-enum-value-at2026-03-16-22-13.md",
+          "raw_reference": "../../codex-worktree-dispatch/scripts/dispatch_manager.py",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/codex-worktree-dispatch/scripts/dispatch_manager.py",
+          "classification": "external_dependency"
+        },
+        {
+          "source": "references/vertical-slice-path-safety-at2026-03-16-20-44.md",
+          "raw_reference": "../../codex-worktree-dispatch/references/dispatch-fields.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/codex-worktree-dispatch/references/dispatch-fields.md",
+          "classification": "external_dependency"
+        },
+        {
+          "source": "references/vertical-slice-path-safety-at2026-03-16-20-44.md",
+          "raw_reference": "../../codex-worktree-dispatch/scripts/dispatch_manager.py",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/codex-worktree-dispatch/scripts/dispatch_manager.py",
+          "classification": "external_dependency"
+        },
+        {
+          "source": "references/vertical-slice-required-field-at2026-03-16-20-03.md",
+          "raw_reference": "../../agent-task-packet/references/packet-fields.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/agent-task-packet/references/packet-fields.md",
+          "classification": "external_dependency"
+        },
+        {
+          "source": "references/vertical-slice-required-field-at2026-03-16-20-03.md",
+          "raw_reference": "../../agent-task-packet/scripts/packet_builder.py",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/agent-task-packet/scripts/packet_builder.py",
+          "classification": "external_dependency"
+        },
+        {
+          "source": "references/vertical-slice-transition-rule-at2026-03-16-21-48.md",
+          "raw_reference": "../../codex-worktree-dispatch/references/dispatch-fields.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/codex-worktree-dispatch/references/dispatch-fields.md",
+          "classification": "external_dependency"
+        },
+        {
+          "source": "references/vertical-slice-transition-rule-at2026-03-16-21-48.md",
+          "raw_reference": "../../codex-worktree-dispatch/scripts/dispatch_manager.py",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/codex-worktree-dispatch/scripts/dispatch_manager.py",
+          "classification": "external_dependency"
+        },
+        {
+          "source": "references/vertical-slice-typed-mismatch-enum-value-at2026-03-16-22-43.md",
+          "raw_reference": "./typed-mismatch-enum-value-smoke-report-at2026-03-16-22-43.json",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/references/typed-mismatch-enum-value-smoke-report-at2026-03-16-22-43.json",
+          "classification": "internal",
+          "target_skill": "doc-code-sync-checker"
+        },
+        {
+          "source": "references/vertical-slice-typed-mismatch-enum-value-at2026-03-16-22-43.md",
+          "raw_reference": "./typed-mismatch-enum-value-smoke-report-at2026-03-16-22-43.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/references/typed-mismatch-enum-value-smoke-report-at2026-03-16-22-43.md",
+          "classification": "internal",
+          "target_skill": "doc-code-sync-checker"
+        },
+        {
+          "source": "references/vertical-slice-typed-mismatch-path-rule-at2026-03-17-00-08.md",
+          "raw_reference": "./typed-mismatch-path-rule-smoke-report-at2026-03-17-00-08.json",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/references/typed-mismatch-path-rule-smoke-report-at2026-03-17-00-08.json",
+          "classification": "internal",
+          "target_skill": "doc-code-sync-checker"
+        },
+        {
+          "source": "references/vertical-slice-typed-mismatch-path-rule-at2026-03-17-00-08.md",
+          "raw_reference": "./typed-mismatch-path-rule-smoke-report-at2026-03-17-00-08.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/references/typed-mismatch-path-rule-smoke-report-at2026-03-17-00-08.md",
+          "classification": "internal",
+          "target_skill": "doc-code-sync-checker"
+        },
+        {
+          "source": "references/vertical-slice-typed-mismatch-transition-rule-at2026-03-16-22-57.md",
+          "raw_reference": "./typed-mismatch-transition-rule-smoke-report-at2026-03-16-22-57.json",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/references/typed-mismatch-transition-rule-smoke-report-at2026-03-16-22-57.json",
+          "classification": "internal",
+          "target_skill": "doc-code-sync-checker"
+        },
+        {
+          "source": "references/vertical-slice-typed-mismatch-transition-rule-at2026-03-16-22-57.md",
+          "raw_reference": "./typed-mismatch-transition-rule-smoke-report-at2026-03-16-22-57.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/references/typed-mismatch-transition-rule-smoke-report-at2026-03-16-22-57.md",
+          "classification": "internal",
+          "target_skill": "doc-code-sync-checker"
+        }
+      ]
+    },
+    {
+      "skill": "evidence-trace-auditor",
+      "counts": {
+        "internal": 2,
+        "bridge": 1,
+        "external_dependency": 0,
+        "outside_workspace": 0,
+        "absolute_path": 29,
+        "missing": 0
+      },
+      "findings": [
+        {
+          "source": "knowledge_bases/evidence-trace-auditor-knowledge_base-at2026-03-17-01-52.md",
+          "raw_reference": "../SKILL.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/SKILL.md",
+          "classification": "internal",
+          "target_skill": "evidence-trace-auditor"
+        },
+        {
+          "source": "knowledge_bases/evidence-trace-auditor-knowledge_base-at2026-03-17-01-52.md",
+          "raw_reference": "./evidence-trace-auditor-issues-at2026-03-16.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/knowledge_bases/evidence-trace-auditor-issues-at2026-03-16.md",
+          "classification": "internal",
+          "target_skill": "evidence-trace-auditor"
+        },
+        {
+          "source": "knowledge_bases/evidence-trace-auditor-knowledge_base-at2026-03-17-01-52.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/references/typed-mismatch-enum-value-smoke-report-at2026-03-16-22-43.json",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/references/typed-mismatch-enum-value-smoke-report-at2026-03-16-22-43.json",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "knowledge_bases/evidence-trace-auditor-knowledge_base-at2026-03-17-01-52.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/execution-contract-mapper/references/contract-diff-basis-smoke-at2026-03-17-01-40.json",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/execution-contract-mapper/references/contract-diff-basis-smoke-at2026-03-17-01-40.json",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/evidence-promotion-bridge-at2026-03-17-03-52.md",
+          "raw_reference": "../../evidence-to-knowledge-promoter/references/evidence-promotion-handoff-at2026-03-17-08-57.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-to-knowledge-promoter/references/evidence-promotion-handoff-at2026-03-17-08-57.md",
+          "classification": "bridge",
+          "target_skill": "evidence-to-knowledge-promoter"
+        },
+        {
+          "source": "references/evidence-promotion-bridge-at2026-03-17-03-52.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-to-knowledge-promoter/SKILL.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-to-knowledge-promoter/SKILL.md",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/evidence-status-rules-at2026-03-17-02-36.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/SKILL.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/SKILL.md",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/vertical-slice-artifact-path-evidence-at2026-03-17-02-20.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/knowledge_bases/evidence-trace-auditor-knowledge_base-at2026-03-17-01-52.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/knowledge_bases/evidence-trace-auditor-knowledge_base-at2026-03-17-01-52.md",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/vertical-slice-artifact-path-evidence-at2026-03-17-02-20.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/references/artifact-path-evidence-ledger-smoke-at2026-03-17-02-20.json",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/references/artifact-path-evidence-ledger-smoke-at2026-03-17-02-20.json",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/vertical-slice-artifact-path-evidence-at2026-03-17-02-20.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/references/artifact-path-evidence-ledger-smoke-at2026-03-17-02-20.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/references/artifact-path-evidence-ledger-smoke-at2026-03-17-02-20.md",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/vertical-slice-artifact-path-evidence-at2026-03-17-02-20.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/references/artifact-path-sample-at2026-03-17-02-18.json",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/references/artifact-path-sample-at2026-03-17-02-18.json",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/vertical-slice-artifact-path-evidence-at2026-03-17-02-20.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/references/artifact-path-support-audit-smoke-at2026-03-17-02-20.json",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/references/artifact-path-support-audit-smoke-at2026-03-17-02-20.json",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/vertical-slice-artifact-path-evidence-at2026-03-17-02-20.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/references/artifact-path-support-audit-smoke-at2026-03-17-02-20.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/references/artifact-path-support-audit-smoke-at2026-03-17-02-20.md",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/vertical-slice-evidence-ledger-at2026-03-17-02-00.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/references/typed-mismatch-enum-value-smoke-report-at2026-03-16-22-43.json",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/references/typed-mismatch-enum-value-smoke-report-at2026-03-16-22-43.json",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/vertical-slice-evidence-ledger-at2026-03-17-02-00.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/knowledge_bases/evidence-trace-auditor-knowledge_base-at2026-03-17-01-52.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/knowledge_bases/evidence-trace-auditor-knowledge_base-at2026-03-17-01-52.md",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/vertical-slice-evidence-ledger-at2026-03-17-02-00.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/references/evidence-ledger-smoke-at2026-03-17-02-00.json",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/references/evidence-ledger-smoke-at2026-03-17-02-00.json",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/vertical-slice-evidence-ledger-at2026-03-17-02-00.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/references/evidence-ledger-smoke-at2026-03-17-02-00.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/references/evidence-ledger-smoke-at2026-03-17-02-00.md",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/vertical-slice-evidence-ledger-at2026-03-17-02-00.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/references/support-audit-smoke-at2026-03-17-02-00.json",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/references/support-audit-smoke-at2026-03-17-02-00.json",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/vertical-slice-evidence-ledger-at2026-03-17-02-00.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/references/support-audit-smoke-at2026-03-17-02-00.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/references/support-audit-smoke-at2026-03-17-02-00.md",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/vertical-slice-evidence-ledger-at2026-03-17-02-00.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/execution-contract-mapper/references/contract-diff-basis-smoke-at2026-03-17-01-40.json",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/execution-contract-mapper/references/contract-diff-basis-smoke-at2026-03-17-01-40.json",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/vertical-slice-log-evidence-at2026-03-17-02-12.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/knowledge_bases/evidence-trace-auditor-knowledge_base-at2026-03-17-01-52.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/knowledge_bases/evidence-trace-auditor-knowledge_base-at2026-03-17-01-52.md",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/vertical-slice-log-evidence-at2026-03-17-02-12.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/references/log-evidence-ledger-smoke-at2026-03-17-02-12.json",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/references/log-evidence-ledger-smoke-at2026-03-17-02-12.json",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/vertical-slice-log-evidence-at2026-03-17-02-12.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/references/log-evidence-ledger-smoke-at2026-03-17-02-12.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/references/log-evidence-ledger-smoke-at2026-03-17-02-12.md",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/vertical-slice-log-evidence-at2026-03-17-02-12.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/references/log-evidence-sample-at2026-03-17-02-08.jsonl",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/references/log-evidence-sample-at2026-03-17-02-08.jsonl",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/vertical-slice-log-evidence-at2026-03-17-02-12.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/references/log-support-audit-smoke-at2026-03-17-02-12.json",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/references/log-support-audit-smoke-at2026-03-17-02-12.json",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/vertical-slice-log-evidence-at2026-03-17-02-12.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/references/log-support-audit-smoke-at2026-03-17-02-12.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/references/log-support-audit-smoke-at2026-03-17-02-12.md",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/vertical-slice-test-result-evidence-at2026-03-17-02-06.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/knowledge_bases/evidence-trace-auditor-knowledge_base-at2026-03-17-01-52.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/knowledge_bases/evidence-trace-auditor-knowledge_base-at2026-03-17-01-52.md",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/vertical-slice-test-result-evidence-at2026-03-17-02-06.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/references/test-result-evidence-ledger-smoke-at2026-03-17-02-06.json",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/references/test-result-evidence-ledger-smoke-at2026-03-17-02-06.json",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/vertical-slice-test-result-evidence-at2026-03-17-02-06.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/references/test-result-evidence-ledger-smoke-at2026-03-17-02-06.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/references/test-result-evidence-ledger-smoke-at2026-03-17-02-06.md",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/vertical-slice-test-result-evidence-at2026-03-17-02-06.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/references/test-result-sample-at2026-03-17-02-05.xml",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/references/test-result-sample-at2026-03-17-02-05.xml",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/vertical-slice-test-result-evidence-at2026-03-17-02-06.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/references/test-result-support-audit-smoke-at2026-03-17-02-06.json",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/references/test-result-support-audit-smoke-at2026-03-17-02-06.json",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/vertical-slice-test-result-evidence-at2026-03-17-02-06.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/references/test-result-support-audit-smoke-at2026-03-17-02-06.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor/references/test-result-support-audit-smoke-at2026-03-17-02-06.md",
+          "classification": "absolute_path"
+        }
+      ]
+    },
+    {
+      "skill": "baseline-diff-lab",
+      "counts": {
+        "internal": 1,
+        "bridge": 3,
+        "external_dependency": 0,
+        "outside_workspace": 0,
+        "absolute_path": 1,
+        "missing": 0
+      },
+      "findings": [
+        {
+          "source": "references/evidence-promotion-bridge-at2026-03-17-03-52.md",
+          "raw_reference": "../../evidence-to-knowledge-promoter/references/evidence-promotion-handoff-at2026-03-17-08-57.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-to-knowledge-promoter/references/evidence-promotion-handoff-at2026-03-17-08-57.md",
+          "classification": "bridge",
+          "target_skill": "evidence-to-knowledge-promoter"
+        },
+        {
+          "source": "references/evidence-promotion-bridge-at2026-03-17-03-52.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-to-knowledge-promoter/SKILL.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-to-knowledge-promoter/SKILL.md",
+          "classification": "absolute_path"
+        },
+        {
+          "source": "references/general-kb-fix-diff-at2026-03-16-23-41.md",
+          "raw_reference": "../../contract-to-concept-mapper/references/general-kb-baseline-measure-at2026-03-16-18-55.json",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/contract-to-concept-mapper/references/general-kb-baseline-measure-at2026-03-16-18-55.json",
+          "classification": "bridge",
+          "target_skill": "contract-to-concept-mapper"
+        },
+        {
+          "source": "references/general-kb-fix-diff-at2026-03-16-23-41.md",
+          "raw_reference": "../../contract-to-concept-mapper/references/general-kb-hybrid-final-at2026-03-16-18-59.json",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/contract-to-concept-mapper/references/general-kb-hybrid-final-at2026-03-16-18-59.json",
+          "classification": "bridge",
+          "target_skill": "contract-to-concept-mapper"
+        },
+        {
+          "source": "references/indexes/baseline-diff-index-at2026-03-16-23-17.md",
+          "raw_reference": "../families/fix-diff-family-at2026-03-16-23-17.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/baseline-diff-lab/references/families/fix-diff-family-at2026-03-16-23-17.md",
+          "classification": "internal",
+          "target_skill": "baseline-diff-lab"
+        }
+      ]
+    },
+    {
+      "skill": "evidence-to-knowledge-promoter",
+      "counts": {
+        "internal": 18,
+        "bridge": 0,
+        "external_dependency": 0,
+        "outside_workspace": 0,
+        "absolute_path": 0,
+        "missing": 0
+      },
+      "findings": [
+        {
+          "source": "knowledge_bases/evidence-to-knowledge-promoter-knowledge_base-at2026-03-17-02-48.md",
+          "raw_reference": "../SKILL.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-to-knowledge-promoter/SKILL.md",
+          "classification": "internal",
+          "target_skill": "evidence-to-knowledge-promoter"
+        },
+        {
+          "source": "knowledge_bases/evidence-to-knowledge-promoter-knowledge_base-at2026-03-17-02-48.md",
+          "raw_reference": "../references/troubleshooting.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-to-knowledge-promoter/references/troubleshooting.md",
+          "classification": "internal",
+          "target_skill": "evidence-to-knowledge-promoter"
+        },
+        {
+          "source": "references/evidence-to-knowledge-promoter-hybrid-kb-hold-copy-at2026-03-17-03-27.md",
+          "raw_reference": "../SKILL.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-to-knowledge-promoter/SKILL.md",
+          "classification": "internal",
+          "target_skill": "evidence-to-knowledge-promoter"
+        },
+        {
+          "source": "references/evidence-to-knowledge-promoter-hybrid-kb-hold-copy-at2026-03-17-03-27.md",
+          "raw_reference": "../references/troubleshooting.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-to-knowledge-promoter/references/troubleshooting.md",
+          "classification": "internal",
+          "target_skill": "evidence-to-knowledge-promoter"
+        },
+        {
+          "source": "references/evidence-to-knowledge-promoter-hybrid-kb-patched-copy-at2026-03-17-03-27.md",
+          "raw_reference": "../SKILL.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-to-knowledge-promoter/SKILL.md",
+          "classification": "internal",
+          "target_skill": "evidence-to-knowledge-promoter"
+        },
+        {
+          "source": "references/evidence-to-knowledge-promoter-hybrid-kb-patched-copy-at2026-03-17-03-27.md",
+          "raw_reference": "../references/troubleshooting.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-to-knowledge-promoter/references/troubleshooting.md",
+          "classification": "internal",
+          "target_skill": "evidence-to-knowledge-promoter"
+        },
+        {
+          "source": "references/vertical-slice-apply-hybrid-kb-patch-at2026-03-17-03-27.md",
+          "raw_reference": "./evidence-to-knowledge-promoter-hybrid-kb-hold-copy-at2026-03-17-03-27.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-to-knowledge-promoter/references/evidence-to-knowledge-promoter-hybrid-kb-hold-copy-at2026-03-17-03-27.md",
+          "classification": "internal",
+          "target_skill": "evidence-to-knowledge-promoter"
+        },
+        {
+          "source": "references/vertical-slice-apply-hybrid-kb-patch-at2026-03-17-03-27.md",
+          "raw_reference": "./evidence-to-knowledge-promoter-hybrid-kb-patched-copy-at2026-03-17-03-27.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-to-knowledge-promoter/references/evidence-to-knowledge-promoter-hybrid-kb-patched-copy-at2026-03-17-03-27.md",
+          "classification": "internal",
+          "target_skill": "evidence-to-knowledge-promoter"
+        },
+        {
+          "source": "references/vertical-slice-apply-hybrid-kb-patch-at2026-03-17-03-27.md",
+          "raw_reference": "./hybrid-kb-patch-apply-hold-smoke-at2026-03-17-03-27.json",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-to-knowledge-promoter/references/hybrid-kb-patch-apply-hold-smoke-at2026-03-17-03-27.json",
+          "classification": "internal",
+          "target_skill": "evidence-to-knowledge-promoter"
+        },
+        {
+          "source": "references/vertical-slice-apply-hybrid-kb-patch-at2026-03-17-03-27.md",
+          "raw_reference": "./hybrid-kb-patch-apply-positive-smoke-at2026-03-17-03-27.json",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-to-knowledge-promoter/references/hybrid-kb-patch-apply-positive-smoke-at2026-03-17-03-27.json",
+          "classification": "internal",
+          "target_skill": "evidence-to-knowledge-promoter"
+        },
+        {
+          "source": "references/vertical-slice-canonical-candidate-evaluator-at2026-03-17-03-36.md",
+          "raw_reference": "./canonical-candidate-evaluation-hold-smoke-at2026-03-17-03-36.json",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-to-knowledge-promoter/references/canonical-candidate-evaluation-hold-smoke-at2026-03-17-03-36.json",
+          "classification": "internal",
+          "target_skill": "evidence-to-knowledge-promoter"
+        },
+        {
+          "source": "references/vertical-slice-canonical-candidate-evaluator-at2026-03-17-03-36.md",
+          "raw_reference": "./canonical-candidate-evaluation-positive-smoke-at2026-03-17-03-36.json",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-to-knowledge-promoter/references/canonical-candidate-evaluation-positive-smoke-at2026-03-17-03-36.json",
+          "classification": "internal",
+          "target_skill": "evidence-to-knowledge-promoter"
+        },
+        {
+          "source": "references/vertical-slice-hybrid-kb-patch-plan-at2026-03-17-03-20.md",
+          "raw_reference": "./hybrid-kb-patch-plan-hold-smoke-at2026-03-17-03-20.json",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-to-knowledge-promoter/references/hybrid-kb-patch-plan-hold-smoke-at2026-03-17-03-20.json",
+          "classification": "internal",
+          "target_skill": "evidence-to-knowledge-promoter"
+        },
+        {
+          "source": "references/vertical-slice-hybrid-kb-patch-plan-at2026-03-17-03-20.md",
+          "raw_reference": "./hybrid-kb-patch-plan-positive-smoke-at2026-03-17-03-20.json",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-to-knowledge-promoter/references/hybrid-kb-patch-plan-positive-smoke-at2026-03-17-03-20.json",
+          "classification": "internal",
+          "target_skill": "evidence-to-knowledge-promoter"
+        },
+        {
+          "source": "references/vertical-slice-promotion-summary-at2026-03-17-03-08.md",
+          "raw_reference": "./promotion-candidate-summary-smoke-at2026-03-17-03-08.json",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-to-knowledge-promoter/references/promotion-candidate-summary-smoke-at2026-03-17-03-08.json",
+          "classification": "internal",
+          "target_skill": "evidence-to-knowledge-promoter"
+        },
+        {
+          "source": "references/vertical-slice-promotion-summary-at2026-03-17-03-08.md",
+          "raw_reference": "./promotion-candidate-summary-smoke-at2026-03-17-03-08.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-to-knowledge-promoter/references/promotion-candidate-summary-smoke-at2026-03-17-03-08.md",
+          "classification": "internal",
+          "target_skill": "evidence-to-knowledge-promoter"
+        },
+        {
+          "source": "references/vertical-slice-promotion-trigger-evaluator-at2026-03-17-03-14.md",
+          "raw_reference": "./promotion-trigger-evaluation-hold-smoke-at2026-03-17-03-14.json",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-to-knowledge-promoter/references/promotion-trigger-evaluation-hold-smoke-at2026-03-17-03-14.json",
+          "classification": "internal",
+          "target_skill": "evidence-to-knowledge-promoter"
+        },
+        {
+          "source": "references/vertical-slice-promotion-trigger-evaluator-at2026-03-17-03-14.md",
+          "raw_reference": "./promotion-trigger-evaluation-positive-smoke-at2026-03-17-03-14.json",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-to-knowledge-promoter/references/promotion-trigger-evaluation-positive-smoke-at2026-03-17-03-14.json",
+          "classification": "internal",
+          "target_skill": "evidence-to-knowledge-promoter"
+        }
+      ]
+    },
+    {
+      "skill": "contract-to-concept-mapper",
+      "counts": {
+        "internal": 24,
+        "bridge": 3,
+        "external_dependency": 0,
+        "outside_workspace": 0,
+        "absolute_path": 1,
+        "missing": 0
+      },
+      "findings": [
+        {
+          "source": "knowledge_bases/contract-to-concept-mapper-knowledge_base-at2026-03-16-13-58.md",
+          "raw_reference": "../SKILL.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/contract-to-concept-mapper/SKILL.md",
+          "classification": "internal",
+          "target_skill": "contract-to-concept-mapper"
+        },
+        {
+          "source": "knowledge_bases/contract-to-concept-mapper-knowledge_base-at2026-03-16-13-58.md",
+          "raw_reference": "../references/contract-to-concept-mapper-github-search-at2026-03-16.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/contract-to-concept-mapper/references/contract-to-concept-mapper-github-search-at2026-03-16.md",
+          "classification": "internal",
+          "target_skill": "contract-to-concept-mapper"
+        },
+        {
+          "source": "knowledge_bases/contract-to-concept-mapper-knowledge_base-at2026-03-16-13-58.md",
+          "raw_reference": "../references/contract-to-concept-mapper-paper-search-at2026-03-16.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/contract-to-concept-mapper/references/contract-to-concept-mapper-paper-search-at2026-03-16.md",
+          "classification": "internal",
+          "target_skill": "contract-to-concept-mapper"
+        },
+        {
+          "source": "knowledge_bases/contract-to-concept-mapper-knowledge_base-at2026-03-16-13-58.md",
+          "raw_reference": "../references/measurement-strategy-from-eval-runner-rag-bench-at2026-03-16-18-47.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/contract-to-concept-mapper/references/measurement-strategy-from-eval-runner-rag-bench-at2026-03-16-18-47.md",
+          "classification": "internal",
+          "target_skill": "contract-to-concept-mapper"
+        },
+        {
+          "source": "knowledge_bases/contract-to-concept-mapper-knowledge_base-at2026-03-16-13-58.md",
+          "raw_reference": "./contract-to-concept-canonical-design-at2026-03-16-18-06.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/contract-to-concept-mapper/knowledge_bases/contract-to-concept-canonical-design-at2026-03-16-18-06.md",
+          "classification": "internal",
+          "target_skill": "contract-to-concept-mapper"
+        },
+        {
+          "source": "knowledge_bases/contract-to-concept-mapper-knowledge_base-at2026-03-16-13-58.md",
+          "raw_reference": "./contract-to-concept-mapper-issues-at2026-03-16.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/contract-to-concept-mapper/knowledge_bases/contract-to-concept-mapper-issues-at2026-03-16.md",
+          "classification": "internal",
+          "target_skill": "contract-to-concept-mapper"
+        },
+        {
+          "source": "knowledge_bases/kb-to-consistency-check-knowledge_base-at2026-03-16-15-44.md",
+          "raw_reference": "../SKILL.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/contract-to-concept-mapper/SKILL.md",
+          "classification": "internal",
+          "target_skill": "contract-to-concept-mapper"
+        },
+        {
+          "source": "knowledge_bases/kb-to-consistency-check-knowledge_base-at2026-03-16-15-44.md",
+          "raw_reference": "../references/kb-to-consistency-check-evaluation-criteria-at2026-03-16-15-44.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/contract-to-concept-mapper/references/kb-to-consistency-check-evaluation-criteria-at2026-03-16-15-44.md",
+          "classification": "internal",
+          "target_skill": "contract-to-concept-mapper"
+        },
+        {
+          "source": "knowledge_bases/kb-to-consistency-check-knowledge_base-at2026-03-16-15-44.md",
+          "raw_reference": "../references/kb-to-consistency-check-github-search-at2026-03-16-15-44.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/contract-to-concept-mapper/references/kb-to-consistency-check-github-search-at2026-03-16-15-44.md",
+          "classification": "internal",
+          "target_skill": "contract-to-concept-mapper"
+        },
+        {
+          "source": "knowledge_bases/kb-to-consistency-check-knowledge_base-at2026-03-16-15-44.md",
+          "raw_reference": "../references/kb-to-consistency-check-paper-search-at2026-03-16-15-44.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/contract-to-concept-mapper/references/kb-to-consistency-check-paper-search-at2026-03-16-15-44.md",
+          "classification": "internal",
+          "target_skill": "contract-to-concept-mapper"
+        },
+        {
+          "source": "knowledge_bases/kb-to-consistency-check-knowledge_base-at2026-03-16-15-44.md",
+          "raw_reference": "./contract-to-concept-mapper-knowledge_base-at2026-03-16-13-58.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/contract-to-concept-mapper/knowledge_bases/contract-to-concept-mapper-knowledge_base-at2026-03-16-13-58.md",
+          "classification": "internal",
+          "target_skill": "contract-to-concept-mapper"
+        },
+        {
+          "source": "references/canonical-kb-baseline-measure-at2026-03-16-18-55.md",
+          "raw_reference": "../knowledge_bases/kb-to-consistency-metric-formula-contract-at2026-03-16-19-02.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/contract-to-concept-mapper/knowledge_bases/kb-to-consistency-metric-formula-contract-at2026-03-16-19-02.md",
+          "classification": "internal",
+          "target_skill": "contract-to-concept-mapper"
+        },
+        {
+          "source": "references/general-kb-baseline-measure-at2026-03-16-18-55.md",
+          "raw_reference": "../knowledge_bases/kb-to-consistency-metric-formula-contract-at2026-03-16-19-02.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/contract-to-concept-mapper/knowledge_bases/kb-to-consistency-metric-formula-contract-at2026-03-16-19-02.md",
+          "classification": "internal",
+          "target_skill": "contract-to-concept-mapper"
+        },
+        {
+          "source": "references/general-kb-hybrid-final-at2026-03-16-18-59.md",
+          "raw_reference": "../knowledge_bases/kb-to-consistency-metric-formula-contract-at2026-03-16-19-02.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/contract-to-concept-mapper/knowledge_bases/kb-to-consistency-metric-formula-contract-at2026-03-16-19-02.md",
+          "classification": "internal",
+          "target_skill": "contract-to-concept-mapper"
+        },
+        {
+          "source": "references/general-kb-hybrid-measure-at2026-03-16-18-57.md",
+          "raw_reference": "../references/measurement-strategy-from-eval-runner-rag-bench-at2026-03-16-18-47.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/contract-to-concept-mapper/references/measurement-strategy-from-eval-runner-rag-bench-at2026-03-16-18-47.md",
+          "classification": "internal",
+          "target_skill": "contract-to-concept-mapper"
+        },
+        {
+          "source": "references/general-kb-promotion-baseline-diff-at2026-03-16-19-02.md",
+          "raw_reference": "../checklist-forconsistency-evaluation/consistency-checklist-at2026-03-16-14-03.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/contract-to-concept-mapper/checklist-forconsistency-evaluation/consistency-checklist-at2026-03-16-14-03.md",
+          "classification": "internal",
+          "target_skill": "contract-to-concept-mapper"
+        },
+        {
+          "source": "references/general-kb-promotion-baseline-diff-at2026-03-16-19-02.md",
+          "raw_reference": "../knowledge_bases/contract-to-concept-mapper-knowledge_base-at2026-03-16-13-58.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/contract-to-concept-mapper/knowledge_bases/contract-to-concept-mapper-knowledge_base-at2026-03-16-13-58.md",
+          "classification": "internal",
+          "target_skill": "contract-to-concept-mapper"
+        },
+        {
+          "source": "references/general-kb-promotion-baseline-diff-at2026-03-16-19-02.md",
+          "raw_reference": "../knowledge_bases/kb-to-consistency-metric-formula-contract-at2026-03-16-19-02.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/contract-to-concept-mapper/knowledge_bases/kb-to-consistency-metric-formula-contract-at2026-03-16-19-02.md",
+          "classification": "internal",
+          "target_skill": "contract-to-concept-mapper"
+        },
+        {
+          "source": "references/general-kb-promotion-baseline-diff-at2026-03-16-19-02.md",
+          "raw_reference": "./general-kb-baseline-measure-at2026-03-16-18-55.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/contract-to-concept-mapper/references/general-kb-baseline-measure-at2026-03-16-18-55.md",
+          "classification": "internal",
+          "target_skill": "contract-to-concept-mapper"
+        },
+        {
+          "source": "references/general-kb-promotion-baseline-diff-at2026-03-16-19-02.md",
+          "raw_reference": "./general-kb-hybrid-final-at2026-03-16-18-59.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/contract-to-concept-mapper/references/general-kb-hybrid-final-at2026-03-16-18-59.md",
+          "classification": "internal",
+          "target_skill": "contract-to-concept-mapper"
+        },
+        {
+          "source": "references/profile-generalization-experiment-at2026-03-16-19-35.md",
+          "raw_reference": "../../doc-code-sync-checker/checklist-forconsistency-evaluation/consistency-checklist.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/checklist-forconsistency-evaluation/consistency-checklist.md",
+          "classification": "bridge",
+          "target_skill": "doc-code-sync-checker"
+        },
+        {
+          "source": "references/profile-generalization-experiment-at2026-03-16-19-35.md",
+          "raw_reference": "../../doc-code-sync-checker/knowledge_bases/doc-code-sync-canonical-design-at2026-03-16-18-18.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/knowledge_bases/doc-code-sync-canonical-design-at2026-03-16-18-18.md",
+          "classification": "bridge",
+          "target_skill": "doc-code-sync-checker"
+        },
+        {
+          "source": "references/profile-generalization-experiment-at2026-03-16-19-35.md",
+          "raw_reference": "../../doc-code-sync-checker/knowledge_bases/doc-code-sync-checker-knowledge_base-at2026-03-16.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker/knowledge_bases/doc-code-sync-checker-knowledge_base-at2026-03-16.md",
+          "classification": "bridge",
+          "target_skill": "doc-code-sync-checker"
+        },
+        {
+          "source": "references/profile-generalization-experiment-at2026-03-16-19-35.md",
+          "raw_reference": "../checklist-forconsistency-evaluation/consistency-checklist-at2026-03-16-14-03.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/contract-to-concept-mapper/checklist-forconsistency-evaluation/consistency-checklist-at2026-03-16-14-03.md",
+          "classification": "internal",
+          "target_skill": "contract-to-concept-mapper"
+        },
+        {
+          "source": "references/profile-generalization-experiment-at2026-03-16-19-35.md",
+          "raw_reference": "../knowledge_bases/contract-to-concept-canonical-design-at2026-03-16-18-06.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/contract-to-concept-mapper/knowledge_bases/contract-to-concept-canonical-design-at2026-03-16-18-06.md",
+          "classification": "internal",
+          "target_skill": "contract-to-concept-mapper"
+        },
+        {
+          "source": "references/profile-generalization-experiment-at2026-03-16-19-35.md",
+          "raw_reference": "../knowledge_bases/contract-to-concept-mapper-knowledge_base-at2026-03-16-13-58.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/contract-to-concept-mapper/knowledge_bases/contract-to-concept-mapper-knowledge_base-at2026-03-16-13-58.md",
+          "classification": "internal",
+          "target_skill": "contract-to-concept-mapper"
+        },
+        {
+          "source": "references/profile-generalization-experiment-at2026-03-16-19-35.md",
+          "raw_reference": "../legacy/2026-03-16-18-56-pre-hybrid-promotion/contract-to-concept-mapper-knowledge_base-at2026-03-16-13-58.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/contract-to-concept-mapper/legacy/2026-03-16-18-56-pre-hybrid-promotion/contract-to-concept-mapper-knowledge_base-at2026-03-16-13-58.md",
+          "classification": "internal",
+          "target_skill": "contract-to-concept-mapper"
+        },
+        {
+          "source": "references/traceability-ratio-strict-vs-proxy-experiment-at2026-03-16-19-58.md",
+          "raw_reference": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/contract-to-concept-mapper/scripts/kb_to_consistency_check.py",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/contract-to-concept-mapper/scripts/kb_to_consistency_check.py",
+          "classification": "absolute_path"
+        }
+      ]
+    },
+    {
+      "skill": "artifact-lifecycle-manager",
+      "counts": {
+        "internal": 2,
+        "bridge": 0,
+        "external_dependency": 0,
+        "outside_workspace": 0,
+        "absolute_path": 0,
+        "missing": 0
+      },
+      "findings": [
+        {
+          "source": "references/indexes/artifact-lifecycle-index-at2026-03-16-23-53.md",
+          "raw_reference": "../families/backup-and-naming-family-at2026-03-16-23-53.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/artifact-lifecycle-manager/references/families/backup-and-naming-family-at2026-03-16-23-53.md",
+          "classification": "internal",
+          "target_skill": "artifact-lifecycle-manager"
+        },
+        {
+          "source": "references/indexes/artifact-lifecycle-index-at2026-03-16-23-53.md",
+          "raw_reference": "../families/order-and-duplicate-family-at2026-03-16-23-53.md",
+          "resolved_path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/artifact-lifecycle-manager/references/families/order-and-duplicate-family-at2026-03-16-23-53.md",
+          "classification": "internal",
+          "target_skill": "artifact-lifecycle-manager"
+        }
+      ]
+    }
+  ]
+}

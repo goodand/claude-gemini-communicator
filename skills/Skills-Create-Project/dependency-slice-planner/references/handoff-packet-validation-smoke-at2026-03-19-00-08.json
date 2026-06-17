@@ -1,0 +1,13 @@
+{
+  "status": "valid",
+  "generated_at": "2026-03-19T00:12:02+09:00",
+  "contract_family": "handoff_packet_validation",
+  "input_packet": "dependency-slice-planner/references/handoff-packet-sample-at2026-03-19-00-08.json",
+  "error_count": 0,
+  "errors": [],
+  "packet_summary": {
+    "slice_id": "slice_01",
+    "allowed_path_count": 1,
+    "upstream_artifact_count": 2
+  }
+}
