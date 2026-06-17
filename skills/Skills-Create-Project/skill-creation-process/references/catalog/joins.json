@@ -1,0 +1,89 @@
+{
+  "schema_version": "v0.1.0",
+  "items": [
+    {
+      "key": "JOIN-ISSUE-01",
+      "join_kind": "issue_task_skill",
+      "issue_key": "ISSUE-01",
+      "task_keys": ["TASK-02"],
+      "title": "Issue to task and skill join for source of truth split"
+    },
+    {
+      "key": "JOIN-ISSUE-02",
+      "join_kind": "issue_task_skill",
+      "issue_key": "ISSUE-02",
+      "task_keys": ["TASK-11"],
+      "title": "Issue to task and skill join for SKILL.md entrypoint overload"
+    },
+    {
+      "key": "JOIN-ISSUE-03",
+      "join_kind": "issue_task_skill",
+      "issue_key": "ISSUE-03",
+      "task_keys": ["TASK-10"],
+      "title": "Issue to task and skill join for portability breakage"
+    },
+    {
+      "key": "JOIN-ISSUE-04",
+      "join_kind": "issue_task_skill",
+      "issue_key": "ISSUE-04",
+      "task_keys": ["TASK-04", "TASK-06"],
+      "title": "Issue to task and skill join for artifact path verification"
+    },
+    {
+      "key": "JOIN-ISSUE-05",
+      "join_kind": "issue_task_skill",
+      "issue_key": "ISSUE-05",
+      "task_keys": ["TASK-05", "TASK-07"],
+      "title": "Issue to task and skill join for manual quick_validate interpretation"
+    },
+    {
+      "key": "JOIN-ISSUE-06",
+      "join_kind": "issue_task_skill",
+      "issue_key": "ISSUE-06",
+      "task_keys": ["TASK-05", "TASK-07"],
+      "title": "Issue to task and skill join for smoke exit code/stdout mismatch"
+    },
+    {
+      "key": "JOIN-ISSUE-07",
+      "join_kind": "issue_task_skill",
+      "issue_key": "ISSUE-07",
+      "task_keys": ["TASK-05", "TASK-08"],
+      "title": "Issue to task and skill join for warning vs failure separation"
+    },
+    {
+      "key": "JOIN-ISSUE-08",
+      "join_kind": "issue_task_skill",
+      "issue_key": "ISSUE-08",
+      "task_keys": ["TASK-08"],
+      "title": "Issue to task and skill join for next-slice candidate locality"
+    },
+    {
+      "key": "JOIN-ISSUE-09",
+      "join_kind": "issue_task_skill",
+      "issue_key": "ISSUE-09",
+      "task_keys": ["TASK-03", "TASK-04"],
+      "title": "Issue to task and skill join for slice terminology collision"
+    },
+    {
+      "key": "JOIN-ISSUE-10",
+      "join_kind": "issue_task_skill",
+      "issue_key": "ISSUE-10",
+      "task_keys": ["TASK-05", "TASK-06"],
+      "title": "Issue to task and skill join for missing vertical-slice note"
+    },
+    {
+      "key": "JOIN-ISSUE-11",
+      "join_kind": "issue_task_skill",
+      "issue_key": "ISSUE-11",
+      "task_keys": ["TASK-07", "TASK-08"],
+      "title": "Issue to task and skill join for unconnected capture artifacts"
+    },
+    {
+      "key": "JOIN-ISSUE-12",
+      "join_kind": "issue_task_skill",
+      "issue_key": "ISSUE-12",
+      "task_keys": ["TASK-12"],
+      "title": "Issue to task and skill join for bounded subagent delegation"
+    }
+  ]
+}

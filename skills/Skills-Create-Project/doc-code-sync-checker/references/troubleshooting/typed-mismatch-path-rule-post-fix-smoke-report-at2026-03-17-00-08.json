@@ -1,0 +1,23 @@
+{
+  "status": "implemented",
+  "scope": "pairwise_smoke_test",
+  "command": "compare",
+  "rule_kind": "path_safety",
+  "pair": {
+    "doc": "/tmp/doc_code_sync_path_typed/post_doc.json",
+    "script": "/tmp/doc_code_sync_path_typed/post_code.json"
+  },
+  "normalization": {
+    "mode": "internal_compare_stage",
+    "implemented": true,
+    "key": "path_safety.name exact match"
+  },
+  "doc_rule_count": 3,
+  "code_rule_count": 3,
+  "missing_in_code": [],
+  "missing_in_doc": [],
+  "mismatch": [],
+  "typed_mismatch": [],
+  "message": "path_safety 비교 완료",
+  "compared_at": "2026-03-17T00:09:26+09:00"
+}

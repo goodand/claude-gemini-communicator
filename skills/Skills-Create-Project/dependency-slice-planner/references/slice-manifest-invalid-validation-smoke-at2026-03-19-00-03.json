@@ -1,0 +1,16 @@
+{
+  "status": "invalid",
+  "generated_at": "2026-03-19T00:06:49+09:00",
+  "contract_family": "slice_manifest_validation",
+  "input_manifest": "dependency-slice-planner/references/slice-manifest-invalid-sample-at2026-03-19-00-03.json",
+  "error_count": 2,
+  "errors": [
+    "missing field: slices[1].reason",
+    "slices[1].classification must be one of ['write_safe', 'analysis_only']"
+  ],
+  "manifest_summary": {
+    "slice_count": 1,
+    "observed_slice_count": 1,
+    "classifications": []
+  }
+}

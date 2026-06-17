@@ -1,0 +1,19 @@
+{
+  "status": "invalid",
+  "generated_at": "2026-03-19T00:12:19+09:00",
+  "contract_family": "handoff_packet_validation",
+  "input_packet": "dependency-slice-planner/references/handoff-packet-invalid-sample-at2026-03-19-00-08.json",
+  "error_count": 5,
+  "errors": [
+    "missing field: non_goals",
+    "missing field: upstream_artifacts",
+    "allowed_paths must be list[str]",
+    "non_goals must be list[str]",
+    "upstream_artifacts must be list[str]"
+  ],
+  "packet_summary": {
+    "slice_id": "slice_01",
+    "allowed_path_count": null,
+    "upstream_artifact_count": null
+  }
+}

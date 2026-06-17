@@ -1,0 +1,54 @@
+{
+  "_comment": "Machine-readable canonical registry. packet-fields.md가 설명용 canonical, 이 파일이 실행용 canonical. template/builder/test는 이 registry의 consumer.",
+  "contract_version": "0.1",
+  "enums": {
+    "packet_profile": ["standard", "extended"],
+    "priority": ["critical", "high", "medium", "low"],
+    "non_goals_case": ["state", "type", "scope", "performance:null", "performance:over", "performance:under"],
+    "required_checks_type": ["command", "file_exists", "pattern_match"],
+    "deliverables_type": ["source", "test", "config", "doc", "script", "artifact"]
+  },
+  "fields": {
+    "required": [
+      "packet_version", "task_id", "title", "goal", "why",
+      "allowed_paths", "context_files", "priority",
+      "constraints", "done_definition", "required_checks", "deliverables",
+      "revision", "created_at", "created_by", "updated_at"
+    ],
+    "core_optional": [
+      "forbidden_paths", "depends_on", "parallel_group",
+      "non_goals", "handoff_notes",
+      "branch_hint", "worktree_hint", "launch_hint",
+      "trace_id", "parent_task_id",
+      "timeout_minutes", "stop_conditions"
+    ],
+    "extended_only": [
+      "packet_profile", "repo_root", "source_of_truth",
+      "env_requirements", "failure_guide", "report_format"
+    ],
+    "meta": ["$schema_notes"],
+    "forbidden": [
+      "status", "session_name", "session_id", "pid",
+      "heartbeat", "heartbeat_path", "retry_count", "last_heartbeat",
+      "current_status", "log_path",
+      "worktree_path", "branch", "locked_paths", "assigned_agent",
+      "dispatch_id", "dispatch_version"
+    ]
+  },
+  "constraints_subfields": {
+    "core": ["must_not_modify", "must_run_tests", "must_not_use_network", "notes"],
+    "extended_only": ["allowed_tools", "forbidden_tools"]
+  },
+  "profile_rules": {
+    "packet_profile_policy": "always_explicit",
+    "backward_compat": "absent_means_standard",
+    "standard_subset_extended": true,
+    "extended_fields_in_standard": "error",
+    "tool_permissions_in_standard": "error"
+  },
+  "validation_rules": {
+    "must_not_modify_subset_forbidden": true,
+    "allowed_and_forbidden_tools_coexist": "warning_whitelist_priority",
+    "done_index_partial_coverage": "warning"
+  }
+}

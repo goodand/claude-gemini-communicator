@@ -1,0 +1,51 @@
+{
+  "entries": [
+    {
+      "name": "validated-rule-schema",
+      "tool_name": "python3",
+      "command": "python3 scripts/execution_contract_mapper.py emit-schema-contract",
+      "args": [
+        "emit-schema-contract",
+        "--rule-schema",
+        "references/rule-schema-smoke.json"
+      ],
+      "cwd": ".",
+      "exit_code": 0,
+      "stdout_excerpt": "schema contract emitted",
+      "output_paths": [
+        "evidence-trace-auditor/references/tool-call-output-sample-at2026-03-18-23-39.json"
+      ],
+      "observed_bucket": "contract_value_changed",
+      "action": "tool call result 검토"
+    },
+    {
+      "name": "missing-output-call",
+      "tool_name": "python3",
+      "command": "python3 scripts/run.py --missing",
+      "args": [
+        "--missing"
+      ],
+      "cwd": ".",
+      "exit_code": 0,
+      "stdout_excerpt": "planned output missing",
+      "output_paths": [
+        "evidence-trace-auditor/references/tool-call-missing-output-at2026-03-18-23-39.json"
+      ],
+      "observed_bucket": "missing_contract_unit",
+      "action": "missing output call 검토"
+    },
+    {
+      "name": "failing-call",
+      "tool_name": "python3",
+      "command": "python3 scripts/run.py --fail",
+      "args": [
+        "--fail"
+      ],
+      "cwd": ".",
+      "exit_code": 1,
+      "stderr_excerpt": "traceback",
+      "observed_bucket": "contract_value_changed",
+      "action": "failing call 검토"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "status": "ready_for_next_slice",
+  "generated_at": "2026-03-20T02:29:05+09:00",
+  "contract_family": "slice_experiment_bundle_evaluation",
+  "input_bundle": "slice-experiment-lab/references/experiment-bundle-positive-sample-at2026-03-19-00-45.json",
+  "bundle_status": "valid",
+  "workflow_status": "ready_for_next_slice",
+  "current_slice": "slice_seed_candidates_contract",
+  "gaps": [],
+  "errors": [],
+  "artifact_summary": {
+    "contract_family": "slice_seed_candidates_contract",
+    "valid_status": "valid",
+    "invalid_status": "invalid",
+    "quick_validate_status": "passed"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "skill_name": "kb-checklist-pipeline",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "research notes를 canonical KB와 checklist로 내리고 싶어. 최종 산출물은 md 문서야.",
+      "expected_output": "document_output branch를 선택하고 branch index -> document branch -> canonical KB -> consistency -> implementation 순서를 안내한다.",
+      "files": [
+        "references/indexes/kb-checklist-pipeline-branch-index-at2026-03-16-23-11.md",
+        "references/families/document-output-branch-at2026-03-16-23-11.md"
+      ],
+      "assertions": ["document_output", "canonical KB", "consistency checklist"]
+    },
+    {
+      "id": 1,
+      "prompt": "KB를 바탕으로 python 스크립트를 만들어야 해. 어떤 순서로 읽고 작업해야 해?",
+      "expected_output": "script_output branch를 선택하고 implementation checklist 뒤에 TDD 파일을 먼저 만들도록 안내한다.",
+      "files": [
+        "scripts/pipeline_router.py",
+        "references/families/implementation-output-branch-at2026-03-16-23-11.md"
+      ],
+      "assertions": ["script_output", "TDD", "smoke"]
+    },
+    {
+      "id": 2,
+      "prompt": "json 같은 비문서 구현물을 만들 때도 TDD가 필요한지 정리해줘.",
+      "expected_output": "implementation_output branch를 선택하고 검증 파일 선행 규칙을 설명한다.",
+      "files": [
+        "checklist-forconsistency-evaluation/consistency-checklist-at2026-03-16-23-11.md",
+        "checklist-forimplementation/implementation-checklist-at2026-03-16-23-11.md"
+      ],
+      "assertions": ["implementation_output", "검증 파일", "TDD"]
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "status": "ok",
+  "generated_at": "2026-03-17T01:41:00+09:00",
+  "skill": "execution-contract-mapper",
+  "source_of_truth": "execution-contract-mapper/knowledge_bases/execution-contract-mapper-knowledge_base-at2026-03-17-00-44.md",
+  "input_artifacts": {
+    "consistency_checklist": "execution-contract-mapper/checklist-forconsistency-evaluation/consistency-checklist-at2026-03-17-01-00.md",
+    "rule_schema_smoke": "execution-contract-mapper/references/rule-schema-smoke-at2026-03-17-01-06.json",
+    "schema_contract_smoke": "execution-contract-mapper/references/schema-contract-smoke-at2026-03-17-01-11.json",
+    "cli_contract_smoke": "execution-contract-mapper/references/cli-contract-smoke-at2026-03-17-01-29.json",
+    "contract_diff_basis_smoke": "execution-contract-mapper/references/contract-diff-basis-smoke-at2026-03-17-01-40.json"
+  },
+  "metrics": {
+    "implemented_slice_ratio": {
+      "class": "strict",
+      "formula": "implemented_slices / planned_slices",
+      "numerator": 4,
+      "denominator": 4,
+      "value": 1.0,
+      "note": "v0.1 planned slices rule_schema, schema_contract, cli_contract, contract_diff_basis are all implemented."
+    },
+    "checklist_to_rule_schema_coverage": {
+      "class": "strict",
+      "formula": "rule_schema.rule_count / checklist_checkbox_count",
+      "numerator": 15,
+      "denominator": 15,
+      "value": 1.0,
+      "note": "Every checklist checkbox item was emitted into a rule_schema object."
+    },
+    "schema_contract_required_field_count": {
+      "class": "descriptive",
+      "formula": "len(schema.required)",
+      "value": 8,
+      "note": "Top-level required fields in the emitted JSON Schema contract."
+    },
+    "schema_contract_required_field_ratio": {
+      "class": "strict",
+      "formula": "len(schema.required) / field_count",
+      "numerator": 8,
+      "denominator": 9,
+      "value": 0.8888888888888888,
+      "note": "source_kb remains optional; the rest of the top-level fields are required."
+    },
+    "cli_subcommand_coverage": {
+      "class": "strict",
+      "formula": "captured_subcommands / implemented_cli_subcommands",
+      "numerator": 3,
+      "denominator": 3,
+      "value": 1.0,
+      "note": "CLI contract captures all currently implemented subcommands."
+    },
+    "artifact_pair_completeness_ratio": {
+      "class": "strict",
+      "formula": "implemented_slices_with_json_and_md / implemented_slices",
+      "numerator": 4,
+      "denominator": 4,
+      "value": 1.0,
+      "note": "All implemented slices have both JSON and Markdown smoke artifacts."
+    },
+    "verification_pass_rate": {
+      "class": "strict",
+      "formula": "passed_verifications / executed_verifications",
+      "numerator": 3,
+      "denominator": 3,
+      "value": 1.0,
+      "checks": [
+        "unit_tests",
+        "py_compile",
+        "quick_validate"
+      ],
+      "note": "10 unit tests passed; py_compile and quick_validate also passed."
+    },
+    "contract_diff_basis_family_coverage": {
+      "class": "strict",
+      "formula": "diff_basis_families / expected_contract_families",
+      "numerator": 3,
+      "denominator": 3,
+      "value": 1.0,
+      "note": "contract_diff_basis now covers rule_schema, schema_contract, and cli_contract."
+    }
+  },
+  "summary": {
+    "overall_status": "healthy_v0_1_complete",
+    "strongest_signals": [
+      "full planned slice coverage",
+      "full checklist to rule_schema coverage",
+      "full CLI coverage",
+      "full artifact pair completeness",
+      "full verification pass rate",
+      "full contract_diff_basis family coverage"
+    ],
+    "main_gap": "none within v0.1 planned slices"
+  }
+}

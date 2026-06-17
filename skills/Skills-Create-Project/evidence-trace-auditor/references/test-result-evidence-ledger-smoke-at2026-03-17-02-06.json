@@ -1,0 +1,48 @@
+{
+  "status": "ok",
+  "generated_at": "2026-03-17T01:57:54+09:00",
+  "contract_family": "evidence_ledger",
+  "source_report": "evidence-trace-auditor/references/test-result-sample-at2026-03-17-02-05.xml",
+  "source_report_type": "junit_xml",
+  "scope": "test_result_evidence",
+  "rule_kind": "test_result",
+  "pair": {
+    "doc": null,
+    "script": null
+  },
+  "entry_count": 2,
+  "entries": [
+    {
+      "entry_id": "test_result:sync::test_failed",
+      "finding_family": "test_result",
+      "kind": "test_case_result",
+      "name": "sync::test_failed",
+      "observed_bucket": "contract_value_changed",
+      "evidence": {
+        "doc": [],
+        "code": [
+          "failed: expected drift to close"
+        ]
+      },
+      "trace_status": "verified_evidence",
+      "action": "failing/skipped test의 원인과 contract alignment 검토",
+      "reason": "failed"
+    },
+    {
+      "entry_id": "test_result:sync::test_skipped",
+      "finding_family": "test_result",
+      "kind": "test_case_result",
+      "name": "sync::test_skipped",
+      "observed_bucket": null,
+      "evidence": {
+        "doc": [],
+        "code": [
+          "skipped: fixture not ready"
+        ]
+      },
+      "trace_status": "verified_evidence",
+      "action": "failing/skipped test의 원인과 contract alignment 검토",
+      "reason": "skipped"
+    }
+  ]
+}

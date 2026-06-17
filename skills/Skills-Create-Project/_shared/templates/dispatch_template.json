@@ -1,0 +1,11 @@
+{
+  "$schema_notes": {
+    "_comment": "LEGACY ALIAS — 새 코드는 이 파일을 사용하지 마세요.",
+    "canonical_files": {
+      "standard": "template/dispatch_state_standard_template.json",
+      "extended": "template/dispatch_state_extended_template.json"
+    },
+    "role": "dispatch = canonical mutable execution-prep state",
+    "migration": "dispatch_template → dispatch_state_standard/extended_template로 분리됨. runtime 블록은 orchestrator 소유, phase_history/artifacts는 task_progress_state 소유."
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "status": "invalid",
+  "generated_at": "2026-03-19T22:10:00+09:00",
+  "algorithm_family": "unobserved_path_register",
+  "version": "v0.1.0",
+  "input_artifacts": {
+    "runtime_overlay": ""
+  },
+  "register_count": 2,
+  "registers": [
+    {
+      "root_path": "",
+      "unobserved_paths": [""],
+      "suggested_probe_entrypoints": [],
+      "reason": ""
+    }
+  ],
+  "next_candidate": "seed_to_refinement_report"
+}

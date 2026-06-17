@@ -1,0 +1,19 @@
+{
+  "manifest_version": "0.1",
+  "canonical": [
+    "task_packet_standard_template.json",
+    "task_packet_extended_template.json",
+    "dispatch_state_standard_template.json",
+    "dispatch_state_extended_template.json",
+    "task_progress_state_template.json"
+  ],
+  "local_support": [
+    "task_packet_template.json"
+  ],
+  "legacy_alias": [
+    "task_state_standard_template.json",
+    "task_state_extended_template.json",
+    "task_state_template.json",
+    "dispatch_template.json"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "status": "implemented",
+  "scope": "pairwise_smoke_test",
+  "command": "compare",
+  "rule_kind": "path_safety",
+  "pair": {
+    "doc": "codex-worktree-dispatch/references/dispatch-fields.md",
+    "script": "codex-worktree-dispatch/scripts/dispatch_manager.py"
+  },
+  "normalization": {
+    "mode": "internal_compare_stage",
+    "implemented": true,
+    "key": "path_safety.name exact match"
+  },
+  "doc_rule_count": 4,
+  "code_rule_count": 5,
+  "missing_in_code": [],
+  "missing_in_doc": [
+    {
+      "kind": "path_safety",
+      "name": "forbid_absolute_path",
+      "code_evidence": "validate_dispatch locked_paths branch — absolute path check",
+      "action": "## locked_paths 규칙에 'forbid_absolute_path' 규칙 문서화 검토"
+    }
+  ],
+  "mismatch": [],
+  "message": "path_safety 비교 완료",
+  "compared_at": "2026-03-16T20:46:13+09:00"
+}

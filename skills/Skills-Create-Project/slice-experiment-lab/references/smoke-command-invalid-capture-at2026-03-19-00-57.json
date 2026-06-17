@@ -1,0 +1,18 @@
+{
+  "status": "invalid",
+  "generated_at": "2026-03-19T01:01:41+09:00",
+  "contract_family": "smoke_command_capture",
+  "label": "seed-invalid",
+  "expected_status": "invalid",
+  "command": [
+    "python3",
+    "dependency-slice-planner/scripts/dependency_slice_planner.py",
+    "validate-slice-seed-candidates",
+    "--input-candidates",
+    "dependency-slice-planner/references/slice-seed-candidates-invalid-sample-at2026-03-19-00-22.json"
+  ],
+  "exit_code": 1,
+  "stdout": "{\n  \"status\": \"invalid\",\n  \"generated_at\": \"2026-03-19T01:01:41+09:00\",\n  \"contract_family\": \"slice_seed_candidates_validation\",\n  \"input_candidates\": \"dependency-slice-planner/references/slice-seed-candidates-invalid-sample-at2026-03-19-00-22.json\",\n  \"error_count\": 8,\n  \"errors\": [\n    \"candidates[1].candidate_id must be non-empty str\",\n    \"candidates[1].root_dir must be non-empty str\",\n    \"candidates[1].file_count must be non-negative int\",\n    \"candidates[1].total_bytes must be non-negative int\",\n    \"candidates[1].max_depth must be non-negative int\",\n    \"candidates[1].seed_action must be one of ['keep', 'merge_candidate', 'split_candidate', 'stop_candidate']\",\n    \"candidates[1].tags must contain non-empty strings\",\n    \"candidates[1].reason must be non-empty str\"\n  ],\n  \"candidate_summary\": {\n    \"candidate_count\": 1,\n    \"observed_candidate_count\": 1,\n    \"seed_actions\": []\n  }\n}\n",
+  "stderr": "",
+  "parsed_stdout_status": "invalid"
+}
