@@ -1,0 +1,4 @@
+interface:
+  display_name: "OpenAI Image Caption Validation"
+  short_description: "Run the local OpenAI image caption runner."
+  default_prompt: "Run a smoke test first on the local OpenAI image caption runner using a prepared image or dataset JSONL, then expand to a resumable batch only after the ledger and raw response artifacts look correct."

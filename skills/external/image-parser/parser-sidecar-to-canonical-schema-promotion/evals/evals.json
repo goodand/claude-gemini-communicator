@@ -1,0 +1,62 @@
+{
+  "skill": "parser-sidecar-to-canonical-schema-promotion",
+  "cases": [
+    {
+      "id": "mainline_paddleocr_real_fixture",
+      "goal": "Promote the bounded PaddleOCR raw sidecar into canonical Table -> Row -> Cell JSON.",
+      "input": {
+        "raw_sidecar_json": "control/project_domain/resources/manifests/phase0_paddleocr_table_parse_raw_at2026_03_28.json"
+      },
+      "expect": {
+        "normalized_status": "completed",
+        "document_id": "01_full_presentation_2026-03-17",
+        "row_count_min": 1
+      }
+    },
+    {
+      "id": "explicit_image_path_override",
+      "goal": "Allow stale or missing raw image provenance to be overridden explicitly.",
+      "input": {
+        "raw_sidecar_json": "control/project_domain/resources/manifests/phase0_paddleocr_table_parse_raw_at2026_03_28.json",
+        "image_path": "control/project_domain/resources/pptx_jobs/01_full_presentation_2026-03-17/media/image11.png"
+      },
+      "expect": {
+        "normalized_status": "completed"
+      }
+    },
+    {
+      "id": "no_table_found_boundary",
+      "goal": "Fail safely when the raw sidecar does not contain a recoverable table payload.",
+      "input": {
+        "raw_sidecar_json": "synthetic_no_table_sidecar.json"
+      },
+      "expect": {
+        "normalized_status": "no_table_found"
+      }
+    },
+    {
+      "id": "consumer_reads_canonical_only",
+      "goal": "Treat the canonical normalized output as the downstream source of truth once promotion succeeds.",
+      "input": {
+        "raw_sidecar_json": "control/project_domain/resources/manifests/phase0_paddleocr_table_parse_raw_at2026_03_28.json"
+      },
+      "expect": {
+        "downstream_policy": "normalized_only"
+      }
+    },
+    {
+      "id": "merged_candidate_baseline_v1",
+      "goal": "Build a review-stage merged candidate from Apple and Paddle canonical normalized outputs plus a comparison manifest.",
+      "input": {
+        "apple_normalized_json": "control/project_domain/resources/manifests/phase0_apple_document_structure_normalized_at2026_03_28.json",
+        "paddle_normalized_json": "control/project_domain/resources/manifests/phase0_paddleocr_table_parse_normalized_at2026_03_28.json",
+        "comparison_json": "control/project_domain/resources/manifests/phase0_table_parser_comparison_at2026_03_28.json"
+      },
+      "expect": {
+        "status": "completed",
+        "policy_name": "baseline_v1",
+        "structure_source": "apple"
+      }
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "skill_name": "transparent-component-triage",
+  "evals": [
+    {
+      "id": "EVAL-001",
+      "axis": "ownership-boundary",
+      "name": "candidate-subset-only",
+      "description": "이 skill은 candidate subset discovery까지만 맡고 semantic promotion은 소유하지 않아야 한다.",
+      "prompt": "투명 PNG 후보를 알아서 골라서 바로 object-level caption rerun까지 이어줘.",
+      "expected_output": "candidate subset report까지만 소유하고, caption rerun은 별도 reviewed flow라고 분리한다.",
+      "assertions": [
+        "candidate subset",
+        "reviewed",
+        "caption rerun"
+      ],
+      "expected_behavior": [
+        "batch triage 결과를 review-gated subset으로 제한한다",
+        "caption rerun을 범위 밖으로 둔다"
+      ],
+      "fail_signals": [
+        "자동 downstream promotion을 허용",
+        "caption rerun까지 한 skill에서 처리하겠다고 설명"
+      ]
+    },
+    {
+      "id": "EVAL-002",
+      "axis": "batch-contract",
+      "name": "ppt-bounded-batch-surface",
+      "description": "이 skill은 bounded PPT extract batch를 대상으로 해야 한다.",
+      "prompt": "아무 이미지 폴더나 받아서 semantic object isolation batch를 만들어줘.",
+      "expected_output": "PPT extract batch triage surface에 맞는다고 설명하고 semantic isolation batch와 구분한다.",
+      "assertions": [
+        "pptx_jobs",
+        "bounded batch",
+        "semantic isolation"
+      ],
+      "expected_behavior": [
+        "PPT extraction surface를 기본 입력으로 둔다",
+        "semantic object isolation과 batch triage를 구분한다"
+      ],
+      "fail_signals": [
+        "아무 이미지 폴더에 대한 범용 semantic isolation skill처럼 설명",
+        "bounded batch contract를 흐림"
+      ]
+    },
+    {
+      "id": "EVAL-003",
+      "axis": "runtime-selection",
+      "name": "vendored-runtime-guidance",
+      "description": "실제 classifier run은 vendored runtime 사용 가능성을 분명히 안내해야 한다.",
+      "prompt": "plain python3로는 일부 의존성이 불안정해. 어떻게 실행해야 해?",
+      "expected_output": "vendored ImageSorcery venv python으로 wrapper를 실행하는 경로를 제시한다.",
+      "assertions": [
+        "vendored",
+        "venv",
+        "python"
+      ],
+      "expected_behavior": [
+        "vendored runtime 경로를 구체적으로 제시한다",
+        "help surface와 full runtime을 구분할 수 있다"
+      ],
+      "fail_signals": [
+        "모든 상황에서 plain python3만 안내",
+        "runtime guidance를 누락"
+      ]
+    },
+    {
+      "id": "EVAL-004",
+      "axis": "output-policy",
+      "name": "reports-not-decisions",
+      "description": "report/summary는 triage evidence이지 user_decisions canonical이 아니다.",
+      "prompt": "이 배치 report를 바로 user_decisions 밑 canonical 결과로 써도 돼?",
+      "expected_output": "project_domain run surface에 두고, explicit decision만 나중에 승격한다고 설명한다.",
+      "assertions": [
+        "project_domain/runs/reports",
+        "project_domain/runs/manifests",
+        "user_decisions"
+      ],
+      "expected_behavior": [
+        "triage evidence와 decision record를 분리한다",
+        "report와 summary의 canonical run surface를 설명한다"
+      ],
+      "fail_signals": [
+        "batch report 자체를 user_decisions canonical로 추천",
+        "evidence와 decision record를 구분하지 않음"
+      ]
+    }
+  ]
+}

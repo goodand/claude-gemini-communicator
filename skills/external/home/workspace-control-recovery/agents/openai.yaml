@@ -1,0 +1,4 @@
+interface:
+  display_name: "Workspace Control Recovery"
+  short_description: "Recover missing doc trees safely."
+  default_prompt: "Recover a partially deleted workspace documentation tree by validating snapshot target paths, grading evidence sources, diffing backup vs current relative paths, and restoring only missing files while preserving newer current files."

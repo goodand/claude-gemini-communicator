@@ -1,0 +1,4 @@
+interface:
+  display_name: "Obsidian Caption Review Builder"
+  short_description: "Build an Obsidian-friendly markdown caption review."
+  default_prompt: "Build an Obsidian-friendly caption review from the specified caption ledgers. Default to canonical copied-asset mode unless the request explicitly needs direct or prefixed embeds, then write the markdown review and any copied assets into the requested run surface."

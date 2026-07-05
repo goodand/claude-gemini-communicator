@@ -1,0 +1,160 @@
+{
+  "skill_name": "vendored-mcp-onboarding",
+  "evals": [
+    {
+      "id": "EVAL-001",
+      "axis": "workflow-order",
+      "name": "registration-is-not-enough",
+      "description": "이 skill은 단순 등록이 아니라 runtime isolation, launcher, inventory, smoke까지 묶어서 설명해야 한다.",
+      "prompt": "새 MCP를 추가했어. config에만 넣으면 끝이지?",
+      "expected_output": "config 등록만으로 끝이 아니고 vendored runtime, launcher, inventory, smoke까지 필요하다고 설명한다.",
+      "assertions": [
+        "runtime",
+        "launcher",
+        "inventory",
+        "smoke"
+      ],
+      "expected_behavior": [
+        "registration과 activation을 구분한다",
+        "light smoke와 heavy smoke를 설명할 수 있다"
+      ],
+      "fail_signals": [
+        "config 등록만으로 완료라고 설명",
+        "smoke evidence 필요성을 누락"
+      ]
+    },
+    {
+      "id": "EVAL-002",
+      "axis": "ownership-boundary",
+      "name": "onboarding-not-downstream-usage",
+      "description": "이 skill은 MCP onboarding까지만 소유하고 downstream experiment 사용은 범위 밖이어야 한다.",
+      "prompt": "imagesorcery를 붙이고 바로 object isolation experiment도 다 돌려줘.",
+      "expected_output": "MCP onboarding과 downstream experiment 실행을 분리한다.",
+      "assertions": [
+        "onboarding",
+        "downstream experiment",
+        "separate"
+      ],
+      "expected_behavior": [
+        "onboarding workflow를 먼저 고정한다",
+        "downstream use는 별도 흐름이라고 구분한다"
+      ],
+      "fail_signals": [
+        "onboarding과 downstream experiment를 한 skill의 기본 범위로 합침"
+      ]
+    },
+    {
+      "id": "EVAL-003",
+      "axis": "runtime-isolation",
+      "name": "keep-main-runtime-clean",
+      "description": "새 MCP는 main workspace runtime을 오염시키지 않도록 vendored isolation을 우선해야 한다.",
+      "prompt": "새 Python MCP를 그냥 프로젝트 .venv에 설치하면 안 돼?",
+      "expected_output": "가능한 한 vendor/mcp 내부 runtime isolation을 우선하고 main runtime contamination을 피하라고 설명한다.",
+      "assertions": [
+        "vendor/mcp",
+        "isolated runtime",
+        "main workspace runtime"
+      ],
+      "expected_behavior": [
+        "vendored venv 또는 uv-managed vendor project를 우선한다",
+        "main workspace runtime 오염을 피하라고 설명한다"
+      ],
+      "fail_signals": [
+        "무비판적으로 main workspace .venv 설치를 권장"
+      ]
+    },
+    {
+      "id": "EVAL-004",
+      "axis": "registry-sync",
+      "name": "registry-surfaces-must-agree",
+      "description": "config와 inventory와 launcher surface를 함께 점검해야 한다.",
+      "prompt": "launcher는 만들었는데 inventory는 나중에 정리해도 되지?",
+      "expected_output": "launcher, config, inventory, smoke를 하나의 onboarding package로 보라고 설명한다.",
+      "assertions": [
+        ".codex/config.toml",
+        ".vscode/mcp.json",
+        "tool_inventory.json",
+        "smoke"
+      ],
+      "expected_behavior": [
+        "registry drift를 경고한다",
+        "모든 surface를 함께 업데이트하라고 설명한다"
+      ],
+      "fail_signals": [
+        "inventory와 smoke를 별개 사후 작업으로 취급"
+      ]
+    },
+    {
+      "id": "EVAL-005",
+      "axis": "owner-consumer-boundary",
+      "name": "consumer-skill-does-not-own-inventory",
+      "description": "consumer specialist skill은 tool_inventory.json과 REFERENCE_mcp_setup.md를 직접 수정하지 않는다. inventory 수정은 항상 vendored-mcp-onboarding을 거쳐야 한다.",
+      "prompt": "macos-ocr-evidence skill에서 macos-ocr-mcp가 응답이 없다고 해서 거기서 inventory를 직접 inactive로 바꿔도 돼?",
+      "expected_output": "consumer skill이 inventory를 직접 수정하는 것은 잘못된 경계다. 문제 발견은 consumer에서 할 수 있지만 inventory 수정은 vendored-mcp-onboarding skill을 통해야 한다고 설명한다.",
+      "assertions": [
+        "consumer",
+        "owner",
+        "vendored-mcp-onboarding",
+        "tool_inventory.json"
+      ],
+      "expected_behavior": [
+        "macos-ocr-evidence를 consumer specialist로 분류한다",
+        "inventory 쓰기 권한은 owner layer에만 있다고 설명한다",
+        "vendored-mcp-onboarding을 통해 inventory를 업데이트하라고 안내한다"
+      ],
+      "fail_signals": [
+        "consumer skill이 inventory를 직접 수정해도 된다고 허용",
+        "macos-ocr-evidence를 owner family로 분류",
+        "owner/consumer 구분 없이 아무 skill에서나 inventory 수정 허용"
+      ]
+    },
+    {
+      "id": "EVAL-006",
+      "axis": "inventory-drift-routing",
+      "name": "drift-check-routes-to-owner-checklist",
+      "description": "기존에 등록된 MCP의 launcher와 inventory 간 drift 발견 시, 새 skill을 만들거나 pipeline skill에서 처리하지 않고 vendored-mcp-onboarding의 mcp_inventory_sync_checklist를 통해 처리해야 한다.",
+      "prompt": "imagesorcery MCP가 inventory에는 active로 되어 있는데 launcher가 없는 것 같아. 새 skill을 만들어서 이걸 처리할까?",
+      "expected_output": "새 skill을 만들 필요 없이 vendored-mcp-onboarding이 이미 이 상황을 담당하는 owner entrypoint라고 설명하고, mcp_inventory_sync_checklist를 실행해서 drift를 확인하고 reconcile하도록 안내한다.",
+      "assertions": [
+        "vendored-mcp-onboarding",
+        "mcp_inventory_sync_checklist",
+        "drift",
+        "launcher"
+      ],
+      "expected_behavior": [
+        "새 skill 생성 없이 기존 owner skill로 라우팅한다",
+        "checklist 실행을 제안한다",
+        "inventory 업데이트 권한이 owner layer에 있다고 설명한다"
+      ],
+      "fail_signals": [
+        "새 skill 생성을 권장",
+        "pipeline skill이나 consumer skill에서 inventory drift를 처리하도록 안내",
+        "vendored-mcp-onboarding이 ongoing maintenance도 담당한다는 점을 누락"
+      ]
+    },
+    {
+      "id": "EVAL-007",
+      "axis": "owner-output-routing",
+      "name": "small-change-still-routes-to-owner-if-owner-output-touched",
+      "description": "변경 규모가 작아도 launcher, config registration, inventory, setup docs, smoke evidence 중 하나라도 영향 받으면 owner skill로 라우팅해야 한다. '작은 수정이니까 owner skill 안 써도 된다'는 잘못된 경계다.",
+      "prompt": "이미 onboard된 MCP의 config alias만 바꾸면 되는데 owner skill 안 써도 되지?",
+      "expected_output": "config alias 변경이 .codex/config.toml이나 .vscode/mcp.json에 영향을 주면 owner outputs를 건드리는 것이므로 vendored-mcp-onboarding을 통해야 한다고 설명한다. 변경 크기가 아니라 owner outputs 영향 여부가 routing 기준임을 명시한다.",
+      "assertions": [
+        "owner outputs",
+        "vendored-mcp-onboarding",
+        "config",
+        "routing"
+      ],
+      "expected_behavior": [
+        "변경 규모가 아니라 owner outputs 영향 여부로 routing을 결정한다",
+        ".codex/config.toml 또는 .vscode/mcp.json 수정은 owner output 범주임을 설명한다",
+        "작은 변경이어도 owner skill로 라우팅하라고 안내한다"
+      ],
+      "fail_signals": [
+        "변경이 작으니까 owner skill을 건너뛰어도 된다고 허용",
+        "config alias 변경을 consumer-local 작업으로 분류",
+        "owner output 영향 여부 판단 없이 규모로만 routing 결정"
+      ]
+    }
+  ]
+}
