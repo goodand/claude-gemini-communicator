@@ -78,6 +78,10 @@ python3 skills/resolve_skill.py list --json
 
 ## 4. control / agent 디렉토리 패턴
 
+> 이 설계의 파일시스템 차원 근거는 [DATA_MANAGEMENT_PHILOSOPHY.md](DATA_MANAGEMENT_PHILOSOPHY.md) 참조.
+
+
+
 ### 설계 원칙: 큰 control(안) + 실행은 밖(외측)
 
 `/control`은 이 아키텍처에서 **가장 크고 상위인 거버넌스 계층**입니다 — "무엇을·왜·
