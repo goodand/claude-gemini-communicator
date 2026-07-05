@@ -28,7 +28,10 @@ Claim Verifier가 최다 사용). 검증 계열 skill이 여러 위치에 흩어
 | `semantic` | 의미 모호성 제거·개념 명료성 | claim |
 | `runtime-truth` | 실행/런타임 상태 실측 진위 | evidence |
 | `validation-run` | 산출물 검증 실행 파이프라인 | evidence |
+| `skill-eval` | **agent skill 자체의 실행을 평가·측정** (behavior eval·benchmark·baseline diff) | evidence |
 | `all` | 전체 검증 패밀리 | (전부) |
+
+`skill-eval`은 "검증 도구를 검증"하는 메타 계층입니다 — skill 실행을 측정(measurement-evaluation-orchestrator 허브, agent-tool-benchmark, baseline-diff-lab, skill-workflow-bridge-eval, slice-experiment-lab).
 
 허브는 **`claim-verifier`** — 모든 패밀리가 claim으로 수렴합니다.
 

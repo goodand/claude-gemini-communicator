@@ -80,16 +80,25 @@ FAMILIES = {
                    "table-branch-activation-slice"],
         "includes": ["evidence"],
     },
+    "skill-eval": {
+        "description": "agent skill 자체의 실행을 평가·측정 (behavior eval·benchmark·baseline diff)",
+        "skills": ["measurement-evaluation-orchestrator", "agent-tool-benchmark",
+                   "baseline-diff-lab", "skill-workflow-bridge-eval",
+                   "slice-experiment-lab"],
+        "includes": ["evidence"],
+    },
     "all": {
         "description": "전체 검증 패밀리",
         "skills": [],
         "includes": ["merge-audit", "consistency", "semantic",
-                     "runtime-truth", "validation-run"],
+                     "runtime-truth", "validation-run", "skill-eval"],
     },
 }
 
 # ── 의도 → 패밀리 라우팅 규칙 (위에서부터 첫 매치) ───────────────────
 ROUTE_RULES = [
+    (r"skill.*(평가|측정|eval|benchmark|behavior|behaviour)|(평가|측정|benchmark).*skill|"
+     r"baseline.?diff|with.?without|autorat|rater|스킬.*평가", "skill-eval"),
     (r"merge|머지|병합|\bpr\b|풀리퀘|pull request", "merge-audit"),
     (r"문서|doc|readme|sync|정합|align|일관", "consistency"),
     (r"의존|dependenc|circular|phantom|순환", "consistency"),
