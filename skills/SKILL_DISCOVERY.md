@@ -77,9 +77,29 @@ python3 skills/resolve_skill.py list --json
 
 ## 4. control / agent 디렉토리 패턴
 
+### 설계 원칙: 큰 control(안) + 실행은 밖(외측)
+
+`/control`은 이 아키텍처에서 **가장 크고 상위인 거버넌스 계층**입니다 — "무엇을·왜·
+언제" 를 지배하는 의사결정·후보관리·기록의 두뇌. 그러나 **실제로 실행(execute)되는
+능력(skill)은 의도적으로 control 바깥(외측)에 둡니다**: `repo/skills`(정본),
+`~/.claude/skills`, `~/.codex/skills`, `/agent/skills`.
+
+따라서 resolver 우선순위에서 **실행 정본은 `repo/skills`(#1)** 이고 control은
+후순위입니다. 이는 "control이 크니까 먼저 실행된다"가 아니라 **control이 크게
+감싸되 실행은 밖으로 위임한다** 는 설계의 직접적 결과입니다:
+
+```
+        ┌─────────────────  /control  (큰 거버넌스: 결정·후보·기록) ─────────────────┐
+        │  project_agent_ops · project_domain · team · user_decisions              │
+        │        │ 승격(skill_candidates → skill)                                   │
+        └────────┼────────────────────────────────────────────────────────────────┘
+                 ▼   실행은 외측(outer)으로 분리 · resolver #1 = repo/skills
+        repo/skills · ~/.claude/skills · ~/.codex/skills · /agent/skills   ← 실제 execute
+```
+
 `/control`(그리고 프로젝트별 `<project>/control`)은 skill이 아니라 **control-plane
 운영 자산**을 담는 규약입니다. resolver는 여기서 skill 디렉토리(`SKILL.md` 보유)만
-골라냅니다. 관례 구조:
+골라냅니다(대개 없음 — 실행물은 외측에 있으므로). 관례 구조:
 
 ```
 control/
