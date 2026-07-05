@@ -39,16 +39,17 @@ FAMILIES = {
         "includes": [],
     },
     "evidence": {
-        "description": "증거 수집·추적·감사 (OCR/이미지/실행 증거를 근거로)",
+        "description": "증거 수집·추적·감사 (OCR/이미지/실행/세션 증거를 근거로)",
         "skills": ["evidence-trace-auditor", "evidence-to-knowledge-promoter",
                    "macos-ocr-evidence", "component-split-ocr-review",
-                   "image-result-auditor"],
+                   "image-result-auditor", "trace-claude-session-memory"],
         "includes": ["claim"],
     },
     "consistency": {
-        "description": "코드↔문서↔의존성 구조 정합성 검증",
+        "description": "코드↔문서↔의존성↔아티팩트 contract 정합성 검증",
         "skills": ["doc-code-sync-checker", "codebase-doc-alignment",
-                   "depsolve-analyzer", "class-hierarchy-classifier"],
+                   "depsolve-analyzer", "class-hierarchy-classifier",
+                   "repair-rag-artifact-contract"],
         "includes": ["claim"],
     },
     "decision-gate": {

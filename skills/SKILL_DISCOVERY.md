@@ -32,6 +32,7 @@ resolver는 아래 루트를 **위에서 아래로** 스캔하고, 같은 skill 
 - `my-image-parser/` — `skills/`(정본은 [my-image-parser repo](https://github.com/goodand/my-image-parser)) + `control/`
 - `narrative-ai/` — `.claude/skills/` + `control/`
 - `vscode-markdown-review-surface/` — `skills/` + `control/`
+- `my-second-identity/` — `skills/` (repair-rag-artifact-contract, trace-claude-session-memory 등)
 
 새 프로젝트를 추가하려면 `resolve_skill.py`의 `KNOWN_PROJECTS`에 이름만 넣으면 된다
 (`SKILL_PROJECTS_BASE`가 다른 경우 환경변수로 베이스를 지정).

@@ -36,7 +36,8 @@ PROJECTS_BASE = Path(os.environ.get(
 
 # 알려진 프로젝트 (skills/ + control/ 관례를 따르는 곳).
 # 각 프로젝트는 <proj>/skills, <proj>/.claude/skills, <proj>/control을 스캔한다.
-KNOWN_PROJECTS = ["my-image-parser", "narrative-ai", "vscode-markdown-review-surface"]
+KNOWN_PROJECTS = ["my-image-parser", "narrative-ai", "vscode-markdown-review-surface",
+                  "my-second-identity"]
 
 
 def _project_roots():
