@@ -45,6 +45,11 @@ resolver는 아래 루트를 **위에서 아래로** 스캔하고, 같은 skill 
 
 > `external/`는 **미러**입니다. 각 skill의 원 소유 repo가 정본이며, 이 미러는
 > 배포·검색·오프라인 참조용입니다. `.env` 등 시크릿은 미러에서 제외됩니다.
+>
+> **정본 우선순위**: `claude-gemini-communicator`(이 repo)가 가장 최신·일관된
+> 메커니즘으로 제작한 정본입니다. external 미러가 repo 정본과 이름이 겹치면
+> **repo 정본이 우선**하며, 정본보다 오래된 external 스냅샷은
+> `external/_stale/`로 격리합니다(resolver 발견 대상에서 제외 — `external/_stale/README.md` 참조).
 
 ## 3. resolver 사용법
 

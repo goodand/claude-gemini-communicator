@@ -84,6 +84,10 @@ def _iter_skill_dirs(root: Path, max_depth: int):
         if depth > max_depth:
             dirnames[:] = []
             continue
+        # _stale: 구버전 스냅샷 격리 디렉토리는 발견에서 제외
+        if os.sep + "_stale" + os.sep in dirpath + os.sep:
+            dirnames[:] = []
+            continue
         if "SKILL.md" in filenames:
             yield Path(dirpath)
             dirnames[:] = []  # skill 내부는 더 내려가지 않음
