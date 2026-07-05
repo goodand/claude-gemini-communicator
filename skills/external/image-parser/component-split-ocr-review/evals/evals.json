@@ -1,0 +1,90 @@
+{
+  "skill_name": "component-split-ocr-review",
+  "evals": [
+    {
+      "id": "EVAL-001",
+      "axis": "ownership-boundary",
+      "name": "review-surface-only",
+      "description": "이 skill은 component review surface만 만들고 semantic selection이나 caption rerun은 소유하지 않아야 한다.",
+      "prompt": "이미지에서 객체를 알아서 골라서 좋은 것만 분리하고 바로 캡션까지 다시 돌려줘.",
+      "expected_output": "component split/OCR review surface까지만 소유하고, semantic selection과 caption rerun은 별도 흐름으로 분리한다.",
+      "assertions": [
+        "review surface",
+        "semantic selection",
+        "caption rerun"
+      ],
+      "expected_behavior": [
+        "component split과 OCR evidence까지만 범위를 제한한다",
+        "semantic selection을 이 skill의 범위 밖으로 둔다",
+        "caption rerun을 이 skill의 범위 밖으로 둔다"
+      ],
+      "fail_signals": [
+        "semantic object selection까지 자동 수행하겠다고 설명",
+        "caption rerun까지 같은 skill에서 하겠다고 설명"
+      ]
+    },
+    {
+      "id": "EVAL-002",
+      "axis": "input-contract",
+      "name": "single-image-only",
+      "description": "이 skill은 배치 triage가 아니라 한 장 기준 review surface를 만드는 skill이어야 한다.",
+      "prompt": "폴더 전체 이미지를 전부 돌려서 alpha split 후보를 분류해줘.",
+      "expected_output": "이 skill은 단일 이미지 review surface에 맞고, batch triage는 별도 흐름이라고 분리한다.",
+      "assertions": [
+        "single image",
+        "batch triage",
+        "separate flow"
+      ],
+      "expected_behavior": [
+        "image_path 하나를 기본 입력으로 둔다",
+        "폴더 전체 triage는 다른 skill 또는 script로 분리한다"
+      ],
+      "fail_signals": [
+        "디렉토리 batch triage를 기본 사용례로 설명",
+        "single-image contract를 흐림"
+      ]
+    },
+    {
+      "id": "EVAL-003",
+      "axis": "runtime-selection",
+      "name": "vendored-runtime-when-needed",
+      "description": "help surface는 가볍게 유지하되 실제 실행은 vendored runtime을 권장할 수 있어야 한다.",
+      "prompt": "python3로는 --help는 되는데 실제 실행에서 패키지 오류가 나. 어떻게 해야 해?",
+      "expected_output": "wrapper help는 경량 표면으로 두고, 실제 run은 vendored ImageSorcery venv python 사용을 안내한다.",
+      "assertions": [
+        "vendored",
+        "venv",
+        "python"
+      ],
+      "expected_behavior": [
+        "실행용 interpreter를 분리해서 설명한다",
+        "vendored runtime 경로를 구체적으로 제시한다"
+      ],
+      "fail_signals": [
+        "모든 실행이 plain python3로 충분하다고 단정",
+        "vendored runtime 필요 가능성을 누락"
+      ]
+    },
+    {
+      "id": "EVAL-004",
+      "axis": "output-policy",
+      "name": "project-domain-run-surface",
+      "description": "review artifacts는 project_domain run surface에 두고 user_decisions로 바로 올리지 않아야 한다.",
+      "prompt": "component review 결과를 바로 user_decisions에 canonical로 써도 돼?",
+      "expected_output": "review artifact는 project_domain/runs/component_split_ocr에 두고, 명시적 결정만 나중에 승격한다고 설명한다.",
+      "assertions": [
+        "project_domain/runs/component_split_ocr",
+        "user_decisions",
+        "promote later"
+      ],
+      "expected_behavior": [
+        "review와 decision record를 분리한다",
+        "bounded run surface를 canonical로 설명한다"
+      ],
+      "fail_signals": [
+        "review markdown 자체를 곧바로 user_decisions canonical로 추천",
+        "review와 decision record를 구분하지 않음"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,197 @@
+{
+  "skill_name": "obsidian-caption-review-builder",
+  "measured_by": "mode-selection + wrapper command-contract + producer boundary",
+  "pattern": "caption ledger -> portable markdown review artifact producer",
+  "test_files": [
+    "scripts/test_build_obsidian_caption_review.py"
+  ],
+  "test_count": 6,
+  "evals": [
+    {
+      "id": "EVAL-001",
+      "rule": "Rule 1: canonical copied-asset mode를 기본으로 선택",
+      "axis": "mode-selection",
+      "name": "default-canonical-copy",
+      "description": "별도 모드 지정이 없으면 copied-asset 기반 canonical mode를 기본으로 잡아야 한다",
+      "prompt": "caption ledger 몇 개가 있어. Obsidian에서 검토할 review markdown을 만들어줘. 특별한 경로 제약은 없고, 사람이 보기 쉽게만 하면 돼.",
+      "assertions": [
+        "canonical-copy",
+        "copied assets",
+        "bounded review surface"
+      ],
+      "expected_output": "canonical-copy를 기본으로 선택하고, review markdown과 copied assets를 bounded review surface에 생성하는 방향으로 안내한다.",
+      "expected_behavior": [
+        "copied-asset mode를 기본값으로 제안한다",
+        "output markdown과 asset directory를 함께 언급한다",
+        "직접경로나 prefixed mode를 기본값으로 두지 않는다"
+      ],
+      "fail_signals": [
+        "아무 조건 없이 direct mode를 기본으로 제안",
+        "copied assets 없이도 canonical이라고 설명",
+        "output markdown만 언급하고 asset surface를 누락"
+      ],
+      "test_coverage": [
+        "CommandBuilderTests.test_default_asset_dir",
+        "CommandBuilderTests.test_canonical_copy_uses_default_asset_dir",
+        "CommandBuilderTests.test_canonical_copy_honors_explicit_asset_dir"
+      ],
+      "files": [
+        "scripts/build_obsidian_caption_review.py",
+        "scripts/test_build_obsidian_caption_review.py"
+      ]
+    },
+    {
+      "id": "EVAL-002",
+      "rule": "Rule 2: direct mode는 안정적 상대 경로일 때만 허용",
+      "axis": "mode-selection",
+      "name": "direct-mode-only-when-stable",
+      "description": "direct mode는 source layout이 안정적일 때만 써야 한다",
+      "prompt": "markdown 파일과 원본 이미지의 상대 경로가 고정돼 있어. 이미지 복사는 원하지 않아. review만 만들고 싶어.",
+      "assertions": [
+        "direct",
+        "copy하지 않음",
+        "stable"
+      ],
+      "expected_output": "direct mode를 선택하고, copied assets를 만들지 않으며 source layout stability를 전제로 둔다.",
+      "expected_behavior": [
+        "direct mode를 선택한다",
+        "copied assets를 기본으로 강제하지 않는다",
+        "이 선택이 source layout stability에 의존한다고 설명한다"
+      ],
+      "fail_signals": [
+        "copy-assets를 여전히 강제",
+        "layout stability 조건을 언급하지 않음"
+      ],
+      "test_coverage": [
+        "CommandBuilderTests.test_direct_mode_rejects_extra_path_args"
+      ],
+      "files": [
+        "scripts/build_obsidian_caption_review.py",
+        "scripts/test_build_obsidian_caption_review.py"
+      ]
+    },
+    {
+      "id": "EVAL-003",
+      "rule": "Rule 3: prefixed mode는 source-root와 embed-prefix를 둘 다 요구",
+      "axis": "argument-contract",
+      "name": "prefixed-mode-requires-both-path-args",
+      "description": "prefixed mode는 source-root와 embed-prefix를 둘 다 요구해야 한다",
+      "prompt": "vault에 img/pptx_jobs 경로가 이미 있어. prefixed embed로 review를 만들고 싶어.",
+      "assertions": [
+        "prefixed",
+        "source-root",
+        "embed-prefix"
+      ],
+      "expected_output": "prefixed mode를 선택하되 source-root와 embed-prefix를 둘 다 요구한다.",
+      "expected_behavior": [
+        "prefixed mode를 compatibility mode로 설명한다",
+        "source-root와 embed-prefix 둘 다 필요하다고 말한다",
+        "copied-asset canonical mode와 구분한다"
+      ],
+      "fail_signals": [
+        "source-root 없이도 prefixed mode를 진행",
+        "embed-prefix 없이도 prefixed mode를 진행",
+        "prefixed를 canonical mode라고 설명"
+      ],
+      "test_coverage": [
+        "CommandBuilderTests.test_prefixed_mode_requires_both_path_args",
+        "CommandBuilderTests.test_prefixed_mode_adds_source_root_and_embed_prefix"
+      ],
+      "files": [
+        "scripts/build_obsidian_caption_review.py",
+        "scripts/test_build_obsidian_caption_review.py"
+      ]
+    },
+    {
+      "id": "EVAL-004",
+      "rule": "Rule 4: caption generation이나 PPTX extraction은 이 skill 소유가 아님",
+      "axis": "ownership-boundary",
+      "name": "does-not-generate-captions",
+      "description": "이 skill은 review surface만 만들고 caption generation 자체는 소유하지 않는다",
+      "prompt": "pptx에서 이미지를 뽑고 caption도 생성해서 Obsidian review까지 다 해줘.",
+      "assertions": [
+        "does not generate captions",
+        "PPTX extraction",
+        "review surface"
+      ],
+      "expected_output": "이 skill은 caption review surface만 소유하며 caption generation이나 PPTX extraction은 별도 흐름이라고 분리한다.",
+      "expected_behavior": [
+        "caption generation을 이 skill의 범위 밖으로 둔다",
+        "PPTX extraction을 이 skill의 범위 밖으로 둔다",
+        "review markdown build 역할만 고정한다"
+      ],
+      "fail_signals": [
+        "이 skill이 caption generation까지 직접 담당한다고 설명",
+        "PPTX extraction까지 같은 skill에서 하겠다고 설명"
+      ],
+      "test_coverage": [
+        "doc contract only"
+      ],
+      "files": [
+        "SKILL.md",
+        "references/runtime.md"
+      ]
+    },
+    {
+      "id": "EVAL-005",
+      "rule": "Rule 5: review surface와 decision record는 분리",
+      "axis": "output-policy",
+      "name": "review-is-not-decision-record",
+      "description": "review surface와 decision record를 구분해야 한다",
+      "prompt": "이 review를 바로 user_decisions 아래 canonical로 써도 돼?",
+      "assertions": [
+        "project_domain/runs/reports",
+        "user_decisions",
+        "explicit decision result"
+      ],
+      "expected_output": "full review surface는 project_domain/runs/reports에 두고, explicit decision result만 user_decisions로 승격한다고 설명한다.",
+      "expected_behavior": [
+        "review와 decision record를 구분한다",
+        "full review surface의 canonical 위치를 설명한다",
+        "user_decisions는 승격된 결론에만 쓰인다고 설명한다"
+      ],
+      "fail_signals": [
+        "review markdown 전체를 user_decisions canonical로 추천",
+        "review와 decision record를 같은 것으로 취급"
+      ],
+      "test_coverage": [
+        "doc contract only"
+      ],
+      "files": [
+        "SKILL.md",
+        "knowledge_bases/obsidian-caption-review-builder-knowledge-base-at2026-03-27-23-04.md"
+      ]
+    },
+    {
+      "id": "EVAL-006",
+      "rule": "Rule 6: VS Code operation은 downstream operator skill로 handoff",
+      "axis": "cross-skill-boundary",
+      "name": "downstream-operator-handoff",
+      "description": "생성된 review markdown를 VS Code에서 운영해야 하면 downstream operator skill로 넘겨야 한다",
+      "prompt": "이 review markdown를 VS Code에서 fabriqa랑 Foam으로 계속 검토하고 싶어.",
+      "assertions": [
+        "vscode-fabriqa-foam-workflow",
+        "producer",
+        "operator"
+      ],
+      "expected_output": "이 skill은 markdown review artifact를 생산하는 producer이고, VS Code 운영은 vscode-fabriqa-foam-workflow로 handoff한다고 설명한다.",
+      "expected_behavior": [
+        "producer/operator 경계를 분명히 한다",
+        "VS Code editor-mode orchestration을 이 skill 안에 넣지 않는다"
+      ],
+      "fail_signals": [
+        "이 skill이 VS Code mode switching까지 직접 담당한다고 설명",
+        "vscode-fabriqa-foam-workflow handoff를 누락"
+      ],
+      "test_coverage": [
+        "doc contract only"
+      ],
+      "files": [
+        "SKILL.md",
+        "references/runtime.md",
+        "references/cross_skill_dependencies.yaml"
+      ]
+    }
+  ],
+  "cross_skill_note": "VS Code-side review operation은 vscode-fabriqa-foam-workflow skill 영역이다."
+}

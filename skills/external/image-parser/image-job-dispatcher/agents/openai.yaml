@@ -1,0 +1,4 @@
+interface:
+  display_name: "Image Job Dispatcher"
+  short_description: "Register and fan out one-image jobs."
+  default_prompt: "Register image jobs in MCP-backed state, then dispatch one isolated worker per image using stable job and image identifiers."

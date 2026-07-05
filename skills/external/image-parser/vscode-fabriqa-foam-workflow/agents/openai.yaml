@@ -1,0 +1,4 @@
+interface:
+  display_name: "VS Code Fabriqa Foam Workflow"
+  short_description: "Operate markdown review mode in VS Code with fabriqa, Foam, and Text Editor."
+  default_prompt: "Set up or switch a VS Code markdown workspace into the correct operating mode. Use fabriqa for same-page visual markdown editing with embedded images, use Text Editor for wikilink authoring and Foam commands that require an active text editor, and keep Foam as the backlinks and graph shell."

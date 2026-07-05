@@ -1,0 +1,4 @@
+interface:
+  display_name: "Image Commit Manager"
+  short_description: "Apply approved image changes."
+  default_prompt: "Apply only approved rename and metadata updates by reading approved image records, using filesystem and ExifTool MCPs conservatively, and leaving hold items unchanged when conflicts appear."
