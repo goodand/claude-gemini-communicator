@@ -23,6 +23,7 @@ import argparse
 import json
 import os
 import sys
+import unicodedata
 from pathlib import Path
 
 HOME = Path.home()
@@ -110,8 +111,10 @@ def discover():
     seen_real = set()
     for label, root, depth in roots:
         for sdir in _iter_skill_dirs(root, depth):
-            real = str(sdir.resolve())
-            name = sdir.name
+            # macOS: 한글 경로가 NFD로 분해되어 올 수 있어 NFC로 정규화 —
+            # 심링크 dedup의 문자열 비교가 깨지지 않게 한다.
+            real = unicodedata.normalize("NFC", str(sdir.resolve()))
+            name = unicodedata.normalize("NFC", sdir.name)
             rec = {"name": name, "path": str(sdir), "real": real,
                    "root": label, "skill_md": str(sdir / "SKILL.md")}
             all_hits.append(rec)

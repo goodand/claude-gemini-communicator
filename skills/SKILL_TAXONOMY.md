@@ -71,5 +71,9 @@ parallel_coordination · doc_code_drift · codebase_partitioning · reference_va
 
 1. 새 skill: owner-family를 description에 명시(층1) → catalog `SKILL-*`에 role 부여(층2)
    → 필요 시 router 패밀리에 추가(층3).
-2. 정본은 `repo/skills`. catalog `path`와 resolver 우선순위가 이 정본을 가리키는지 주기 점검.
+2. 정본은 `repo/skills`. catalog `path`와 resolver 우선순위가 이 정본을 가리키는지
+   **`python3 skills/catalog_resolver_audit.py`** 로 점검 (층2↔층3 드리프트:
+   PATH_MISSING / NOT_DISCOVERED / NOT_WINNER / NAME_MISMATCH, 드리프트 시 exit 1 —
+   CI 게이트 가능). clone/worktree가 달라도 `skills/` 이후 상대 suffix로 판정하고
+   macOS 한글 NFC/NFD를 정규화한다.
 3. 이름충돌은 `resolve_skill.py conflicts`, family 누락은 family-closure-audit로 감지.
