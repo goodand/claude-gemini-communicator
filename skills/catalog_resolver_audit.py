@@ -76,8 +76,16 @@ def audit(catalog_path: Path):
         row = {"key": key, "name": name, "dir": str(d)}
 
         if not d.exists():
-            row["status"] = "PATH_MISSING"
-            rows.append(row); continue
+            # catalog는 절대경로를 저장하므로 다른 clone/worktree/머신(CI 등)에서는
+            # 그 경로가 없다. 곧바로 PATH_MISSING으로 단정하지 말고 'skills/' 이후
+            # 상대 suffix를 현재 repo 루트 기준으로 재해석해 실존을 먼저 확인한다.
+            suffix = skills_suffix(str(d))
+            if suffix and (HERE.parent / suffix).exists():
+                d = HERE.parent / suffix
+                row["dir"] = str(d)  # 출력 소비자가 재해석된 실경로를 보도록 갱신
+            else:
+                row["status"] = "PATH_MISSING"
+                rows.append(row); continue
 
         real = nfc(os.path.realpath(d))
         dirname = nfc(d.name)

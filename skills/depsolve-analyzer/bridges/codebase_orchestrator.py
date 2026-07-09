@@ -380,11 +380,14 @@ class CodebaseOrchestrator:
                 ))
                 return
             
+            mapper_file = None
             try:
                 with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as f:
-                    json.dump(self.result.mapper_output, f)
+                    # NamedTemporaryFile은 진입 즉시 디스크에 파일을 만든다.
+                    # json.dump가 실패해도 finally가 정리하도록 이름을 먼저 잡는다.
                     mapper_file = f.name
-                
+                    json.dump(self.result.mapper_output, f)
+
                 proc = subprocess.run(
                     [sys.executable, str(bridge_script), 
                      "--depsolve", "-", 
@@ -394,9 +397,7 @@ class CodebaseOrchestrator:
                     text=True,
                     timeout=60,
                 )
-                
-                os.unlink(mapper_file)
-                
+
                 if proc.returncode == 0 and proc.stdout.strip():
                     self.result.bridge_output = json.loads(proc.stdout)
                     self.result.steps.append(StepResult(
@@ -419,7 +420,12 @@ class CodebaseOrchestrator:
                     success=False,
                     error=str(e),
                 ))
-    
+            finally:
+                # subprocess가 TimeoutExpired 등으로 예외를 던져도 임시 파일이
+                # 남지 않도록 항상 정리한다.
+                if mapper_file and os.path.exists(mapper_file):
+                    os.unlink(mapper_file)
+
     def _generate_insights(self) -> None:
         """분석 결과 기반 인사이트 생성"""
         insights = {
