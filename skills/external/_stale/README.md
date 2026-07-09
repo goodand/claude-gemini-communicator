@@ -6,8 +6,9 @@
 
 - **정본 위치**: `skills/<name>/` (communicator가 가장 일관된 메커니즘으로 제작한 최신본)
 - **여기(_stale)**: 과거 narrative-ai 스냅샷. 내용 비교/이력 참조용으로만 보관.
-- resolver(`resolve_skill.py`)는 `_stale`을 우선순위에서 배제하지 않지만
-  `repo/skills`가 항상 우선하므로 실제 채택되지 않습니다. 참조 시 정본을 쓰세요.
+- resolver(`resolve_skill.py`)는 `_stale` 경로를 발견 단계에서 제외합니다.
+  따라서 여기 있는 skill은 자동 discovery나 실행 후보가 아니며, 내용 비교와
+  이력 참조용 archive로만 사용합니다. 참조 시 정본을 쓰세요.
 
 ## 격리된 항목 (narrative-ai, 2026-07-06)
 
