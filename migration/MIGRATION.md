@@ -76,6 +76,7 @@ G=migration/path_integrity_guard.py
 python3 $G broken                # 끊긴 심링크 전수 (CI 가드: 있으면 exit 1)
 python3 $G candidates            # 끊긴 링크별 복구가능성 REPAIRABLE/AMBIGUOUS/ORPHAN
 python3 $G external <경계>        # <경계> 밖 의존 = 이식 시 함께 옮길 것 (freeze)
+python3 $G rel-candidates        # abs→rel 변환 후보: FULL_WIN(개명내성 획득) 등 분류
 python3 $G inbound <폴더>         # <폴더> 개명/이동 전 폭발 반경 (그 안 가리키는 링크)
 python3 $G verbose-risk          # '_____' 서술형 폴더 의존 링크 (개명 시 대량 훼손)
 # 옵션: --json (서브커맨드 앞에)
@@ -86,8 +87,15 @@ PC의 1위 훼손 원인(폴더 개명)을 막는 가드다. 2026-07-09 실측: 
 `Project_____현재_진행중인` 한 폴더에 의존 → 이 폴더 개명은 대량 훼손을 부른다.
 
 reference 도구 subflow와의 대응: `broken`+`candidates` = fixMyRefs(broken→후보검색→
-판정), `external` = obsidian-export freeze(외부 resource 이식), `inbound`/`verbose-risk`
-= 개명 전 예방(기존 도구엔 드문, 이 PC 특유의 가드).
+판정), `external` = obsidian-export freeze(외부 resource 이식), `rel-candidates` =
+brandt/symlinks(abs→rel 변환성), `inbound`/`verbose-risk` = 개명 전 예방(기존 도구엔
+드문, 이 PC 특유의 가드).
+
+`rel-candidates` 판정 뜻: **FULL_WIN**은 공통 조상이 서술형 폴더보다 깊어 상대화하면
+상위 폴더 개명에도 안 깨지는 링크(진짜 실익). **USERNAME_ONLY**는 상대화해도 HOME까지
+등반하거나 서술형 폴더가 남아 실익이 사용자명 독립뿐 — 이건 이미 `$HOME` 치환이 하므로
+변환 불필요. 2026-07-09 실측: FULL_WIN 257(대부분 Desktop 트리 내부 상호참조로,
+`Project_____현재_진행중인` 개명 폭탄을 실제로 해제), USERNAME_ONLY 272.
 
 ## git 밖이라 이 키트가 커버하지 '않는' 것
 아래는 별도로 옮겨야 한다(이 repo에 없음):

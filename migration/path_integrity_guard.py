@@ -11,6 +11,9 @@
                (fixMyRefs subflow: REPAIRABLE/AMBIGUOUS/ORPHAN)
   external     <경계> 밖을 가리키는 링크 = 이식 시 함께 옮겨야 할 외부 의존
                (obsidian-export freeze subflow: 자기완결성 검증)
+  rel-candidates 절대경로 링크의 상대경로 변환 후보 판정 — 변환이 어떤 위험을
+               제거하는지로 분류 (brandt/symlinks subflow: FULL_WIN/USERNAME_ONLY/
+               KEEP_ABSOLUTE/ALREADY_REL). 읽기 전용(변환은 하지 않음).
   inbound      <폴더>를 개명/이동하기 '전에' 그 안을 가리키는 링크 목록(폭발 반경)
   verbose-risk '_____' 서술형 폴더에 의존하는 살아있는 링크(미래 개명 시 대량 훼손)
 
@@ -144,6 +147,61 @@ def cmd_candidates(roots, as_json):
     return 1 if rows else 0
 
 
+def cmd_rel_candidates(roots, as_json):
+    """abs→rel 변환 후보를 '변환이 제거하는 위험'으로 분류(brandt/symlinks subflow).
+
+    핵심 뉘앙스: 상대화는 공통 조상 '위쪽' 의존만 없앤다. 공통 조상이 서술형
+    폴더('_____') 아래면 그 폴더명이 상대경로에서 사라져 개명내성이 생기지만(FULL_WIN),
+    공통 조상이 그 위(HOME 등)면 상대경로에 서술형 폴더명이 남아 사용자명만
+    떨어진다(USERNAME_ONLY — 이건 이미 키트의 $HOME 치환이 하는 일이라 실익 낮음).
+    """
+    rows = []
+    for link, raw, ab in iter_symlinks(roots):
+        if not os.path.exists(link):
+            continue  # 깨진 링크는 변환 대상 아님
+        if not os.path.isabs(raw):
+            rows.append({"link": link, "target": raw, "rel": raw,
+                         "verdict": "ALREADY_REL"}); continue
+        ld = os.path.dirname(link)
+        rel = os.path.relpath(ab, ld)
+        try:
+            common = os.path.commonpath([os.path.abspath(link), ab])
+        except ValueError:
+            common = os.sep
+        hs = str(HOME)
+        if common == os.sep or not (common == hs or common.startswith(hs + os.sep)):
+            verdict = "KEEP_ABSOLUTE"          # 루트/HOME 밖까지 올라감 → 절대 유지가 나음
+        elif common == hs or "_____" in nfc(rel):
+            # 공통 조상이 HOME(상대화해도 HOME까지 등반 = $HOME 치환과 동급) 이거나
+            # 상대경로에 서술형 폴더가 남아 개명 위험이 그대로면 실익은 사용자명뿐.
+            verdict = "USERNAME_ONLY"
+        else:
+            # 공통 조상이 HOME보다 깊고 서술형 폴더도 안 거침 → 짧고 안정적,
+            # 상위 폴더 개명에도 안 깨짐(진짜 실익).
+            verdict = "FULL_WIN"
+        rows.append({"link": link, "target": raw, "rel": rel,
+                     "verdict": verdict, "common": common})
+
+    order = {"FULL_WIN": 0, "USERNAME_ONLY": 1, "KEEP_ABSOLUTE": 2, "ALREADY_REL": 3}
+    rows.sort(key=lambda r: order[r["verdict"]])
+    counts = {k: sum(1 for r in rows if r["verdict"] == k) for k in order}
+
+    if as_json:
+        print(json.dumps({"total": len(rows), "counts": counts, "rows": rows},
+                         ensure_ascii=False, indent=2))
+    else:
+        for r in rows:
+            if r["verdict"] == "FULL_WIN":
+                print(f"FULL_WIN      {homeify(r['link'])}")
+                print(f"              └→ {r['rel']}")
+        print()
+        for k in ("FULL_WIN", "USERNAME_ONLY", "KEEP_ABSOLUTE", "ALREADY_REL"):
+            print(f"  {k:<14} {counts[k]}")
+        print(f"\n변환 실익 큰 것(FULL_WIN, 개명내성 획득): {counts['FULL_WIN']}개. "
+              "USERNAME_ONLY는 $HOME 치환이 이미 커버.")
+    return 0
+
+
 def cmd_external(boundary, roots, as_json):
     """freeze subflow: <경계> 안의 링크 중 경계 밖을 가리키는 것 = 외부 의존.
     이식/아카이브 시 함께 옮기지 않으면 깨진다."""
@@ -229,6 +287,7 @@ def main(argv=None):
     sub = ap.add_subparsers(dest="cmd", required=True)
     sub.add_parser("broken").add_argument("roots", nargs="*")
     sub.add_parser("candidates").add_argument("roots", nargs="*")
+    sub.add_parser("rel-candidates").add_argument("roots", nargs="*")
     pe = sub.add_parser("external")
     pe.add_argument("boundary")
     pe.add_argument("roots", nargs="*")
@@ -243,6 +302,8 @@ def main(argv=None):
         return cmd_broken(roots, args.json)
     if args.cmd == "candidates":
         return cmd_candidates(roots, args.json)
+    if args.cmd == "rel-candidates":
+        return cmd_rel_candidates(roots, args.json)
     if args.cmd == "external":
         return cmd_external(args.boundary, [Path(r) for r in args.roots]
                             if args.roots else None, args.json)
