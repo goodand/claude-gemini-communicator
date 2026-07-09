@@ -82,6 +82,7 @@ def audit(catalog_path: Path):
             suffix = skills_suffix(str(d))
             if suffix and (HERE.parent / suffix).exists():
                 d = HERE.parent / suffix
+                row["dir"] = str(d)  # 출력 소비자가 재해석된 실경로를 보도록 갱신
             else:
                 row["status"] = "PATH_MISSING"
                 rows.append(row); continue

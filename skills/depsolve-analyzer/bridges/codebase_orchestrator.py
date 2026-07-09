@@ -383,8 +383,10 @@ class CodebaseOrchestrator:
             mapper_file = None
             try:
                 with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as f:
-                    json.dump(self.result.mapper_output, f)
+                    # NamedTemporaryFile은 진입 즉시 디스크에 파일을 만든다.
+                    # json.dump가 실패해도 finally가 정리하도록 이름을 먼저 잡는다.
                     mapper_file = f.name
+                    json.dump(self.result.mapper_output, f)
 
                 proc = subprocess.run(
                     [sys.executable, str(bridge_script), 
