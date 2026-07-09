@@ -1,0 +1,21 @@
+{
+  "status": "ok",
+  "generated_at": "2026-03-17T03:18:46+09:00",
+  "contract_family": "canonical_candidate_evaluation",
+  "input_summary": "evidence-to-knowledge-promoter/references/promotion-candidate-summary-positive-smoke-at2026-03-17-03-14.json",
+  "input_evaluation": "evidence-to-knowledge-promoter/references/promotion-trigger-evaluation-positive-smoke-at2026-03-17-03-14.json",
+  "canonical_decision": {
+    "decision": "hold",
+    "reason": "canonical_design_kb로 올리기엔 반복 검증 또는 안정성 조건이 아직 부족하다."
+  },
+  "missing_requirements": [
+    "repetition_count>=2"
+  ],
+  "candidate_lessons": [
+    {
+      "name": "verified-evidence-backed-fix-pattern",
+      "evidence": "typed_mismatch_count",
+      "repetition_count": 0
+    }
+  ]
+}

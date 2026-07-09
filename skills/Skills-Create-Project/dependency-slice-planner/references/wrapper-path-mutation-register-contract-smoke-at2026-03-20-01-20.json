@@ -1,0 +1,54 @@
+{
+  "status": "ok",
+  "generated_at": "2026-03-20T01:27:58+09:00",
+  "contract_family": "wrapper_path_mutation_register",
+  "version": "v0.1.0",
+  "required_top_level_fields": [
+    "status",
+    "generated_at",
+    "algorithm_family",
+    "version",
+    "input_artifacts",
+    "register_count",
+    "registers",
+    "next_candidate"
+  ],
+  "register_required_fields": [
+    "root_path",
+    "wrapper_paths",
+    "path_mutations",
+    "reason"
+  ],
+  "manifest_required_fields": [
+    "root_path",
+    "wrapper_paths",
+    "path_mutations",
+    "reason"
+  ],
+  "top_level_schema": {
+    "status": "enum(ok|invalid_inputs)",
+    "generated_at": "str",
+    "algorithm_family": "str",
+    "version": "str",
+    "input_artifacts": "dict[str,str]",
+    "register_count": "int",
+    "registers": "list[dict]",
+    "next_candidate": "str|None"
+  },
+  "register_field_schema": {
+    "root_path": "str",
+    "wrapper_paths": "list[str] (<= 8 after bound)",
+    "path_mutations": "list[str] (<= 8 after bound)",
+    "reason": "str"
+  },
+  "manifest_field_schema": {
+    "root_path": "str",
+    "wrapper_paths": "list[str]",
+    "path_mutations": "list[str]",
+    "reason": "str"
+  },
+  "bounding_rules": {
+    "max_wrapper_paths_per_register": 8,
+    "max_path_mutations_per_register": 8
+  }
+}

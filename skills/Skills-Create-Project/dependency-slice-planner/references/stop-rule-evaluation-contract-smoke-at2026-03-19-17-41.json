@@ -1,0 +1,60 @@
+{
+  "status": "ok",
+  "generated_at": "2026-03-19T17:41:24+09:00",
+  "contract_family": "stop_rule_evaluation_contract",
+  "version": "v0.1.0",
+  "required_top_level_fields": [
+    "status",
+    "generated_at",
+    "algorithm_family",
+    "version",
+    "input_artifacts",
+    "evaluation_count",
+    "decision_summary",
+    "evaluations",
+    "next_candidate"
+  ],
+  "evaluation_required_fields": [
+    "candidate_id",
+    "root_dir",
+    "refinement_recommendation",
+    "stop_decision",
+    "triggered_stop_rules",
+    "scores",
+    "signal_counts",
+    "reason"
+  ],
+  "decision_enum": [
+    "write_safe",
+    "analysis_only",
+    "do_not_split"
+  ],
+  "trigger_enum": [
+    "single_large_hub_file",
+    "wrapper_indirection_uncertainty",
+    "high_cross_edge_density",
+    "path_order_runtime_dependence",
+    "coordination_cost_increase"
+  ],
+  "top_level_schema": {
+    "status": "enum(ok|invalid_inputs)",
+    "generated_at": "str",
+    "algorithm_family": "str",
+    "version": "str",
+    "input_artifacts": "dict[str,str]",
+    "evaluation_count": "int",
+    "decision_summary": "dict[str,int]",
+    "evaluations": "list[dict]",
+    "next_candidate": "str|None"
+  },
+  "evaluation_field_schema": {
+    "candidate_id": "str",
+    "root_dir": "str",
+    "refinement_recommendation": "str",
+    "stop_decision": "enum(write_safe|analysis_only|do_not_split)",
+    "triggered_stop_rules": "list[str]",
+    "scores": "dict[str,float]",
+    "signal_counts": "dict[str,int]",
+    "reason": "str"
+  }
+}

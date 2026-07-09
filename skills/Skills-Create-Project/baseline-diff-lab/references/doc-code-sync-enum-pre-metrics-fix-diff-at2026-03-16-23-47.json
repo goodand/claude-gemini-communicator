@@ -1,0 +1,55 @@
+{
+  "status": "computed",
+  "experiment": "doc-code-sync-enum-pre-metrics",
+  "computed_at": "2026-03-16T23:47:30+09:00",
+  "inputs": {
+    "pre_fix": "references/doc-code-sync-enum-pre-metrics-at2026-03-16-23-46.json",
+    "post_fix": "references/doc-code-sync-enum-post-metrics-at2026-03-16-23-46.json",
+    "debug_evidence": [
+      "../doc-code-sync-checker/references/vertical-slice-typed-mismatch-enum-value-at2026-03-16-22-43.md"
+    ],
+    "metrics": [
+      "typed_mismatch_count",
+      "total_finding_count",
+      "zero_drift_pair_rate"
+    ]
+  },
+  "metrics": {
+    "typed_mismatch_count": {
+      "before": 1,
+      "after": 0,
+      "delta": -1,
+      "relative_change": -1.0,
+      "reduction_after_fix": 1.0,
+      "formula": {
+        "delta": "after - before",
+        "relative_change": "(after - before) / abs(before)",
+        "reduction_after_fix": "(before - after) / before"
+      }
+    },
+    "total_finding_count": {
+      "before": 3,
+      "after": 0,
+      "delta": -3,
+      "relative_change": -1.0,
+      "reduction_after_fix": 1.0,
+      "formula": {
+        "delta": "after - before",
+        "relative_change": "(after - before) / abs(before)",
+        "reduction_after_fix": "(before - after) / before"
+      }
+    },
+    "zero_drift_pair_rate": {
+      "before": 0.0,
+      "after": 1.0,
+      "delta": 1.0,
+      "relative_change": null,
+      "reduction_after_fix": null,
+      "formula": {
+        "delta": "after - before",
+        "relative_change": "(after - before) / abs(before)",
+        "reduction_after_fix": "(before - after) / before"
+      }
+    }
+  }
+}

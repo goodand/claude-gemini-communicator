@@ -1,0 +1,158 @@
+{
+  "generated_at": "2026-03-16-19-35",
+  "checker": "contract-to-concept-mapper/scripts/kb_to_consistency_check.py",
+  "purpose": "Cross-skill profile generalization experiment for research_index_kb, hybrid_kb, and canonical_design_kb",
+  "cases": [
+    {
+      "case_id": "contract_research",
+      "skill": "contract-to-concept-mapper",
+      "kb_path": "contract-to-concept-mapper/legacy/2026-03-16-18-56-pre-hybrid-promotion/contract-to-concept-mapper-knowledge_base-at2026-03-16-13-58.md",
+      "checklist_path": "contract-to-concept-mapper/checklist-forconsistency-evaluation/consistency-checklist-at2026-03-16-14-03.md",
+      "kb_profile": "research_index_kb",
+      "metrics": {
+        "coverage_ratio": null,
+        "unsupported_item_ratio": 0.3,
+        "traceability_ratio": 0.7,
+        "boundary_preservation_ratio": 1.0
+      },
+      "warnings": [
+        "KB canonical unit이 없습니다. 이 결과에서는 coverage_ratio를 해석하지 말고 KB를 canonical takeaway 중심으로 다시 정리해야 합니다.",
+        "현재 KB profile은 research_index_kb입니다. 이 pair는 reference inventory 중심이므로 canonical KB를 먼저 만든 뒤 checklist와 비교하는 것이 맞습니다."
+      ],
+      "covered": 21,
+      "missing": 0,
+      "unsupported": 9,
+      "scope_inflation": 0,
+      "boundary_loss": 0
+    },
+    {
+      "case_id": "contract_hybrid",
+      "skill": "contract-to-concept-mapper",
+      "kb_path": "contract-to-concept-mapper/knowledge_bases/contract-to-concept-mapper-knowledge_base-at2026-03-16-13-58.md",
+      "checklist_path": "contract-to-concept-mapper/checklist-forconsistency-evaluation/consistency-checklist-at2026-03-16-14-03.md",
+      "kb_profile": "hybrid_kb",
+      "metrics": {
+        "coverage_ratio": 1.0,
+        "unsupported_item_ratio": 0.0,
+        "traceability_ratio": 1.0,
+        "boundary_preservation_ratio": 1.0
+      },
+      "warnings": [],
+      "covered": 30,
+      "missing": 0,
+      "unsupported": 0,
+      "scope_inflation": 0,
+      "boundary_loss": 0
+    },
+    {
+      "case_id": "contract_canonical",
+      "skill": "contract-to-concept-mapper",
+      "kb_path": "contract-to-concept-mapper/knowledge_bases/contract-to-concept-canonical-design-at2026-03-16-18-06.md",
+      "checklist_path": "contract-to-concept-mapper/checklist-forconsistency-evaluation/consistency-checklist-at2026-03-16-14-03.md",
+      "kb_profile": "canonical_design_kb",
+      "metrics": {
+        "coverage_ratio": 1.0,
+        "unsupported_item_ratio": 0.0,
+        "traceability_ratio": 1.0,
+        "boundary_preservation_ratio": 1.0
+      },
+      "warnings": [],
+      "covered": 30,
+      "missing": 0,
+      "unsupported": 0,
+      "scope_inflation": 0,
+      "boundary_loss": 0
+    },
+    {
+      "case_id": "doc_hybrid",
+      "skill": "doc-code-sync-checker",
+      "kb_path": "doc-code-sync-checker/knowledge_bases/doc-code-sync-checker-knowledge_base-at2026-03-16.md",
+      "checklist_path": "doc-code-sync-checker/checklist-forconsistency-evaluation/consistency-checklist.md",
+      "kb_profile": "hybrid_kb",
+      "metrics": {
+        "coverage_ratio": 0.36,
+        "unsupported_item_ratio": 0.2,
+        "traceability_ratio": 0.8,
+        "boundary_preservation_ratio": 1.0
+      },
+      "warnings": [],
+      "covered": 24,
+      "missing": 16,
+      "unsupported": 6,
+      "scope_inflation": 0,
+      "boundary_loss": 0,
+      "missing_examples": [
+        "최소 결과 분류는 아래 3개다.",
+        "`missing_in_doc`",
+        "우선 비교할 규칙 유형은 아래 4개다.",
+        "필드/필수값"
+      ],
+      "unsupported_examples": [
+        "`intent`는 참고용이고 구현 기준이 아님이 분리돼 있다",
+        "runtime smoke test용 도구인지, 대규모 semantic diff 엔진인지 경계가 명확하다",
+        "code 변경 없이 smoke test/검증 보고만 만드는 사용 시나리오가 가능하다",
+        "claim-verifier와 역할이 섞이지 않는다"
+      ]
+    },
+    {
+      "case_id": "doc_canonical",
+      "skill": "doc-code-sync-checker",
+      "kb_path": "doc-code-sync-checker/knowledge_bases/doc-code-sync-canonical-design-at2026-03-16-18-18.md",
+      "checklist_path": "doc-code-sync-checker/checklist-forconsistency-evaluation/consistency-checklist.md",
+      "kb_profile": "canonical_design_kb",
+      "metrics": {
+        "coverage_ratio": 0.8,
+        "unsupported_item_ratio": 0.1333,
+        "traceability_ratio": 0.8667,
+        "boundary_preservation_ratio": 0.6667
+      },
+      "warnings": [],
+      "covered": 26,
+      "missing": 3,
+      "unsupported": 4,
+      "scope_inflation": 0,
+      "boundary_loss": 0,
+      "missing_examples": [
+        "우선 지원할 규칙 유형은 필수 필드, enum/상수, 상태 전이표, 경로 규칙이다.",
+        "이 skill은 repo-wide crawler가 아니라 명시적으로 지정한 문서/스크립트 쌍을 검사하는 로컬 도구다.",
+        "scaffold 단계와 실제 구현 단계를 혼동하지 않는다."
+      ],
+      "unsupported_examples": [
+        "`intent`는 참고용이고 구현 기준이 아님이 분리돼 있다",
+        "runtime smoke test용 도구인지, 대규모 semantic diff 엔진인지 경계가 명확하다",
+        "code 변경 없이 smoke test/검증 보고만 만드는 사용 시나리오가 가능하다",
+        "현재 불일치는 구현 깊이 부족인지, scope inflation인지 분류 가능하다"
+      ]
+    }
+  ],
+  "profile_averages": {
+    "research_index_kb": {
+      "coverage_ratio": null,
+      "unsupported_item_ratio": 0.3,
+      "traceability_ratio": 0.7,
+      "boundary_preservation_ratio": 1.0
+    },
+    "hybrid_kb": {
+      "coverage_ratio": 0.68,
+      "unsupported_item_ratio": 0.1,
+      "traceability_ratio": 0.9,
+      "boundary_preservation_ratio": 1.0
+    },
+    "canonical_design_kb": {
+      "coverage_ratio": 0.9,
+      "unsupported_item_ratio": 0.0667,
+      "traceability_ratio": 0.9334,
+      "boundary_preservation_ratio": 0.8334
+    }
+  },
+  "conclusion": {
+    "profile_mismatch_is_first_order_cause": true,
+    "not_contract_specific": true,
+    "profile_is_not_only_cause": true,
+    "secondary_causes": [
+      "canonical KB completeness",
+      "consistency checklist wording alignment",
+      "checker mapping heuristic"
+    ]
+  }
+}

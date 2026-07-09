@@ -1,0 +1,31 @@
+{
+  "run_id": "RUN-503dd878",
+  "step_id": "STEP-a73a9dd1",
+  "skill_name": "unknown",
+  "output_type": "natural_language",
+  "pass": false,
+  "score": 0.5,
+  "confidence": 0.85,
+  "failure_type": "irrecoverable",
+  "recommended_action": "stop",
+  "unmet_conditions": [
+    "key outputs 없음",
+    "contract 미충족: 'result' 없음",
+    "contract 미충족: 'summary' 없음"
+  ],
+  "evidence": [
+    "작업을 완료했습니다. 모든 테스트가 통과했습니다."
+  ],
+  "next_step_ready": false,
+  "extracted": {
+    "task_completion_claim": "작업을 완료했습니다. 모든 테스트가 통과했습니다.",
+    "key_outputs": [],
+    "missing_items": [],
+    "open_questions": [],
+    "evidence": [
+      "작업을 완료했습니다. 모든 테스트가 통과했습니다."
+    ],
+    "confidence": 0.85,
+    "next_step_ready": true
+  }
+}

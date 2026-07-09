@@ -197,7 +197,7 @@
           <aside class="sidebar">
             <h2>Edge Legend</h2>
             <div class="legend">
-              <div class="legend-item"><span class="swatch contains"></span><span><code>contains</code> — layer가 내부 하위 구조를 가진다.</span></div>
+              <div class="legend-item"><span class="swatch contains"></span><span><code>contains</code> — edge가 아니라 subgraph membership으로 표현한다.</span></div>
               <div class="legend-item"><span class="swatch feeds"></span><span><code>feeds</code> — 다음 판단층이나 산출물로 직접 입력을 공급한다.</span></div>
               <div class="legend-item"><span class="swatch constrains"></span><span><code>constrains</code> — 행동 가능 범위를 제한한다.</span></div>
               <div class="legend-item"><span class="swatch escalates"></span><span><code>escalates_to</code> — 자동 처리 한계를 넘겨 HITL로 올린다.</span></div>
@@ -250,29 +250,47 @@ Boundary Layer -> HITL Review</pre>
           <div class="diagram-wrap">
             <pre class="mermaid">
 graph TD
-    PK[Paper KB] -->|contains| ID[Identity]
-    PK -->|contains| GR[Guardrail]
-    PK -->|contains| UN[Uncertainty]
+    subgraph PKG[Paper KB]
+        PK[Paper Core]
+        ID[Identity]
+        GR[Guardrail]
+        UN[Uncertainty]
+    end
 
-    LK[Local KB] -->|contains| IC[Input Contract]
-    LK -->|contains| OC[Output Contract]
-    LK -->|contains| PR[Parsing Reality]
+    subgraph LKG[Local KB]
+        LK[Local Core]
+        IC[Input Contract]
+        OC[Output Contract]
+        PR[Parsing Reality]
+    end
 
-    HK[Human KB] -->|contains| PY[Priority]
-    HK -->|contains| GU[Give Up]
-    HK -->|contains| DL[Delete]
+    subgraph HKG[Human KB]
+        HK[Human Core]
+        PY[Priority]
+        GU[Give Up]
+        DL[Delete]
+    end
 
-    MK[Memory KB] -->|contains| CM[Central Memory]
-    MK -->|contains| EM[Edge Memory]
-    MK -->|contains| DP[Drop Policy]
+    subgraph MKG[Memory KB]
+        MK[Memory Core]
+        CM[Central Memory]
+        EM[Edge Memory]
+        DP[Drop Policy]
+    end
 
-    RK[Relation KB] -->|contains| DE[Dependency]
-    RK -->|contains| SC[Support Contradiction]
-    RK -->|contains| PV[Provenance]
+    subgraph RKG[Relation KB]
+        RK[Relation Core]
+        DE[Dependency]
+        SC[Support Contradiction]
+        PV[Provenance]
+    end
 
-    XK[Limit KB] -->|contains| AB[Auto Boundary]
-    XK -->|contains| WS[Weak Support]
-    XK -->|contains| HR[HITL Rule]
+    subgraph XKG[Limit KB]
+        XK[Limit Core]
+        AB[Auto Boundary]
+        WS[Weak Support]
+        HR[HITL Rule]
+    end
 
     LK -->|feeds| BL[Boundary Layer]
     MK -->|feeds| BL
@@ -301,7 +319,7 @@ graph TD
           <p>이번 버전에서 바뀐 점:</p>
           <ul>
             <li>그래프를 바로 그리지 않고 인접리스트를 먼저 노출해서 edge 타입 판단 근거를 남겼다.</li>
-            <li><code>contains</code>는 내부 구조, <code>feeds</code>는 입력 흐름, <code>constrains</code>는 제약, <code>escalates_to</code>는 HITL 상승 경로로 분리했다.</li>
+            <li><code>contains</code>는 subgraph 박스 안 membership으로 옮기고, <code>feeds</code>, <code>constrains</code>, <code>escalates_to</code>만 edge로 남겼다.</li>
             <li><code>boundary</code>는 단독 source가 아니라 여러 KB가 함께 feed하고 constrain하는 판정층으로 표현했다.</li>
           </ul>
         </div>

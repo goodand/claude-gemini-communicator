@@ -1,0 +1,30 @@
+{
+  "coverage_ratio": {
+    "class": "proxy-profile",
+    "semantic": "canonical KB unit 중 checklist에 매핑된 비율",
+    "formula": "matched_canonical_kb_units / total_canonical_kb_units",
+    "current_execution_note": "human review 전 heuristic mapping 결과를 사용하며, low-confidence mapping도 현재는 분자에 포함된다",
+    "interpretation": "canonical unit이 없으면 n/a로 본다"
+  },
+  "unsupported_item_ratio": {
+    "class": "project-custom",
+    "semantic": "checklist item 중 KB 근거를 찾지 못한 비율",
+    "formula": "unsupported_checklist_items / total_checklist_items",
+    "current_execution_note": "scope_inflation은 현재 unsupported와 별도 bucket이라 분자에 포함하지 않는다",
+    "interpretation": "scope inflation이 따로 있으면 이 수치만으로 checklist noise를 전부 해석하지 않는다"
+  },
+  "traceability_ratio": {
+    "class": "proxy-profile",
+    "semantic": "KB 근거를 역참조 가능한 checklist item 비율",
+    "formula": "traceable_checklist_items / total_checklist_items",
+    "current_execution_note": "현재 traceable은 strict proof가 아니라 mapping 존재 기준이며, low-confidence mapping도 현재는 traceable로 계산된다",
+    "interpretation": "report에서는 candidate traceability coverage로 읽는 것이 안전하다"
+  },
+  "boundary_preservation_ratio": {
+    "class": "proxy-profile",
+    "semantic": "guardrail unit이 checklist에서 보존된 비율",
+    "formula": "preserved_guardrails / total_guardrails",
+    "current_execution_note": "현재 boundary 전체가 아니라 heuristic으로 검출된 guardrail unit만 분모로 쓴다",
+    "interpretation": "더 정확히는 guardrail_preservation_ratio에 가까운 성격이다"
+  }
+}

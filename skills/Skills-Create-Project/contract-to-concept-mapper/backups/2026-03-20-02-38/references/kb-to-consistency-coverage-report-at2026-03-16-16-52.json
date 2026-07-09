@@ -1,0 +1,3196 @@
+{
+  "kb_units": [
+    {
+      "id": "KB001",
+      "section": "Canonical Design Takeaways",
+      "text": "`kb_to_consistency_check.py`는 완전 자동 semantic judge가 아니라 **candidate traceability gap detector**로 시작하는 편이 맞다.",
+      "explicit_tokens": [
+        "kb_to_consistency_check.py"
+      ],
+      "keyword_tokens": [
+        "kb_to_consistency_check.py",
+        "semantic",
+        "judge",
+        "candidate",
+        "traceability",
+        "gap",
+        "detector",
+        "완전",
+        "자동",
+        "아니라",
+        "시작하는",
+        "편이",
+        "맞다"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB002",
+      "section": "Canonical Design Takeaways",
+      "text": "비교 단위는 `knowledge_base 전체`와 `checklist 전체`가 아니라 아래 두 층이다.",
+      "explicit_tokens": [
+        "knowledge_base 전체",
+        "checklist 전체"
+      ],
+      "keyword_tokens": [
+        "knowledge_base",
+        "단위는",
+        "전체",
+        "아니라",
+        "아래",
+        "층이다"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB003",
+      "section": "Canonical Design Takeaways",
+      "text": "`KB canonical unit`",
+      "explicit_tokens": [
+        "kb canonical unit"
+      ],
+      "keyword_tokens": [
+        "kb",
+        "canonical",
+        "canonical unit",
+        "kb canonical unit"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB004",
+      "section": "Canonical Design Takeaways",
+      "text": "`consistency checklist item`",
+      "explicit_tokens": [
+        "consistency checklist item"
+      ],
+      "keyword_tokens": [
+        "consistency",
+        "checklist item",
+        "consistency checklist item"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB005",
+      "section": "Canonical Design Takeaways",
+      "text": "이 대상은 `구현용 checklist 동기화 검사`와 혼동하지 않는다.",
+      "explicit_tokens": [
+        "구현용 checklist 동기화 검사"
+      ],
+      "keyword_tokens": [
+        "대상은",
+        "구현용",
+        "동기화",
+        "검사",
+        "혼동하지",
+        "않는다"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB006",
+      "section": "Canonical Design Takeaways",
+      "text": "이 대상은 `codebase 구현 검증기`와 직접 동일시하지 않는다.",
+      "explicit_tokens": [
+        "codebase 구현 검증기"
+      ],
+      "keyword_tokens": [
+        "codebase",
+        "대상은",
+        "검증기",
+        "직접",
+        "동일시하지",
+        "않는다"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB007",
+      "section": "Canonical Design Takeaways",
+      "text": "최소 비교 방향은 아래 두 개다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "최소",
+        "방향은",
+        "아래",
+        "개다"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB008",
+      "section": "Canonical Design Takeaways",
+      "text": "`forward`: KB unit이 checklist에 반영되었는가",
+      "explicit_tokens": [
+        "forward"
+      ],
+      "keyword_tokens": [
+        "forward",
+        "kb",
+        "반영되었는가"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB009",
+      "section": "Canonical Design Takeaways",
+      "text": "`backward`: checklist item이 KB 근거를 갖는가",
+      "explicit_tokens": [
+        "backward"
+      ],
+      "keyword_tokens": [
+        "backward",
+        "kb",
+        "근거를",
+        "갖는가",
+        "checklist item",
+        "consistency checklist item"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB010",
+      "section": "Canonical Design Takeaways",
+      "text": "최소 판정 유형은 아래 5개다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "최소",
+        "판정",
+        "유형은",
+        "아래",
+        "개다"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB011",
+      "section": "Canonical Design Takeaways",
+      "text": "`covered`",
+      "explicit_tokens": [
+        "covered"
+      ],
+      "keyword_tokens": [
+        "covered"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB012",
+      "section": "Canonical Design Takeaways",
+      "text": "`missing_from_checklist`",
+      "explicit_tokens": [
+        "missing_from_checklist"
+      ],
+      "keyword_tokens": [
+        "missing_from_checklist"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB013",
+      "section": "Canonical Design Takeaways",
+      "text": "`unsupported_in_checklist`",
+      "explicit_tokens": [
+        "unsupported_in_checklist"
+      ],
+      "keyword_tokens": [
+        "unsupported_in_checklist"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB014",
+      "section": "Canonical Design Takeaways",
+      "text": "`scope_inflation`",
+      "explicit_tokens": [
+        "scope_inflation"
+      ],
+      "keyword_tokens": [
+        "scope_inflation"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB015",
+      "section": "Canonical Design Takeaways",
+      "text": "`boundary_loss`",
+      "explicit_tokens": [
+        "boundary_loss"
+      ],
+      "keyword_tokens": [
+        "boundary_loss"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB016",
+      "section": "Canonical Design Takeaways",
+      "text": "최소 측정 지표는 아래 네 개다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "최소",
+        "측정",
+        "지표는",
+        "아래",
+        "개다"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB017",
+      "section": "Canonical Design Takeaways",
+      "text": "`coverage_ratio`",
+      "explicit_tokens": [
+        "coverage_ratio"
+      ],
+      "keyword_tokens": [
+        "coverage_ratio"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB018",
+      "section": "Canonical Design Takeaways",
+      "text": "`unsupported_item_ratio`",
+      "explicit_tokens": [
+        "unsupported_item_ratio"
+      ],
+      "keyword_tokens": [
+        "unsupported_item_ratio"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB019",
+      "section": "Canonical Design Takeaways",
+      "text": "`traceability_ratio`",
+      "explicit_tokens": [
+        "traceability_ratio"
+      ],
+      "keyword_tokens": [
+        "traceability_ratio"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB020",
+      "section": "Canonical Design Takeaways",
+      "text": "`boundary_preservation_ratio`",
+      "explicit_tokens": [
+        "boundary_preservation_ratio"
+      ],
+      "keyword_tokens": [
+        "boundary_preservation_ratio"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB021",
+      "section": "Canonical Design Takeaways",
+      "text": "출력은 단일 score보다 아래 두 층이 더 적합하다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "score",
+        "출력은",
+        "단일",
+        "보다",
+        "아래",
+        "층이",
+        "적합하다"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB022",
+      "section": "Canonical Design Takeaways",
+      "text": "machine-readable JSON",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "machine-readable"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB023",
+      "section": "Canonical Design Takeaways",
+      "text": "human-readable markdown report",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "human-readable"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB024",
+      "section": "Current Implementation Target",
+      "text": "v0.1은 `anchor/keyword + section-level comparison + human review queue` 방식으로 시작한다.",
+      "explicit_tokens": [
+        "anchor/keyword + section-level comparison + human review queue"
+      ],
+      "keyword_tokens": [
+        "v0.1",
+        "anchor/keyword",
+        "section-level",
+        "방식으로",
+        "시작한다",
+        "ambiguity",
+        "human review needed",
+        "human review queue"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB025",
+      "section": "Current Implementation Target",
+      "text": "현재 checklist 포맷에는 항목별 `derived_from` / `evidence` 필드가 없으므로, 완전한 traceability matrix는 아직 어렵다.",
+      "explicit_tokens": [
+        "derived_from",
+        "evidence"
+      ],
+      "keyword_tokens": [
+        "derived_from",
+        "evidence",
+        "traceability",
+        "matrix",
+        "포맷에는",
+        "항목별",
+        "필드가",
+        "없으므로",
+        "완전한",
+        "아직",
+        "어렵다",
+        "per-unit table",
+        "traceability matrix"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB026",
+      "section": "Current Implementation Target",
+      "text": "따라서 이 KB에서 만든 `consistency checklist`는 다음 단계 `implementation checklist`의 source of truth로 사용한다.",
+      "explicit_tokens": [
+        "consistency checklist",
+        "implementation checklist"
+      ],
+      "keyword_tokens": [
+        "kb",
+        "consistency",
+        "implementation",
+        "source",
+        "of",
+        "truth",
+        "따라서",
+        "에서",
+        "만든",
+        "다음",
+        "단계",
+        "사용한다",
+        "source of truth",
+        "source-of-truth"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB027",
+      "section": "Current Implementation Target",
+      "text": "v0.1 metric 정의는 아래처럼 둔다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "v0.1",
+        "metric",
+        "정의는",
+        "아래처럼",
+        "둔다"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB028",
+      "section": "Current Implementation Target",
+      "text": "`traceability_ratio`: KB 근거를 역참조 가능한 checklist items / total checklist items",
+      "explicit_tokens": [
+        "traceability_ratio"
+      ],
+      "keyword_tokens": [
+        "traceability_ratio",
+        "kb",
+        "items",
+        "total",
+        "근거를",
+        "역참조",
+        "가능한",
+        "checklist item",
+        "consistency checklist item"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB029",
+      "section": "Current Implementation Target",
+      "text": "`boundary_preservation_ratio`: preserved guardrails / total guardrails",
+      "explicit_tokens": [
+        "boundary_preservation_ratio"
+      ],
+      "keyword_tokens": [
+        "boundary_preservation_ratio",
+        "preserved",
+        "guardrails",
+        "total"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB030",
+      "section": "Current Implementation Target",
+      "text": "따라서 v0.1의 핵심은 아래다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "v0.1",
+        "따라서",
+        "핵심은",
+        "아래다"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB031",
+      "section": "Current Implementation Target",
+      "text": "KB canonical unit 추출",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "kb",
+        "canonical",
+        "추출",
+        "canonical unit",
+        "kb canonical unit"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB032",
+      "section": "Current Implementation Target",
+      "text": "checklist item 추출",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "추출",
+        "checklist item",
+        "consistency checklist item"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB033",
+      "section": "Current Implementation Target",
+      "text": "heuristic mapping",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "heuristic",
+        "mapping"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB034",
+      "section": "Current Implementation Target",
+      "text": "missing / unsupported / inflation 후보 보고",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "missing",
+        "unsupported",
+        "inflation",
+        "후보",
+        "보고"
+      ],
+      "kind": "canonical"
+    }
+  ],
+  "support_kb_units": [
+    {
+      "id": "KBS001",
+      "section": "ROOT",
+      "text": "canonical_role: `knowledge_base -> consistency checklist 변환 평가 기준을 고정하는 설계 KB`",
+      "explicit_tokens": [
+        "knowledge_base -> consistency checklist 변환 평가 기준을 고정하는 설계 kb"
+      ],
+      "keyword_tokens": [
+        "canonical_role:",
+        "knowledge_base",
+        "consistency",
+        "kb",
+        "변환",
+        "평가",
+        "기준을",
+        "고정하는",
+        "설계"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS002",
+      "section": "ROOT",
+      "text": "canonical_slice: `traceability-based coverage / unsupported item / boundary preservation / scope inflation`",
+      "explicit_tokens": [
+        "traceability-based coverage / unsupported item / boundary preservation / scope inflation"
+      ],
+      "keyword_tokens": [
+        "canonical_slice:",
+        "traceability-based",
+        "coverage",
+        "unsupported",
+        "boundary",
+        "preservation",
+        "scope",
+        "inflation"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS003",
+      "section": "Paper-like URLs",
+      "text": "taxonomy: `[[requirements_traceability]] · human_vetting`",
+      "explicit_tokens": [
+        "[[requirements_traceability]] · human_vetting"
+      ],
+      "keyword_tokens": [
+        "taxonomy:",
+        "requirements_traceability",
+        "human_vetting"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS004",
+      "section": "Paper-like URLs",
+      "text": "key_idea: 자동 traceability는 최종 판정기가 아니라 사람이 검토할 후보 집합을 잘 만드는 쪽이 더 현실적이다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "key_idea:",
+        "traceability",
+        "자동",
+        "최종",
+        "판정기가",
+        "아니라",
+        "사람이",
+        "검토할",
+        "후보",
+        "집합을",
+        "만드는",
+        "쪽이",
+        "현실적이다"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS005",
+      "section": "Paper-like URLs",
+      "text": "execution_conditions: heuristic mapping 결과를 human review queue로 남길 출력 계층 필요",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "execution_conditions:",
+        "heuristic",
+        "mapping",
+        "결과를",
+        "남길",
+        "계층",
+        "필요",
+        "ambiguity",
+        "human review needed",
+        "human review queue"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS006",
+      "section": "Paper-like URLs",
+      "text": "taxonomy: `[[requirements_traceability]] · coverage_precision`",
+      "explicit_tokens": [
+        "[[requirements_traceability]] · coverage_precision"
+      ],
+      "keyword_tokens": [
+        "taxonomy:",
+        "requirements_traceability",
+        "coverage_precision"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS007",
+      "section": "Paper-like URLs",
+      "text": "key_idea: traceability는 coverage와 noise 사이의 균형 문제로 볼 수 있다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "key_idea:",
+        "traceability",
+        "coverage",
+        "noise",
+        "사이의",
+        "균형",
+        "문제로"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS008",
+      "section": "Paper-like URLs",
+      "text": "execution_conditions: `coverage_ratio`와 `unsupported_item_ratio`를 함께 계산해야 함",
+      "explicit_tokens": [
+        "coverage_ratio",
+        "unsupported_item_ratio"
+      ],
+      "keyword_tokens": [
+        "execution_conditions:",
+        "coverage_ratio",
+        "unsupported_item_ratio",
+        "함께",
+        "계산해야"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS009",
+      "section": "Paper-like URLs",
+      "text": "taxonomy: `[[traceability_matrix]] · standardization`",
+      "explicit_tokens": [
+        "[[traceability_matrix]] · standardization"
+      ],
+      "keyword_tokens": [
+        "taxonomy:",
+        "traceability_matrix",
+        "standardization"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS010",
+      "section": "Paper-like URLs",
+      "text": "key_idea: traceability matrix가 표준화되어 있지 않으면 completeness와 consistency 평가가 흔들린다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "key_idea:",
+        "traceability",
+        "matrix",
+        "completeness",
+        "consistency",
+        "표준화되어",
+        "있지",
+        "않으면",
+        "평가가",
+        "흔들린다",
+        "per-unit table",
+        "traceability matrix"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS011",
+      "section": "Paper-like URLs",
+      "text": "execution_conditions: KB unit id / checklist item id / relation type 같은 고정 필드 필요",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "execution_conditions:",
+        "kb",
+        "id",
+        "relation",
+        "type",
+        "같은",
+        "고정",
+        "필드",
+        "필요",
+        "checklist item",
+        "consistency checklist item"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS012",
+      "section": "Paper-like URLs",
+      "text": "taxonomy: `[[dual_level_traceability]] · artifact_vs_object`",
+      "explicit_tokens": [
+        "[[dual_level_traceability]] · artifact_vs_object"
+      ],
+      "keyword_tokens": [
+        "taxonomy:",
+        "dual_level_traceability",
+        "artifact_vs_object",
+        "artifact-level",
+        "object-level"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS013",
+      "section": "Paper-like URLs",
+      "text": "key_idea: artifact-level과 object-level traceability를 구분해야 평가가 덜 혼동된다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "key_idea:",
+        "artifact-level",
+        "object-level",
+        "traceability",
+        "구분해야",
+        "평가가",
+        "혼동된다",
+        "artifact_vs_object"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS014",
+      "section": "Paper-like URLs",
+      "text": "execution_conditions: KB 문서 전체와 KB canonical unit을 분리하는 계층 설계 필요",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "execution_conditions:",
+        "kb",
+        "canonical",
+        "문서",
+        "전체와",
+        "분리하는",
+        "계층",
+        "설계",
+        "필요",
+        "canonical unit",
+        "kb canonical unit"
+      ],
+      "kind": "support"
+    }
+  ],
+  "support_counts": {
+    "support": 14
+  },
+  "ignored_kb_units": [
+    {
+      "id": "KBI001",
+      "section": "ROOT",
+      "text": "ver: `v0.1.0`",
+      "explicit_tokens": [
+        "v0.1.0"
+      ],
+      "keyword_tokens": [
+        "ver:",
+        "v0.1.0"
+      ],
+      "kind": "metadata"
+    },
+    {
+      "id": "KBI002",
+      "section": "ROOT",
+      "text": "generated_at: `2026-03-16`",
+      "explicit_tokens": [
+        "2026-03-16"
+      ],
+      "keyword_tokens": [
+        "generated_at:"
+      ],
+      "kind": "metadata"
+    },
+    {
+      "id": "KBI003",
+      "section": "ROOT",
+      "text": "updated_at: `2026-03-16` (v0.1.0: initial KB for kb_to_consistency_check.py)",
+      "explicit_tokens": [
+        "2026-03-16"
+      ],
+      "keyword_tokens": [
+        "updated_at:",
+        "v0.1.0:",
+        "initial",
+        "kb",
+        "for",
+        "kb_to_consistency_check.py"
+      ],
+      "kind": "metadata"
+    },
+    {
+      "id": "KBI004",
+      "section": "ROOT",
+      "text": "format: `- [한 줄 설명](URL)`",
+      "explicit_tokens": [
+        "- [한 줄 설명](url)"
+      ],
+      "keyword_tokens": [
+        "format:",
+        "url",
+        "설명"
+      ],
+      "kind": "metadata"
+    },
+    {
+      "id": "KBI005",
+      "section": "ROOT",
+      "text": "generation_method: `GitHub/Paper search 후 traceability·coverage·checklist derivation 관점만 추려 정리`",
+      "explicit_tokens": [
+        "github/paper search 후 traceability·coverage·checklist derivation 관점만 추려 정리"
+      ],
+      "keyword_tokens": [
+        "generation_method:",
+        "github/paper",
+        "search",
+        "traceability",
+        "coverage",
+        "derivation",
+        "관점만",
+        "추려",
+        "정리"
+      ],
+      "kind": "metadata"
+    },
+    {
+      "id": "KBI006",
+      "section": "ROOT",
+      "text": "total_urls: `10`",
+      "explicit_tokens": [
+        "10"
+      ],
+      "keyword_tokens": [
+        "total_urls:"
+      ],
+      "kind": "metadata"
+    },
+    {
+      "id": "KBI007",
+      "section": "ROOT",
+      "text": "paper_like_urls: `4`",
+      "explicit_tokens": [
+        "4"
+      ],
+      "keyword_tokens": [
+        "paper_like_urls:"
+      ],
+      "kind": "metadata"
+    },
+    {
+      "id": "KBI008",
+      "section": "ROOT",
+      "text": "other_urls: `6`",
+      "explicit_tokens": [
+        "6"
+      ],
+      "keyword_tokens": [
+        "other_urls:"
+      ],
+      "kind": "metadata"
+    },
+    {
+      "id": "KBI009",
+      "section": "Table of Contents",
+      "text": "[Canonical Design Takeaways](#canonical-design-takeaways)",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "canonical",
+        "design",
+        "takeaways",
+        "canonical-design-takeaways"
+      ],
+      "kind": "toc"
+    },
+    {
+      "id": "KBI010",
+      "section": "Table of Contents",
+      "text": "[Current Implementation Target](#current-implementation-target)",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "implementation",
+        "current-implementation-target"
+      ],
+      "kind": "toc"
+    },
+    {
+      "id": "KBI011",
+      "section": "Table of Contents",
+      "text": "[Paper-like URLs](#paper-like-urls)",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "paper-like",
+        "urls",
+        "paper-like-urls"
+      ],
+      "kind": "toc"
+    },
+    {
+      "id": "KBI012",
+      "section": "Table of Contents",
+      "text": "[Other research References URLs](#other-research-references-urls)",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "other",
+        "research",
+        "references",
+        "urls",
+        "other-research-references-urls"
+      ],
+      "kind": "toc"
+    },
+    {
+      "id": "KBI013",
+      "section": "Paper-like URLs",
+      "text": "[Automated Requirements Traceability: The Study of Human Analysts](https://digitalcommons.calpoly.edu/theses/317/)",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "automated",
+        "requirements",
+        "traceability:",
+        "the",
+        "study",
+        "of",
+        "analysts",
+        "https://digitalcommons.calpoly.edu/theses/317/"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI014",
+      "section": "Paper-like URLs",
+      "text": "sources: `kb-to-consistency-check-paper-search-at2026-03-16-15-44.md`",
+      "explicit_tokens": [
+        "kb-to-consistency-check-paper-search-at2026-03-16-15-44.md"
+      ],
+      "keyword_tokens": [
+        "sources:",
+        "kb-to-consistency-check-paper-search-at2026-03-16-15-44.md"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI015",
+      "section": "Paper-like URLs",
+      "text": "agent: `A00`",
+      "explicit_tokens": [
+        "a00"
+      ],
+      "keyword_tokens": [
+        "agent:",
+        "a00"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI016",
+      "section": "Paper-like URLs",
+      "text": "pseudocode_3lines:",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "pseudocode_3lines:"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI017",
+      "section": "Paper-like URLs",
+      "text": "1) KB unit과 checklist item 후보 매핑을 만든다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "kb",
+        "후보",
+        "매핑을",
+        "만든다",
+        "checklist item",
+        "consistency checklist item"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI018",
+      "section": "Paper-like URLs",
+      "text": "2) 점수가 낮거나 ambiguous한 항목을 분리한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "ambiguous",
+        "점수가",
+        "낮거나",
+        "항목을",
+        "분리한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI019",
+      "section": "Paper-like URLs",
+      "text": "3) 사람이 검토할 큐로 출력한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "사람이",
+        "검토할",
+        "큐로",
+        "출력한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI020",
+      "section": "Paper-like URLs",
+      "text": "[Automating Requirements Traceability: Two Decades of Learning from KDD](https://ieeexplore.ieee.org/document/8595127)",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "automating",
+        "requirements",
+        "traceability:",
+        "two",
+        "decades",
+        "of",
+        "learning",
+        "from",
+        "kdd",
+        "https://ieeexplore.ieee.org/document/8595127"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI021",
+      "section": "Paper-like URLs",
+      "text": "sources: `kb-to-consistency-check-paper-search-at2026-03-16-15-44.md`",
+      "explicit_tokens": [
+        "kb-to-consistency-check-paper-search-at2026-03-16-15-44.md"
+      ],
+      "keyword_tokens": [
+        "sources:",
+        "kb-to-consistency-check-paper-search-at2026-03-16-15-44.md"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI022",
+      "section": "Paper-like URLs",
+      "text": "agent: `A00`",
+      "explicit_tokens": [
+        "a00"
+      ],
+      "keyword_tokens": [
+        "agent:",
+        "a00"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI023",
+      "section": "Paper-like URLs",
+      "text": "pseudocode_3lines:",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "pseudocode_3lines:"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI024",
+      "section": "Paper-like URLs",
+      "text": "1) KB unit coverage를 계산한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "kb",
+        "coverage",
+        "계산한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI025",
+      "section": "Paper-like URLs",
+      "text": "2) 근거 없는 checklist item 비율을 계산한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "근거",
+        "없는",
+        "비율을",
+        "계산한다",
+        "checklist item",
+        "consistency checklist item"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI026",
+      "section": "Paper-like URLs",
+      "text": "3) 둘을 함께 보고한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "둘을",
+        "함께",
+        "보고한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI027",
+      "section": "Paper-like URLs",
+      "text": "[Traceability Matrix in Requirements Gathering: A Systematic Review of the Literature](https://perspectivas.espoch.edu.ec/RCP_ESPOCH/en/article/view/221)",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "traceability",
+        "matrix",
+        "in",
+        "requirements",
+        "gathering:",
+        "systematic",
+        "of",
+        "the",
+        "literature",
+        "https://perspectivas.espoch.edu.ec/rcp_espoch/en/article/view/221",
+        "per-unit table",
+        "traceability matrix"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI028",
+      "section": "Paper-like URLs",
+      "text": "sources: `kb-to-consistency-check-paper-search-at2026-03-16-15-44.md`",
+      "explicit_tokens": [
+        "kb-to-consistency-check-paper-search-at2026-03-16-15-44.md"
+      ],
+      "keyword_tokens": [
+        "sources:",
+        "kb-to-consistency-check-paper-search-at2026-03-16-15-44.md"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI029",
+      "section": "Paper-like URLs",
+      "text": "agent: `A00`",
+      "explicit_tokens": [
+        "a00"
+      ],
+      "keyword_tokens": [
+        "agent:",
+        "a00"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI030",
+      "section": "Paper-like URLs",
+      "text": "pseudocode_3lines:",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "pseudocode_3lines:"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI031",
+      "section": "Paper-like URLs",
+      "text": "1) KB unit과 checklist item에 id를 부여한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "kb",
+        "id",
+        "부여한다",
+        "checklist item",
+        "consistency checklist item"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI032",
+      "section": "Paper-like URLs",
+      "text": "2) relation type을 기록한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "relation",
+        "type",
+        "기록한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI033",
+      "section": "Paper-like URLs",
+      "text": "3) matrix를 기반으로 누락과 불일치를 계산한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "matrix",
+        "기반으로",
+        "누락과",
+        "불일치를",
+        "계산한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI034",
+      "section": "Paper-like URLs",
+      "text": "[Blockchain Technology for Requirement Traceability in Systems Engineering](https://www.sciencedirect.com/science/article/abs/pii/S0306437924000425)",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "blockchain",
+        "technology",
+        "for",
+        "requirement",
+        "traceability",
+        "in",
+        "systems",
+        "engineering",
+        "https://www.sciencedirect.com/science/article/abs/pii/s0306437924000425"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI035",
+      "section": "Paper-like URLs",
+      "text": "sources: `kb-to-consistency-check-paper-search-at2026-03-16-15-44.md`",
+      "explicit_tokens": [
+        "kb-to-consistency-check-paper-search-at2026-03-16-15-44.md"
+      ],
+      "keyword_tokens": [
+        "sources:",
+        "kb-to-consistency-check-paper-search-at2026-03-16-15-44.md"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI036",
+      "section": "Paper-like URLs",
+      "text": "agent: `A00`",
+      "explicit_tokens": [
+        "a00"
+      ],
+      "keyword_tokens": [
+        "agent:",
+        "a00"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI037",
+      "section": "Paper-like URLs",
+      "text": "pseudocode_3lines:",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "pseudocode_3lines:"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI038",
+      "section": "Paper-like URLs",
+      "text": "1) 문서 레벨과 항목 레벨을 구분한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "문서",
+        "레벨과",
+        "레벨을",
+        "구분한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI039",
+      "section": "Paper-like URLs",
+      "text": "2) 항목 레벨에서 먼저 매핑한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "레벨에서",
+        "먼저",
+        "매핑한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI040",
+      "section": "Paper-like URLs",
+      "text": "3) 문서 레벨 summary를 나중에 계산한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "summary",
+        "문서",
+        "레벨",
+        "나중에",
+        "계산한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI041",
+      "section": "Other research References URLs",
+      "text": "[StrictDoc](https://github.com/strictdoc-project/strictdoc)",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "strictdoc",
+        "https://github.com/strictdoc-project/strictdoc"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI042",
+      "section": "Other research References URLs",
+      "text": "sources: `kb-to-consistency-check-github-search-at2026-03-16-15-44.md`",
+      "explicit_tokens": [
+        "kb-to-consistency-check-github-search-at2026-03-16-15-44.md"
+      ],
+      "keyword_tokens": [
+        "sources:",
+        "kb-to-consistency-check-github-search-at2026-03-16-15-44.md"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI043",
+      "section": "Other research References URLs",
+      "text": "agent: `A00`",
+      "explicit_tokens": [
+        "a00"
+      ],
+      "keyword_tokens": [
+        "agent:",
+        "a00"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI044",
+      "section": "Other research References URLs",
+      "text": "pseudocode_3lines:",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "pseudocode_3lines:"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI045",
+      "section": "Other research References URLs",
+      "text": "1) requirement unit을 구조화한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "requirement",
+        "구조화한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI046",
+      "section": "Other research References URLs",
+      "text": "2) traceability matrix를 만든다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "traceability",
+        "matrix",
+        "만든다",
+        "per-unit table",
+        "traceability matrix"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI047",
+      "section": "Other research References URLs",
+      "text": "3) uncovered item을 보고한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "uncovered",
+        "보고한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI048",
+      "section": "Other research References URLs",
+      "text": "[StrictDoc Deep Traceability 문서](https://strictdoc.readthedocs.io/en/stable/stable/docs/strictdoc_21_L2_StrictDoc_Requirements-DEEP-TRACE.html)",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "strictdoc",
+        "deep",
+        "traceability",
+        "https://strictdoc.readthedocs.io/en/stable/stable/docs/strictdoc_21_l2_strictdoc_requirements-deep-trace.html",
+        "문서"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI049",
+      "section": "Other research References URLs",
+      "text": "sources: `kb-to-consistency-check-github-search-at2026-03-16-15-44.md`",
+      "explicit_tokens": [
+        "kb-to-consistency-check-github-search-at2026-03-16-15-44.md"
+      ],
+      "keyword_tokens": [
+        "sources:",
+        "kb-to-consistency-check-github-search-at2026-03-16-15-44.md"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI050",
+      "section": "Other research References URLs",
+      "text": "agent: `A00`",
+      "explicit_tokens": [
+        "a00"
+      ],
+      "keyword_tokens": [
+        "agent:",
+        "a00"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI051",
+      "section": "Other research References URLs",
+      "text": "pseudocode_3lines:",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "pseudocode_3lines:"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI052",
+      "section": "Other research References URLs",
+      "text": "1) forward/backward traceability를 분리한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "forward/backward",
+        "traceability",
+        "분리한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI053",
+      "section": "Other research References URLs",
+      "text": "2) uncovered requirement view를 제공한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "uncovered",
+        "requirement",
+        "view",
+        "제공한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI054",
+      "section": "Other research References URLs",
+      "text": "3) trace gap을 항목 단위로 출력한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "trace",
+        "gap",
+        "단위로",
+        "출력한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI055",
+      "section": "Other research References URLs",
+      "text": "[Sphinx-Needs](https://github.com/useblocks/sphinx-needs)",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "sphinx-needs",
+        "https://github.com/useblocks/sphinx-needs"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI056",
+      "section": "Other research References URLs",
+      "text": "sources: `kb-to-consistency-check-github-search-at2026-03-16-15-44.md`",
+      "explicit_tokens": [
+        "kb-to-consistency-check-github-search-at2026-03-16-15-44.md"
+      ],
+      "keyword_tokens": [
+        "sources:",
+        "kb-to-consistency-check-github-search-at2026-03-16-15-44.md"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI057",
+      "section": "Other research References URLs",
+      "text": "agent: `A00`",
+      "explicit_tokens": [
+        "a00"
+      ],
+      "keyword_tokens": [
+        "agent:",
+        "a00"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI058",
+      "section": "Other research References URLs",
+      "text": "pseudocode_3lines:",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "pseudocode_3lines:"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI059",
+      "section": "Other research References URLs",
+      "text": "1) need-like unit을 만든다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "need-like",
+        "만든다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI060",
+      "section": "Other research References URLs",
+      "text": "2) unit 간 링크를 기록한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "링크를",
+        "기록한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI061",
+      "section": "Other research References URLs",
+      "text": "3) filtered view로 gap을 본다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "filtered",
+        "view",
+        "gap",
+        "본다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI062",
+      "section": "Other research References URLs",
+      "text": "[Coral RepoDocConsistencyChecker Agent](https://github.com/Coral-Protocol/Coral-RepoDocConsistencyChecker-Agent)",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "coral",
+        "repodocconsistencychecker",
+        "agent",
+        "https://github.com/coral-protocol/coral-repodocconsistencychecker-agent"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI063",
+      "section": "Other research References URLs",
+      "text": "sources: `kb-to-consistency-check-github-search-at2026-03-16-15-44.md`",
+      "explicit_tokens": [
+        "kb-to-consistency-check-github-search-at2026-03-16-15-44.md"
+      ],
+      "keyword_tokens": [
+        "sources:",
+        "kb-to-consistency-check-github-search-at2026-03-16-15-44.md"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI064",
+      "section": "Other research References URLs",
+      "text": "agent: `A00`",
+      "explicit_tokens": [
+        "a00"
+      ],
+      "keyword_tokens": [
+        "agent:",
+        "a00"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI065",
+      "section": "Other research References URLs",
+      "text": "pseudocode_3lines:",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "pseudocode_3lines:"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI066",
+      "section": "Other research References URLs",
+      "text": "1) 비교 대상 문서를 입력받는다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "대상",
+        "문서를",
+        "입력받는다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI067",
+      "section": "Other research References URLs",
+      "text": "2) itemized inconsistency를 생성한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "itemized",
+        "inconsistency",
+        "생성한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI068",
+      "section": "Other research References URLs",
+      "text": "3) 분류형 보고서로 출력한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "분류형",
+        "보고서로",
+        "출력한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI069",
+      "section": "Other research References URLs",
+      "text": "[OpenAPI-diff](https://github.com/OpenAPITools/openapi-diff)",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "openapi-diff",
+        "https://github.com/openapitools/openapi-diff"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI070",
+      "section": "Other research References URLs",
+      "text": "sources: `kb-to-consistency-check-github-search-at2026-03-16-15-44.md`",
+      "explicit_tokens": [
+        "kb-to-consistency-check-github-search-at2026-03-16-15-44.md"
+      ],
+      "keyword_tokens": [
+        "sources:",
+        "kb-to-consistency-check-github-search-at2026-03-16-15-44.md"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI071",
+      "section": "Other research References URLs",
+      "text": "agent: `A00`",
+      "explicit_tokens": [
+        "a00"
+      ],
+      "keyword_tokens": [
+        "agent:",
+        "a00"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI072",
+      "section": "Other research References URLs",
+      "text": "pseudocode_3lines:",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "pseudocode_3lines:"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI073",
+      "section": "Other research References URLs",
+      "text": "1) 두 artifact를 읽는다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "artifact",
+        "읽는다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI074",
+      "section": "Other research References URLs",
+      "text": "2) structured diff를 계산한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "structured",
+        "diff",
+        "계산한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI075",
+      "section": "Other research References URLs",
+      "text": "3) diff 타입별 결과를 분리한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "diff",
+        "타입별",
+        "결과를",
+        "분리한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI076",
+      "section": "Other research References URLs",
+      "text": "[pydoclint](https://github.com/jsh9/pydoclint)",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "pydoclint",
+        "https://github.com/jsh9/pydoclint"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI077",
+      "section": "Other research References URLs",
+      "text": "sources: `kb-to-consistency-check-github-search-at2026-03-16-15-44.md`",
+      "explicit_tokens": [
+        "kb-to-consistency-check-github-search-at2026-03-16-15-44.md"
+      ],
+      "keyword_tokens": [
+        "sources:",
+        "kb-to-consistency-check-github-search-at2026-03-16-15-44.md"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI078",
+      "section": "Other research References URLs",
+      "text": "agent: `A00`",
+      "explicit_tokens": [
+        "a00"
+      ],
+      "keyword_tokens": [
+        "agent:",
+        "a00"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI079",
+      "section": "Other research References URLs",
+      "text": "pseudocode_3lines:",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "pseudocode_3lines:"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI080",
+      "section": "Other research References URLs",
+      "text": "1) 문서와 대상 구조를 읽는다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "문서와",
+        "대상",
+        "구조를",
+        "읽는다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI081",
+      "section": "Other research References URLs",
+      "text": "2) 항목별 규칙 위반을 찾는다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "항목별",
+        "규칙",
+        "위반을",
+        "찾는다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI082",
+      "section": "Other research References URLs",
+      "text": "3) lint 메시지로 출력한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "lint",
+        "메시지로",
+        "출력한다"
+      ],
+      "kind": "reference_inventory"
+    }
+  ],
+  "ignored_counts": {
+    "metadata": 8,
+    "toc": 4,
+    "reference_inventory": 70
+  },
+  "checklist_items": [
+    {
+      "id": "CL001",
+      "section": "A. Role / Scope 정합",
+      "text": "이 대상은 완전 자동 semantic judge가 아니라 `candidate traceability gap detector`로 정의돼 있다",
+      "explicit_tokens": [
+        "candidate traceability gap detector"
+      ],
+      "keyword_tokens": [
+        "semantic",
+        "judge",
+        "candidate",
+        "traceability",
+        "gap",
+        "detector",
+        "대상은",
+        "완전",
+        "자동",
+        "아니라",
+        "정의돼"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL002",
+      "section": "A. Role / Scope 정합",
+      "text": "비교 대상이 `knowledge_base 전체 vs checklist 전체`가 아니라 `KB canonical unit vs consistency checklist item`으로 분리돼 있다",
+      "explicit_tokens": [
+        "knowledge_base 전체 vs checklist 전체",
+        "kb canonical unit vs consistency checklist item"
+      ],
+      "keyword_tokens": [
+        "knowledge_base",
+        "vs",
+        "kb",
+        "canonical",
+        "consistency",
+        "대상이",
+        "전체",
+        "아니라",
+        "으로",
+        "분리돼",
+        "checklist item",
+        "consistency checklist item",
+        "canonical unit",
+        "kb canonical unit"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL003",
+      "section": "A. Role / Scope 정합",
+      "text": "구현용 checklist 동기화 문제와 혼동되지 않는다",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "구현용",
+        "동기화",
+        "문제와",
+        "혼동되지",
+        "않는다"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL004",
+      "section": "A. Role / Scope 정합",
+      "text": "codebase 구현 검증기와 직접 동일시되지 않는다",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "codebase",
+        "검증기와",
+        "직접",
+        "동일시되지",
+        "않는다"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL005",
+      "section": "B. Comparison Direction 정합",
+      "text": "`forward` 비교가 정의돼 있다",
+      "explicit_tokens": [
+        "forward"
+      ],
+      "keyword_tokens": [
+        "forward",
+        "비교가",
+        "정의돼"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL006",
+      "section": "B. Comparison Direction 정합",
+      "text": "`backward` 비교가 정의돼 있다",
+      "explicit_tokens": [
+        "backward"
+      ],
+      "keyword_tokens": [
+        "backward",
+        "비교가",
+        "정의돼"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL007",
+      "section": "B. Comparison Direction 정합",
+      "text": "forward만 있고 backward가 빠지지 않는다",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "forward",
+        "backward",
+        "있고",
+        "빠지지",
+        "않는다"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL008",
+      "section": "B. Comparison Direction 정합",
+      "text": "backward만 있고 coverage 관점이 빠지지 않는다",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "backward",
+        "coverage",
+        "있고",
+        "관점이",
+        "빠지지",
+        "않는다"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL009",
+      "section": "C. Canonical Unit 정합",
+      "text": "KB를 canonical unit으로 나눌 필요가 반영돼 있다",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "kb",
+        "canonical",
+        "으로",
+        "나눌",
+        "필요가",
+        "반영돼",
+        "canonical unit",
+        "kb canonical unit"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL010",
+      "section": "C. Canonical Unit 정합",
+      "text": "checklist item도 별도 비교 단위로 다뤄진다",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "별도",
+        "단위로",
+        "다뤄진다",
+        "checklist item",
+        "consistency checklist item"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL011",
+      "section": "C. Canonical Unit 정합",
+      "text": "artifact-level과 object-level을 구분한다",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "artifact-level",
+        "object-level",
+        "구분한다",
+        "artifact_vs_object"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL012",
+      "section": "C. Canonical Unit 정합",
+      "text": "section-level comparison으로 시작하되 항목-level 확장 가능성이 남아 있다",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "section-level",
+        "으로",
+        "시작하되",
+        "확장",
+        "가능성이",
+        "남아"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL013",
+      "section": "D. Verdict Taxonomy 정합",
+      "text": "최소 판정 유형에 `covered`가 있다",
+      "explicit_tokens": [
+        "covered"
+      ],
+      "keyword_tokens": [
+        "covered",
+        "최소",
+        "판정",
+        "유형에"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL014",
+      "section": "D. Verdict Taxonomy 정합",
+      "text": "최소 판정 유형에 `missing_from_checklist`가 있다",
+      "explicit_tokens": [
+        "missing_from_checklist"
+      ],
+      "keyword_tokens": [
+        "missing_from_checklist",
+        "최소",
+        "판정",
+        "유형에"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL015",
+      "section": "D. Verdict Taxonomy 정합",
+      "text": "최소 판정 유형에 `unsupported_in_checklist`가 있다",
+      "explicit_tokens": [
+        "unsupported_in_checklist"
+      ],
+      "keyword_tokens": [
+        "unsupported_in_checklist",
+        "최소",
+        "판정",
+        "유형에"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL016",
+      "section": "D. Verdict Taxonomy 정합",
+      "text": "최소 판정 유형에 `scope_inflation`이 있다",
+      "explicit_tokens": [
+        "scope_inflation"
+      ],
+      "keyword_tokens": [
+        "scope_inflation",
+        "최소",
+        "판정",
+        "유형에"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL017",
+      "section": "D. Verdict Taxonomy 정합",
+      "text": "최소 판정 유형에 `boundary_loss`가 있다",
+      "explicit_tokens": [
+        "boundary_loss"
+      ],
+      "keyword_tokens": [
+        "boundary_loss",
+        "최소",
+        "판정",
+        "유형에"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL018",
+      "section": "E. Metrics 정합",
+      "text": "`coverage_ratio`를 계산하거나 동등 지표가 있다",
+      "explicit_tokens": [
+        "coverage_ratio"
+      ],
+      "keyword_tokens": [
+        "coverage_ratio",
+        "계산하거나",
+        "동등",
+        "지표가"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL019",
+      "section": "E. Metrics 정합",
+      "text": "`unsupported_item_ratio`를 계산하거나 동등 지표가 있다",
+      "explicit_tokens": [
+        "unsupported_item_ratio"
+      ],
+      "keyword_tokens": [
+        "unsupported_item_ratio",
+        "계산하거나",
+        "동등",
+        "지표가"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL020",
+      "section": "E. Metrics 정합",
+      "text": "`traceability_ratio`를 계산하거나 동등 지표가 있다",
+      "explicit_tokens": [
+        "traceability_ratio"
+      ],
+      "keyword_tokens": [
+        "traceability_ratio",
+        "계산하거나",
+        "동등",
+        "지표가"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL021",
+      "section": "E. Metrics 정합",
+      "text": "`boundary_preservation_ratio`를 계산하거나 동등 지표가 있다",
+      "explicit_tokens": [
+        "boundary_preservation_ratio"
+      ],
+      "keyword_tokens": [
+        "boundary_preservation_ratio",
+        "계산하거나",
+        "동등",
+        "지표가"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL022",
+      "section": "E. Metrics 정합",
+      "text": "단일 종합 점수만으로 끝내지 않는다",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "단일",
+        "종합",
+        "점수만으로",
+        "끝내지",
+        "않는다"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL023",
+      "section": "F. Explainability / Traceability 정합",
+      "text": "checklist 판정에 KB 근거를 연결할 수 있어야 한다",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "kb",
+        "판정에",
+        "근거를",
+        "연결할",
+        "있어야"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL024",
+      "section": "F. Explainability / Traceability 정합",
+      "text": "per-unit table 또는 동등한 traceability matrix 개념이 있다",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "per-unit",
+        "table",
+        "traceability",
+        "matrix",
+        "또는",
+        "동등한",
+        "개념이",
+        "per-unit table",
+        "traceability matrix"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL025",
+      "section": "F. Explainability / Traceability 정합",
+      "text": "ambiguity가 높은 항목은 human review queue로 보낸다",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "ambiguity",
+        "높은",
+        "항목은",
+        "보낸다",
+        "human review needed",
+        "human review queue"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL026",
+      "section": "F. Explainability / Traceability 정합",
+      "text": "traceability 없는 결과를 canonical output으로 채택하지 않는다",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "traceability",
+        "canonical",
+        "없는",
+        "결과를",
+        "으로",
+        "채택하지",
+        "않는다"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL027",
+      "section": "G. Output Contract 정합",
+      "text": "machine-readable JSON 출력이 있다",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "machine-readable",
+        "출력이"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL028",
+      "section": "G. Output Contract 정합",
+      "text": "human-readable markdown report 출력이 있다",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "human-readable",
+        "출력이"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL029",
+      "section": "G. Output Contract 정합",
+      "text": "missing / unsupported / inflation / boundary loss를 분리해 보여준다",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "missing",
+        "unsupported",
+        "inflation",
+        "boundary",
+        "loss",
+        "분리해",
+        "보여준다"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL030",
+      "section": "G. Output Contract 정합",
+      "text": "human review needed 항목을 별도 출력할 수 있다",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "needed",
+        "항목을",
+        "별도",
+        "출력할",
+        "ambiguity",
+        "human review needed",
+        "human review queue"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL031",
+      "section": "H. v0.1 Guardrail 정합",
+      "text": "v0.1은 `anchor/keyword + section-level comparison`으로 시작한다",
+      "explicit_tokens": [
+        "anchor/keyword + section-level comparison"
+      ],
+      "keyword_tokens": [
+        "v0.1",
+        "anchor/keyword",
+        "section-level",
+        "으로",
+        "시작한다"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL032",
+      "section": "H. v0.1 Guardrail 정합",
+      "text": "현재 checklist 포맷에 `derived_from` / `evidence`가 없다는 한계를 숨기지 않는다",
+      "explicit_tokens": [
+        "derived_from",
+        "evidence"
+      ],
+      "keyword_tokens": [
+        "derived_from",
+        "evidence",
+        "포맷에",
+        "없다는",
+        "한계를",
+        "숨기지",
+        "않는다"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL033",
+      "section": "H. v0.1 Guardrail 정합",
+      "text": "완전한 traceability matrix가 아직 어렵다는 점이 드러난다",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "traceability",
+        "matrix",
+        "완전한",
+        "아직",
+        "어렵다는",
+        "점이",
+        "드러난다",
+        "per-unit table",
+        "traceability matrix"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL034",
+      "section": "H. v0.1 Guardrail 정합",
+      "text": "heuristic mapping 결과를 최종 truth로 단정하지 않는다",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "heuristic",
+        "mapping",
+        "truth",
+        "결과를",
+        "최종",
+        "단정하지",
+        "않는다"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL035",
+      "section": "I. 최종 판정",
+      "text": "이 checklist는 KB의 canonical slice를 충분히 operationalize한다",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "kb",
+        "canonical",
+        "slice",
+        "operationalize",
+        "충분히"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL036",
+      "section": "I. 최종 판정",
+      "text": "구현 전 단계에서 봐야 할 주요 risk가 coverage / unsupported / boundary / inflation으로 정리된다",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "risk",
+        "coverage",
+        "unsupported",
+        "boundary",
+        "inflation",
+        "단계에서",
+        "봐야",
+        "주요",
+        "으로",
+        "정리된다"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL037",
+      "section": "I. 최종 판정",
+      "text": "다음 단계 구현용 checklist는 이 문서를 source of truth로 삼아야 한다",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "source",
+        "of",
+        "truth",
+        "다음",
+        "단계",
+        "구현용",
+        "문서를",
+        "삼아야",
+        "source of truth",
+        "source-of-truth"
+      ],
+      "kind": "checklist_item"
+    }
+  ],
+  "mappings": [
+    {
+      "kb_unit_id": "KB001",
+      "checklist_item_id": "CL001",
+      "score": 4,
+      "evidence": [
+        "keyword:candidate",
+        "keyword:detector",
+        "keyword:gap",
+        "keyword:judge"
+      ]
+    },
+    {
+      "kb_unit_id": "KB003",
+      "checklist_item_id": "CL002",
+      "score": 4,
+      "evidence": [
+        "keyword:canonical",
+        "keyword:canonical unit",
+        "keyword:kb",
+        "keyword:kb canonical unit"
+      ]
+    },
+    {
+      "kb_unit_id": "KB005",
+      "checklist_item_id": "CL003",
+      "score": 3,
+      "evidence": [
+        "keyword:구현용",
+        "keyword:동기화",
+        "keyword:않는다"
+      ]
+    },
+    {
+      "kb_unit_id": "KB006",
+      "checklist_item_id": "CL004",
+      "score": 3,
+      "evidence": [
+        "keyword:codebase",
+        "keyword:않는다",
+        "keyword:직접"
+      ]
+    },
+    {
+      "kb_unit_id": "KB008",
+      "checklist_item_id": "CL005",
+      "score": 12,
+      "evidence": [
+        "explicit:forward",
+        "keyword:forward"
+      ]
+    },
+    {
+      "kb_unit_id": "KB009",
+      "checklist_item_id": "CL006",
+      "score": 12,
+      "evidence": [
+        "explicit:backward",
+        "keyword:backward"
+      ]
+    },
+    {
+      "kb_unit_id": "KB005",
+      "checklist_item_id": "CL007",
+      "score": 1,
+      "evidence": [
+        "keyword:않는다"
+      ]
+    },
+    {
+      "kb_unit_id": "KB005",
+      "checklist_item_id": "CL008",
+      "score": 1,
+      "evidence": [
+        "keyword:않는다"
+      ]
+    },
+    {
+      "kb_unit_id": "KB003",
+      "checklist_item_id": "CL009",
+      "score": 4,
+      "evidence": [
+        "keyword:canonical",
+        "keyword:canonical unit",
+        "keyword:kb",
+        "keyword:kb canonical unit"
+      ]
+    },
+    {
+      "kb_unit_id": "KB004",
+      "checklist_item_id": "CL010",
+      "score": 2,
+      "evidence": [
+        "keyword:checklist item",
+        "keyword:consistency checklist item"
+      ]
+    },
+    {
+      "kb_unit_id": "KBS012",
+      "checklist_item_id": "CL011",
+      "score": 3,
+      "evidence": [
+        "keyword:artifact-level",
+        "keyword:artifact_vs_object",
+        "keyword:object-level"
+      ]
+    },
+    {
+      "kb_unit_id": "KB024",
+      "checklist_item_id": "CL012",
+      "score": 1,
+      "evidence": [
+        "keyword:section-level"
+      ]
+    },
+    {
+      "kb_unit_id": "KB011",
+      "checklist_item_id": "CL013",
+      "score": 14,
+      "evidence": [
+        "explicit:covered",
+        "keyword:covered",
+        "substring"
+      ]
+    },
+    {
+      "kb_unit_id": "KB012",
+      "checklist_item_id": "CL014",
+      "score": 14,
+      "evidence": [
+        "explicit:missing_from_checklist",
+        "keyword:missing_from_checklist",
+        "substring"
+      ]
+    },
+    {
+      "kb_unit_id": "KB013",
+      "checklist_item_id": "CL015",
+      "score": 14,
+      "evidence": [
+        "explicit:unsupported_in_checklist",
+        "keyword:unsupported_in_checklist",
+        "substring"
+      ]
+    },
+    {
+      "kb_unit_id": "KB014",
+      "checklist_item_id": "CL016",
+      "score": 14,
+      "evidence": [
+        "explicit:scope_inflation",
+        "keyword:scope_inflation",
+        "substring"
+      ]
+    },
+    {
+      "kb_unit_id": "KB015",
+      "checklist_item_id": "CL017",
+      "score": 14,
+      "evidence": [
+        "explicit:boundary_loss",
+        "keyword:boundary_loss",
+        "substring"
+      ]
+    },
+    {
+      "kb_unit_id": "KB017",
+      "checklist_item_id": "CL018",
+      "score": 14,
+      "evidence": [
+        "explicit:coverage_ratio",
+        "keyword:coverage_ratio",
+        "substring"
+      ]
+    },
+    {
+      "kb_unit_id": "KB018",
+      "checklist_item_id": "CL019",
+      "score": 14,
+      "evidence": [
+        "explicit:unsupported_item_ratio",
+        "keyword:unsupported_item_ratio",
+        "substring"
+      ]
+    },
+    {
+      "kb_unit_id": "KB019",
+      "checklist_item_id": "CL020",
+      "score": 14,
+      "evidence": [
+        "explicit:traceability_ratio",
+        "keyword:traceability_ratio",
+        "substring"
+      ]
+    },
+    {
+      "kb_unit_id": "KB020",
+      "checklist_item_id": "CL021",
+      "score": 14,
+      "evidence": [
+        "explicit:boundary_preservation_ratio",
+        "keyword:boundary_preservation_ratio",
+        "substring"
+      ]
+    },
+    {
+      "kb_unit_id": "KB005",
+      "checklist_item_id": "CL022",
+      "score": 1,
+      "evidence": [
+        "keyword:않는다"
+      ]
+    },
+    {
+      "kb_unit_id": "KB009",
+      "checklist_item_id": "CL023",
+      "score": 2,
+      "evidence": [
+        "keyword:kb",
+        "keyword:근거를"
+      ]
+    },
+    {
+      "kb_unit_id": "KB025",
+      "checklist_item_id": "CL024",
+      "score": 4,
+      "evidence": [
+        "keyword:matrix",
+        "keyword:per-unit table",
+        "keyword:traceability",
+        "keyword:traceability matrix"
+      ]
+    },
+    {
+      "kb_unit_id": "KB024",
+      "checklist_item_id": "CL025",
+      "score": 3,
+      "evidence": [
+        "keyword:ambiguity",
+        "keyword:human review needed",
+        "keyword:human review queue"
+      ]
+    },
+    {
+      "kb_unit_id": "KB001",
+      "checklist_item_id": "CL026",
+      "score": 1,
+      "evidence": [
+        "keyword:traceability"
+      ]
+    },
+    {
+      "kb_unit_id": "KB022",
+      "checklist_item_id": "CL027",
+      "score": 3,
+      "evidence": [
+        "keyword:machine-readable",
+        "substring"
+      ]
+    },
+    {
+      "kb_unit_id": "KB023",
+      "checklist_item_id": "CL028",
+      "score": 3,
+      "evidence": [
+        "keyword:human-readable",
+        "substring"
+      ]
+    },
+    {
+      "kb_unit_id": "KB034",
+      "checklist_item_id": "CL029",
+      "score": 3,
+      "evidence": [
+        "keyword:inflation",
+        "keyword:missing",
+        "keyword:unsupported"
+      ]
+    },
+    {
+      "kb_unit_id": "KB024",
+      "checklist_item_id": "CL030",
+      "score": 3,
+      "evidence": [
+        "keyword:ambiguity",
+        "keyword:human review needed",
+        "keyword:human review queue"
+      ]
+    },
+    {
+      "kb_unit_id": "KB024",
+      "checklist_item_id": "CL031",
+      "score": 4,
+      "evidence": [
+        "keyword:anchor/keyword",
+        "keyword:section-level",
+        "keyword:v0.1",
+        "keyword:시작한다"
+      ]
+    },
+    {
+      "kb_unit_id": "KB025",
+      "checklist_item_id": "CL032",
+      "score": 14,
+      "evidence": [
+        "explicit:derived_from",
+        "explicit:evidence",
+        "keyword:derived_from",
+        "keyword:evidence"
+      ]
+    },
+    {
+      "kb_unit_id": "KB025",
+      "checklist_item_id": "CL033",
+      "score": 4,
+      "evidence": [
+        "keyword:matrix",
+        "keyword:per-unit table",
+        "keyword:traceability",
+        "keyword:traceability matrix"
+      ]
+    },
+    {
+      "kb_unit_id": "KB033",
+      "checklist_item_id": "CL034",
+      "score": 4,
+      "evidence": [
+        "keyword:heuristic",
+        "keyword:mapping",
+        "substring"
+      ]
+    },
+    {
+      "kb_unit_id": "KB003",
+      "checklist_item_id": "CL035",
+      "score": 2,
+      "evidence": [
+        "keyword:canonical",
+        "keyword:kb"
+      ]
+    },
+    {
+      "kb_unit_id": "KBS002",
+      "checklist_item_id": "CL036",
+      "score": 4,
+      "evidence": [
+        "keyword:boundary",
+        "keyword:coverage",
+        "keyword:inflation",
+        "keyword:unsupported"
+      ]
+    },
+    {
+      "kb_unit_id": "KB026",
+      "checklist_item_id": "CL037",
+      "score": 4,
+      "evidence": [
+        "keyword:of",
+        "keyword:source",
+        "keyword:source of truth",
+        "keyword:source-of-truth"
+      ]
+    }
+  ],
+  "metrics": {
+    "coverage_ratio": 0.6765,
+    "unsupported_item_ratio": 0.0,
+    "traceability_ratio": 1.0,
+    "boundary_preservation_ratio": 0.5
+  },
+  "verdicts": {
+    "covered": [
+      {
+        "kb_unit_id": "KB001",
+        "kb_unit": "`kb_to_consistency_check.py`는 완전 자동 semantic judge가 아니라 **candidate traceability gap detector**로 시작하는 편이 맞다.",
+        "checklist_item_id": "CL001",
+        "checklist_item": "이 대상은 완전 자동 semantic judge가 아니라 `candidate traceability gap detector`로 정의돼 있다",
+        "score": 4,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB003",
+        "kb_unit": "`KB canonical unit`",
+        "checklist_item_id": "CL002",
+        "checklist_item": "비교 대상이 `knowledge_base 전체 vs checklist 전체`가 아니라 `KB canonical unit vs consistency checklist item`으로 분리돼 있다",
+        "score": 4,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB005",
+        "kb_unit": "이 대상은 `구현용 checklist 동기화 검사`와 혼동하지 않는다.",
+        "checklist_item_id": "CL003",
+        "checklist_item": "구현용 checklist 동기화 문제와 혼동되지 않는다",
+        "score": 3,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB006",
+        "kb_unit": "이 대상은 `codebase 구현 검증기`와 직접 동일시하지 않는다.",
+        "checklist_item_id": "CL004",
+        "checklist_item": "codebase 구현 검증기와 직접 동일시되지 않는다",
+        "score": 3,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB008",
+        "kb_unit": "`forward`: KB unit이 checklist에 반영되었는가",
+        "checklist_item_id": "CL005",
+        "checklist_item": "`forward` 비교가 정의돼 있다",
+        "score": 12,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB009",
+        "kb_unit": "`backward`: checklist item이 KB 근거를 갖는가",
+        "checklist_item_id": "CL006",
+        "checklist_item": "`backward` 비교가 정의돼 있다",
+        "score": 12,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB005",
+        "kb_unit": "이 대상은 `구현용 checklist 동기화 검사`와 혼동하지 않는다.",
+        "checklist_item_id": "CL007",
+        "checklist_item": "forward만 있고 backward가 빠지지 않는다",
+        "score": 1,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB005",
+        "kb_unit": "이 대상은 `구현용 checklist 동기화 검사`와 혼동하지 않는다.",
+        "checklist_item_id": "CL008",
+        "checklist_item": "backward만 있고 coverage 관점이 빠지지 않는다",
+        "score": 1,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB003",
+        "kb_unit": "`KB canonical unit`",
+        "checklist_item_id": "CL009",
+        "checklist_item": "KB를 canonical unit으로 나눌 필요가 반영돼 있다",
+        "score": 4,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB004",
+        "kb_unit": "`consistency checklist item`",
+        "checklist_item_id": "CL010",
+        "checklist_item": "checklist item도 별도 비교 단위로 다뤄진다",
+        "score": 2,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KBS012",
+        "kb_unit": "taxonomy: `[[dual_level_traceability]] · artifact_vs_object`",
+        "checklist_item_id": "CL011",
+        "checklist_item": "artifact-level과 object-level을 구분한다",
+        "score": 3,
+        "kb_unit_kind": "support"
+      },
+      {
+        "kb_unit_id": "KB024",
+        "kb_unit": "v0.1은 `anchor/keyword + section-level comparison + human review queue` 방식으로 시작한다.",
+        "checklist_item_id": "CL012",
+        "checklist_item": "section-level comparison으로 시작하되 항목-level 확장 가능성이 남아 있다",
+        "score": 1,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB011",
+        "kb_unit": "`covered`",
+        "checklist_item_id": "CL013",
+        "checklist_item": "최소 판정 유형에 `covered`가 있다",
+        "score": 14,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB012",
+        "kb_unit": "`missing_from_checklist`",
+        "checklist_item_id": "CL014",
+        "checklist_item": "최소 판정 유형에 `missing_from_checklist`가 있다",
+        "score": 14,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB013",
+        "kb_unit": "`unsupported_in_checklist`",
+        "checklist_item_id": "CL015",
+        "checklist_item": "최소 판정 유형에 `unsupported_in_checklist`가 있다",
+        "score": 14,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB014",
+        "kb_unit": "`scope_inflation`",
+        "checklist_item_id": "CL016",
+        "checklist_item": "최소 판정 유형에 `scope_inflation`이 있다",
+        "score": 14,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB015",
+        "kb_unit": "`boundary_loss`",
+        "checklist_item_id": "CL017",
+        "checklist_item": "최소 판정 유형에 `boundary_loss`가 있다",
+        "score": 14,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB017",
+        "kb_unit": "`coverage_ratio`",
+        "checklist_item_id": "CL018",
+        "checklist_item": "`coverage_ratio`를 계산하거나 동등 지표가 있다",
+        "score": 14,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB018",
+        "kb_unit": "`unsupported_item_ratio`",
+        "checklist_item_id": "CL019",
+        "checklist_item": "`unsupported_item_ratio`를 계산하거나 동등 지표가 있다",
+        "score": 14,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB019",
+        "kb_unit": "`traceability_ratio`",
+        "checklist_item_id": "CL020",
+        "checklist_item": "`traceability_ratio`를 계산하거나 동등 지표가 있다",
+        "score": 14,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB020",
+        "kb_unit": "`boundary_preservation_ratio`",
+        "checklist_item_id": "CL021",
+        "checklist_item": "`boundary_preservation_ratio`를 계산하거나 동등 지표가 있다",
+        "score": 14,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB005",
+        "kb_unit": "이 대상은 `구현용 checklist 동기화 검사`와 혼동하지 않는다.",
+        "checklist_item_id": "CL022",
+        "checklist_item": "단일 종합 점수만으로 끝내지 않는다",
+        "score": 1,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB009",
+        "kb_unit": "`backward`: checklist item이 KB 근거를 갖는가",
+        "checklist_item_id": "CL023",
+        "checklist_item": "checklist 판정에 KB 근거를 연결할 수 있어야 한다",
+        "score": 2,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB025",
+        "kb_unit": "현재 checklist 포맷에는 항목별 `derived_from` / `evidence` 필드가 없으므로, 완전한 traceability matrix는 아직 어렵다.",
+        "checklist_item_id": "CL024",
+        "checklist_item": "per-unit table 또는 동등한 traceability matrix 개념이 있다",
+        "score": 4,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB024",
+        "kb_unit": "v0.1은 `anchor/keyword + section-level comparison + human review queue` 방식으로 시작한다.",
+        "checklist_item_id": "CL025",
+        "checklist_item": "ambiguity가 높은 항목은 human review queue로 보낸다",
+        "score": 3,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB001",
+        "kb_unit": "`kb_to_consistency_check.py`는 완전 자동 semantic judge가 아니라 **candidate traceability gap detector**로 시작하는 편이 맞다.",
+        "checklist_item_id": "CL026",
+        "checklist_item": "traceability 없는 결과를 canonical output으로 채택하지 않는다",
+        "score": 1,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB022",
+        "kb_unit": "machine-readable JSON",
+        "checklist_item_id": "CL027",
+        "checklist_item": "machine-readable JSON 출력이 있다",
+        "score": 3,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB023",
+        "kb_unit": "human-readable markdown report",
+        "checklist_item_id": "CL028",
+        "checklist_item": "human-readable markdown report 출력이 있다",
+        "score": 3,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB034",
+        "kb_unit": "missing / unsupported / inflation 후보 보고",
+        "checklist_item_id": "CL029",
+        "checklist_item": "missing / unsupported / inflation / boundary loss를 분리해 보여준다",
+        "score": 3,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB024",
+        "kb_unit": "v0.1은 `anchor/keyword + section-level comparison + human review queue` 방식으로 시작한다.",
+        "checklist_item_id": "CL030",
+        "checklist_item": "human review needed 항목을 별도 출력할 수 있다",
+        "score": 3,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB024",
+        "kb_unit": "v0.1은 `anchor/keyword + section-level comparison + human review queue` 방식으로 시작한다.",
+        "checklist_item_id": "CL031",
+        "checklist_item": "v0.1은 `anchor/keyword + section-level comparison`으로 시작한다",
+        "score": 4,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB025",
+        "kb_unit": "현재 checklist 포맷에는 항목별 `derived_from` / `evidence` 필드가 없으므로, 완전한 traceability matrix는 아직 어렵다.",
+        "checklist_item_id": "CL032",
+        "checklist_item": "현재 checklist 포맷에 `derived_from` / `evidence`가 없다는 한계를 숨기지 않는다",
+        "score": 14,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB025",
+        "kb_unit": "현재 checklist 포맷에는 항목별 `derived_from` / `evidence` 필드가 없으므로, 완전한 traceability matrix는 아직 어렵다.",
+        "checklist_item_id": "CL033",
+        "checklist_item": "완전한 traceability matrix가 아직 어렵다는 점이 드러난다",
+        "score": 4,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB033",
+        "kb_unit": "heuristic mapping",
+        "checklist_item_id": "CL034",
+        "checklist_item": "heuristic mapping 결과를 최종 truth로 단정하지 않는다",
+        "score": 4,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB003",
+        "kb_unit": "`KB canonical unit`",
+        "checklist_item_id": "CL035",
+        "checklist_item": "이 checklist는 KB의 canonical slice를 충분히 operationalize한다",
+        "score": 2,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KBS002",
+        "kb_unit": "canonical_slice: `traceability-based coverage / unsupported item / boundary preservation / scope inflation`",
+        "checklist_item_id": "CL036",
+        "checklist_item": "구현 전 단계에서 봐야 할 주요 risk가 coverage / unsupported / boundary / inflation으로 정리된다",
+        "score": 4,
+        "kb_unit_kind": "support"
+      },
+      {
+        "kb_unit_id": "KB026",
+        "kb_unit": "따라서 이 KB에서 만든 `consistency checklist`는 다음 단계 `implementation checklist`의 source of truth로 사용한다.",
+        "checklist_item_id": "CL037",
+        "checklist_item": "다음 단계 구현용 checklist는 이 문서를 source of truth로 삼아야 한다",
+        "score": 4,
+        "kb_unit_kind": "canonical"
+      }
+    ],
+    "missing_from_checklist": [
+      {
+        "kb_unit_id": "KB002",
+        "kb_unit": "비교 단위는 `knowledge_base 전체`와 `checklist 전체`가 아니라 아래 두 층이다.",
+        "section": "Canonical Design Takeaways",
+        "reason": "no checklist item matched this KB unit"
+      },
+      {
+        "kb_unit_id": "KB007",
+        "kb_unit": "최소 비교 방향은 아래 두 개다.",
+        "section": "Canonical Design Takeaways",
+        "reason": "no checklist item matched this KB unit"
+      },
+      {
+        "kb_unit_id": "KB010",
+        "kb_unit": "최소 판정 유형은 아래 5개다.",
+        "section": "Canonical Design Takeaways",
+        "reason": "no checklist item matched this KB unit"
+      },
+      {
+        "kb_unit_id": "KB016",
+        "kb_unit": "최소 측정 지표는 아래 네 개다.",
+        "section": "Canonical Design Takeaways",
+        "reason": "no checklist item matched this KB unit"
+      },
+      {
+        "kb_unit_id": "KB021",
+        "kb_unit": "출력은 단일 score보다 아래 두 층이 더 적합하다.",
+        "section": "Canonical Design Takeaways",
+        "reason": "no checklist item matched this KB unit"
+      },
+      {
+        "kb_unit_id": "KB027",
+        "kb_unit": "v0.1 metric 정의는 아래처럼 둔다.",
+        "section": "Current Implementation Target",
+        "reason": "no checklist item matched this KB unit"
+      },
+      {
+        "kb_unit_id": "KB028",
+        "kb_unit": "`traceability_ratio`: KB 근거를 역참조 가능한 checklist items / total checklist items",
+        "section": "Current Implementation Target",
+        "reason": "no checklist item matched this KB unit"
+      },
+      {
+        "kb_unit_id": "KB029",
+        "kb_unit": "`boundary_preservation_ratio`: preserved guardrails / total guardrails",
+        "section": "Current Implementation Target",
+        "reason": "no checklist item matched this KB unit"
+      },
+      {
+        "kb_unit_id": "KB030",
+        "kb_unit": "따라서 v0.1의 핵심은 아래다.",
+        "section": "Current Implementation Target",
+        "reason": "no checklist item matched this KB unit"
+      },
+      {
+        "kb_unit_id": "KB031",
+        "kb_unit": "KB canonical unit 추출",
+        "section": "Current Implementation Target",
+        "reason": "no checklist item matched this KB unit"
+      },
+      {
+        "kb_unit_id": "KB032",
+        "kb_unit": "checklist item 추출",
+        "section": "Current Implementation Target",
+        "reason": "no checklist item matched this KB unit"
+      }
+    ],
+    "unsupported_in_checklist": [],
+    "scope_inflation": [],
+    "boundary_loss": []
+  },
+  "human_review_queue": [
+    {
+      "reason": "low-confidence mapping",
+      "kb_unit_id": "KB005",
+      "checklist_item_id": "CL007",
+      "kb_unit": "이 대상은 `구현용 checklist 동기화 검사`와 혼동하지 않는다.",
+      "checklist_item": "forward만 있고 backward가 빠지지 않는다"
+    },
+    {
+      "reason": "low-confidence mapping",
+      "kb_unit_id": "KB005",
+      "checklist_item_id": "CL008",
+      "kb_unit": "이 대상은 `구현용 checklist 동기화 검사`와 혼동하지 않는다.",
+      "checklist_item": "backward만 있고 coverage 관점이 빠지지 않는다"
+    },
+    {
+      "reason": "low-confidence mapping",
+      "kb_unit_id": "KB004",
+      "checklist_item_id": "CL010",
+      "kb_unit": "`consistency checklist item`",
+      "checklist_item": "checklist item도 별도 비교 단위로 다뤄진다"
+    },
+    {
+      "reason": "low-confidence mapping",
+      "kb_unit_id": "KB024",
+      "checklist_item_id": "CL012",
+      "kb_unit": "v0.1은 `anchor/keyword + section-level comparison + human review queue` 방식으로 시작한다.",
+      "checklist_item": "section-level comparison으로 시작하되 항목-level 확장 가능성이 남아 있다"
+    },
+    {
+      "reason": "low-confidence mapping",
+      "kb_unit_id": "KB005",
+      "checklist_item_id": "CL022",
+      "kb_unit": "이 대상은 `구현용 checklist 동기화 검사`와 혼동하지 않는다.",
+      "checklist_item": "단일 종합 점수만으로 끝내지 않는다"
+    },
+    {
+      "reason": "low-confidence mapping",
+      "kb_unit_id": "KB009",
+      "checklist_item_id": "CL023",
+      "kb_unit": "`backward`: checklist item이 KB 근거를 갖는가",
+      "checklist_item": "checklist 판정에 KB 근거를 연결할 수 있어야 한다"
+    },
+    {
+      "reason": "low-confidence mapping",
+      "kb_unit_id": "KB001",
+      "checklist_item_id": "CL026",
+      "kb_unit": "`kb_to_consistency_check.py`는 완전 자동 semantic judge가 아니라 **candidate traceability gap detector**로 시작하는 편이 맞다.",
+      "checklist_item": "traceability 없는 결과를 canonical output으로 채택하지 않는다"
+    },
+    {
+      "reason": "low-confidence mapping",
+      "kb_unit_id": "KB003",
+      "checklist_item_id": "CL035",
+      "kb_unit": "`KB canonical unit`",
+      "checklist_item": "이 checklist는 KB의 canonical slice를 충분히 operationalize한다"
+    }
+  ]
+}

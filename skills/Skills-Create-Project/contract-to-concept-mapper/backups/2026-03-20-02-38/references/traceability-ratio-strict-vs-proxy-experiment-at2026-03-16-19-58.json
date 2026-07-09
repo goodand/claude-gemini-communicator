@@ -1,0 +1,61 @@
+{
+  "generated_at": "2026-03-16-19-58",
+  "checker": "contract-to-concept-mapper/scripts/kb_to_consistency_check.py",
+  "strict_definition": {
+    "name": "strict_traceability_ratio_experimental",
+    "formula": "(covered - low_confidence_mapping_items) / total_checklist_items",
+    "note": "experimental only; low_confidence_mapping_items are taken from human_review_queue reason == low-confidence mapping"
+  },
+  "cases": {
+    "contract_research": {
+      "kb_profile": "research_index_kb",
+      "proxy_traceability_ratio": 0.7,
+      "strict_traceability_ratio_experimental": 0.1,
+      "covered": 21,
+      "low_confidence": 18,
+      "total_checklist_items": 30,
+      "delta": 0.6
+    },
+    "contract_hybrid": {
+      "kb_profile": "hybrid_kb",
+      "proxy_traceability_ratio": 1.0,
+      "strict_traceability_ratio_experimental": 0.6,
+      "covered": 30,
+      "low_confidence": 12,
+      "total_checklist_items": 30,
+      "delta": 0.4
+    },
+    "contract_canonical": {
+      "kb_profile": "canonical_design_kb",
+      "proxy_traceability_ratio": 1.0,
+      "strict_traceability_ratio_experimental": 0.7333,
+      "covered": 30,
+      "low_confidence": 8,
+      "total_checklist_items": 30,
+      "delta": 0.2667
+    },
+    "doc_hybrid": {
+      "kb_profile": "hybrid_kb",
+      "proxy_traceability_ratio": 1.0,
+      "strict_traceability_ratio_experimental": 0.4839,
+      "covered": 31,
+      "low_confidence": 16,
+      "total_checklist_items": 31,
+      "delta": 0.5161
+    },
+    "doc_canonical": {
+      "kb_profile": "canonical_design_kb",
+      "proxy_traceability_ratio": 1.0,
+      "strict_traceability_ratio_experimental": 0.6452,
+      "covered": 31,
+      "low_confidence": 11,
+      "total_checklist_items": 31,
+      "delta": 0.3548
+    }
+  },
+  "conclusion": {
+    "current_traceability_ratio_is_strict": false,
+    "current_traceability_ratio_is_proxy": true,
+    "canonical_alignment_reduces_gap": true
+  }
+}

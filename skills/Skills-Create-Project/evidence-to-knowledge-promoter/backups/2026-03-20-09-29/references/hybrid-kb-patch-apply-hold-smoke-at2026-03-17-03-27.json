@@ -1,0 +1,20 @@
+{
+  "status": "ok",
+  "generated_at": "2026-03-17T03:14:00+09:00",
+  "contract_family": "hybrid_kb_patch_apply_result",
+  "input_patch_plan": "evidence-to-knowledge-promoter/references/hybrid-kb-patch-plan-hold-smoke-at2026-03-17-03-20.json",
+  "target_kb": "evidence-to-knowledge-promoter/knowledge_bases/evidence-to-knowledge-promoter-knowledge_base-at2026-03-17-02-48.md",
+  "output_kb": "evidence-to-knowledge-promoter/references/evidence-to-knowledge-promoter-hybrid-kb-hold-copy-at2026-03-17-03-27.md",
+  "patch_decision": "hold",
+  "applied_count": 0,
+  "skipped_count": 1,
+  "operations": [
+    {
+      "status": "skipped",
+      "entry_name": "promotion-hold",
+      "target_section": "troubleshooting",
+      "line": null,
+      "note": "residual uncertainty 또는 lesson candidate 부족으로 KB patch를 보류한다."
+    }
+  ]
+}

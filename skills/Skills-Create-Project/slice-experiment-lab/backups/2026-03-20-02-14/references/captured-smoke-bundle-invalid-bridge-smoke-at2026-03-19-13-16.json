@@ -1,0 +1,12 @@
+{
+  "status": "invalid",
+  "generated_at": "2026-03-19T13:16:39+09:00",
+  "contract_family": "captured_smoke_to_bundle_adapter",
+  "input_bundle_draft": "slice-experiment-lab/references/captured-smoke-bundle-draft-invalid-sample-at2026-03-19-13-16.json",
+  "smoke_capture_artifact": "slice-experiment-lab/references/captured-smoke-invalid-artifact-at2026-03-19-13-16.json",
+  "smoke_capture_status": null,
+  "errors": [
+    "smoke_capture_artifact.status must be one of ['valid', 'invalid', 'capture_failed']"
+  ],
+  "normalized_bundle": null
+}

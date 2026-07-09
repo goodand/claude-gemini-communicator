@@ -1,0 +1,100 @@
+digraph CodexSubagentSetup3LayerKB {
+  graph [
+    rankdir=TB,
+    labelloc=t,
+    label="codex-subagent-setup 3-Layer Production KB",
+    fontsize=20,
+    fontname="Helvetica"
+  ];
+  node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=11, color="#2f3b52", fillcolor="#f7f9fc"];
+  edge [color="#5b6b88", arrowsize=0.8, penwidth=1.2];
+
+  kb [label="KB\ncodex-subagent-setup-3layer-production-kb\nsource of truth", fillcolor="#dcecff"];
+  consistency [label="Consistency Checklist\n3-layer consistency evaluation", fillcolor="#e8f5e9"];
+  implementation [label="Implementation Checklist\nfollow-up after consistency review", fillcolor="#fff3e0"];
+
+  subgraph cluster_layers {
+    label="3-Layer Model";
+    color="#aab7cf";
+    style="rounded";
+
+    procedure [label="Layer 1\nProcedure Layer\n- Agent Flow\n- artifact gates\n- backtrack rules\n- smoke checkpoints", fillcolor="#eef4ff"];
+    agentexec [label="Layer 2\nAgent / Execution Layer\n- AGENT.md\n- package_details\n- bridges\n- wrappers\n- lint/static guard", fillcolor="#eefaf1"];
+    usability [label="Layer 3\nSkill Usability Layer\n- SKILL.md\n- read order\n- linker vs bridge\n- context load discipline", fillcolor="#fff7ec"];
+  }
+
+  subgraph cluster_flow {
+    label="Procedural Agent Flow";
+    color="#aab7cf";
+    style="rounded";
+
+    planner [label="dependency-slice-planner"];
+    setup [label="codex-subagent-setup"];
+    graphanalyst [label="dependency-graph-analyst\n(persistent structural)", fillcolor="#eefaf1"];
+    riskauditor [label="dependency-risk-auditor\n(run-scoped interpretive)", fillcolor="#fff7ec"];
+    broker [label="context-broker"];
+    reviewer [label="reviewer\n(run-scoped interpretive)", fillcolor="#fff7ec"];
+    synthesizer [label="synthesizer\n(artifact-backed)", fillcolor="#f3e5f5"];
+  }
+
+  subgraph cluster_artifacts {
+    label="Artifact Gates";
+    color="#aab7cf";
+    style="rounded";
+
+    slice_manifest [label="slice_manifest.json\nper-slice handoff_packet.json\ncontext-links.md", fillcolor="#f9fbff"];
+    graph_artifacts [label="graph summary\nedge list summary\nboundary summary", fillcolor="#f9fbff"];
+    risk_artifacts [label="risk summary\nunsafe crossing notes\nmitigation notes", fillcolor="#f9fbff"];
+    broker_artifacts [label="relay artifacts\noverlap / missing evidence\nunresolved relations", fillcolor="#f9fbff"];
+    final_artifacts [label="final synthesis report\ndeduplicated finding map\ncontradiction notes\nresidual gap register", fillcolor="#f9fbff"];
+  }
+
+  subgraph cluster_policy {
+    label="Class / Enforcement Policy";
+    color="#aab7cf";
+    style="rounded";
+
+    class_policy [label="Agent Class Policy\n- persistent structural\n- run-scoped interpretive\n- artifact-backed synthesizer", fillcolor="#fffde7"];
+    lint_policy [label="Lint / Static Handling\n- production-process rule\n- runtime gate first\n- warning-based enforcement\n- on/off toggle preferred", fillcolor="#fffde7"];
+  }
+
+  kb -> procedure;
+  kb -> agentexec;
+  kb -> usability;
+  kb -> consistency;
+  consistency -> implementation [label="only after review"];
+
+  procedure -> planner;
+  procedure -> setup;
+  procedure -> graphanalyst;
+  procedure -> riskauditor;
+  procedure -> broker;
+  procedure -> reviewer;
+  procedure -> synthesizer;
+
+  planner -> slice_manifest;
+  slice_manifest -> setup;
+  setup -> graphanalyst;
+  graphanalyst -> graph_artifacts;
+  graph_artifacts -> riskauditor;
+  riskauditor -> risk_artifacts;
+  risk_artifacts -> broker;
+  graph_artifacts -> broker;
+  broker -> broker_artifacts;
+  broker_artifacts -> reviewer;
+  reviewer -> synthesizer;
+  broker_artifacts -> synthesizer;
+  risk_artifacts -> synthesizer;
+  synthesizer -> final_artifacts;
+
+  agentexec -> class_policy;
+  agentexec -> lint_policy;
+  usability -> class_policy [style=dashed];
+  usability -> lint_policy [style=dashed];
+  consistency -> class_policy [style=dashed];
+  consistency -> lint_policy [style=dashed];
+
+  riskauditor -> graphanalyst [label="backtrack if graph evidence missing", style=dashed, color="#c96f28"];
+  synthesizer -> broker [label="backtrack if overlap / holes remain", style=dashed, color="#c96f28"];
+  synthesizer -> reviewer [label="backtrack if unsupported claims remain", style=dashed, color="#c96f28"];
+}

@@ -1,0 +1,55 @@
+{
+  "status": "ok",
+  "generated_at": "2026-03-19T17:29:38+09:00",
+  "contract_family": "seed_refinement_report_contract",
+  "version": "v0.1.0",
+  "required_top_level_fields": [
+    "status",
+    "generated_at",
+    "algorithm_family",
+    "version",
+    "input_artifacts",
+    "runtime_overlay_used",
+    "recommendation_count",
+    "recommendations",
+    "next_candidate"
+  ],
+  "recommendation_required_fields": [
+    "candidate_id",
+    "root_dir",
+    "seed_action",
+    "recommendation",
+    "scores",
+    "signal_counts",
+    "risk_signals",
+    "reason"
+  ],
+  "recommendation_enum": [
+    "keep_seed",
+    "merge_with_neighbor",
+    "re_cut_with_dependency_overlay",
+    "mark_analysis_only",
+    "stop_split"
+  ],
+  "top_level_schema": {
+    "status": "enum(ok|invalid_inputs)",
+    "generated_at": "str",
+    "algorithm_family": "str",
+    "version": "str",
+    "input_artifacts": "dict[str,str|None]",
+    "runtime_overlay_used": "bool",
+    "recommendation_count": "int",
+    "recommendations": "list[dict]",
+    "next_candidate": "str|None"
+  },
+  "recommendation_field_schema": {
+    "candidate_id": "str",
+    "root_dir": "str",
+    "seed_action": "str",
+    "recommendation": "enum(keep_seed|merge_with_neighbor|re_cut_with_dependency_overlay|mark_analysis_only|stop_split)",
+    "scores": "dict[str,float]",
+    "signal_counts": "dict[str,int]",
+    "risk_signals": "list[str]",
+    "reason": "str"
+  }
+}

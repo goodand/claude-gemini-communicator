@@ -1,0 +1,52 @@
+{
+  "status": "ok",
+  "generated_at": "2026-03-18T23:42:57+09:00",
+  "contract_family": "evidence_trace_audit",
+  "input_evidence_ledger": "evidence-trace-auditor/references/tool-call-evidence-ledger-smoke-at2026-03-18-23-39.json",
+  "input_contract_diff_basis": "execution-contract-mapper/references/contract-diff-basis-smoke-at2026-03-17-01-40.json",
+  "entry_count": 3,
+  "recommended_diff_buckets": [
+    "missing_contract_unit",
+    "extra_contract_unit",
+    "contract_value_changed",
+    "requiredness_changed",
+    "cli_argument_surface_changed"
+  ],
+  "supported_count": 1,
+  "missing_evidence_count": 1,
+  "residual_uncertainty_count": 1,
+  "support_ratio": 0.3333333333333333,
+  "supported_entries": [
+    {
+      "entry_id": "tool_call:validated-rule-schema",
+      "finding_family": "tool_call",
+      "kind": "tool_call_result",
+      "name": "validated-rule-schema",
+      "observed_bucket": "contract_value_changed",
+      "trace_status": "verified_evidence",
+      "action": "tool call result 검토"
+    }
+  ],
+  "missing_evidence_entries": [
+    {
+      "entry_id": "tool_call:missing-output-call",
+      "finding_family": "tool_call",
+      "kind": "tool_call_result",
+      "name": "missing-output-call",
+      "observed_bucket": "missing_contract_unit",
+      "trace_status": "missing_evidence",
+      "action": "missing output call 검토"
+    }
+  ],
+  "residual_uncertainty_entries": [
+    {
+      "entry_id": "tool_call:failing-call",
+      "finding_family": "tool_call",
+      "kind": "tool_call_result",
+      "name": "failing-call",
+      "observed_bucket": "contract_value_changed",
+      "trace_status": "residual_uncertainty",
+      "action": "failing call 검토"
+    }
+  ]
+}

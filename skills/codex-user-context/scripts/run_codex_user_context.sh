@@ -16,6 +16,7 @@ MODEL="${CODEX_MODEL:-gpt-5.3-codex}"
 FALLBACK_MODEL="${CODEX_FALLBACK_MODEL:-gpt-5}"
 SANDBOX="${CODEX_SANDBOX:-}"
 FEEDBACK_DIR="${CODEX_FEEDBACK_DIR:-$(pwd)/plans/codex}"
+RESUME_SESSION="${CODEX_RESUME_SESSION:-}"
 DRY_RUN=0
 FULL_AUTO=0
 SAVE_FEEDBACK=0
@@ -32,6 +33,7 @@ Options:
   --project DIR       작업 디렉토리 (기본: git root → cwd)
   --file PATH         리뷰할 파일 경로 (내용을 프롬프트에 첨부)
   --sandbox MODE      샌드박스 모드: read-only | workspace-write | danger-full-access
+  --resume [ID]       이전 세션 이어서 실행 (ID 생략 시 CODEX_RESUME_SESSION 사용)
   --full-auto         자동 실행 모드
   --save              결과를 codex_feedback.md에 기록
   --dry-run           실행하지 않고 명령만 출력
@@ -65,6 +67,15 @@ while [[ $# -gt 0 ]]; do
     --sandbox)
       SANDBOX="$2"
       shift 2
+      ;;
+    --resume)
+      if [[ $# -ge 2 ]] && [[ "$2" != --* ]]; then
+        RESUME_SESSION="$2"
+        shift 2
+      else
+        # ID 생략 시 환경변수에서 가져옴
+        shift
+      fi
       ;;
     --full-auto)
       FULL_AUTO=1
@@ -154,6 +165,7 @@ if [[ "${DRY_RUN}" -eq 1 ]]; then
   echo "SANDBOX=${SANDBOX:-default}"
   echo "FULL_AUTO=${FULL_AUTO}"
   echo "FILE_PATH=${FILE_PATH}"
+  echo "RESUME_SESSION=${RESUME_SESSION:-none}"
   echo "SAVE_FEEDBACK=${SAVE_FEEDBACK}"
   echo "FEEDBACK_DIR=${FEEDBACK_DIR}"
   exit 0
@@ -163,17 +175,31 @@ cd "${PROJECT_DIR}"
 
 run_cmd() {
   local target_model="$1"
-  local cmd_args=(codex exec -m "${target_model}")
 
-  if [[ "${FULL_AUTO}" -eq 1 ]]; then
-    cmd_args+=(--full-auto)
+  if [[ -n "${RESUME_SESSION}" ]]; then
+    # resume 모드: codex exec resume <SESSION_ID> "PROMPT"
+    local cmd_args=(codex exec resume "${RESUME_SESSION}")
+    cmd_args+=(-m "${target_model}")
+
+    if [[ "${FULL_AUTO}" -eq 1 ]]; then
+      cmd_args+=(--full-auto)
+    fi
+
+    cmd_args+=("${FULL_PROMPT}")
+  else
+    # 새 세션 모드
+    local cmd_args=(codex exec -m "${target_model}")
+
+    if [[ "${FULL_AUTO}" -eq 1 ]]; then
+      cmd_args+=(--full-auto)
+    fi
+
+    if [[ -n "${SANDBOX}" ]]; then
+      cmd_args+=(--sandbox "${SANDBOX}")
+    fi
+
+    cmd_args+=("${FULL_PROMPT}")
   fi
-
-  if [[ -n "${SANDBOX}" ]]; then
-    cmd_args+=(--sandbox "${SANDBOX}")
-  fi
-
-  cmd_args+=("${FULL_PROMPT}")
 
   local output
   set +e

@@ -1,0 +1,22 @@
+{
+  "status": "implemented",
+  "scope": "pairwise_smoke_test",
+  "command": "compare",
+  "rule_kind": "enum_value",
+  "pair": {
+    "doc": "codex-worktree-dispatch/references/dispatch-fields.md",
+    "script": "codex-worktree-dispatch/scripts/dispatch_manager.py"
+  },
+  "normalization": {
+    "mode": "internal_compare_stage",
+    "implemented": true,
+    "key": "enum_value.name exact match"
+  },
+  "doc_rule_count": 8,
+  "code_rule_count": 8,
+  "missing_in_code": [],
+  "missing_in_doc": [],
+  "mismatch": [],
+  "message": "enum_value 비교 완료",
+  "compared_at": "2026-03-16T22:14:13+09:00"
+}

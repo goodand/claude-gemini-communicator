@@ -1,0 +1,45 @@
+{
+  "skill_name": "worktree-parallel",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "auth, api, ui 세 가지 기능을 병렬로 구현하고 싶어. worktree로 나눠줘",
+      "expected_output": "3개의 worktree를 생성하고 각각에 독립 브랜치를 할당",
+      "files": [],
+      "assertions": [
+        "Output includes git worktree add or worktree_manager spawn",
+        "Output includes auth and api and ui"
+      ]
+    },
+    {
+      "id": 1,
+      "prompt": "현재 병렬 작업 진행 상황을 확인해줘",
+      "expected_output": "각 worktree의 상태(in_progress/complete)를 확인",
+      "files": [],
+      "assertions": [
+        "Output includes git worktree list or worktree_manager status",
+        "Output includes status or agent-status"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "완료된 worktree들을 main에 merge하고 정리해줘",
+      "expected_output": "각 브랜치를 main으로 merge 후 worktree와 브랜치 정리",
+      "files": [],
+      "assertions": [
+        "Output includes git merge",
+        "Output includes git worktree remove or worktree_manager cleanup"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Architect-Builder 패턴으로 대규모 리팩토링을 설계해줘",
+      "expected_output": "main에서 설계 문서 작성 후 worktree별로 Builder에게 작업 할당",
+      "files": [],
+      "assertions": [
+        "Output includes worktree or .worktrees",
+        "Output includes architect or main or 설계"
+      ]
+    }
+  ]
+}

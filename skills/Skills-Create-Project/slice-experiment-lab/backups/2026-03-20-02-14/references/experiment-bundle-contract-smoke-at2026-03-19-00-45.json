@@ -1,0 +1,29 @@
+{
+  "status": "ok",
+  "generated_at": "2026-03-19T00:49:58+09:00",
+  "contract_family": "slice_experiment_bundle_contract",
+  "version": "v0.1.0",
+  "required_fields": [
+    "skill_name",
+    "current_slice",
+    "contract_artifact",
+    "valid_artifact",
+    "invalid_artifact",
+    "quick_validate_status",
+    "next_slice_candidate"
+  ],
+  "quick_validate_enum": [
+    "passed",
+    "failed"
+  ],
+  "field_schema": {
+    "skill_name": "str",
+    "current_slice": "str",
+    "contract_artifact": "path[str]",
+    "valid_artifact": "path[str]",
+    "invalid_artifact": "path[str]",
+    "quick_validate_status": "enum(passed|failed)",
+    "next_slice_candidate": "str",
+    "notes": "optional[str]"
+  }
+}

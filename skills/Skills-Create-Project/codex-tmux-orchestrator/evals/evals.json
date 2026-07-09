@@ -1,0 +1,40 @@
+{
+  "skill_name": "codex-tmux-orchestrator",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "이 dispatch가 ready 상태야. Codex를 실행해줘",
+      "expected_output": "orchestrator.py launch --dispatch <dispatch.json> --packet <packet.json> 실행. preflight 12항목 검증 후 tmux session 생성 + Codex CLI 실행 + runtime registry 기록",
+      "files": ["scripts/orchestrator.py"],
+      "assertions": ["launch", "preflight", "tmux", "runtime"]
+    },
+    {
+      "id": 1,
+      "prompt": "실행 중인 Codex 세션 상태를 확인해줘",
+      "expected_output": "orchestrator.py status --dispatch-id <id> 실행. runtime_status + heartbeat 건강 + 마지막 출력 표시",
+      "files": ["scripts/orchestrator.py"],
+      "assertions": ["status", "runtime_status", "heartbeat"]
+    },
+    {
+      "id": 2,
+      "prompt": "이 세션이 stale이야. 재시작해줘",
+      "expected_output": "orchestrator.py restart --dispatch-id <id> 실행. failed/stale만 가능, attempt 증가, 이전 attempt 기록 보존",
+      "files": ["scripts/orchestrator.py"],
+      "assertions": ["restart", "attempt", "previous_attempts"]
+    },
+    {
+      "id": 3,
+      "prompt": "orphan 세션이 있는 것 같아. 정리해줘",
+      "expected_output": "orchestrator.py cleanup [--dry-run] 실행. stale session kill + unregistered codex-* session 탐지·정리",
+      "files": ["scripts/orchestrator.py"],
+      "assertions": ["cleanup", "stale", "orphan"]
+    },
+    {
+      "id": 4,
+      "prompt": "dispatch status가 ready가 아닌데 launch하려고 해",
+      "expected_output": "preflight에서 'dispatch status가 ready가 아님' 오류로 launch 거부",
+      "files": ["scripts/orchestrator.py"],
+      "assertions": ["PREFLIGHT FAIL", "ready"]
+    }
+  ]
+}

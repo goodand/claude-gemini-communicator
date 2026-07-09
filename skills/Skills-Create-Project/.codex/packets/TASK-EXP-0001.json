@@ -1,0 +1,70 @@
+{
+  "packet_version": "0.1",
+  "task_id": "TASK-EXP-0001",
+  "title": "Smoke test doc-code-sync-checker via codex worker",
+  "goal": "doc-code-sync-checker skill의 현재 scaffold가 smoke-test 기준으로 정상 동작하는지 확인하고 짧은 보고서를 작성한다",
+  "why": "Claude처럼 실제 Codex worker를 띄워 skill 사용 우선순위와 실행 경로를 검증하려는 실험이다",
+  "allowed_paths": [
+    "_shared/experiments/doc-code-sync-checker-smoke/"
+  ],
+  "forbidden_paths": [],
+  "context_files": [
+    "doc-code-sync-checker/SKILL.md",
+    "doc-code-sync-checker/scripts/doc_code_sync.py",
+    "doc-code-sync-checker/references/sync-checklist.md",
+    "skill-creation-process/SKILL.md"
+  ],
+  "depends_on": [],
+  "parallel_group": null,
+  "priority": "medium",
+  "constraints": {
+    "must_not_modify": [],
+    "must_run_tests": true,
+    "must_not_use_network": true,
+    "notes": "doc-code-sync-checker를 과하게 확장하지 말고 smoke test와 drift 확인 수준으로만 다룰 것. 수정이 필요하면 보고서에만 제안하고 코드 자체는 건드리지 않는다."
+  },
+  "non_goals": [
+    {
+      "case": "state",
+      "description": "doc-code-sync-checker의 새 기능 구현이나 대규모 리팩터링은 하지 않는다."
+    },
+    {
+      "case": "type",
+      "description": "claim-verifier나 다른 skill까지 범위를 넓혀 비교하지 않는다."
+    }
+  ],
+  "done_definition": [
+    "_shared/experiments/doc-code-sync-checker-smoke/report.md가 존재한다",
+    "보고서에 실행한 명령, 관찰된 동작, 문서-코드 drift 여부가 포함된다",
+    "보고서에 필요한 다음 액션이 3개 이하로 정리된다"
+  ],
+  "required_checks": [
+    {
+      "type": "command",
+      "value": "python3 doc-code-sync-checker/scripts/doc_code_sync.py --help",
+      "required": true
+    },
+    {
+      "type": "file_exists",
+      "value": "_shared/experiments/doc-code-sync-checker-smoke/report.md",
+      "required": true
+    }
+  ],
+  "deliverables": [
+    {
+      "path": "_shared/experiments/doc-code-sync-checker-smoke/report.md",
+      "type": "doc",
+      "required": true
+    }
+  ],
+  "handoff_notes": "우선순위는 skill-creation-process -> doc-code-sync-checker 순서다. SKILL.md와 script의 현재 subcommand를 확인하고 smoke-test 결과만 간결히 기록한다.",
+  "branch_hint": "feat/codex-task-exp-0001",
+  "worktree_hint": ".worktrees/task-exp-0001",
+  "launch_hint": null,
+  "trace_id": null,
+  "parent_task_id": null,
+  "revision": 1,
+  "created_at": "2026-03-16T02:31:32+09:00",
+  "created_by": "claude",
+  "updated_at": "2026-03-16T02:31:32+09:00"
+}

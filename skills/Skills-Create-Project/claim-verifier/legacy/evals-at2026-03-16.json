@@ -1,0 +1,26 @@
+{
+  "skill_name": "claim-verifier",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "외부 평가 문장에서 claim을 항목별로 쪼개줘",
+      "expected_output": "claim_verifier.py extract --input <file> 실행. 검증 가능한 claim 목록 JSON 출력",
+      "files": ["scripts/claim_verifier.py", "references/claim-types.md"],
+      "assertions": ["extract", "claims", "scaffold"]
+    },
+    {
+      "id": 1,
+      "prompt": "claim 목록을 코드베이스 증거와 대조해 판정해줘",
+      "expected_output": "claim_verifier.py verify --claims <claims.json> --repo <path> 실행. claim별 결과와 evidence 필드 출력",
+      "files": ["scripts/claim_verifier.py", "references/verification-checklist.md"],
+      "assertions": ["verify", "results", "repo", "scaffold"]
+    },
+    {
+      "id": 2,
+      "prompt": "검증 결과를 보고서 형태로 정리해줘",
+      "expected_output": "claim_verifier.py report --results <results.json> 실행. true/false/partial/unverifiable 보고 포맷 출력",
+      "files": ["scripts/claim_verifier.py", "references/troubleshooting.md"],
+      "assertions": ["report", "results", "scaffold"]
+    }
+  ]
+}

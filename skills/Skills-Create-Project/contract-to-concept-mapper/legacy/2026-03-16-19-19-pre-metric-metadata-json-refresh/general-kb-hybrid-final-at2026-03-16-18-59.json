@@ -1,0 +1,3705 @@
+{
+  "kb_profile": "hybrid_kb",
+  "kb_units": [
+    {
+      "id": "KB001",
+      "section": "Canonical Design Takeaways",
+      "text": "이 skill의 핵심 목적은 `실행 계약 공간 -> 개념 공간` 복원이다.",
+      "explicit_tokens": [
+        "실행 계약 공간 -> 개념 공간"
+      ],
+      "keyword_tokens": [
+        "skill",
+        "핵심",
+        "목적은",
+        "실행",
+        "계약",
+        "공간",
+        "개념",
+        "복원이다"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB002",
+      "section": "Canonical Design Takeaways",
+      "text": "`개념 -> 실행 계약` 변환 도구와 혼동하지 않는다.",
+      "explicit_tokens": [
+        "개념 -> 실행 계약"
+      ],
+      "keyword_tokens": [
+        "개념",
+        "실행",
+        "계약",
+        "변환",
+        "도구와",
+        "혼동하지",
+        "않는다"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB003",
+      "section": "Canonical Design Takeaways",
+      "text": "codebase 정합성 평가기나 실행 로그 수집기와 직접 동일시하지 않는다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "codebase",
+        "정합성",
+        "평가기나",
+        "실행",
+        "로그",
+        "수집기와",
+        "직접",
+        "동일시하지",
+        "않는다"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB004",
+      "section": "Canonical Design Takeaways",
+      "text": "단순 summarizer보다 `설명 가능한 lifting system`으로 보는 편이 맞다.",
+      "explicit_tokens": [
+        "설명 가능한 lifting system"
+      ],
+      "keyword_tokens": [
+        "summarizer",
+        "lifting",
+        "system",
+        "단순",
+        "보다",
+        "설명",
+        "가능한",
+        "으로",
+        "보는",
+        "편이",
+        "맞다"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB005",
+      "section": "Canonical Design Takeaways",
+      "text": "기본 입력은 `checklist`, `task`, `schema`, `CLI contract`, `함수 시그니처`다.",
+      "explicit_tokens": [
+        "checklist",
+        "task",
+        "schema",
+        "cli contract",
+        "함수 시그니처"
+      ],
+      "keyword_tokens": [
+        "task",
+        "schema",
+        "cli",
+        "기본",
+        "입력은",
+        "함수",
+        "시그니처"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB006",
+      "section": "Canonical Design Takeaways",
+      "text": "checklist는 1급 입력이며, `정합성 평가용 checklist`와 `구현용 checklist`를 구분한다.",
+      "explicit_tokens": [
+        "정합성 평가용 checklist",
+        "구현용 checklist"
+      ],
+      "keyword_tokens": [
+        "입력이며",
+        "정합성",
+        "평가용",
+        "구현용",
+        "구분한다"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB007",
+      "section": "Canonical Design Takeaways",
+      "text": "최소 출력은 `concept summary`, `boundary description`, `semantic relation map`이다.",
+      "explicit_tokens": [
+        "concept summary",
+        "boundary description",
+        "semantic relation map"
+      ],
+      "keyword_tokens": [
+        "concept",
+        "summary",
+        "boundary",
+        "description",
+        "semantic",
+        "relation",
+        "map",
+        "최소",
+        "출력은",
+        "이다"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB008",
+      "section": "Canonical Design Takeaways",
+      "text": "Mermaid / pseudocode는 주요 render target이고, vector output은 보조 층이다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "mermaid",
+        "pseudocode",
+        "render",
+        "vector",
+        "주요",
+        "이고",
+        "보조",
+        "층이다"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB009",
+      "section": "Canonical Design Takeaways",
+      "text": "핵심 단계는 `collect contracts -> segment units -> lift concepts -> render concepts`다.",
+      "explicit_tokens": [
+        "collect contracts -> segment units -> lift concepts -> render concepts"
+      ],
+      "keyword_tokens": [
+        "collect",
+        "segment",
+        "units",
+        "lift",
+        "concepts",
+        "render",
+        "핵심",
+        "단계는"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB010",
+      "section": "Canonical Design Takeaways",
+      "text": "`contract unit`과 `concept unit` 사이에 traceable intermediate layer가 필요하다.",
+      "explicit_tokens": [
+        "contract unit",
+        "concept unit"
+      ],
+      "keyword_tokens": [
+        "concept",
+        "traceable",
+        "intermediate",
+        "layer",
+        "사이에",
+        "필요하다"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB011",
+      "section": "Canonical Design Takeaways",
+      "text": "render 이전에 relation / boundary 정리가 선행되어야 한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "render",
+        "relation",
+        "boundary",
+        "이전에",
+        "정리가",
+        "선행되어야"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB012",
+      "section": "Canonical Design Takeaways",
+      "text": "traceability 없는 자연어 요약만 남기는 출력은 실패 사례로 본다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "traceability",
+        "없는",
+        "자연어",
+        "요약만",
+        "남기는",
+        "출력은",
+        "실패",
+        "사례로",
+        "본다"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB013",
+      "section": "Canonical Design Takeaways",
+      "text": "uncertainty / weak support를 표시할 수 있어야 한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "uncertainty",
+        "weak",
+        "support",
+        "표시할",
+        "있어야"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB014",
+      "section": "Canonical Design Takeaways",
+      "text": "project context가 부족할 때 과도한 개념 복원을 경계한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "project",
+        "context",
+        "부족할",
+        "과도한",
+        "개념",
+        "복원을",
+        "경계한다"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB015",
+      "section": "Canonical Design Takeaways",
+      "text": "`semantic-slice-mapper`, `execution-contract-mapper`, `evidence-trace-auditor`와 책임이 다르다.",
+      "explicit_tokens": [
+        "semantic-slice-mapper",
+        "execution-contract-mapper",
+        "evidence-trace-auditor"
+      ],
+      "keyword_tokens": [
+        "semantic-slice-mapper",
+        "execution-contract-mapper",
+        "evidence-trace-auditor",
+        "책임이",
+        "다르다"
+      ],
+      "kind": "canonical"
+    },
+    {
+      "id": "KB016",
+      "section": "Canonical Design Takeaways",
+      "text": "이 skill의 v0.1 비교 단위는 broad research document가 아니라 canonical slice다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "skill",
+        "v0.1",
+        "broad",
+        "research",
+        "document",
+        "canonical",
+        "slice",
+        "단위는",
+        "아니라"
+      ],
+      "kind": "canonical"
+    }
+  ],
+  "support_kb_units": [
+    {
+      "id": "KBS001",
+      "section": "ROOT",
+      "text": "canonical_role: `외부 사례와 현재 채택 설계 slice를 함께 담는 hybrid KB`",
+      "explicit_tokens": [
+        "외부 사례와 현재 채택 설계 slice를 함께 담는 hybrid kb"
+      ],
+      "keyword_tokens": [
+        "canonical_role:",
+        "slice",
+        "hybrid",
+        "kb",
+        "외부",
+        "사례와",
+        "채택",
+        "설계",
+        "함께",
+        "담는"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS002",
+      "section": "ROOT",
+      "text": "canonical_slice: `Canonical Design Takeaways 섹션은 v0.1 consistency checklist와 직접 대조하는 기준`",
+      "explicit_tokens": [
+        "canonical design takeaways 섹션은 v0.1 consistency checklist와 직접 대조하는 기준"
+      ],
+      "keyword_tokens": [
+        "canonical_slice:",
+        "canonical",
+        "design",
+        "takeaways",
+        "v0.1",
+        "consistency",
+        "섹션은",
+        "직접",
+        "대조하는",
+        "기준"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS003",
+      "section": "ROOT",
+      "text": "source_research_files: `contract-to-concept-mapper-github-search-at2026-03-16.md`, `contract-to-concept-mapper-paper-search-at2026-03-16.md`",
+      "explicit_tokens": [
+        "contract-to-concept-mapper-github-search-at2026-03-16.md",
+        "contract-to-concept-mapper-paper-search-at2026-03-16.md"
+      ],
+      "keyword_tokens": [
+        "source_research_files:",
+        "contract-to-concept-mapper-github-search-at2026-03-16.md",
+        "contract-to-concept-mapper-paper-search-at2026-03-16.md"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS004",
+      "section": "Profile",
+      "text": "이 문서는 `research_index_kb`만이 아니라 `hybrid_kb`다.",
+      "explicit_tokens": [
+        "research_index_kb",
+        "hybrid_kb"
+      ],
+      "keyword_tokens": [
+        "research_index_kb",
+        "hybrid_kb",
+        "문서는",
+        "만이",
+        "아니라"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS005",
+      "section": "Profile",
+      "text": "URL inventory와 사례 모음을 유지하되, direct compare용 기준은 `Canonical Design Takeaways`에 둔다.",
+      "explicit_tokens": [
+        "canonical design takeaways"
+      ],
+      "keyword_tokens": [
+        "url",
+        "inventory",
+        "direct",
+        "canonical",
+        "design",
+        "takeaways",
+        "사례",
+        "모음을",
+        "유지하되",
+        "기준은",
+        "둔다"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS006",
+      "section": "Profile",
+      "text": "`kb_to_consistency_check.py` 같은 checker는 이 문서 전체가 아니라 canonical slice를 우선 읽는 것이 맞다.",
+      "explicit_tokens": [
+        "kb_to_consistency_check.py"
+      ],
+      "keyword_tokens": [
+        "kb_to_consistency_check.py",
+        "checker",
+        "canonical",
+        "slice",
+        "같은",
+        "문서",
+        "전체가",
+        "아니라",
+        "우선",
+        "읽는",
+        "것이",
+        "맞다"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS007",
+      "section": "Current Implementation Target",
+      "text": "현재는 scaffold 단계다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "scaffold",
+        "현재는",
+        "단계다"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS008",
+      "section": "Current Implementation Target",
+      "text": "future output과 current capability를 혼동하지 않는다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "future",
+        "capability",
+        "혼동하지",
+        "않는다"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS009",
+      "section": "Current Implementation Target",
+      "text": "현재 consistency checklist는 이 문서의 `Canonical Design Takeaways` 또는 더 좁은 canonical KB를 source of truth로 삼는다.",
+      "explicit_tokens": [
+        "canonical design takeaways"
+      ],
+      "keyword_tokens": [
+        "consistency",
+        "canonical",
+        "design",
+        "takeaways",
+        "kb",
+        "source",
+        "of",
+        "truth",
+        "문서의",
+        "또는",
+        "좁은",
+        "삼는다",
+        "source of truth",
+        "source-of-truth"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS010",
+      "section": "Current Implementation Target",
+      "text": "broad research inventory는 family/index 탐색용으로 유지하고, checklist/code 비교는 canonical slice에서 닫는다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "broad",
+        "research",
+        "inventory",
+        "family/index",
+        "checklist/code",
+        "canonical",
+        "slice",
+        "탐색용으로",
+        "유지하고",
+        "비교는",
+        "에서",
+        "닫는다"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS011",
+      "section": "Measurement Alignment",
+      "text": "metric은 `fixed point -> interpretation -> execution` 3층으로 본다.",
+      "explicit_tokens": [
+        "fixed point -> interpretation -> execution"
+      ],
+      "keyword_tokens": [
+        "metric",
+        "fixed",
+        "point",
+        "interpretation",
+        "execution",
+        "층으로",
+        "본다"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS012",
+      "section": "Measurement Alignment",
+      "text": "fixed point 원칙은 [measurement-strategy-from-eval-runner-rag-bench-at2026-03-16-18-47.md](../references/measurement-strategy-from-eval-runner-rag-bench-at2026-03-16-18-47.md)를 따른다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "fixed",
+        "point",
+        "measurement-strategy-from-eval-runner-rag-bench-at2026-03-16-18-47.md",
+        "references/measurement-strategy-from-eval-runner-rag-bench-at2026-03-16-18-47.md",
+        "원칙은",
+        "따른다"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS013",
+      "section": "Measurement Alignment",
+      "text": "현재 execution layer에서 실제 계산하는 v0.1 지표는 아래 네 개다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "execution",
+        "layer",
+        "v0.1",
+        "에서",
+        "실제",
+        "계산하는",
+        "지표는",
+        "아래",
+        "개다"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS014",
+      "section": "Measurement Alignment",
+      "text": "`coverage_ratio`",
+      "explicit_tokens": [
+        "coverage_ratio"
+      ],
+      "keyword_tokens": [
+        "coverage_ratio"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS015",
+      "section": "Measurement Alignment",
+      "text": "`unsupported_item_ratio`",
+      "explicit_tokens": [
+        "unsupported_item_ratio"
+      ],
+      "keyword_tokens": [
+        "unsupported_item_ratio"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS016",
+      "section": "Measurement Alignment",
+      "text": "`traceability_ratio`",
+      "explicit_tokens": [
+        "traceability_ratio"
+      ],
+      "keyword_tokens": [
+        "traceability_ratio"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS017",
+      "section": "Measurement Alignment",
+      "text": "`boundary_preservation_ratio`",
+      "explicit_tokens": [
+        "boundary_preservation_ratio"
+      ],
+      "keyword_tokens": [
+        "boundary_preservation_ratio"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS018",
+      "section": "Measurement Alignment",
+      "text": "위 4개는 현재 strict metric보다는 heuristic/candidate metric에 가깝다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "strict",
+        "metric",
+        "heuristic/candidate",
+        "개는",
+        "보다는",
+        "가깝다"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS019",
+      "section": "Measurement Alignment",
+      "text": "따라서 report에서는 단일 점수보다 mapping table과 human review queue를 함께 본다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "mapping",
+        "table",
+        "따라서",
+        "에서는",
+        "단일",
+        "점수보다",
+        "함께",
+        "본다",
+        "ambiguity",
+        "human review needed",
+        "human review queue"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS020",
+      "section": "Paper-like URLs",
+      "text": "taxonomy: `[[pl_nl_bridge]] · shared representation`",
+      "explicit_tokens": [
+        "[[pl_nl_bridge]] · shared representation"
+      ],
+      "keyword_tokens": [
+        "taxonomy:",
+        "pl_nl_bridge",
+        "shared",
+        "representation"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS021",
+      "section": "Paper-like URLs",
+      "text": "key_idea: 코드/계약과 자연어 설명을 공통 표현 공간에서 다룰 수 있다는 기본 관점을 제공한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "key_idea:",
+        "코드",
+        "계약과",
+        "자연어",
+        "설명을",
+        "공통",
+        "표현",
+        "공간에서",
+        "다룰",
+        "있다는",
+        "기본",
+        "관점을",
+        "제공한다"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS022",
+      "section": "Paper-like URLs",
+      "text": "execution_conditions: contract artifact를 텍스트나 구조화 표현으로 정규화할 중간 계층 필요",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "execution_conditions:",
+        "artifact",
+        "텍스트나",
+        "구조화",
+        "표현으로",
+        "정규화할",
+        "중간",
+        "계층",
+        "필요"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS023",
+      "section": "Paper-like URLs",
+      "text": "taxonomy: `[[structured_to_text]] · sequence generation`",
+      "explicit_tokens": [
+        "[[structured_to_text]] · sequence generation"
+      ],
+      "keyword_tokens": [
+        "taxonomy:",
+        "structured_to_text",
+        "sequence",
+        "generation"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS024",
+      "section": "Paper-like URLs",
+      "text": "key_idea: AST/path 같은 구조화 입력에서 요약 시퀀스를 생성하는 접근이 contract-to-concept lifting의 기술적 비유가 된다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "key_idea:",
+        "ast/path",
+        "contract-to-concept",
+        "lifting",
+        "같은",
+        "구조화",
+        "입력에서",
+        "요약",
+        "시퀀스를",
+        "생성하는",
+        "접근이",
+        "기술적",
+        "비유가",
+        "된다"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS025",
+      "section": "Paper-like URLs",
+      "text": "execution_conditions: checklist/schema/task를 구조화 unit로 분해하는 선행 단계 필요",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "execution_conditions:",
+        "checklist/schema/task",
+        "구조화",
+        "분해하는",
+        "선행",
+        "단계",
+        "필요"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS026",
+      "section": "Paper-like URLs",
+      "text": "taxonomy: `[[change_to_description]] · summarization`",
+      "explicit_tokens": [
+        "[[change_to_description]] · summarization"
+      ],
+      "keyword_tokens": [
+        "taxonomy:",
+        "change_to_description",
+        "summarization"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS027",
+      "section": "Paper-like URLs",
+      "text": "key_idea: 변화 집합에서 상위 설명을 복원하는 방식이 실행 계약 변화나 checklist 변화를 개념 설명으로 올리는 데 유용하다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "key_idea:",
+        "변화",
+        "집합에서",
+        "상위",
+        "설명을",
+        "복원하는",
+        "방식이",
+        "실행",
+        "계약",
+        "변화나",
+        "변화를",
+        "개념",
+        "설명으로",
+        "올리는",
+        "유용하다"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS028",
+      "section": "Paper-like URLs",
+      "text": "execution_conditions: diff나 변경된 contract unit을 입력으로 취급할 수 있어야 함",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "execution_conditions:",
+        "diff",
+        "변경된",
+        "입력으로",
+        "취급할",
+        "있어야"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS029",
+      "section": "Paper-like URLs",
+      "text": "taxonomy: `[[change_context]] · context-aware description`",
+      "explicit_tokens": [
+        "[[change_context]] · context-aware description"
+      ],
+      "keyword_tokens": [
+        "taxonomy:",
+        "change_context",
+        "context-aware",
+        "description"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS030",
+      "section": "Paper-like URLs",
+      "text": "key_idea: 현재 artifact만이 아니라 주변 문맥을 함께 봐야 올바른 설명이 나온다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "key_idea:",
+        "artifact",
+        "만이",
+        "아니라",
+        "주변",
+        "문맥을",
+        "함께",
+        "봐야",
+        "올바른",
+        "설명이",
+        "나온다"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS031",
+      "section": "Paper-like URLs",
+      "text": "execution_conditions: project context 또는 neighboring contract context를 함께 읽어야 함",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "execution_conditions:",
+        "project",
+        "context",
+        "neighboring",
+        "또는",
+        "함께",
+        "읽어야"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS032",
+      "section": "Paper-like URLs",
+      "text": "taxonomy: `[[project_context]] · context-aware summarization`",
+      "explicit_tokens": [
+        "[[project_context]] · context-aware summarization"
+      ],
+      "keyword_tokens": [
+        "taxonomy:",
+        "project_context",
+        "context-aware",
+        "summarization"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS033",
+      "section": "Paper-like URLs",
+      "text": "key_idea: 개별 함수/항목이 아니라 project-level context를 넣어야 summary의 의미 왜곡이 줄어든다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "key_idea:",
+        "project-level",
+        "context",
+        "summary",
+        "개별",
+        "함수",
+        "항목이",
+        "아니라",
+        "넣어야",
+        "의미",
+        "왜곡이",
+        "줄어든다"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS034",
+      "section": "Paper-like URLs",
+      "text": "execution_conditions: 단일 checklist 항목이 아니라 skill 단위 context를 묶는 기능 필요",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "execution_conditions:",
+        "skill",
+        "context",
+        "단일",
+        "항목이",
+        "아니라",
+        "묶는",
+        "기능",
+        "필요"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS035",
+      "section": "Paper-like URLs",
+      "text": "taxonomy: `[[architecture_recovery]] · model reconstruction`",
+      "explicit_tokens": [
+        "[[architecture_recovery]] · model reconstruction"
+      ],
+      "keyword_tokens": [
+        "taxonomy:",
+        "architecture_recovery",
+        "model",
+        "reconstruction"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS036",
+      "section": "Paper-like URLs",
+      "text": "key_idea: 코드에서 상위 모델과 다이어그램을 추출하되 traceability를 유지하는 관점이 핵심이다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "key_idea:",
+        "traceability",
+        "코드에서",
+        "상위",
+        "모델과",
+        "다이어그램을",
+        "추출하되",
+        "유지하는",
+        "관점이",
+        "핵심이다"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS037",
+      "section": "Paper-like URLs",
+      "text": "execution_conditions: contract unit에서 relation graph를 만들 수 있어야 함",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "execution_conditions:",
+        "relation",
+        "graph",
+        "에서",
+        "만들",
+        "있어야"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS038",
+      "section": "Paper-like URLs",
+      "text": "taxonomy: `[[interpretable_d2t]] · explainable generation`",
+      "explicit_tokens": [
+        "[[interpretable_d2t]] · explainable generation"
+      ],
+      "keyword_tokens": [
+        "taxonomy:",
+        "interpretable_d2t",
+        "explainable",
+        "generation"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS039",
+      "section": "Paper-like URLs",
+      "text": "key_idea: 자연어 출력보다 중간의 해석 가능한 규칙 기반 표현이 더 중요하다는 점을 보여준다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "key_idea:",
+        "자연어",
+        "출력보다",
+        "중간의",
+        "해석",
+        "가능한",
+        "규칙",
+        "기반",
+        "표현이",
+        "중요하다는",
+        "점을",
+        "보여준다"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS040",
+      "section": "Paper-like URLs",
+      "text": "execution_conditions: contract unit -> concept unit intermediate representation 설계 필요",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "execution_conditions:",
+        "concept",
+        "intermediate",
+        "representation",
+        "설계",
+        "필요"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS041",
+      "section": "Paper-like URLs",
+      "text": "taxonomy: `[[explainable_summary]] · survey`",
+      "explicit_tokens": [
+        "[[explainable_summary]] · survey"
+      ],
+      "keyword_tokens": [
+        "taxonomy:",
+        "explainable_summary",
+        "survey"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS042",
+      "section": "Paper-like URLs",
+      "text": "key_idea: contract-to-concept 문제는 단순 summarization이 아니라 explainability task라는 점을 뒷받침한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "key_idea:",
+        "contract-to-concept",
+        "summarization",
+        "explainability",
+        "task",
+        "문제는",
+        "단순",
+        "아니라",
+        "라는",
+        "점을",
+        "뒷받침한다"
+      ],
+      "kind": "support"
+    },
+    {
+      "id": "KBS043",
+      "section": "Paper-like URLs",
+      "text": "execution_conditions: 생성 결과와 근거 unit 간 명시적 연결 필요",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "execution_conditions:",
+        "생성",
+        "결과와",
+        "근거",
+        "명시적",
+        "연결",
+        "필요"
+      ],
+      "kind": "support"
+    }
+  ],
+  "support_counts": {
+    "support": 43
+  },
+  "ignored_kb_units": [
+    {
+      "id": "KBI001",
+      "section": "ROOT",
+      "text": "ver: `v0.1.0`",
+      "explicit_tokens": [
+        "v0.1.0"
+      ],
+      "keyword_tokens": [
+        "ver:",
+        "v0.1.0"
+      ],
+      "kind": "metadata"
+    },
+    {
+      "id": "KBI002",
+      "section": "ROOT",
+      "text": "generated_at: `2026-03-16`",
+      "explicit_tokens": [
+        "2026-03-16"
+      ],
+      "keyword_tokens": [
+        "generated_at:"
+      ],
+      "kind": "metadata"
+    },
+    {
+      "id": "KBI003",
+      "section": "ROOT",
+      "text": "updated_at: `2026-03-16` (v0.1.1: canonical slice added for hybrid KB promotion)",
+      "explicit_tokens": [
+        "2026-03-16"
+      ],
+      "keyword_tokens": [
+        "updated_at:",
+        "v0.1.1:",
+        "canonical",
+        "slice",
+        "added",
+        "for",
+        "hybrid",
+        "kb",
+        "promotion"
+      ],
+      "kind": "metadata"
+    },
+    {
+      "id": "KBI004",
+      "section": "ROOT",
+      "text": "format: `- [한 줄 설명](URL)`",
+      "explicit_tokens": [
+        "- [한 줄 설명](url)"
+      ],
+      "keyword_tokens": [
+        "format:",
+        "url",
+        "설명"
+      ],
+      "kind": "metadata"
+    },
+    {
+      "id": "KBI005",
+      "section": "ROOT",
+      "text": "generation_method: `GitHub/Paper reference 수집 후 contract-to-concept-mapper 설계에 맞게 선별·축약`",
+      "explicit_tokens": [
+        "github/paper reference 수집 후 contract-to-concept-mapper 설계에 맞게 선별·축약"
+      ],
+      "keyword_tokens": [
+        "generation_method:",
+        "github/paper",
+        "reference",
+        "contract-to-concept-mapper",
+        "수집",
+        "설계에",
+        "맞게",
+        "선별",
+        "축약"
+      ],
+      "kind": "metadata"
+    },
+    {
+      "id": "KBI006",
+      "section": "ROOT",
+      "text": "total_urls: `14`",
+      "explicit_tokens": [
+        "14"
+      ],
+      "keyword_tokens": [
+        "total_urls:"
+      ],
+      "kind": "metadata"
+    },
+    {
+      "id": "KBI007",
+      "section": "ROOT",
+      "text": "paper_like_urls: `8`",
+      "explicit_tokens": [
+        "8"
+      ],
+      "keyword_tokens": [
+        "paper_like_urls:"
+      ],
+      "kind": "metadata"
+    },
+    {
+      "id": "KBI008",
+      "section": "ROOT",
+      "text": "other_urls: `6`",
+      "explicit_tokens": [
+        "6"
+      ],
+      "keyword_tokens": [
+        "other_urls:"
+      ],
+      "kind": "metadata"
+    },
+    {
+      "id": "KBI009",
+      "section": "Table of Contents",
+      "text": "[Profile](#profile)",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "profile"
+      ],
+      "kind": "toc"
+    },
+    {
+      "id": "KBI010",
+      "section": "Table of Contents",
+      "text": "[Canonical Design Takeaways](#canonical-design-takeaways)",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "canonical",
+        "design",
+        "takeaways",
+        "canonical-design-takeaways"
+      ],
+      "kind": "toc"
+    },
+    {
+      "id": "KBI011",
+      "section": "Table of Contents",
+      "text": "[Current Implementation Target](#current-implementation-target)",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "implementation",
+        "current-implementation-target"
+      ],
+      "kind": "toc"
+    },
+    {
+      "id": "KBI012",
+      "section": "Table of Contents",
+      "text": "[Measurement Alignment](#measurement-alignment)",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "measurement",
+        "alignment",
+        "measurement-alignment"
+      ],
+      "kind": "toc"
+    },
+    {
+      "id": "KBI013",
+      "section": "Table of Contents",
+      "text": "[Paper-like URLs](#paper-like-urls)",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "paper-like",
+        "urls",
+        "paper-like-urls"
+      ],
+      "kind": "toc"
+    },
+    {
+      "id": "KBI014",
+      "section": "Table of Contents",
+      "text": "[Other research References URLs](#other-research-references-urls)",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "other",
+        "research",
+        "references",
+        "urls",
+        "other-research-references-urls"
+      ],
+      "kind": "toc"
+    },
+    {
+      "id": "KBI015",
+      "section": "Paper-like URLs",
+      "text": "[CodeBERT - 프로그래밍 언어와 자연어의 shared representation](https://aclanthology.org/2020.findings-emnlp.139/)",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "codebert",
+        "shared",
+        "representation",
+        "https://aclanthology.org/2020.findings-emnlp.139/",
+        "프로그래밍",
+        "언어와",
+        "자연어의"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI016",
+      "section": "Paper-like URLs",
+      "text": "sources: `contract-to-concept-mapper-paper-search-at2026-03-16.md`",
+      "explicit_tokens": [
+        "contract-to-concept-mapper-paper-search-at2026-03-16.md"
+      ],
+      "keyword_tokens": [
+        "sources:",
+        "contract-to-concept-mapper-paper-search-at2026-03-16.md"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI017",
+      "section": "Paper-like URLs",
+      "text": "agent: `A00`",
+      "explicit_tokens": [
+        "a00"
+      ],
+      "keyword_tokens": [
+        "agent:",
+        "a00"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI018",
+      "section": "Paper-like URLs",
+      "text": "pseudocode_3lines:",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "pseudocode_3lines:"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI019",
+      "section": "Paper-like URLs",
+      "text": "1) 실행 계약 아티팩트를 공통 표현으로 정규화한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "실행",
+        "계약",
+        "아티팩트를",
+        "공통",
+        "표현으로",
+        "정규화한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI020",
+      "section": "Paper-like URLs",
+      "text": "2) 상위 의미와 가까운 자연어 표현을 찾는다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "상위",
+        "의미와",
+        "가까운",
+        "자연어",
+        "표현을",
+        "찾는다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI021",
+      "section": "Paper-like URLs",
+      "text": "3) concept summary와 trace link를 함께 남긴다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "concept",
+        "summary",
+        "trace",
+        "link",
+        "함께",
+        "남긴다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI022",
+      "section": "Paper-like URLs",
+      "text": "[CODE2SEQ - 구조화된 코드 표현을 자연어 시퀀스로 변환](https://openreview.net/forum?id=H1gKYo09tX)",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "code2seq",
+        "https://openreview.net/forum",
+        "id",
+        "h1gkyo09tx",
+        "구조화된",
+        "코드",
+        "표현을",
+        "자연어",
+        "시퀀스로",
+        "변환"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI023",
+      "section": "Paper-like URLs",
+      "text": "sources: `contract-to-concept-mapper-paper-search-at2026-03-16.md`",
+      "explicit_tokens": [
+        "contract-to-concept-mapper-paper-search-at2026-03-16.md"
+      ],
+      "keyword_tokens": [
+        "sources:",
+        "contract-to-concept-mapper-paper-search-at2026-03-16.md"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI024",
+      "section": "Paper-like URLs",
+      "text": "agent: `A00`",
+      "explicit_tokens": [
+        "a00"
+      ],
+      "keyword_tokens": [
+        "agent:",
+        "a00"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI025",
+      "section": "Paper-like URLs",
+      "text": "pseudocode_3lines:",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "pseudocode_3lines:"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI026",
+      "section": "Paper-like URLs",
+      "text": "1) 계약 항목을 구조화 unit로 분해한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "계약",
+        "항목을",
+        "구조화",
+        "분해한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI027",
+      "section": "Paper-like URLs",
+      "text": "2) unit 간 관계를 유지한 채 summary 단위를 생성한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "summary",
+        "관계를",
+        "유지한",
+        "단위를",
+        "생성한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI028",
+      "section": "Paper-like URLs",
+      "text": "3) 전체 concept narrative로 다시 묶는다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "concept",
+        "narrative",
+        "전체",
+        "다시",
+        "묶는다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI029",
+      "section": "Paper-like URLs",
+      "text": "[Neural Architecture for Generating Natural Language Descriptions from Source Code Changes](https://aclanthology.org/P17-2045/)",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "neural",
+        "architecture",
+        "for",
+        "generating",
+        "natural",
+        "language",
+        "descriptions",
+        "from",
+        "source",
+        "code",
+        "changes",
+        "https://aclanthology.org/p17-2045/"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI030",
+      "section": "Paper-like URLs",
+      "text": "sources: `contract-to-concept-mapper-paper-search-at2026-03-16.md`",
+      "explicit_tokens": [
+        "contract-to-concept-mapper-paper-search-at2026-03-16.md"
+      ],
+      "keyword_tokens": [
+        "sources:",
+        "contract-to-concept-mapper-paper-search-at2026-03-16.md"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI031",
+      "section": "Paper-like URLs",
+      "text": "agent: `A00`",
+      "explicit_tokens": [
+        "a00"
+      ],
+      "keyword_tokens": [
+        "agent:",
+        "a00"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI032",
+      "section": "Paper-like URLs",
+      "text": "pseudocode_3lines:",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "pseudocode_3lines:"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI033",
+      "section": "Paper-like URLs",
+      "text": "1) 변경된 계약 항목을 수집한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "변경된",
+        "계약",
+        "항목을",
+        "수집한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI034",
+      "section": "Paper-like URLs",
+      "text": "2) 변화가 뜻하는 상위 의미를 요약한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "변화가",
+        "뜻하는",
+        "상위",
+        "의미를",
+        "요약한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI035",
+      "section": "Paper-like URLs",
+      "text": "3) 변경 설명과 기존 개념 모델 차이를 보고한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "변경",
+        "설명과",
+        "기존",
+        "개념",
+        "모델",
+        "차이를",
+        "보고한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI036",
+      "section": "Paper-like URLs",
+      "text": "[Content Aware Source Code Change Description Generation](https://aclanthology.org/W18-6513/)",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "content",
+        "aware",
+        "source",
+        "code",
+        "change",
+        "description",
+        "generation",
+        "https://aclanthology.org/w18-6513/"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI037",
+      "section": "Paper-like URLs",
+      "text": "sources: `contract-to-concept-mapper-paper-search-at2026-03-16.md`",
+      "explicit_tokens": [
+        "contract-to-concept-mapper-paper-search-at2026-03-16.md"
+      ],
+      "keyword_tokens": [
+        "sources:",
+        "contract-to-concept-mapper-paper-search-at2026-03-16.md"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI038",
+      "section": "Paper-like URLs",
+      "text": "agent: `A00`",
+      "explicit_tokens": [
+        "a00"
+      ],
+      "keyword_tokens": [
+        "agent:",
+        "a00"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI039",
+      "section": "Paper-like URLs",
+      "text": "pseudocode_3lines:",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "pseudocode_3lines:"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI040",
+      "section": "Paper-like URLs",
+      "text": "1) 핵심 계약 항목을 고른다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "핵심",
+        "계약",
+        "항목을",
+        "고른다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI041",
+      "section": "Paper-like URLs",
+      "text": "2) 주변 context와 함께 해석한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "context",
+        "주변",
+        "함께",
+        "해석한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI042",
+      "section": "Paper-like URLs",
+      "text": "3) 경계와 목적을 포함한 설명으로 올린다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "경계와",
+        "목적을",
+        "포함한",
+        "설명으로",
+        "올린다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI043",
+      "section": "Paper-like URLs",
+      "text": "[ProConSuL - 프로젝트 컨텍스트를 활용한 코드 요약](https://aclanthology.org/2024.emnlp-industry.65/)",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "proconsul",
+        "https://aclanthology.org/2024.emnlp-industry.65/",
+        "프로젝트",
+        "컨텍스트를",
+        "활용한",
+        "코드",
+        "요약"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI044",
+      "section": "Paper-like URLs",
+      "text": "sources: `contract-to-concept-mapper-paper-search-at2026-03-16.md`",
+      "explicit_tokens": [
+        "contract-to-concept-mapper-paper-search-at2026-03-16.md"
+      ],
+      "keyword_tokens": [
+        "sources:",
+        "contract-to-concept-mapper-paper-search-at2026-03-16.md"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI045",
+      "section": "Paper-like URLs",
+      "text": "agent: `A00`",
+      "explicit_tokens": [
+        "a00"
+      ],
+      "keyword_tokens": [
+        "agent:",
+        "a00"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI046",
+      "section": "Paper-like URLs",
+      "text": "pseudocode_3lines:",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "pseudocode_3lines:"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI047",
+      "section": "Paper-like URLs",
+      "text": "1) 현재 contract unit을 선택한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "선택한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI048",
+      "section": "Paper-like URLs",
+      "text": "2) project-level contract context를 함께 불러온다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "project-level",
+        "context",
+        "함께",
+        "불러온다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI049",
+      "section": "Paper-like URLs",
+      "text": "3) 전체 skill 관점의 concept summary를 만든다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "skill",
+        "concept",
+        "summary",
+        "전체",
+        "관점의",
+        "만든다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI050",
+      "section": "Paper-like URLs",
+      "text": "[Automatic Extraction of Security-Rich Dataflow Diagrams for Microservice Applications written in Java](https://www.sciencedirect.com/science/article/pii/S0164121223001176)",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "automatic",
+        "extraction",
+        "of",
+        "security-rich",
+        "dataflow",
+        "diagrams",
+        "for",
+        "microservice",
+        "applications",
+        "written",
+        "in",
+        "java",
+        "https://www.sciencedirect.com/science/article/pii/s0164121223001176"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI051",
+      "section": "Paper-like URLs",
+      "text": "sources: `contract-to-concept-mapper-paper-search-at2026-03-16.md`",
+      "explicit_tokens": [
+        "contract-to-concept-mapper-paper-search-at2026-03-16.md"
+      ],
+      "keyword_tokens": [
+        "sources:",
+        "contract-to-concept-mapper-paper-search-at2026-03-16.md"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI052",
+      "section": "Paper-like URLs",
+      "text": "agent: `A00`",
+      "explicit_tokens": [
+        "a00"
+      ],
+      "keyword_tokens": [
+        "agent:",
+        "a00"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI053",
+      "section": "Paper-like URLs",
+      "text": "pseudocode_3lines:",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "pseudocode_3lines:"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI054",
+      "section": "Paper-like URLs",
+      "text": "1) 계약 단위 간 연결 관계를 추출한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "계약",
+        "연결",
+        "관계를",
+        "추출한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI055",
+      "section": "Paper-like URLs",
+      "text": "2) 상위 개념 그래프로 재구성한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "상위",
+        "개념",
+        "그래프로",
+        "재구성한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI056",
+      "section": "Paper-like URLs",
+      "text": "3) 다이어그램과 trace link를 함께 출력한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "trace",
+        "link",
+        "다이어그램과",
+        "함께",
+        "출력한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI057",
+      "section": "Paper-like URLs",
+      "text": "[Interpretable Rule-Based Data-to-Text Systems with LLMs](https://aclanthology.org/2024.inlg-main.48/)",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "interpretable",
+        "rule-based",
+        "data-to-text",
+        "systems",
+        "with",
+        "llms",
+        "https://aclanthology.org/2024.inlg-main.48/"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI058",
+      "section": "Paper-like URLs",
+      "text": "sources: `contract-to-concept-mapper-paper-search-at2026-03-16.md`",
+      "explicit_tokens": [
+        "contract-to-concept-mapper-paper-search-at2026-03-16.md"
+      ],
+      "keyword_tokens": [
+        "sources:",
+        "contract-to-concept-mapper-paper-search-at2026-03-16.md"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI059",
+      "section": "Paper-like URLs",
+      "text": "agent: `A00`",
+      "explicit_tokens": [
+        "a00"
+      ],
+      "keyword_tokens": [
+        "agent:",
+        "a00"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI060",
+      "section": "Paper-like URLs",
+      "text": "pseudocode_3lines:",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "pseudocode_3lines:"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI061",
+      "section": "Paper-like URLs",
+      "text": "1) 구조화 입력을 해석 가능한 규칙으로 바꾼다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "구조화",
+        "입력을",
+        "해석",
+        "가능한",
+        "규칙으로",
+        "바꾼다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI062",
+      "section": "Paper-like URLs",
+      "text": "2) 규칙을 기반으로 concept text를 생성한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "concept",
+        "text",
+        "규칙을",
+        "기반으로",
+        "생성한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI063",
+      "section": "Paper-like URLs",
+      "text": "3) 규칙과 문장 간 연결을 보존한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "규칙과",
+        "문장",
+        "연결을",
+        "보존한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI064",
+      "section": "Paper-like URLs",
+      "text": "[Explainability Meets Text Summarization: A Survey](https://aclanthology.org/2024.inlg-main.49/)",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "explainability",
+        "meets",
+        "text",
+        "summarization:",
+        "survey",
+        "https://aclanthology.org/2024.inlg-main.49/"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI065",
+      "section": "Paper-like URLs",
+      "text": "sources: `contract-to-concept-mapper-paper-search-at2026-03-16.md`",
+      "explicit_tokens": [
+        "contract-to-concept-mapper-paper-search-at2026-03-16.md"
+      ],
+      "keyword_tokens": [
+        "sources:",
+        "contract-to-concept-mapper-paper-search-at2026-03-16.md"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI066",
+      "section": "Paper-like URLs",
+      "text": "agent: `A00`",
+      "explicit_tokens": [
+        "a00"
+      ],
+      "keyword_tokens": [
+        "agent:",
+        "a00"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI067",
+      "section": "Paper-like URLs",
+      "text": "pseudocode_3lines:",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "pseudocode_3lines:"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI068",
+      "section": "Paper-like URLs",
+      "text": "1) 요약 결과를 만든다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "요약",
+        "결과를",
+        "만든다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI069",
+      "section": "Paper-like URLs",
+      "text": "2) 각 결과 문장을 근거 unit에 연결한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "결과",
+        "문장을",
+        "근거",
+        "연결한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI070",
+      "section": "Paper-like URLs",
+      "text": "3) 근거가 약한 문장은 uncertainty로 표시한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "uncertainty",
+        "근거가",
+        "약한",
+        "문장은",
+        "표시한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI071",
+      "section": "Other research References URLs",
+      "text": "[Structurizr DSL - DSL로 상위 아키텍처 개념과 다이어그램 생성](https://github.com/structurizr/dsl)",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "structurizr",
+        "dsl",
+        "https://github.com/structurizr/dsl",
+        "상위",
+        "아키텍처",
+        "개념과",
+        "다이어그램",
+        "생성"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI072",
+      "section": "Other research References URLs",
+      "text": "sources: `contract-to-concept-mapper-github-search-at2026-03-16.md`",
+      "explicit_tokens": [
+        "contract-to-concept-mapper-github-search-at2026-03-16.md"
+      ],
+      "keyword_tokens": [
+        "sources:",
+        "contract-to-concept-mapper-github-search-at2026-03-16.md"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI073",
+      "section": "Other research References URLs",
+      "text": "agent: `A00`",
+      "explicit_tokens": [
+        "a00"
+      ],
+      "keyword_tokens": [
+        "agent:",
+        "a00"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI074",
+      "section": "Other research References URLs",
+      "text": "pseudocode_3lines:",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "pseudocode_3lines:"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI075",
+      "section": "Other research References URLs",
+      "text": "1) 구조화된 입력을 DSL 요소로 바꾼다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "dsl",
+        "구조화된",
+        "입력을",
+        "요소로",
+        "바꾼다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI076",
+      "section": "Other research References URLs",
+      "text": "2) 요소 간 관계를 선언한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "요소",
+        "관계를",
+        "선언한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI077",
+      "section": "Other research References URLs",
+      "text": "3) 다이어그램/문서로 렌더링한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "다이어그램",
+        "문서로",
+        "렌더링한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI078",
+      "section": "Other research References URLs",
+      "text": "[code2flow - 코드 호출 구조를 flow diagram으로 lift](https://github.com/scottrogowski/code2flow)",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "code2flow",
+        "flow",
+        "diagram",
+        "lift",
+        "https://github.com/scottrogowski/code2flow",
+        "코드",
+        "호출",
+        "구조를",
+        "으로"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI079",
+      "section": "Other research References URLs",
+      "text": "sources: `contract-to-concept-mapper-github-search-at2026-03-16.md`",
+      "explicit_tokens": [
+        "contract-to-concept-mapper-github-search-at2026-03-16.md"
+      ],
+      "keyword_tokens": [
+        "sources:",
+        "contract-to-concept-mapper-github-search-at2026-03-16.md"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI080",
+      "section": "Other research References URLs",
+      "text": "agent: `A00`",
+      "explicit_tokens": [
+        "a00"
+      ],
+      "keyword_tokens": [
+        "agent:",
+        "a00"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI081",
+      "section": "Other research References URLs",
+      "text": "pseudocode_3lines:",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "pseudocode_3lines:"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI082",
+      "section": "Other research References URLs",
+      "text": "1) 코드 구조를 읽는다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "코드",
+        "구조를",
+        "읽는다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI083",
+      "section": "Other research References URLs",
+      "text": "2) 호출 관계를 흐름 그래프로 바꾼다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "호출",
+        "관계를",
+        "흐름",
+        "그래프로",
+        "바꾼다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI084",
+      "section": "Other research References URLs",
+      "text": "3) 상위 flow 표현을 출력한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "flow",
+        "상위",
+        "표현을",
+        "출력한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI085",
+      "section": "Other research References URLs",
+      "text": "[code2DFD - 소스 코드와 설정에서 DFD 같은 상위 모델 복원](https://github.com/tuhh-softsec/code2DFD)",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "code2dfd",
+        "dfd",
+        "https://github.com/tuhh-softsec/code2dfd",
+        "소스",
+        "코드와",
+        "설정에서",
+        "같은",
+        "상위",
+        "모델",
+        "복원"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI086",
+      "section": "Other research References URLs",
+      "text": "sources: `contract-to-concept-mapper-github-search-at2026-03-16.md`",
+      "explicit_tokens": [
+        "contract-to-concept-mapper-github-search-at2026-03-16.md"
+      ],
+      "keyword_tokens": [
+        "sources:",
+        "contract-to-concept-mapper-github-search-at2026-03-16.md"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI087",
+      "section": "Other research References URLs",
+      "text": "agent: `A00`",
+      "explicit_tokens": [
+        "a00"
+      ],
+      "keyword_tokens": [
+        "agent:",
+        "a00"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI088",
+      "section": "Other research References URLs",
+      "text": "pseudocode_3lines:",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "pseudocode_3lines:"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI089",
+      "section": "Other research References URLs",
+      "text": "1) 입력 artifact에서 의미 있는 unit을 추출한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "artifact",
+        "입력",
+        "에서",
+        "의미",
+        "있는",
+        "추출한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI090",
+      "section": "Other research References URLs",
+      "text": "2) unit 간 관계를 상위 모델로 재구성한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "관계를",
+        "상위",
+        "모델로",
+        "재구성한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI091",
+      "section": "Other research References URLs",
+      "text": "3) traceability를 유지한 출력으로 내보낸다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "traceability",
+        "유지한",
+        "출력으로",
+        "내보낸다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI092",
+      "section": "Other research References URLs",
+      "text": "[Doxygen - 소스 구조에서 문서와 개념 요약 추출](https://github.com/doxygen/doxygen)",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "doxygen",
+        "https://github.com/doxygen/doxygen",
+        "소스",
+        "구조에서",
+        "문서와",
+        "개념",
+        "요약",
+        "추출"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI093",
+      "section": "Other research References URLs",
+      "text": "sources: `contract-to-concept-mapper-github-search-at2026-03-16.md`",
+      "explicit_tokens": [
+        "contract-to-concept-mapper-github-search-at2026-03-16.md"
+      ],
+      "keyword_tokens": [
+        "sources:",
+        "contract-to-concept-mapper-github-search-at2026-03-16.md"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI094",
+      "section": "Other research References URLs",
+      "text": "agent: `A00`",
+      "explicit_tokens": [
+        "a00"
+      ],
+      "keyword_tokens": [
+        "agent:",
+        "a00"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI095",
+      "section": "Other research References URLs",
+      "text": "pseudocode_3lines:",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "pseudocode_3lines:"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI096",
+      "section": "Other research References URLs",
+      "text": "1) 소스 구조를 읽는다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "소스",
+        "구조를",
+        "읽는다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI097",
+      "section": "Other research References URLs",
+      "text": "2) 문서화 가능한 개념 단위를 식별한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "문서화",
+        "가능한",
+        "개념",
+        "단위를",
+        "식별한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI098",
+      "section": "Other research References URLs",
+      "text": "3) 요약과 구조 설명을 생성한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "요약과",
+        "구조",
+        "설명을",
+        "생성한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI099",
+      "section": "Other research References URLs",
+      "text": "[pydoclint - 시그니처와 문서 의미 정합성 검사](https://github.com/jsh9/pydoclint)",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "pydoclint",
+        "https://github.com/jsh9/pydoclint",
+        "시그니처와",
+        "문서",
+        "의미",
+        "정합성",
+        "검사"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI100",
+      "section": "Other research References URLs",
+      "text": "sources: `contract-to-concept-mapper-github-search-at2026-03-16.md`",
+      "explicit_tokens": [
+        "contract-to-concept-mapper-github-search-at2026-03-16.md"
+      ],
+      "keyword_tokens": [
+        "sources:",
+        "contract-to-concept-mapper-github-search-at2026-03-16.md"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI101",
+      "section": "Other research References URLs",
+      "text": "agent: `A00`",
+      "explicit_tokens": [
+        "a00"
+      ],
+      "keyword_tokens": [
+        "agent:",
+        "a00"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI102",
+      "section": "Other research References URLs",
+      "text": "pseudocode_3lines:",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "pseudocode_3lines:"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI103",
+      "section": "Other research References URLs",
+      "text": "1) 함수 시그니처를 읽는다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "함수",
+        "시그니처를",
+        "읽는다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI104",
+      "section": "Other research References URLs",
+      "text": "2) 문서 섹션과 비교한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "문서",
+        "섹션과",
+        "비교한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI105",
+      "section": "Other research References URLs",
+      "text": "3) 의미 차이나 누락을 표시한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "의미",
+        "차이나",
+        "누락을",
+        "표시한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI106",
+      "section": "Other research References URLs",
+      "text": "[Swark - 코드베이스에서 Mermaid 아키텍처 다이어그램 생성](https://github.com/swark-io/swark)",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "swark",
+        "mermaid",
+        "https://github.com/swark-io/swark",
+        "코드베이스에서",
+        "아키텍처",
+        "다이어그램",
+        "생성"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI107",
+      "section": "Other research References URLs",
+      "text": "sources: `contract-to-concept-mapper-github-search-at2026-03-16.md`",
+      "explicit_tokens": [
+        "contract-to-concept-mapper-github-search-at2026-03-16.md"
+      ],
+      "keyword_tokens": [
+        "sources:",
+        "contract-to-concept-mapper-github-search-at2026-03-16.md"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI108",
+      "section": "Other research References URLs",
+      "text": "agent: `A00`",
+      "explicit_tokens": [
+        "a00"
+      ],
+      "keyword_tokens": [
+        "agent:",
+        "a00"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI109",
+      "section": "Other research References URLs",
+      "text": "pseudocode_3lines:",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "pseudocode_3lines:"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI110",
+      "section": "Other research References URLs",
+      "text": "1) 코드베이스를 읽는다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "코드베이스를",
+        "읽는다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI111",
+      "section": "Other research References URLs",
+      "text": "2) 상위 아키텍처 설명을 생성한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "상위",
+        "아키텍처",
+        "설명을",
+        "생성한다"
+      ],
+      "kind": "reference_inventory"
+    },
+    {
+      "id": "KBI112",
+      "section": "Other research References URLs",
+      "text": "3) Mermaid 다이어그램으로 출력한다.",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "mermaid",
+        "다이어그램으로",
+        "출력한다"
+      ],
+      "kind": "reference_inventory"
+    }
+  ],
+  "ignored_counts": {
+    "metadata": 8,
+    "toc": 6,
+    "reference_inventory": 98
+  },
+  "checklist_items": [
+    {
+      "id": "CL001",
+      "section": "A. Skill 정체성 정합",
+      "text": "이 skill의 핵심 목적이 `실행 계약 공간 -> 개념 공간` 복원으로 일치한다",
+      "explicit_tokens": [
+        "실행 계약 공간 -> 개념 공간"
+      ],
+      "keyword_tokens": [
+        "skill",
+        "핵심",
+        "목적이",
+        "실행",
+        "계약",
+        "공간",
+        "개념",
+        "복원으로",
+        "일치한다"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL002",
+      "section": "A. Skill 정체성 정합",
+      "text": "`개념 -> 실행 계약`과 혼동되지 않는다",
+      "explicit_tokens": [
+        "개념 -> 실행 계약"
+      ],
+      "keyword_tokens": [
+        "개념",
+        "실행",
+        "계약",
+        "혼동되지",
+        "않는다"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL003",
+      "section": "A. Skill 정체성 정합",
+      "text": "codebase 정합성 평가 도구와 직접 동일시되지 않는다",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "codebase",
+        "정합성",
+        "평가",
+        "도구와",
+        "직접",
+        "동일시되지",
+        "않는다"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL004",
+      "section": "A. Skill 정체성 정합",
+      "text": "단순 summarizer가 아니라 `설명 가능한 lifting system`이라는 점이 유지된다",
+      "explicit_tokens": [
+        "설명 가능한 lifting system"
+      ],
+      "keyword_tokens": [
+        "summarizer",
+        "lifting",
+        "system",
+        "단순",
+        "아니라",
+        "설명",
+        "가능한",
+        "이라는",
+        "점이",
+        "유지된다"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL005",
+      "section": "B. Input Contract 정합",
+      "text": "기본 입력이 `checklist`, `task`, `schema`, `CLI contract`, `함수 시그니처`로 정의돼 있다",
+      "explicit_tokens": [
+        "checklist",
+        "task",
+        "schema",
+        "cli contract",
+        "함수 시그니처"
+      ],
+      "keyword_tokens": [
+        "task",
+        "schema",
+        "cli",
+        "기본",
+        "입력이",
+        "함수",
+        "시그니처",
+        "정의돼"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL006",
+      "section": "B. Input Contract 정합",
+      "text": "checklist를 1급 입력으로 다룬다",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "입력으로",
+        "다룬다"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL007",
+      "section": "B. Input Contract 정합",
+      "text": "`정합성 평가용 checklist`와 `구현용 checklist`를 서로 다른 contract artifact로 구분한다",
+      "explicit_tokens": [
+        "정합성 평가용 checklist",
+        "구현용 checklist"
+      ],
+      "keyword_tokens": [
+        "artifact",
+        "정합성",
+        "평가용",
+        "구현용",
+        "서로",
+        "다른",
+        "구분한다"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL008",
+      "section": "B. Input Contract 정합",
+      "text": "단일 항목이 아니라 skill/project context를 함께 볼 필요가 반영돼 있다",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "skill/project",
+        "context",
+        "단일",
+        "항목이",
+        "아니라",
+        "함께",
+        "필요가",
+        "반영돼"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL009",
+      "section": "C. Output Contract 정합",
+      "text": "최소 출력이 `concept summary`, `boundary description`, `semantic relation map`으로 정의돼 있다",
+      "explicit_tokens": [
+        "concept summary",
+        "boundary description",
+        "semantic relation map"
+      ],
+      "keyword_tokens": [
+        "concept",
+        "summary",
+        "boundary",
+        "description",
+        "semantic",
+        "relation",
+        "map",
+        "최소",
+        "출력이",
+        "으로",
+        "정의돼"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL010",
+      "section": "C. Output Contract 정합",
+      "text": "render target으로 `Mermaid`, `pseudocode` 같은 사람이 읽는 형식이 포함된다",
+      "explicit_tokens": [
+        "mermaid",
+        "pseudocode"
+      ],
+      "keyword_tokens": [
+        "render",
+        "mermaid",
+        "pseudocode",
+        "으로",
+        "같은",
+        "사람이",
+        "읽는",
+        "형식이",
+        "포함된다"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL011",
+      "section": "C. Output Contract 정합",
+      "text": "벡터 인덱스/벡터 값은 보조 출력으로 취급된다",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "벡터",
+        "인덱스",
+        "값은",
+        "보조",
+        "출력으로",
+        "취급된다"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL012",
+      "section": "C. Output Contract 정합",
+      "text": "출력은 traceability 없이 자연어만 남기지 않는다",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "traceability",
+        "출력은",
+        "없이",
+        "자연어만",
+        "남기지",
+        "않는다"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL013",
+      "section": "D. Lifting Workflow 정합",
+      "text": "핵심 단계가 `collect contracts -> segment units -> lift concepts -> render concepts`로 유지된다",
+      "explicit_tokens": [
+        "collect contracts -> segment units -> lift concepts -> render concepts"
+      ],
+      "keyword_tokens": [
+        "collect",
+        "segment",
+        "units",
+        "lift",
+        "concepts",
+        "render",
+        "핵심",
+        "단계가",
+        "유지된다"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL014",
+      "section": "D. Lifting Workflow 정합",
+      "text": "`contract unit` 계층이 중간 표현으로 필요하다는 점이 반영돼 있다",
+      "explicit_tokens": [
+        "contract unit"
+      ],
+      "keyword_tokens": [
+        "계층이",
+        "중간",
+        "표현으로",
+        "필요하다는",
+        "점이",
+        "반영돼"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL015",
+      "section": "D. Lifting Workflow 정합",
+      "text": "`concept unit` 또는 동등한 상위 의미 단위가 필요하다는 점이 반영돼 있다",
+      "explicit_tokens": [
+        "concept unit"
+      ],
+      "keyword_tokens": [
+        "concept",
+        "또는",
+        "동등한",
+        "상위",
+        "의미",
+        "단위가",
+        "필요하다는",
+        "점이",
+        "반영돼"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL016",
+      "section": "D. Lifting Workflow 정합",
+      "text": "render 이전에 relation/boundary 정리가 선행된다",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "render",
+        "relation/boundary",
+        "이전에",
+        "정리가",
+        "선행된다"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL017",
+      "section": "E. Explainability / Traceability 정합",
+      "text": "어떤 contract unit이 어떤 concept summary로 lift됐는지 남긴다",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "concept",
+        "summary",
+        "lift",
+        "어떤",
+        "됐는지",
+        "남긴다"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL018",
+      "section": "E. Explainability / Traceability 정합",
+      "text": "요약만 있고 근거 링크가 없는 출력을 실패 사례로 본다",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "요약만",
+        "있고",
+        "근거",
+        "링크가",
+        "없는",
+        "출력을",
+        "실패",
+        "사례로",
+        "본다"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL019",
+      "section": "E. Explainability / Traceability 정합",
+      "text": "uncertainty 또는 weak support를 표시할 수 있다",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "uncertainty",
+        "weak",
+        "support",
+        "또는",
+        "표시할"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL020",
+      "section": "E. Explainability / Traceability 정합",
+      "text": "project context가 부족한 경우 과도한 개념 복원을 경계한다",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "project",
+        "context",
+        "부족한",
+        "경우",
+        "과도한",
+        "개념",
+        "복원을",
+        "경계한다"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL021",
+      "section": "F. Scope Guardrail 정합",
+      "text": "이 skill은 코드 수정 도구가 아니다",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "skill",
+        "코드",
+        "수정",
+        "도구가",
+        "아니다"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL022",
+      "section": "F. Scope Guardrail 정합",
+      "text": "이 skill은 실행 로그 수집기가 아니다",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "skill",
+        "실행",
+        "로그",
+        "수집기가",
+        "아니다"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL023",
+      "section": "F. Scope Guardrail 정합",
+      "text": "외부 검색 자동화 자체가 목적이 아니다",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "외부",
+        "검색",
+        "자동화",
+        "자체가",
+        "목적이",
+        "아니다"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL024",
+      "section": "F. Scope Guardrail 정합",
+      "text": "`semantic-slice-mapper`, `execution-contract-mapper`, `evidence-trace-auditor`와 책임이 구분된다",
+      "explicit_tokens": [
+        "semantic-slice-mapper",
+        "execution-contract-mapper",
+        "evidence-trace-auditor"
+      ],
+      "keyword_tokens": [
+        "semantic-slice-mapper",
+        "execution-contract-mapper",
+        "evidence-trace-auditor",
+        "책임이",
+        "구분된다"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL025",
+      "section": "G. Current Stage 정합",
+      "text": "현재는 scaffold 단계라는 점이 분명하다",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "scaffold",
+        "현재는",
+        "단계라는",
+        "점이",
+        "분명하다"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL026",
+      "section": "G. Current Stage 정합",
+      "text": "future output과 current capability가 혼동되지 않는다",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "future",
+        "capability",
+        "혼동되지",
+        "않는다"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL027",
+      "section": "G. Current Stage 정합",
+      "text": "KB가 넓더라도 현재 v0.1 범위를 별도로 읽어낼 수 있다",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "kb",
+        "v0.1",
+        "넓더라도",
+        "범위를",
+        "별도로",
+        "읽어낼"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL028",
+      "section": "H. 최종 판정",
+      "text": "KB와 codebase는 같은 최소 제품 정의를 가리킨다",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "kb",
+        "codebase",
+        "같은",
+        "최소",
+        "제품",
+        "정의를",
+        "가리킨다"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL029",
+      "section": "H. 최종 판정",
+      "text": "현재 불일치는 구현 공백인지, 개념 혼동인지, scope inflation인지 분류 가능하다",
+      "explicit_tokens": [],
+      "keyword_tokens": [
+        "scope",
+        "inflation",
+        "불일치는",
+        "공백인지",
+        "개념",
+        "혼동인지",
+        "인지",
+        "분류",
+        "가능하다"
+      ],
+      "kind": "checklist_item"
+    },
+    {
+      "id": "CL030",
+      "section": "H. 최종 판정",
+      "text": "다음 단계 구현이 `traceable lifting`을 강화하는 방향으로 이어진다",
+      "explicit_tokens": [
+        "traceable lifting"
+      ],
+      "keyword_tokens": [
+        "traceable",
+        "lifting",
+        "다음",
+        "단계",
+        "구현이",
+        "강화하는",
+        "방향으로",
+        "이어진다"
+      ],
+      "kind": "checklist_item"
+    }
+  ],
+  "mappings": [
+    {
+      "kb_unit_id": "KB001",
+      "checklist_item_id": "CL001",
+      "score": 15,
+      "evidence": [
+        "explicit:실행 계약 공간 -> 개념 공간",
+        "keyword:skill",
+        "keyword:개념",
+        "keyword:계약",
+        "keyword:공간"
+      ]
+    },
+    {
+      "kb_unit_id": "KB002",
+      "checklist_item_id": "CL002",
+      "score": 15,
+      "evidence": [
+        "explicit:개념 -> 실행 계약",
+        "keyword:개념",
+        "keyword:계약",
+        "keyword:실행",
+        "keyword:않는다"
+      ]
+    },
+    {
+      "kb_unit_id": "KB003",
+      "checklist_item_id": "CL003",
+      "score": 4,
+      "evidence": [
+        "keyword:codebase",
+        "keyword:않는다",
+        "keyword:정합성",
+        "keyword:직접"
+      ]
+    },
+    {
+      "kb_unit_id": "KB004",
+      "checklist_item_id": "CL004",
+      "score": 15,
+      "evidence": [
+        "explicit:설명 가능한 lifting system",
+        "keyword:lifting",
+        "keyword:summarizer",
+        "keyword:system",
+        "keyword:가능한"
+      ]
+    },
+    {
+      "kb_unit_id": "KB005",
+      "checklist_item_id": "CL005",
+      "score": 19,
+      "evidence": [
+        "explicit:checklist",
+        "explicit:cli contract",
+        "explicit:schema",
+        "explicit:task",
+        "explicit:함수 시그니처",
+        "keyword:cli",
+        "keyword:schema",
+        "keyword:task",
+        "keyword:기본"
+      ]
+    },
+    {
+      "kb_unit_id": "KBS028",
+      "checklist_item_id": "CL006",
+      "score": 1,
+      "evidence": [
+        "keyword:입력으로"
+      ]
+    },
+    {
+      "kb_unit_id": "KB006",
+      "checklist_item_id": "CL007",
+      "score": 16,
+      "evidence": [
+        "explicit:구현용 checklist",
+        "explicit:정합성 평가용 checklist",
+        "keyword:구분한다",
+        "keyword:구현용",
+        "keyword:정합성",
+        "keyword:평가용"
+      ]
+    },
+    {
+      "kb_unit_id": "KBS034",
+      "checklist_item_id": "CL008",
+      "score": 4,
+      "evidence": [
+        "keyword:context",
+        "keyword:단일",
+        "keyword:아니라",
+        "keyword:항목이"
+      ]
+    },
+    {
+      "kb_unit_id": "KB007",
+      "checklist_item_id": "CL009",
+      "score": 17,
+      "evidence": [
+        "explicit:boundary description",
+        "explicit:concept summary",
+        "explicit:semantic relation map",
+        "keyword:boundary",
+        "keyword:concept",
+        "keyword:description",
+        "keyword:map"
+      ]
+    },
+    {
+      "kb_unit_id": "KB008",
+      "checklist_item_id": "CL010",
+      "score": 3,
+      "evidence": [
+        "keyword:mermaid",
+        "keyword:pseudocode",
+        "keyword:render"
+      ]
+    },
+    {
+      "kb_unit_id": "KB008",
+      "checklist_item_id": "CL011",
+      "score": 1,
+      "evidence": [
+        "keyword:보조"
+      ]
+    },
+    {
+      "kb_unit_id": "KB012",
+      "checklist_item_id": "CL012",
+      "score": 2,
+      "evidence": [
+        "keyword:traceability",
+        "keyword:출력은"
+      ]
+    },
+    {
+      "kb_unit_id": "KB009",
+      "checklist_item_id": "CL013",
+      "score": 15,
+      "evidence": [
+        "explicit:collect contracts -> segment units -> lift concepts -> render concepts",
+        "keyword:collect",
+        "keyword:concepts",
+        "keyword:lift",
+        "keyword:render"
+      ]
+    },
+    {
+      "kb_unit_id": "KB010",
+      "checklist_item_id": "CL014",
+      "score": 11,
+      "evidence": [
+        "explicit:contract unit"
+      ]
+    },
+    {
+      "kb_unit_id": "KB010",
+      "checklist_item_id": "CL015",
+      "score": 12,
+      "evidence": [
+        "explicit:concept unit",
+        "keyword:concept"
+      ]
+    },
+    {
+      "kb_unit_id": "KB011",
+      "checklist_item_id": "CL016",
+      "score": 3,
+      "evidence": [
+        "keyword:render",
+        "keyword:이전에",
+        "keyword:정리가"
+      ]
+    },
+    {
+      "kb_unit_id": "KB007",
+      "checklist_item_id": "CL017",
+      "score": 2,
+      "evidence": [
+        "keyword:concept",
+        "keyword:summary"
+      ]
+    },
+    {
+      "kb_unit_id": "KB012",
+      "checklist_item_id": "CL018",
+      "score": 4,
+      "evidence": [
+        "keyword:본다",
+        "keyword:사례로",
+        "keyword:실패",
+        "keyword:없는"
+      ]
+    },
+    {
+      "kb_unit_id": "KB013",
+      "checklist_item_id": "CL019",
+      "score": 4,
+      "evidence": [
+        "keyword:support",
+        "keyword:uncertainty",
+        "keyword:weak",
+        "keyword:표시할"
+      ]
+    },
+    {
+      "kb_unit_id": "KB014",
+      "checklist_item_id": "CL020",
+      "score": 4,
+      "evidence": [
+        "keyword:context",
+        "keyword:project",
+        "keyword:개념",
+        "keyword:경계한다"
+      ]
+    },
+    {
+      "kb_unit_id": "KB001",
+      "checklist_item_id": "CL021",
+      "score": 1,
+      "evidence": [
+        "keyword:skill"
+      ]
+    },
+    {
+      "kb_unit_id": "KB001",
+      "checklist_item_id": "CL022",
+      "score": 2,
+      "evidence": [
+        "keyword:skill",
+        "keyword:실행"
+      ]
+    },
+    {
+      "kb_unit_id": "KBS001",
+      "checklist_item_id": "CL023",
+      "score": 1,
+      "evidence": [
+        "keyword:외부"
+      ]
+    },
+    {
+      "kb_unit_id": "KB015",
+      "checklist_item_id": "CL024",
+      "score": 17,
+      "evidence": [
+        "explicit:evidence-trace-auditor",
+        "explicit:execution-contract-mapper",
+        "explicit:semantic-slice-mapper",
+        "keyword:evidence-trace-auditor",
+        "keyword:execution-contract-mapper",
+        "keyword:semantic-slice-mapper",
+        "keyword:책임이"
+      ]
+    },
+    {
+      "kb_unit_id": "KBS007",
+      "checklist_item_id": "CL025",
+      "score": 2,
+      "evidence": [
+        "keyword:scaffold",
+        "keyword:현재는"
+      ]
+    },
+    {
+      "kb_unit_id": "KBS008",
+      "checklist_item_id": "CL026",
+      "score": 3,
+      "evidence": [
+        "keyword:capability",
+        "keyword:future",
+        "keyword:않는다"
+      ]
+    },
+    {
+      "kb_unit_id": "KB016",
+      "checklist_item_id": "CL027",
+      "score": 1,
+      "evidence": [
+        "keyword:v0.1"
+      ]
+    },
+    {
+      "kb_unit_id": "KB003",
+      "checklist_item_id": "CL028",
+      "score": 1,
+      "evidence": [
+        "keyword:codebase"
+      ]
+    },
+    {
+      "kb_unit_id": "KB001",
+      "checklist_item_id": "CL029",
+      "score": 1,
+      "evidence": [
+        "keyword:개념"
+      ]
+    },
+    {
+      "kb_unit_id": "KB004",
+      "checklist_item_id": "CL030",
+      "score": 1,
+      "evidence": [
+        "keyword:lifting"
+      ]
+    }
+  ],
+  "metrics": {
+    "coverage_ratio": 1.0,
+    "unsupported_item_ratio": 0.0,
+    "traceability_ratio": 1.0,
+    "boundary_preservation_ratio": 1.0
+  },
+  "warnings": [],
+  "verdicts": {
+    "covered": [
+      {
+        "kb_unit_id": "KB001",
+        "kb_unit": "이 skill의 핵심 목적은 `실행 계약 공간 -> 개념 공간` 복원이다.",
+        "checklist_item_id": "CL001",
+        "checklist_item": "이 skill의 핵심 목적이 `실행 계약 공간 -> 개념 공간` 복원으로 일치한다",
+        "score": 15,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB002",
+        "kb_unit": "`개념 -> 실행 계약` 변환 도구와 혼동하지 않는다.",
+        "checklist_item_id": "CL002",
+        "checklist_item": "`개념 -> 실행 계약`과 혼동되지 않는다",
+        "score": 15,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB003",
+        "kb_unit": "codebase 정합성 평가기나 실행 로그 수집기와 직접 동일시하지 않는다.",
+        "checklist_item_id": "CL003",
+        "checklist_item": "codebase 정합성 평가 도구와 직접 동일시되지 않는다",
+        "score": 4,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB004",
+        "kb_unit": "단순 summarizer보다 `설명 가능한 lifting system`으로 보는 편이 맞다.",
+        "checklist_item_id": "CL004",
+        "checklist_item": "단순 summarizer가 아니라 `설명 가능한 lifting system`이라는 점이 유지된다",
+        "score": 15,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB005",
+        "kb_unit": "기본 입력은 `checklist`, `task`, `schema`, `CLI contract`, `함수 시그니처`다.",
+        "checklist_item_id": "CL005",
+        "checklist_item": "기본 입력이 `checklist`, `task`, `schema`, `CLI contract`, `함수 시그니처`로 정의돼 있다",
+        "score": 19,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KBS028",
+        "kb_unit": "execution_conditions: diff나 변경된 contract unit을 입력으로 취급할 수 있어야 함",
+        "checklist_item_id": "CL006",
+        "checklist_item": "checklist를 1급 입력으로 다룬다",
+        "score": 1,
+        "kb_unit_kind": "support"
+      },
+      {
+        "kb_unit_id": "KB006",
+        "kb_unit": "checklist는 1급 입력이며, `정합성 평가용 checklist`와 `구현용 checklist`를 구분한다.",
+        "checklist_item_id": "CL007",
+        "checklist_item": "`정합성 평가용 checklist`와 `구현용 checklist`를 서로 다른 contract artifact로 구분한다",
+        "score": 16,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KBS034",
+        "kb_unit": "execution_conditions: 단일 checklist 항목이 아니라 skill 단위 context를 묶는 기능 필요",
+        "checklist_item_id": "CL008",
+        "checklist_item": "단일 항목이 아니라 skill/project context를 함께 볼 필요가 반영돼 있다",
+        "score": 4,
+        "kb_unit_kind": "support"
+      },
+      {
+        "kb_unit_id": "KB007",
+        "kb_unit": "최소 출력은 `concept summary`, `boundary description`, `semantic relation map`이다.",
+        "checklist_item_id": "CL009",
+        "checklist_item": "최소 출력이 `concept summary`, `boundary description`, `semantic relation map`으로 정의돼 있다",
+        "score": 17,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB008",
+        "kb_unit": "Mermaid / pseudocode는 주요 render target이고, vector output은 보조 층이다.",
+        "checklist_item_id": "CL010",
+        "checklist_item": "render target으로 `Mermaid`, `pseudocode` 같은 사람이 읽는 형식이 포함된다",
+        "score": 3,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB008",
+        "kb_unit": "Mermaid / pseudocode는 주요 render target이고, vector output은 보조 층이다.",
+        "checklist_item_id": "CL011",
+        "checklist_item": "벡터 인덱스/벡터 값은 보조 출력으로 취급된다",
+        "score": 1,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB012",
+        "kb_unit": "traceability 없는 자연어 요약만 남기는 출력은 실패 사례로 본다.",
+        "checklist_item_id": "CL012",
+        "checklist_item": "출력은 traceability 없이 자연어만 남기지 않는다",
+        "score": 2,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB009",
+        "kb_unit": "핵심 단계는 `collect contracts -> segment units -> lift concepts -> render concepts`다.",
+        "checklist_item_id": "CL013",
+        "checklist_item": "핵심 단계가 `collect contracts -> segment units -> lift concepts -> render concepts`로 유지된다",
+        "score": 15,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB010",
+        "kb_unit": "`contract unit`과 `concept unit` 사이에 traceable intermediate layer가 필요하다.",
+        "checklist_item_id": "CL014",
+        "checklist_item": "`contract unit` 계층이 중간 표현으로 필요하다는 점이 반영돼 있다",
+        "score": 11,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB010",
+        "kb_unit": "`contract unit`과 `concept unit` 사이에 traceable intermediate layer가 필요하다.",
+        "checklist_item_id": "CL015",
+        "checklist_item": "`concept unit` 또는 동등한 상위 의미 단위가 필요하다는 점이 반영돼 있다",
+        "score": 12,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB011",
+        "kb_unit": "render 이전에 relation / boundary 정리가 선행되어야 한다.",
+        "checklist_item_id": "CL016",
+        "checklist_item": "render 이전에 relation/boundary 정리가 선행된다",
+        "score": 3,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB007",
+        "kb_unit": "최소 출력은 `concept summary`, `boundary description`, `semantic relation map`이다.",
+        "checklist_item_id": "CL017",
+        "checklist_item": "어떤 contract unit이 어떤 concept summary로 lift됐는지 남긴다",
+        "score": 2,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB012",
+        "kb_unit": "traceability 없는 자연어 요약만 남기는 출력은 실패 사례로 본다.",
+        "checklist_item_id": "CL018",
+        "checklist_item": "요약만 있고 근거 링크가 없는 출력을 실패 사례로 본다",
+        "score": 4,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB013",
+        "kb_unit": "uncertainty / weak support를 표시할 수 있어야 한다.",
+        "checklist_item_id": "CL019",
+        "checklist_item": "uncertainty 또는 weak support를 표시할 수 있다",
+        "score": 4,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB014",
+        "kb_unit": "project context가 부족할 때 과도한 개념 복원을 경계한다.",
+        "checklist_item_id": "CL020",
+        "checklist_item": "project context가 부족한 경우 과도한 개념 복원을 경계한다",
+        "score": 4,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB001",
+        "kb_unit": "이 skill의 핵심 목적은 `실행 계약 공간 -> 개념 공간` 복원이다.",
+        "checklist_item_id": "CL021",
+        "checklist_item": "이 skill은 코드 수정 도구가 아니다",
+        "score": 1,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB001",
+        "kb_unit": "이 skill의 핵심 목적은 `실행 계약 공간 -> 개념 공간` 복원이다.",
+        "checklist_item_id": "CL022",
+        "checklist_item": "이 skill은 실행 로그 수집기가 아니다",
+        "score": 2,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KBS001",
+        "kb_unit": "canonical_role: `외부 사례와 현재 채택 설계 slice를 함께 담는 hybrid KB`",
+        "checklist_item_id": "CL023",
+        "checklist_item": "외부 검색 자동화 자체가 목적이 아니다",
+        "score": 1,
+        "kb_unit_kind": "support"
+      },
+      {
+        "kb_unit_id": "KB015",
+        "kb_unit": "`semantic-slice-mapper`, `execution-contract-mapper`, `evidence-trace-auditor`와 책임이 다르다.",
+        "checklist_item_id": "CL024",
+        "checklist_item": "`semantic-slice-mapper`, `execution-contract-mapper`, `evidence-trace-auditor`와 책임이 구분된다",
+        "score": 17,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KBS007",
+        "kb_unit": "현재는 scaffold 단계다.",
+        "checklist_item_id": "CL025",
+        "checklist_item": "현재는 scaffold 단계라는 점이 분명하다",
+        "score": 2,
+        "kb_unit_kind": "support"
+      },
+      {
+        "kb_unit_id": "KBS008",
+        "kb_unit": "future output과 current capability를 혼동하지 않는다.",
+        "checklist_item_id": "CL026",
+        "checklist_item": "future output과 current capability가 혼동되지 않는다",
+        "score": 3,
+        "kb_unit_kind": "support"
+      },
+      {
+        "kb_unit_id": "KB016",
+        "kb_unit": "이 skill의 v0.1 비교 단위는 broad research document가 아니라 canonical slice다.",
+        "checklist_item_id": "CL027",
+        "checklist_item": "KB가 넓더라도 현재 v0.1 범위를 별도로 읽어낼 수 있다",
+        "score": 1,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB003",
+        "kb_unit": "codebase 정합성 평가기나 실행 로그 수집기와 직접 동일시하지 않는다.",
+        "checklist_item_id": "CL028",
+        "checklist_item": "KB와 codebase는 같은 최소 제품 정의를 가리킨다",
+        "score": 1,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB001",
+        "kb_unit": "이 skill의 핵심 목적은 `실행 계약 공간 -> 개념 공간` 복원이다.",
+        "checklist_item_id": "CL029",
+        "checklist_item": "현재 불일치는 구현 공백인지, 개념 혼동인지, scope inflation인지 분류 가능하다",
+        "score": 1,
+        "kb_unit_kind": "canonical"
+      },
+      {
+        "kb_unit_id": "KB004",
+        "kb_unit": "단순 summarizer보다 `설명 가능한 lifting system`으로 보는 편이 맞다.",
+        "checklist_item_id": "CL030",
+        "checklist_item": "다음 단계 구현이 `traceable lifting`을 강화하는 방향으로 이어진다",
+        "score": 1,
+        "kb_unit_kind": "canonical"
+      }
+    ],
+    "missing_from_checklist": [],
+    "unsupported_in_checklist": [],
+    "scope_inflation": [],
+    "boundary_loss": []
+  },
+  "human_review_queue": [
+    {
+      "reason": "low-confidence mapping",
+      "kb_unit_id": "KBS028",
+      "checklist_item_id": "CL006",
+      "kb_unit": "execution_conditions: diff나 변경된 contract unit을 입력으로 취급할 수 있어야 함",
+      "checklist_item": "checklist를 1급 입력으로 다룬다"
+    },
+    {
+      "reason": "low-confidence mapping",
+      "kb_unit_id": "KB008",
+      "checklist_item_id": "CL011",
+      "kb_unit": "Mermaid / pseudocode는 주요 render target이고, vector output은 보조 층이다.",
+      "checklist_item": "벡터 인덱스/벡터 값은 보조 출력으로 취급된다"
+    },
+    {
+      "reason": "low-confidence mapping",
+      "kb_unit_id": "KB012",
+      "checklist_item_id": "CL012",
+      "kb_unit": "traceability 없는 자연어 요약만 남기는 출력은 실패 사례로 본다.",
+      "checklist_item": "출력은 traceability 없이 자연어만 남기지 않는다"
+    },
+    {
+      "reason": "low-confidence mapping",
+      "kb_unit_id": "KB007",
+      "checklist_item_id": "CL017",
+      "kb_unit": "최소 출력은 `concept summary`, `boundary description`, `semantic relation map`이다.",
+      "checklist_item": "어떤 contract unit이 어떤 concept summary로 lift됐는지 남긴다"
+    },
+    {
+      "reason": "low-confidence mapping",
+      "kb_unit_id": "KB001",
+      "checklist_item_id": "CL021",
+      "kb_unit": "이 skill의 핵심 목적은 `실행 계약 공간 -> 개념 공간` 복원이다.",
+      "checklist_item": "이 skill은 코드 수정 도구가 아니다"
+    },
+    {
+      "reason": "low-confidence mapping",
+      "kb_unit_id": "KB001",
+      "checklist_item_id": "CL022",
+      "kb_unit": "이 skill의 핵심 목적은 `실행 계약 공간 -> 개념 공간` 복원이다.",
+      "checklist_item": "이 skill은 실행 로그 수집기가 아니다"
+    },
+    {
+      "reason": "low-confidence mapping",
+      "kb_unit_id": "KBS001",
+      "checklist_item_id": "CL023",
+      "kb_unit": "canonical_role: `외부 사례와 현재 채택 설계 slice를 함께 담는 hybrid KB`",
+      "checklist_item": "외부 검색 자동화 자체가 목적이 아니다"
+    },
+    {
+      "reason": "low-confidence mapping",
+      "kb_unit_id": "KBS007",
+      "checklist_item_id": "CL025",
+      "kb_unit": "현재는 scaffold 단계다.",
+      "checklist_item": "현재는 scaffold 단계라는 점이 분명하다"
+    },
+    {
+      "reason": "low-confidence mapping",
+      "kb_unit_id": "KB016",
+      "checklist_item_id": "CL027",
+      "kb_unit": "이 skill의 v0.1 비교 단위는 broad research document가 아니라 canonical slice다.",
+      "checklist_item": "KB가 넓더라도 현재 v0.1 범위를 별도로 읽어낼 수 있다"
+    },
+    {
+      "reason": "low-confidence mapping",
+      "kb_unit_id": "KB003",
+      "checklist_item_id": "CL028",
+      "kb_unit": "codebase 정합성 평가기나 실행 로그 수집기와 직접 동일시하지 않는다.",
+      "checklist_item": "KB와 codebase는 같은 최소 제품 정의를 가리킨다"
+    },
+    {
+      "reason": "low-confidence mapping",
+      "kb_unit_id": "KB001",
+      "checklist_item_id": "CL029",
+      "kb_unit": "이 skill의 핵심 목적은 `실행 계약 공간 -> 개념 공간` 복원이다.",
+      "checklist_item": "현재 불일치는 구현 공백인지, 개념 혼동인지, scope inflation인지 분류 가능하다"
+    },
+    {
+      "reason": "low-confidence mapping",
+      "kb_unit_id": "KB004",
+      "checklist_item_id": "CL030",
+      "kb_unit": "단순 summarizer보다 `설명 가능한 lifting system`으로 보는 편이 맞다.",
+      "checklist_item": "다음 단계 구현이 `traceable lifting`을 강화하는 방향으로 이어진다"
+    }
+  ]
+}

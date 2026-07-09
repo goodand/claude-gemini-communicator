@@ -1,0 +1,21 @@
+{
+  "status": "ok",
+  "generated_at": "2026-03-19T13:16:39+09:00",
+  "contract_family": "captured_smoke_to_bundle_adapter",
+  "input_bundle_draft": "slice-experiment-lab/references/captured-smoke-bundle-draft-sample-at2026-03-19-13-16.json",
+  "smoke_capture_artifact": "slice-experiment-lab/references/smoke-command-valid-capture-at2026-03-19-00-57.json",
+  "smoke_capture_status": "valid",
+  "errors": [],
+  "normalized_bundle": {
+    "skill_name": "dependency-slice-planner",
+    "current_slice": "slice_seed_candidates_contract",
+    "contract_artifact": "dependency-slice-planner/references/slice-seed-candidates-contract-smoke-at2026-03-19-00-22.json",
+    "valid_artifact": "dependency-slice-planner/references/slice-seed-candidates-validation-smoke-at2026-03-19-00-22.json",
+    "invalid_artifact": "dependency-slice-planner/references/slice-seed-candidates-invalid-validation-smoke-at2026-03-19-00-22.json",
+    "quick_validate_status": "passed",
+    "smoke_capture_artifact": "slice-experiment-lab/references/smoke-command-valid-capture-at2026-03-19-00-57.json",
+    "smoke_capture_status": "valid",
+    "next_slice_candidate": "static_dependency_overlay_contract",
+    "notes": "bridge smoke capture artifact into canonical experiment bundle"
+  }
+}

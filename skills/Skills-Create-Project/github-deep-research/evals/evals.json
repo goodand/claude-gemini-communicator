@@ -1,0 +1,46 @@
+{
+  "skill_name": "github-deep-research",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "langfuse Python SDK 사용 패턴을 GitHub에서 찾아봐",
+      "expected_output": "gh search code로 실제 import/사용 코드를 찾고 상위 결과의 코드를 확인하여 패턴 정리",
+      "files": [],
+      "assertions": [
+        "Output includes gh search code",
+        "Output includes langfuse",
+        "Output includes import or from langfuse"
+      ]
+    },
+    {
+      "id": 1,
+      "prompt": "tmux capture-pane 인코딩 깨짐 문제 해결법을 GitHub 이슈에서 찾아줘",
+      "expected_output": "gh search issues로 관련 이슈를 찾고, 해결된 이슈의 답변을 확인하여 해결법 정리",
+      "files": [],
+      "assertions": [
+        "Output includes gh search issues",
+        "Output includes capture-pane"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "AI agent가 tmux를 제어하는 오픈소스 프로젝트를 비교해줘",
+      "expected_output": "gh search repos로 후보 수집 후 스타 수, 활동 빈도, 기능을 비교하여 추천",
+      "files": [],
+      "assertions": [
+        "Output includes gh search repos",
+        "Output includes stars or stargazerCount"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "git worktree에서 parallel checkout conflict 해결된 PR을 찾아줘",
+      "expected_output": "gh search prs로 관련 PR을 찾고, 머지된 PR의 변경 내용을 확인하여 해결 방법 정리",
+      "files": [],
+      "assertions": [
+        "Output includes gh search prs",
+        "Output includes worktree"
+      ]
+    }
+  ]
+}

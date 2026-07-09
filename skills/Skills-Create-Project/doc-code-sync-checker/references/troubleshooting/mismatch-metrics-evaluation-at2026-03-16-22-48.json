@@ -1,0 +1,105 @@
+{
+  "measured_at": "2026-03-16T22:48:30+09:00",
+  "scope": "doc-code-sync-checker mismatch and implemented slices",
+  "metrics": {
+    "implemented_slice_ratio": {
+      "value": 1.0,
+      "numerator": 4,
+      "denominator": 4,
+      "class": "strict",
+      "formula": "implemented_rule_kind_count / planned_rule_kind_count",
+      "note": "required_field, path_safety, transition_rule, enum_value 기준. typed mismatch overlay는 제외."
+    },
+    "typed_mismatch_capture_rate": {
+      "value": 1.0,
+      "numerator": 1,
+      "denominator": 1,
+      "class": "strict",
+      "formula": "passed_seeded_typed_mismatch_tests / total_seeded_typed_mismatch_tests",
+      "note": "enum_value_set_changed synthetic negative fixture 기준."
+    },
+    "evidence_completeness_ratio": {
+      "value": 1.0,
+      "numerator": 1,
+      "denominator": 1,
+      "class": "strict-on-artifact",
+      "formula": "typed_mismatch_with_doc_and_code_evidence / total_typed_mismatch",
+      "note": "typed-mismatch-enum-value-smoke-report-at2026-03-16-22-43.json 기준."
+    },
+    "bucket_separation_rate": {
+      "value": 1.0,
+      "numerator": 7,
+      "denominator": 7,
+      "class": "strict",
+      "formula": "cases_with_correct_bucket_separation / total_compare_evaluation_cases",
+      "note": "compare 계열 테스트 7건 기준."
+    },
+    "report_actionability_ratio": {
+      "value": 1.0,
+      "numerator": 4,
+      "denominator": 4,
+      "class": "strict-on-artifact",
+      "formula": "findings_with_action / total_findings",
+      "note": "현재 저장된 finding-bearing artifact 2개(path_safety pre-fix 1건, typed mismatch synthetic 3건) 기준."
+    },
+    "zero_drift_pair_rate": {
+      "value": 1.0,
+      "numerator": 4,
+      "denominator": 4,
+      "class": "proxy",
+      "formula": "real_pair_smokes_with_zero_drift / total_real_pair_smokes",
+      "note": "required_field, path_safety, transition_rule, enum_value real pair 기준."
+    },
+    "review_confirmed_precision": {
+      "value": 1.0,
+      "numerator": 1,
+      "denominator": 1,
+      "class": "provisional",
+      "formula": "human_confirmed_true_findings / human_reviewed_findings",
+      "note": "forbid_absolute_path 문서 누락 1건만 human-reviewed evidence로 존재."
+    },
+    "typed_mismatch_reduction_after_fix": {
+      "value": 1.0,
+      "absolute_reduction": 1,
+      "before": 1,
+      "after": 0,
+      "class": "strict-on-experiment",
+      "formula": "(typed_mismatch_before_fix - typed_mismatch_after_fix) / typed_mismatch_before_fix",
+      "note": "enum_value_set_changed synthetic pre-fix/post-fix experiment 기준."
+    }
+  },
+  "sources": {
+    "implemented_slice_ratio": [
+      "doc-code-sync-checker/checklist-forconsistency-evaluation/consistency-checklist.md",
+      "doc-code-sync-checker/checklist-forimplementation/implementation-checklist.md"
+    ],
+    "typed_mismatch_capture_rate": [
+      "doc-code-sync-checker/scripts/test_doc_code_sync.py"
+    ],
+    "evidence_completeness_ratio": [
+      "doc-code-sync-checker/references/typed-mismatch-enum-value-smoke-report-at2026-03-16-22-43.json"
+    ],
+    "bucket_separation_rate": [
+      "doc-code-sync-checker/scripts/test_doc_code_sync.py"
+    ],
+    "report_actionability_ratio": [
+      "doc-code-sync-checker/references/path-safety-smoke-report-at2026-03-16-20-44.json",
+      "doc-code-sync-checker/references/typed-mismatch-enum-value-smoke-report-at2026-03-16-22-43.json"
+    ],
+    "zero_drift_pair_rate": [
+      "doc-code-sync-checker/scripts/test_doc_code_sync.py",
+      "doc-code-sync-checker/references/path-safety-smoke-report-at2026-03-16-21-15.json",
+      "doc-code-sync-checker/references/transition-rule-smoke-report-at2026-03-16-21-48.json",
+      "doc-code-sync-checker/references/enum-value-smoke-report-at2026-03-16-22-13.json"
+    ],
+    "review_confirmed_precision": [
+      "doc-code-sync-checker/references/path-safety-smoke-report-at2026-03-16-20-44.json",
+      "codex-worktree-dispatch/references/dispatch-fields.md",
+      "doc-code-sync-checker/references/path-safety-smoke-report-at2026-03-16-21-15.json"
+    ],
+    "typed_mismatch_reduction_after_fix": [
+      "doc-code-sync-checker/references/typed-mismatch-enum-value-smoke-report-at2026-03-16-22-43.json",
+      "doc-code-sync-checker/references/typed-mismatch-enum-value-post-fix-smoke-report-at2026-03-16-22-48.json"
+    ]
+  }
+}

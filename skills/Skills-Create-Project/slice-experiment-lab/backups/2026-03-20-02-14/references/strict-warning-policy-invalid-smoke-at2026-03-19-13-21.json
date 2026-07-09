@@ -1,0 +1,21 @@
+{
+  "status": "invalid",
+  "generated_at": "2026-03-19T13:21:42+09:00",
+  "contract_family": "strict_warning_policy_gate",
+  "input_artifact": "slice-experiment-lab/references/strict-warning-policy-invalid-input-at2026-03-19-13-21.json",
+  "decision": "invalid",
+  "workflow_status": "hold_current_slice",
+  "recommended_action": "fix_or_repeat_current_slice",
+  "artifact_status": "failed",
+  "warning_count": 0,
+  "error_count": 1,
+  "warnings": [],
+  "quick_validate_errors": [
+    "Missing YAML frontmatter start"
+  ],
+  "reasons": [
+    "quick_validate capture status is failed",
+    "quick_validate capture errors present"
+  ],
+  "errors": []
+}

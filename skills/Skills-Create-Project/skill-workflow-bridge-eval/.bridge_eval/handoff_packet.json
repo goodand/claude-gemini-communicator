@@ -1,0 +1,13 @@
+{
+  "ready": false,
+  "decision": "stop",
+  "next_skill": null,
+  "normalized_summary": "작업을 완료했습니다. 모든 테스트가 통과했습니다.",
+  "key_outputs": [],
+  "missing_items": [],
+  "confidence": 0.85,
+  "source_artifacts": [
+    "raw_output.md",
+    "bridge_eval.json"
+  ]
+}

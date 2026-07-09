@@ -3,10 +3,9 @@
 - scope: `workspace-artifact-production-process`에서 smoke/test 중 발생한 issue, evidence, summary pointer의 저장 경계를 고정한다.
 - purpose: raw evidence, human-readable issue narrative, entrypoint summary를 섞지 않고 반복 가능한 저장 구조로 유지한다.
 
-## Layer 1: Execution Evidence
+## Layer 1: Raw Execution Evidence
 
 Store:
-- `references/*-smoke-*.json`
 - `logs/smoke/<command>/<timestamp>/...`
 - raw logs
 - raw artifact files
@@ -19,9 +18,10 @@ Rule:
 - multi-file smoke/test archive는 `logs/smoke/<command>/<timestamp>/...` 레이아웃을 우선 적용한다.
 - detailed archive layout은 `smoke-archive-layout-rule-at2026-03-21-19-06.md`를 따른다.
 
-## Layer 2: Issue Narrative
+## Layer 2: Human-Readable Evidence Summary + Issue Narrative
 
 Store:
+- `references/*-smoke-*.json` — smoke 결과 요약 (raw archive의 `archive_dir` 포인터 포함)
 - `references/troubleshooting.md`
 
 Format:

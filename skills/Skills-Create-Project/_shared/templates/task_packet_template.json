@@ -1,0 +1,152 @@
+{
+  "$schema_notes": {
+    "_comment": "local support template. canonical extended template의 상위 집합. 프로젝트별 문서화/가이드용. packet_builder validate 호환.",
+    "identity": "canonical: task_packet_extended_template.json. 이 파일은 풍부한 예시를 포함한 local support template.",
+    "version": "0.1",
+    "spec_source": "plans/codex/docs/plans/SPEC_docling_pinning_2026-03-24.md",
+    "reference_docs": [
+      "claude-gemini-communicator/skills/Skills-Create-Project/agent-task-packet/references/packet-fields.md",
+      "claude-gemini-communicator/skills/Skills-Create-Project/agent-task-packet/references/packet-examples.md",
+      "claude-gemini-communicator/skills/Skills-Create-Project/agent-task-packet/references/checklist.md"
+    ],
+    "forbidden_runtime_fields": [
+      "status", "session_name", "session_id", "pid", "heartbeat",
+      "retry_count", "last_heartbeat", "current_status", "log_path"
+    ],
+    "path_rule": "모든 경로는 repo root 상대경로. 절대경로 금지.",
+    "forbidden_must_not_modify_rule": "constraints.must_not_modify ⊆ forbidden_paths 이어야 한다.",
+    "immutability_rule": "packet 수정은 revision 증가로만 허용. task_id는 불변.",
+    "dispatch_state": "dispatch = canonical mutable execution-prep state. packet에 runtime/dispatch 정보를 넣지 않는다.",
+    "progress_state": "task_progress_state = optional local progress companion. dispatch canonical state를 대체하지 않는다.",
+    "separation_rule": "packet은 immutable contract, dispatch는 canonical mutable execution-prep, progress는 optional local companion. packet↔dispatch는 task_id로 연결.",
+    "enums": {
+      "non_goals_case": {
+        "state": "보장하지 않는 상태 경계",
+        "type": "제외할 Error Type / 예외 케이스",
+        "scope": "범위 밖 기능/모듈",
+        "performance:null": "성능 개선 목표 없음",
+        "performance:over": "과최적화 금지",
+        "performance:under": "일정 수준 이하 성능 저하 허용"
+      },
+      "required_checks_type": ["command", "file_exists", "pattern_match"],
+      "deliverables_type": ["source", "test", "config", "doc", "script", "artifact"]
+    }
+  },
+
+  "packet_version": "0.1",
+  "packet_profile": "extended",
+  "task_id": "TASK-XXXX",
+  "title": "짧은 작업 제목",
+  "goal": "이 worker가 이번 턴에서 끝내야 할 구체적 목표를 적는다. (최소 10자)",
+  "why": "왜 이 작업이 지금 필요한지 적는다.",
+  "repo_root": ".",
+
+  "source_of_truth": "docs/plans/SPEC_example.md",
+
+  "allowed_paths": [
+    "src/module/",
+    "tests/test_module.py"
+  ],
+  "forbidden_paths": [
+    "src/config.py",
+    ".env"
+  ],
+  "context_files": [
+    "docs/spec.md",
+    "src/existing_module.py"
+  ],
+
+  "depends_on": [],
+  "parallel_group": null,
+  "priority": "high",
+
+  "env_requirements": {
+    "interpreter": "python3.11",
+    "interpreter_path": ".venv/bin/python",
+    "required_env_vars": ["OPENAI_API_KEY"],
+    "pre_install": "uv sync --extra expanded",
+    "platform_notes": "macOS arm64 기준. 다른 플랫폼은 별도 기록 필요."
+  },
+
+  "constraints": {
+    "must_not_modify": ["src/config.py"],
+    "must_run_tests": true,
+    "must_not_use_network": true,
+    "notes": "범위, 금지사항, legacy-safe 조건, fallback 규칙 등을 적는다."
+  },
+
+  "non_goals": [
+    {
+      "case": "state",
+      "description": "이번 태스크에서 책임지지 않는 상태 전이나 후속 개선을 적는다."
+    }
+  ],
+
+  "done_definition": [
+    "완료 조건 1: 기계 검증 가능하게 적는다. (검증: C-1)",
+    "완료 조건 2: 산출물과 결과 상태를 함께 적는다. (검증: C-2)"
+  ],
+
+  "required_checks": [
+    {
+      "id": "C-1",
+      "type": "command",
+      "value": "python3 -m pytest tests/test_module.py",
+      "required": true,
+      "done_index": 0
+    },
+    {
+      "id": "C-2",
+      "type": "file_exists",
+      "value": ".codex/reports/task-xxxx-report.md",
+      "required": true,
+      "done_index": 1
+    }
+  ],
+
+  "deliverables": [
+    {
+      "path": "src/module/output.py",
+      "type": "source",
+      "required": true,
+      "done_index": 0
+    },
+    {
+      "path": "tests/test_module.py",
+      "type": "test",
+      "required": true,
+      "done_index": 0
+    },
+    {
+      "path": ".codex/reports/task-xxxx-report.md",
+      "type": "doc",
+      "required": true,
+      "done_index": 1
+    }
+  ],
+
+  "stop_conditions": [
+    "Env Gate fail → 작업 중단, 상위 에이전트에 에스컬레이션",
+    "동일 에러 3회 반복 → 에스컬레이션 문서 생성 후 중단",
+    "schema probe 필수 필드 부재 → Step 0 진입 금지"
+  ],
+
+  "failure_guide": "import error → venv 재생성 (2회 후 escalation); dependency conflict → minimal 재설치 (1회 후 escalation); API rate limit → backoff 재시도 (3회 후 escalation)",
+
+  "report_format": "summary 5줄, pass/fail verdict + artifact paths + error count + next action 포함. 출력: .codex/reports/task-xxxx-report.md",
+
+  "handoff_notes": "상위 agent가 미리 알고 있는 리스크, 기준 문서, 검증 순서, stop condition을 적는다.",
+
+  "branch_hint": "feat/codex-task-xxxx",
+  "worktree_hint": ".worktrees/task-xxxx",
+  "launch_hint": null,
+
+  "timeout_minutes": null,
+
+  "trace_id": null,
+  "parent_task_id": null,
+  "revision": 1,
+  "created_at": "2026-03-24T00:00:00+09:00",
+  "created_by": "claude",
+  "updated_at": "2026-03-24T00:00:00+09:00"
+}

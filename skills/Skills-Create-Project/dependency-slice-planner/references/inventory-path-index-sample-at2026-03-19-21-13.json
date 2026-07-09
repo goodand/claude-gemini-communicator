@@ -1,0 +1,22 @@
+{
+  "root_path": "src",
+  "file_record_count": 4,
+  "file_records": [
+    {
+      "path": "src/core/__init__.py",
+      "is_entrypoint": false
+    },
+    {
+      "path": "src/core/service.py",
+      "is_entrypoint": false
+    },
+    {
+      "path": "src/core/bootstrap.py",
+      "is_entrypoint": true
+    },
+    {
+      "path": "src/bootstrap.py",
+      "is_entrypoint": true
+    }
+  ]
+}

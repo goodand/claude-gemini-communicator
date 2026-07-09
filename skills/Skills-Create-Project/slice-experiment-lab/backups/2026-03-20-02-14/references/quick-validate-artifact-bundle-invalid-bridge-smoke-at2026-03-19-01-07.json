@@ -1,0 +1,12 @@
+{
+  "status": "invalid",
+  "generated_at": "2026-03-19T01:12:37+09:00",
+  "contract_family": "quick_validate_artifact_bundle_bridge",
+  "input_bundle_draft": "slice-experiment-lab/references/quick-validate-artifact-bundle-draft-invalid-sample-at2026-03-19-01-07.json",
+  "quick_validate_artifact": "slice-experiment-lab/references/quick-validate-artifact-invalid-sample-at2026-03-19-01-07.json",
+  "quick_validate_status": null,
+  "errors": [
+    "quick_validate_artifact.status must be one of ['passed', 'failed']"
+  ],
+  "normalized_bundle": null
+}

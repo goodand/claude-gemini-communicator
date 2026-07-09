@@ -1,0 +1,86 @@
+{
+  "status": "ok",
+  "generated_at": "2026-03-19T17:50:10+09:00",
+  "algorithm_family": "final_slice_proposal_generator",
+  "version": "v0.1.0",
+  "input_artifacts": {
+    "stop_rule_evaluation": "dependency-slice-planner/references/stop-rule-evaluation-validation-smoke-at2026-03-19-17-41.json"
+  },
+  "parallel_slice_count": 1,
+  "write_safe_slice_count": 1,
+  "analysis_only_slice_count": 0,
+  "do_not_split_count": 1,
+  "parallel_slices": [
+    {
+      "slice_id": "slice_01",
+      "root_dirs": [
+        "src/core"
+      ],
+      "files": [],
+      "entrypoints": [],
+      "classification": "write_safe",
+      "source_candidate_id": "seed_01",
+      "reason": "refinement_recommendation=keep_seed; stop_decision=write_safe; triggered_stop_rules=none"
+    }
+  ],
+  "write_safe_slices": [
+    {
+      "slice_id": "slice_01",
+      "root_dirs": [
+        "src/core"
+      ],
+      "files": [],
+      "entrypoints": [],
+      "classification": "write_safe",
+      "source_candidate_id": "seed_01",
+      "reason": "refinement_recommendation=keep_seed; stop_decision=write_safe; triggered_stop_rules=none"
+    }
+  ],
+  "analysis_only_slices": [],
+  "do_not_split_regions": [
+    {
+      "candidate_id": "seed_02",
+      "root_dir": "src/bootstrap.py",
+      "triggered_stop_rules": [
+        "single_large_hub_file"
+      ],
+      "reason": "refinement_recommendation=stop_split; stop_decision=do_not_split; triggered_stop_rules=single_large_hub_file"
+    }
+  ],
+  "slice_manifest": {
+    "slice_count": 1,
+    "slices": [
+      {
+        "slice_id": "slice_01",
+        "root_dirs": [
+          "src/core"
+        ],
+        "files": [],
+        "entrypoints": [],
+        "classification": "write_safe",
+        "reason": "refinement_recommendation=keep_seed; stop_decision=write_safe; triggered_stop_rules=none"
+      }
+    ]
+  },
+  "handoff_packet_count": 1,
+  "handoff_packets": [
+    {
+      "slice_id": "slice_01",
+      "root_dirs": [
+        "src/core"
+      ],
+      "files": [],
+      "entrypoints": [],
+      "allowed_paths": [
+        "src/core"
+      ],
+      "non_goals": [
+        "do not modify paths outside allowed_paths"
+      ],
+      "upstream_artifacts": [
+        "dependency-slice-planner/references/stop-rule-evaluation-validation-smoke-at2026-03-19-17-41.json"
+      ]
+    }
+  ],
+  "next_candidate": null
+}

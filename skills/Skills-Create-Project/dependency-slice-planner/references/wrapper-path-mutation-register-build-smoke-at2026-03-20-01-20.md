@@ -1,0 +1,36 @@
+{
+  "status": "ok",
+  "generated_at": "2026-03-20T01:27:58+09:00",
+  "algorithm_family": "wrapper_path_mutation_register",
+  "version": "v0.1.0",
+  "input_artifacts": {
+    "wrapper_path_mutation_manifest": "dependency-slice-planner/references/wrapper-path-mutation-manifest-sample-at2026-03-20-01-20.json"
+  },
+  "register_count": 2,
+  "registers": [
+    {
+      "root_path": "src",
+      "wrapper_paths": [
+        "scripts/run.sh",
+        "src/dev_wrapper.py"
+      ],
+      "path_mutations": [
+        "src/bootstrap.py",
+        "src/plugins"
+      ],
+      "reason": "manifest_count=2, wrapper_path_count=2, path_mutation_count=2, wrapper_paths_bounded_to=8, path_mutations_bounded_to=8"
+    },
+    {
+      "root_path": "tools",
+      "wrapper_paths": [
+        "tools/wrapper.py",
+        "tools/entrypoint.py"
+      ],
+      "path_mutations": [
+        "tools/bootstrap.py"
+      ],
+      "reason": "manifest_count=1, wrapper_path_count=2, path_mutation_count=1"
+    }
+  ],
+  "next_candidate": "static_dependency_overlay"
+}

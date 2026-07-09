@@ -1,0 +1,18 @@
+# evidence-to-knowledge-promoter promotion trigger evaluation
+
+- generated_at: `2026-03-17T03:07:53+09:00`
+- input_summary: `evidence-to-knowledge-promoter/references/promotion-candidate-summary-smoke-at2026-03-17-03-08.json`
+
+## Summary Counts
+
+- finding: `2`
+- delta: `3`
+- lesson_candidate: `0`
+- residual_uncertainty: `1`
+
+## Decisions
+
+- hybrid_kb: `hold`
+  - reason: lesson_candidate가 부족하거나 residual uncertainty가 남아 있다.
+- canonical_design_kb: `hold`
+  - reason: v0.1에서는 반복 검증 신호가 명시될 때만 canonical_design_kb 후보로 본다.

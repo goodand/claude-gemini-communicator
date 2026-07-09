@@ -1,9 +1,13 @@
 ---
 name: codex-user-context
-description: Claude가 Codex CLI를 비대화형으로 호출하여 코딩, 리뷰, 분석을 수행한다. API 키 불필요 — OpenAI 계정 로그인만으로 동작. --sandbox로 네트워크 접근 제어, --save로 피드백 기록, --file로 파일 리뷰 지원.
+description: cross-agent-bridge family의 raw Codex CLI executor. Codex CLI를 headless로 실행하고 prompt/file/session/sandbox를 제어하는 전용 specialist. bridge.py 리뷰나 full workflow는 cross-agent-bridge를 사용하라.
 ---
 
 # Codex User Context
+
+`cross-agent-bridge` family의 **raw Codex CLI execution specialist**.
+
+> **Full workflow가 필요하면 `cross-agent-bridge`를 먼저 사용하세요.** 이 skill은 Codex CLI 직접 실행 전용입니다.
 
 Claude가 Codex CLI를 비대화형(headless) 모드로 호출한다.
 API 키 불필요 — OpenAI 계정 로그인만 있으면 동작.
@@ -23,6 +27,13 @@ API 키 불필요 — OpenAI 계정 로그인만 있으면 동작.
 ```bash
 # 기본 (로그인 컨텍스트 + gpt-5.3-codex)
 zsh skills/codex-user-context/scripts/run_codex_user_context.sh "Reply exactly: OK"
+
+# 세션 이어서 실행 (기억 연속성 유지)
+zsh skills/codex-user-context/scripts/run_codex_user_context.sh --resume SESSION_ID "프롬프트"
+
+# 환경변수로 고정 세션 지정
+export CODEX_RESUME_SESSION=SESSION_ID
+zsh skills/codex-user-context/scripts/run_codex_user_context.sh --resume "프롬프트"
 
 # 코드 리뷰 (파일 첨부)
 zsh skills/codex-user-context/scripts/run_codex_user_context.sh --file src/app.py "이 코드를 리뷰해줘"

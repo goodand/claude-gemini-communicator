@@ -1,0 +1,34 @@
+{
+  "status": "ok",
+  "generated_at": "2026-03-19T00:06:49+09:00",
+  "contract_family": "slice_manifest_contract",
+  "version": "v0.1.0",
+  "required_top_level_fields": [
+    "slice_count",
+    "slices"
+  ],
+  "slice_required_fields": [
+    "slice_id",
+    "root_dirs",
+    "files",
+    "entrypoints",
+    "classification",
+    "reason"
+  ],
+  "classification_enum": [
+    "write_safe",
+    "analysis_only"
+  ],
+  "top_level_schema": {
+    "slice_count": "int",
+    "slices": "list[dict]"
+  },
+  "slice_field_schema": {
+    "slice_id": "str",
+    "root_dirs": "list[str]",
+    "files": "list[str]",
+    "entrypoints": "list[str]",
+    "classification": "enum(write_safe|analysis_only)",
+    "reason": "str"
+  }
+}

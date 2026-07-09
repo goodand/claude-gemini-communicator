@@ -1,0 +1,24 @@
+{
+  "overlay_count": 1,
+  "overlays": [
+    {
+      "overlay_id": "overlay_merge_01",
+      "root_path": "src",
+      "source_import_edges": [
+        "src/api/router.py -> src/core/service.py",
+        "src/api/handler.py -> src/core/service.py",
+        "src/api/handler.py -> src/jobs/scheduler.py"
+      ],
+      "manifest_edges": [],
+      "wrapper_path_edges": [],
+      "cross_region_edges": [
+        "src/api -> src/core",
+        "src/api -> src/core",
+        "src/api -> src/jobs"
+      ],
+      "shared_hubs": [],
+      "anomaly_ledger": [],
+      "reason": "merge target selection sample overlay"
+    }
+  ]
+}

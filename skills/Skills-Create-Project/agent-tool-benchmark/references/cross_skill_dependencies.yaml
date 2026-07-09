@@ -1,0 +1,9 @@
+cross_skill_dependencies:
+  - provider: "agent-task-packet"
+    contract: "evals/packet_eval_template.json"
+    consumed_facts:
+      - "measurement fields: required_checks[].category"
+      - "measurement fields: required_checks[].done_index"
+      - "measurement fields: timeout_minutes, stop_conditions"
+      - "packet eval shape used by packet_eval_metrics.py"
+    last_synced_at: "2026-03-27T18:45:00+09:00"

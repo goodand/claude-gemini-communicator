@@ -1,9 +1,13 @@
 ---
 name: gemini-cli-context
-description: Claude가 Gemini CLI를 비대화형으로 호출하여 코드 리뷰, 문서 평가, 아키텍처 비판 등을 수행한다. API 키 없이 Google OAuth 인증만으로 동작하며, 다른 프로젝트에 cp -r로 설치 가능하다.
+description: cross-agent-bridge family의 raw Gemini CLI executor. Gemini CLI를 headless로 실행하고 prompt/file/stdout을 중계하는 전용 specialist. SDK 리뷰는 gemini-reviewer, full workflow는 cross-agent-bridge를 사용하라.
 ---
 
 # Gemini CLI Context
+
+`cross-agent-bridge` family의 **raw Gemini CLI execution specialist**.
+
+> **Full workflow가 필요하면 `cross-agent-bridge`를 먼저 사용하세요.** SDK 기반 리뷰는 `gemini-reviewer`. 이 skill은 Gemini CLI 직접 실행 전용입니다.
 
 Claude가 Gemini CLI를 비대화형(headless) 모드로 호출한다.
 API 키 불필요 — Google OAuth 인증(gemini CLI 로그인)만 있으면 동작.

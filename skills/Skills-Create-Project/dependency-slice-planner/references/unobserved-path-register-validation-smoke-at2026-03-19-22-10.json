@@ -1,0 +1,8 @@
+{
+  "status": "valid",
+  "generated_at": "2026-03-19T22:44:42+09:00",
+  "contract_family": "unobserved_path_register_validation",
+  "input_unobserved_path_register": "dependency-slice-planner/references/unobserved-path-register-sample-at2026-03-19-22-10.json",
+  "error_count": 0,
+  "errors": []
+}

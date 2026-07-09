@@ -1,0 +1,22 @@
+{
+  "status": "invalid_inputs",
+  "generated_at": "2026-03-20T01:28:14+09:00",
+  "algorithm_family": "wrapper_path_mutation_register",
+  "version": "v0.1.0",
+  "input_artifacts": {
+    "wrapper_path_mutation_manifest": "dependency-slice-planner/references/wrapper-path-mutation-manifest-invalid-sample-at2026-03-20-01-20.json"
+  },
+  "register_count": 0,
+  "registers": [],
+  "invalid_inputs": [
+    "wrapper_path_mutation_manifest"
+  ],
+  "error_count": 4,
+  "errors": [
+    "manifests[1].root_path must be non-empty str",
+    "manifests[1].reason must be non-empty str",
+    "manifests[1] must include at least one wrapper_path or path_mutation",
+    "manifests[2].wrapper_paths must be list[str]"
+  ],
+  "next_candidate": "static_dependency_overlay"
+}

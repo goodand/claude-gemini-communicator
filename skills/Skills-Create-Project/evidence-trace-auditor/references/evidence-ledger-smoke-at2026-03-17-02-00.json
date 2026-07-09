@@ -1,0 +1,68 @@
+{
+  "status": "ok",
+  "generated_at": "2026-03-17T01:52:49+09:00",
+  "contract_family": "evidence_ledger",
+  "source_report": "doc-code-sync-checker/references/typed-mismatch-enum-value-smoke-report-at2026-03-16-22-43.json",
+  "source_report_type": "raw_smoke_report",
+  "scope": "pairwise_smoke_test",
+  "rule_kind": "enum_value",
+  "pair": {
+    "doc": "synthetic-doc-rules(enum_value)",
+    "script": "synthetic-code-rules(enum_value)"
+  },
+  "entry_count": 3,
+  "entries": [
+    {
+      "entry_id": "missing_in_code:status:ready",
+      "finding_family": "missing_in_code",
+      "kind": "enum_value",
+      "name": "status:ready",
+      "observed_bucket": "missing_contract_unit",
+      "evidence": {
+        "doc": [
+          "doc ready"
+        ],
+        "code": []
+      },
+      "trace_status": "verified_evidence",
+      "action": "VALID_STATUSES에 'status:ready' 허용값 추가 검토",
+      "reason": ""
+    },
+    {
+      "entry_id": "missing_in_doc:status:running",
+      "finding_family": "missing_in_doc",
+      "kind": "enum_value",
+      "name": "status:running",
+      "observed_bucket": "extra_contract_unit",
+      "evidence": {
+        "doc": [],
+        "code": [
+          "code running"
+        ]
+      },
+      "trace_status": "verified_evidence",
+      "action": "status enum 문서에 'status:running' 허용값 문서화 검토",
+      "reason": ""
+    },
+    {
+      "entry_id": "typed_mismatch:status",
+      "finding_family": "typed_mismatch",
+      "kind": "enum_value_set_changed",
+      "name": "status",
+      "observed_bucket": "contract_value_changed",
+      "evidence": {
+        "doc": [
+          "doc queued",
+          "doc ready"
+        ],
+        "code": [
+          "code queued",
+          "code running"
+        ]
+      },
+      "trace_status": "verified_evidence",
+      "action": "status enum의 doc/code 허용값 집합 정렬 검토",
+      "reason": "status 허용값 집합이 문서와 코드에서 다름"
+    }
+  ]
+}

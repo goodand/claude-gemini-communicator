@@ -1,0 +1,24 @@
+{
+  "status": "ok",
+  "generated_at": "2026-03-19T21:14:30+09:00",
+  "contract_family": "inventory_path_index_contract",
+  "version": "v0.1.0",
+  "required_top_level_fields": [
+    "root_path",
+    "file_record_count",
+    "file_records"
+  ],
+  "record_required_fields": [
+    "path",
+    "is_entrypoint"
+  ],
+  "top_level_schema": {
+    "root_path": "str",
+    "file_record_count": "int",
+    "file_records": "list[dict]"
+  },
+  "record_field_schema": {
+    "path": "str",
+    "is_entrypoint": "bool"
+  }
+}

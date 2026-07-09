@@ -1,0 +1,208 @@
+{
+  "status": "ok",
+  "generated_at": "2026-03-19T21:56:02+09:00",
+  "algorithm_family": "final_slice_proposal_generator",
+  "version": "v0.1.0",
+  "input_artifacts": {
+    "stop_rule_evaluation": "/var/folders/1p/yb8d7hmx6wd564h57_td4k140000gn/T/tmpa8_e5b22/stop_rule_evaluation.json",
+    "inventory_path_index": "/var/folders/1p/yb8d7hmx6wd564h57_td4k140000gn/T/tmpa8_e5b22/inventory_path_index_valid.json"
+  },
+  "parallel_slice_count": 2,
+  "write_safe_slice_count": 1,
+  "analysis_only_slice_count": 1,
+  "do_not_split_count": 0,
+  "parallel_slices": [
+    {
+      "slice_id": "slice_01",
+      "root_dirs": [
+        "src/core"
+      ],
+      "files": [
+        "src/core/__init__.py",
+        "src/core/service.py",
+        "src/core/bootstrap.py",
+        "src/core/README.md"
+      ],
+      "entrypoints": [
+        "src/core/bootstrap.py"
+      ],
+      "language_buckets": {
+        "markdown": 1,
+        "python": 3
+      },
+      "total_bytes": 3448,
+      "classification": "write_safe",
+      "source_candidate_id": "seed_01",
+      "reason": "refinement_recommendation=keep_seed; stop_decision=write_safe; triggered_stop_rules=none"
+    },
+    {
+      "slice_id": "slice_02",
+      "root_dirs": [
+        "src/bootstrap.py"
+      ],
+      "files": [
+        "src/bootstrap.py"
+      ],
+      "entrypoints": [
+        "src/bootstrap.py"
+      ],
+      "language_buckets": {
+        "python": 1
+      },
+      "total_bytes": 512,
+      "classification": "analysis_only",
+      "source_candidate_id": "seed_02",
+      "reason": "refinement_recommendation=keep_seed; stop_decision=analysis_only; triggered_stop_rules=path_order_runtime_dependence"
+    }
+  ],
+  "write_safe_slices": [
+    {
+      "slice_id": "slice_01",
+      "root_dirs": [
+        "src/core"
+      ],
+      "files": [
+        "src/core/__init__.py",
+        "src/core/service.py",
+        "src/core/bootstrap.py",
+        "src/core/README.md"
+      ],
+      "entrypoints": [
+        "src/core/bootstrap.py"
+      ],
+      "language_buckets": {
+        "markdown": 1,
+        "python": 3
+      },
+      "total_bytes": 3448,
+      "classification": "write_safe",
+      "source_candidate_id": "seed_01",
+      "reason": "refinement_recommendation=keep_seed; stop_decision=write_safe; triggered_stop_rules=none"
+    }
+  ],
+  "analysis_only_slices": [
+    {
+      "slice_id": "slice_02",
+      "root_dirs": [
+        "src/bootstrap.py"
+      ],
+      "files": [
+        "src/bootstrap.py"
+      ],
+      "entrypoints": [
+        "src/bootstrap.py"
+      ],
+      "language_buckets": {
+        "python": 1
+      },
+      "total_bytes": 512,
+      "classification": "analysis_only",
+      "source_candidate_id": "seed_02",
+      "reason": "refinement_recommendation=keep_seed; stop_decision=analysis_only; triggered_stop_rules=path_order_runtime_dependence"
+    }
+  ],
+  "do_not_split_regions": [],
+  "slice_manifest": {
+    "slice_count": 2,
+    "slices": [
+      {
+        "slice_id": "slice_01",
+        "root_dirs": [
+          "src/core"
+        ],
+        "files": [
+          "src/core/__init__.py",
+          "src/core/service.py",
+          "src/core/bootstrap.py",
+          "src/core/README.md"
+        ],
+        "entrypoints": [
+          "src/core/bootstrap.py"
+        ],
+        "language_buckets": {
+          "markdown": 1,
+          "python": 3
+        },
+        "total_bytes": 3448,
+        "classification": "write_safe",
+        "reason": "refinement_recommendation=keep_seed; stop_decision=write_safe; triggered_stop_rules=none"
+      },
+      {
+        "slice_id": "slice_02",
+        "root_dirs": [
+          "src/bootstrap.py"
+        ],
+        "files": [
+          "src/bootstrap.py"
+        ],
+        "entrypoints": [
+          "src/bootstrap.py"
+        ],
+        "language_buckets": {
+          "python": 1
+        },
+        "total_bytes": 512,
+        "classification": "analysis_only",
+        "reason": "refinement_recommendation=keep_seed; stop_decision=analysis_only; triggered_stop_rules=path_order_runtime_dependence"
+      }
+    ]
+  },
+  "handoff_packet_count": 2,
+  "handoff_packets": [
+    {
+      "slice_id": "slice_01",
+      "root_dirs": [
+        "src/core"
+      ],
+      "files": [
+        "src/core/__init__.py",
+        "src/core/service.py",
+        "src/core/bootstrap.py",
+        "src/core/README.md"
+      ],
+      "entrypoints": [
+        "src/core/bootstrap.py"
+      ],
+      "language_buckets": {
+        "markdown": 1,
+        "python": 3
+      },
+      "total_bytes": 3448,
+      "allowed_paths": [
+        "src/core"
+      ],
+      "non_goals": [
+        "do not modify paths outside allowed_paths"
+      ],
+      "upstream_artifacts": [
+        "/var/folders/1p/yb8d7hmx6wd564h57_td4k140000gn/T/tmpa8_e5b22/stop_rule_evaluation.json"
+      ]
+    },
+    {
+      "slice_id": "slice_02",
+      "root_dirs": [
+        "src/bootstrap.py"
+      ],
+      "files": [
+        "src/bootstrap.py"
+      ],
+      "entrypoints": [
+        "src/bootstrap.py"
+      ],
+      "language_buckets": {
+        "python": 1
+      },
+      "total_bytes": 512,
+      "allowed_paths": [
+        "src/bootstrap.py"
+      ],
+      "non_goals": [
+        "do not modify paths outside allowed_paths"
+      ],
+      "upstream_artifacts": [
+        "/var/folders/1p/yb8d7hmx6wd564h57_td4k140000gn/T/tmpa8_e5b22/stop_rule_evaluation.json"
+      ]
+    }
+  ],
+  "next_candidate": null
+}

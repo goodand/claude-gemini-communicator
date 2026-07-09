@@ -1,0 +1,78 @@
+{
+  "status": "ok",
+  "generated_at": "2026-03-19T17:50:10+09:00",
+  "contract_family": "final_slice_proposal_contract",
+  "version": "v0.1.0",
+  "required_top_level_fields": [
+    "status",
+    "generated_at",
+    "algorithm_family",
+    "version",
+    "input_artifacts",
+    "parallel_slice_count",
+    "write_safe_slice_count",
+    "analysis_only_slice_count",
+    "do_not_split_count",
+    "parallel_slices",
+    "write_safe_slices",
+    "analysis_only_slices",
+    "do_not_split_regions",
+    "slice_manifest",
+    "handoff_packet_count",
+    "handoff_packets",
+    "next_candidate"
+  ],
+  "slice_required_fields": [
+    "slice_id",
+    "root_dirs",
+    "files",
+    "entrypoints",
+    "classification",
+    "source_candidate_id",
+    "reason"
+  ],
+  "do_not_split_required_fields": [
+    "candidate_id",
+    "root_dir",
+    "triggered_stop_rules",
+    "reason"
+  ],
+  "classification_enum": [
+    "write_safe",
+    "analysis_only"
+  ],
+  "top_level_schema": {
+    "status": "enum(ok|invalid_inputs)",
+    "generated_at": "str",
+    "algorithm_family": "str",
+    "version": "str",
+    "input_artifacts": "dict[str,str]",
+    "parallel_slice_count": "int",
+    "write_safe_slice_count": "int",
+    "analysis_only_slice_count": "int",
+    "do_not_split_count": "int",
+    "parallel_slices": "list[dict]",
+    "write_safe_slices": "list[dict]",
+    "analysis_only_slices": "list[dict]",
+    "do_not_split_regions": "list[dict]",
+    "slice_manifest": "dict",
+    "handoff_packet_count": "int",
+    "handoff_packets": "list[dict]",
+    "next_candidate": "null"
+  },
+  "slice_field_schema": {
+    "slice_id": "str",
+    "root_dirs": "list[str]",
+    "files": "list[str]",
+    "entrypoints": "list[str]",
+    "classification": "enum(write_safe|analysis_only)",
+    "source_candidate_id": "str",
+    "reason": "str"
+  },
+  "do_not_split_field_schema": {
+    "candidate_id": "str",
+    "root_dir": "str",
+    "triggered_stop_rules": "list[str]",
+    "reason": "str"
+  }
+}

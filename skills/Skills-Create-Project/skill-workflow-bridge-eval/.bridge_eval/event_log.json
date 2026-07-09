@@ -1,0 +1,43 @@
+{
+  "run_id": "RUN-503dd878",
+  "step_id": "STEP-a73a9dd1",
+  "skill_name": "unknown",
+  "workflow_mode": "sequential",
+  "output_type": "natural_language",
+  "decision": "stop",
+  "decision_reason": "irrecoverable failure: ['key outputs 없음', \"contract 미충족: 'result' 없음\", \"contract 미충족: 'summary' 없음\"]",
+  "score": 0.5,
+  "confidence": 0.85,
+  "events": [
+    {
+      "event": "STEP_STARTED",
+      "at": "2026-03-15T21:43:58+09:00",
+      "detail": "raw=/tmp/test_raw_output.md"
+    },
+    {
+      "event": "OUTPUT_CAPTURED",
+      "at": "2026-03-15T21:43:58+09:00",
+      "detail": "/tmp/test_raw_output.md"
+    },
+    {
+      "event": "CLASSIFICATION_COMPLETED",
+      "at": "2026-03-15T21:43:58+09:00",
+      "detail": "type=natural_language conf=0.8"
+    },
+    {
+      "event": "GRADE_COMPLETED",
+      "at": "2026-03-15T21:43:58+09:00",
+      "detail": "score=0.5 pass=False"
+    },
+    {
+      "event": "DECISION_MADE",
+      "at": "2026-03-15T21:43:58+09:00",
+      "detail": "decision=stop reason=irrecoverable failure: ['key outputs 없음', \"contract 미충족: 'result' 없음\", \"contract 미충족: 'summary' 없음\"]"
+    },
+    {
+      "event": "HANDOFF_CREATED",
+      "at": "2026-03-15T21:43:58+09:00",
+      "detail": ".bridge_eval/handoff_packet.json"
+    }
+  ]
+}
