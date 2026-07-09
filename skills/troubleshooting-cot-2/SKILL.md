@@ -2,9 +2,10 @@
 name: troubleshooting-cot
 description: >-
   Git 히스토리 기반 Chain-of-Thought 트러블슈팅. 커밋 메시지 분석, Good/Bad Case 식별, 실행 기반 가설 검증을 통해 버그의 근본 원인을 체계적으로 찾습니다. 에러 발생, 회귀 버그, 예상치 못한 동작, 간헐적 버그 발견 시 사용하세요. 트리거: 트러블슈팅, 디버깅, 회귀 버그, 근본 원인, root cause, bisect, good/bad case, 왜 안 되지, 에러 원인.
+  Hosted deploy health check failures, Render/FastMCP 421 Misdirected Request, dependency version drift, and host/origin guard regressions에도 사용하세요.
 license: Apache-2.0
 metadata:
-  version: "3.4"
+  version: "3.5"
   context_window: 2000000
 ---
 
@@ -45,6 +46,12 @@ Phase 5  → 악순환 탐지 + 루프 탈출
   예: 원인 후보를 이미 알면 Phase 1-2 생략 → Phase 3부터.
   예: 커밋 1개뿐이면 Phase 1 생략.
 ```
+
+## 특화 플레이북
+
+- Hosted deploy는 build 성공과 runtime health 성공을 분리해서 본다.
+- Render/FastMCP에서 `/health`가 `421 Misdirected Request`를 반환하거나 dependency version drift가 의심되면 [Render FastMCP Healthcheck](references/playbooks/render-fastmcp-healthcheck.md)를 먼저 읽는다.
+- 플레이북을 읽은 뒤에도 원인 범위가 불명확하면 일반 Phase 1-3 흐름으로 돌아온다.
 
 ## 자가 점검 (매 Phase 전환 시)
 
