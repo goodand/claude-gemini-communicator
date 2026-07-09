@@ -1,0 +1,4 @@
+interface:
+  display_name: "Image Worker"
+  short_description: "Run one image task via MCPs."
+  default_prompt: "Process exactly one image by reading job and image identifiers, loading path details from the registry MCP, generating caption metadata, and writing status updates back through MCPs."

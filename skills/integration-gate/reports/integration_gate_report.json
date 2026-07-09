@@ -1,0 +1,908 @@
+{
+  "verdict": "PASS_WITH_WARNING",
+  "generated": "2026-07-09T13:23:44+09:00",
+  "head": "c0a63bd",
+  "gates": [
+    {
+      "gate": "canonical_winner",
+      "status": "PASS",
+      "summary": "core 5/5 winner=repo-skills-createproject",
+      "details": {
+        "expected_root": "repo-skills-createproject",
+        "results": [
+          {
+            "skill": "claim-verifier",
+            "winner_root": "repo-skills-createproject",
+            "ok": true
+          },
+          {
+            "skill": "skill-creation-process",
+            "winner_root": "repo-skills-createproject",
+            "ok": true
+          },
+          {
+            "skill": "doc-code-sync-checker",
+            "winner_root": "repo-skills-createproject",
+            "ok": true
+          },
+          {
+            "skill": "skill-workflow-bridge-eval",
+            "winner_root": "repo-skills-createproject",
+            "ok": true
+          },
+          {
+            "skill": "agent-tool-benchmark",
+            "winner_root": "repo-skills-createproject",
+            "ok": true
+          }
+        ],
+        "failed": []
+      }
+    },
+    {
+      "gate": "conflict",
+      "status": "WARN",
+      "summary": "55 conflicts, REPO_INTERNAL=0",
+      "details": {
+        "class_counts": {
+          "CANONICAL_VS_PROJECT_COPY": 20,
+          "MIRROR_VS_ORIGIN_REPO": 22,
+          "EXTERNAL_VS_USER_GLOBAL": 13
+        },
+        "failing": [],
+        "conflicts": [
+          {
+            "name": "agent-task-packet",
+            "class": "CANONICAL_VS_PROJECT_COPY",
+            "hits": [
+              {
+                "root": "repo-skills-createproject",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/agent-task-packet"
+              },
+              {
+                "root": "proj:vscode-markdown-review-surface:skills",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/vscode-markdown-review-surface/skills/agent-task-packet"
+              }
+            ]
+          },
+          {
+            "name": "artifact-noise-merge-audit",
+            "class": "MIRROR_VS_ORIGIN_REPO",
+            "hits": [
+              {
+                "root": "repo-external",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/external/narrative-ai/artifact-noise-merge-audit"
+              },
+              {
+                "root": "proj:narrative-ai:claude",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/narrative-ai/.claude/skills/artifact-noise-merge-audit"
+              }
+            ]
+          },
+          {
+            "name": "ci-docs-merge-audit",
+            "class": "MIRROR_VS_ORIGIN_REPO",
+            "hits": [
+              {
+                "root": "repo-external",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/external/narrative-ai/ci-docs-merge-audit"
+              },
+              {
+                "root": "proj:narrative-ai:claude",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/narrative-ai/.claude/skills/ci-docs-merge-audit"
+              }
+            ]
+          },
+          {
+            "name": "claim-verifier",
+            "class": "CANONICAL_VS_PROJECT_COPY",
+            "hits": [
+              {
+                "root": "repo-skills-createproject",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/claim-verifier"
+              },
+              {
+                "root": "proj:vscode-markdown-review-surface:skills",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/vscode-markdown-review-surface/skills/claim-verifier"
+              }
+            ]
+          },
+          {
+            "name": "class-hierarchy-classifier",
+            "class": "CANONICAL_VS_PROJECT_COPY",
+            "hits": [
+              {
+                "root": "repo-skills",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/class-hierarchy-classifier"
+              },
+              {
+                "root": "proj:narrative-ai:claude",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/narrative-ai/.claude/skills/class-hierarchy-classifier"
+              }
+            ]
+          },
+          {
+            "name": "codebase-analysis",
+            "class": "CANONICAL_VS_PROJECT_COPY",
+            "hits": [
+              {
+                "root": "repo-skills-createproject",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/codebase-analysis"
+              },
+              {
+                "root": "proj:vscode-markdown-review-surface:skills",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/vscode-markdown-review-surface/skills/codebase-analysis"
+              }
+            ]
+          },
+          {
+            "name": "codebase-architecture-mapper",
+            "class": "CANONICAL_VS_PROJECT_COPY",
+            "hits": [
+              {
+                "root": "repo-skills",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/codebase-architecture-mapper"
+              },
+              {
+                "root": "proj:narrative-ai:claude",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/narrative-ai/.claude/skills/codebase-architecture-mapper"
+              }
+            ]
+          },
+          {
+            "name": "codex-delegation-protocol",
+            "class": "CANONICAL_VS_PROJECT_COPY",
+            "hits": [
+              {
+                "root": "repo-skills-createproject",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/codex-delegation-protocol"
+              },
+              {
+                "root": "proj:vscode-markdown-review-surface:skills",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/vscode-markdown-review-surface/skills/codex-delegation-protocol"
+              }
+            ]
+          },
+          {
+            "name": "codex-subagent-setup",
+            "class": "CANONICAL_VS_PROJECT_COPY",
+            "hits": [
+              {
+                "root": "repo-skills-createproject",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/codex-subagent-setup"
+              },
+              {
+                "root": "proj:vscode-markdown-review-surface:skills",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/vscode-markdown-review-surface/skills/codex-subagent-setup"
+              }
+            ]
+          },
+          {
+            "name": "codex-tmux-orchestrator",
+            "class": "CANONICAL_VS_PROJECT_COPY",
+            "hits": [
+              {
+                "root": "repo-skills-createproject",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/codex-tmux-orchestrator"
+              },
+              {
+                "root": "proj:vscode-markdown-review-surface:skills",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/vscode-markdown-review-surface/skills/codex-tmux-orchestrator"
+              }
+            ]
+          },
+          {
+            "name": "codex-worktree-dispatch",
+            "class": "CANONICAL_VS_PROJECT_COPY",
+            "hits": [
+              {
+                "root": "repo-skills-createproject",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/codex-worktree-dispatch"
+              },
+              {
+                "root": "proj:vscode-markdown-review-surface:skills",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/vscode-markdown-review-surface/skills/codex-worktree-dispatch"
+              }
+            ]
+          },
+          {
+            "name": "component-split-ocr-review",
+            "class": "MIRROR_VS_ORIGIN_REPO",
+            "hits": [
+              {
+                "root": "repo-external",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/external/image-parser/component-split-ocr-review"
+              },
+              {
+                "root": "proj:my-image-parser:skills",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/my-image-parser/skills/component-split-ocr-review"
+              }
+            ]
+          },
+          {
+            "name": "delete-report-merge-audit",
+            "class": "MIRROR_VS_ORIGIN_REPO",
+            "hits": [
+              {
+                "root": "repo-external",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/external/narrative-ai/delete-report-merge-audit"
+              },
+              {
+                "root": "proj:narrative-ai:claude",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/narrative-ai/.claude/skills/delete-report-merge-audit"
+              }
+            ]
+          },
+          {
+            "name": "depsolve-analyzer",
+            "class": "CANONICAL_VS_PROJECT_COPY",
+            "hits": [
+              {
+                "root": "repo-skills",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/depsolve-analyzer"
+              },
+              {
+                "root": "proj:narrative-ai:claude",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/narrative-ai/.claude/skills/depsolve-analyzer"
+              },
+              {
+                "root": "proj:vscode-markdown-review-surface:skills",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/vscode-markdown-review-surface/skills/depsolve-analyzer"
+              }
+            ]
+          },
+          {
+            "name": "destructive-cleanup-preflight",
+            "class": "EXTERNAL_VS_USER_GLOBAL",
+            "hits": [
+              {
+                "root": "repo-external",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/external/home/destructive-cleanup-preflight"
+              },
+              {
+                "root": "codex-user",
+                "path": "/Users/jaehyuntak/.codex/skills/destructive-cleanup-preflight"
+              }
+            ]
+          },
+          {
+            "name": "doc-code-sync-checker",
+            "class": "CANONICAL_VS_PROJECT_COPY",
+            "hits": [
+              {
+                "root": "repo-skills-createproject",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker"
+              },
+              {
+                "root": "proj:vscode-markdown-review-surface:skills",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/vscode-markdown-review-surface/skills/doc-code-sync-checker"
+              }
+            ]
+          },
+          {
+            "name": "evidence-trace-auditor",
+            "class": "CANONICAL_VS_PROJECT_COPY",
+            "hits": [
+              {
+                "root": "repo-skills-createproject",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor"
+              },
+              {
+                "root": "proj:vscode-markdown-review-surface:skills",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/vscode-markdown-review-surface/skills/evidence-trace-auditor"
+              }
+            ]
+          },
+          {
+            "name": "graph-structure-classifier",
+            "class": "CANONICAL_VS_PROJECT_COPY",
+            "hits": [
+              {
+                "root": "repo-skills",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/graph-structure-classifier"
+              },
+              {
+                "root": "proj:narrative-ai:claude",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/narrative-ai/.claude/skills/graph-structure-classifier"
+              }
+            ]
+          },
+          {
+            "name": "image-commit-manager",
+            "class": "EXTERNAL_VS_USER_GLOBAL",
+            "hits": [
+              {
+                "root": "repo-external",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/external/image-parser/image-commit-manager"
+              },
+              {
+                "root": "codex-user",
+                "path": "/Users/jaehyuntak/.codex/skills/image-commit-manager"
+              }
+            ]
+          },
+          {
+            "name": "image-job-dispatcher",
+            "class": "EXTERNAL_VS_USER_GLOBAL",
+            "hits": [
+              {
+                "root": "repo-external",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/external/image-parser/image-job-dispatcher"
+              },
+              {
+                "root": "codex-user",
+                "path": "/Users/jaehyuntak/.codex/skills/image-job-dispatcher"
+              }
+            ]
+          },
+          {
+            "name": "image-result-auditor",
+            "class": "EXTERNAL_VS_USER_GLOBAL",
+            "hits": [
+              {
+                "root": "repo-external",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/external/image-parser/image-result-auditor"
+              },
+              {
+                "root": "codex-user",
+                "path": "/Users/jaehyuntak/.codex/skills/image-result-auditor"
+              }
+            ]
+          },
+          {
+            "name": "image-worker",
+            "class": "EXTERNAL_VS_USER_GLOBAL",
+            "hits": [
+              {
+                "root": "repo-external",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/external/image-parser/image-worker"
+              },
+              {
+                "root": "codex-user",
+                "path": "/Users/jaehyuntak/.codex/skills/image-worker"
+              }
+            ]
+          },
+          {
+            "name": "ios-demo-capture-loop",
+            "class": "MIRROR_VS_ORIGIN_REPO",
+            "hits": [
+              {
+                "root": "repo-external",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/external/narrative-ai/ios-demo-capture-loop"
+              },
+              {
+                "root": "proj:narrative-ai:claude",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/narrative-ai/.claude/skills/ios-demo-capture-loop"
+              }
+            ]
+          },
+          {
+            "name": "ios-runtime-tail-recovery",
+            "class": "MIRROR_VS_ORIGIN_REPO",
+            "hits": [
+              {
+                "root": "repo-external",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/external/narrative-ai/ios-runtime-tail-recovery"
+              },
+              {
+                "root": "proj:narrative-ai:claude",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/narrative-ai/.claude/skills/ios-runtime-tail-recovery"
+              }
+            ]
+          },
+          {
+            "name": "m5-ssh-codex-operator",
+            "class": "EXTERNAL_VS_USER_GLOBAL",
+            "hits": [
+              {
+                "root": "repo-external",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/external/codex/m5-ssh-codex-operator"
+              },
+              {
+                "root": "codex-user",
+                "path": "/Users/jaehyuntak/.codex/skills/m5-ssh-codex-operator"
+              }
+            ]
+          },
+          {
+            "name": "macos-ocr-evidence",
+            "class": "MIRROR_VS_ORIGIN_REPO",
+            "hits": [
+              {
+                "root": "repo-external",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/external/image-parser/macos-ocr-evidence"
+              },
+              {
+                "root": "proj:my-image-parser:skills",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/my-image-parser/skills/macos-ocr-evidence"
+              }
+            ]
+          },
+          {
+            "name": "native-ios-merge-audit",
+            "class": "MIRROR_VS_ORIGIN_REPO",
+            "hits": [
+              {
+                "root": "repo-external",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/external/narrative-ai/native-ios-merge-audit"
+              },
+              {
+                "root": "proj:narrative-ai:claude",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/narrative-ai/.claude/skills/native-ios-merge-audit"
+              }
+            ]
+          },
+          {
+            "name": "object-isolation-correction",
+            "class": "MIRROR_VS_ORIGIN_REPO",
+            "hits": [
+              {
+                "root": "repo-external",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/external/image-parser/object-isolation-correction"
+              },
+              {
+                "root": "proj:my-image-parser:skills",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/my-image-parser/skills/object-isolation-correction"
+              }
+            ]
+          },
+          {
+            "name": "obsidian-caption-review-builder",
+            "class": "MIRROR_VS_ORIGIN_REPO",
+            "hits": [
+              {
+                "root": "repo-external",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/external/image-parser/obsidian-caption-review-builder"
+              },
+              {
+                "root": "proj:my-image-parser:skills",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/my-image-parser/skills/obsidian-caption-review-builder"
+              },
+              {
+                "root": "proj:vscode-markdown-review-surface:skills",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/vscode-markdown-review-surface/skills/obsidian-caption-review-builder"
+              }
+            ]
+          },
+          {
+            "name": "openai-image-caption-validation",
+            "class": "MIRROR_VS_ORIGIN_REPO",
+            "hits": [
+              {
+                "root": "repo-external",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/external/image-parser/openai-image-caption-validation"
+              },
+              {
+                "root": "proj:my-image-parser:skills",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/my-image-parser/skills/openai-image-caption-validation"
+              }
+            ]
+          },
+          {
+            "name": "parser-sidecar-to-canonical-schema-promotion",
+            "class": "MIRROR_VS_ORIGIN_REPO",
+            "hits": [
+              {
+                "root": "repo-external",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/external/image-parser/parser-sidecar-to-canonical-schema-promotion"
+              },
+              {
+                "root": "proj:my-image-parser:skills",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/my-image-parser/skills/parser-sidecar-to-canonical-schema-promotion"
+              }
+            ]
+          },
+          {
+            "name": "polaris-datainsight-doc-extract",
+            "class": "EXTERNAL_VS_USER_GLOBAL",
+            "hits": [
+              {
+                "root": "repo-external",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/external/codex/polaris-datainsight-doc-extract"
+              },
+              {
+                "root": "codex-user",
+                "path": "/Users/jaehyuntak/.codex/skills/polaris-datainsight-doc-extract"
+              }
+            ]
+          },
+          {
+            "name": "pptx",
+            "class": "MIRROR_VS_ORIGIN_REPO",
+            "hits": [
+              {
+                "root": "repo-external",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/external/codex/pptx"
+              },
+              {
+                "root": "codex-user",
+                "path": "/Users/jaehyuntak/.codex/skills/pptx"
+              },
+              {
+                "root": "proj:my-second-identity:claude",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/my-second-identity/.claude/skills/pptx"
+              }
+            ]
+          },
+          {
+            "name": "pptx-slide-screenshot-capture",
+            "class": "MIRROR_VS_ORIGIN_REPO",
+            "hits": [
+              {
+                "root": "repo-external",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/external/image-parser/pptx-slide-screenshot-capture"
+              },
+              {
+                "root": "proj:my-image-parser:skills",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/my-image-parser/skills/pptx-slide-screenshot-capture"
+              }
+            ]
+          },
+          {
+            "name": "red-team-merge-verdict",
+            "class": "MIRROR_VS_ORIGIN_REPO",
+            "hits": [
+              {
+                "root": "repo-external",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/external/narrative-ai/red-team-merge-verdict"
+              },
+              {
+                "root": "proj:narrative-ai:claude",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/narrative-ai/.claude/skills/red-team-merge-verdict"
+              }
+            ]
+          },
+          {
+            "name": "runtime-core-merge-audit",
+            "class": "MIRROR_VS_ORIGIN_REPO",
+            "hits": [
+              {
+                "root": "repo-external",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/external/narrative-ai/runtime-core-merge-audit"
+              },
+              {
+                "root": "proj:narrative-ai:claude",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/narrative-ai/.claude/skills/runtime-core-merge-audit"
+              }
+            ]
+          },
+          {
+            "name": "runtime-flow-tracer",
+            "class": "EXTERNAL_VS_USER_GLOBAL",
+            "hits": [
+              {
+                "root": "repo-external",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/external/narrative-ai/runtime-flow-tracer"
+              },
+              {
+                "root": "claude-user",
+                "path": "/Users/jaehyuntak/.claude/skills/runtime-flow-tracer"
+              }
+            ]
+          },
+          {
+            "name": "runtime-flow-tracer-web-preview",
+            "class": "CANONICAL_VS_PROJECT_COPY",
+            "hits": [
+              {
+                "root": "repo-skills",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/runtime-flow-tracer-web-preview"
+              },
+              {
+                "root": "proj:narrative-ai:claude",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/narrative-ai/.claude/skills/runtime-flow-tracer-web-preview"
+              }
+            ]
+          },
+          {
+            "name": "semantic-clarity-enhanced",
+            "class": "EXTERNAL_VS_USER_GLOBAL",
+            "hits": [
+              {
+                "root": "repo-external",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/external/home/semantic-clarity-enhanced"
+              },
+              {
+                "root": "claude-user",
+                "path": "/Users/jaehyuntak/.claude/skills/semantic-clarity-enhanced"
+              }
+            ]
+          },
+          {
+            "name": "simctl-recording-finalization",
+            "class": "MIRROR_VS_ORIGIN_REPO",
+            "hits": [
+              {
+                "root": "repo-external",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/external/narrative-ai/simctl-recording-finalization"
+              },
+              {
+                "root": "proj:narrative-ai:claude",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/narrative-ai/.claude/skills/simctl-recording-finalization"
+              }
+            ]
+          },
+          {
+            "name": "simctl-screenshot-state-check",
+            "class": "MIRROR_VS_ORIGIN_REPO",
+            "hits": [
+              {
+                "root": "repo-external",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/external/narrative-ai/simctl-screenshot-state-check"
+              },
+              {
+                "root": "proj:narrative-ai:claude",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/narrative-ai/.claude/skills/simctl-screenshot-state-check"
+              }
+            ]
+          },
+          {
+            "name": "skill-path-resolver",
+            "class": "CANONICAL_VS_PROJECT_COPY",
+            "hits": [
+              {
+                "root": "repo-skills",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/skill-path-resolver"
+              },
+              {
+                "root": "proj:narrative-ai:claude",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/narrative-ai/.claude/skills/skill-path-resolver"
+              }
+            ]
+          },
+          {
+            "name": "skill-workflow-bridge-eval",
+            "class": "CANONICAL_VS_PROJECT_COPY",
+            "hits": [
+              {
+                "root": "repo-skills-createproject",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/skill-workflow-bridge-eval"
+              },
+              {
+                "root": "proj:vscode-markdown-review-surface:skills",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/vscode-markdown-review-surface/skills/skill-workflow-bridge-eval"
+              }
+            ]
+          },
+          {
+            "name": "super-skill-creator",
+            "class": "CANONICAL_VS_PROJECT_COPY",
+            "hits": [
+              {
+                "root": "repo-skills",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/super-skill-creator"
+              },
+              {
+                "root": "proj:narrative-ai:claude",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/narrative-ai/.claude/skills/super-skill-creator"
+              }
+            ]
+          },
+          {
+            "name": "table-branch-activation-slice",
+            "class": "MIRROR_VS_ORIGIN_REPO",
+            "hits": [
+              {
+                "root": "repo-external",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/external/image-parser/table-branch-activation-slice"
+              },
+              {
+                "root": "proj:my-image-parser:skills",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/my-image-parser/skills/table-branch-activation-slice"
+              }
+            ]
+          },
+          {
+            "name": "taskmaster",
+            "class": "EXTERNAL_VS_USER_GLOBAL",
+            "hits": [
+              {
+                "root": "repo-external",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/external/codex/taskmaster"
+              },
+              {
+                "root": "codex-user",
+                "path": "/Users/jaehyuntak/.codex/skills/taskmaster"
+              }
+            ]
+          },
+          {
+            "name": "tmux-controller",
+            "class": "CANONICAL_VS_PROJECT_COPY",
+            "hits": [
+              {
+                "root": "repo-skills-createproject",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/tmux-controller"
+              },
+              {
+                "root": "proj:vscode-markdown-review-surface:skills",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/vscode-markdown-review-surface/skills/tmux-controller"
+              }
+            ]
+          },
+          {
+            "name": "transparent-component-triage",
+            "class": "MIRROR_VS_ORIGIN_REPO",
+            "hits": [
+              {
+                "root": "repo-external",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/external/image-parser/transparent-component-triage"
+              },
+              {
+                "root": "proj:my-image-parser:skills",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/my-image-parser/skills/transparent-component-triage"
+              }
+            ]
+          },
+          {
+            "name": "troubleshooting-cot-2",
+            "class": "CANONICAL_VS_PROJECT_COPY",
+            "hits": [
+              {
+                "root": "repo-skills",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/troubleshooting-cot-2"
+              },
+              {
+                "root": "proj:narrative-ai:claude",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/narrative-ai/.claude/skills/troubleshooting-cot-2"
+              }
+            ]
+          },
+          {
+            "name": "vendored-mcp-onboarding",
+            "class": "MIRROR_VS_ORIGIN_REPO",
+            "hits": [
+              {
+                "root": "repo-external",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/external/image-parser/vendored-mcp-onboarding"
+              },
+              {
+                "root": "proj:my-image-parser:skills",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/my-image-parser/skills/vendored-mcp-onboarding"
+              }
+            ]
+          },
+          {
+            "name": "vscode-fabriqa-foam-workflow",
+            "class": "MIRROR_VS_ORIGIN_REPO",
+            "hits": [
+              {
+                "root": "repo-external",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/external/image-parser/vscode-fabriqa-foam-workflow"
+              },
+              {
+                "root": "proj:my-image-parser:skills",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/my-image-parser/skills/vscode-fabriqa-foam-workflow"
+              },
+              {
+                "root": "proj:vscode-markdown-review-surface:skills",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/vscode-markdown-review-surface/skills/vscode-fabriqa-foam-workflow"
+              }
+            ]
+          },
+          {
+            "name": "workspace-control-recovery",
+            "class": "EXTERNAL_VS_USER_GLOBAL",
+            "hits": [
+              {
+                "root": "repo-external",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/external/home/workspace-control-recovery"
+              },
+              {
+                "root": "codex-user",
+                "path": "/Users/jaehyuntak/.codex/skills/workspace-control-recovery"
+              }
+            ]
+          },
+          {
+            "name": "worktree-parallel",
+            "class": "CANONICAL_VS_PROJECT_COPY",
+            "hits": [
+              {
+                "root": "repo-skills-createproject",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/worktree-parallel"
+              },
+              {
+                "root": "proj:vscode-markdown-review-surface:skills",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/vscode-markdown-review-surface/skills/worktree-parallel"
+              }
+            ]
+          },
+          {
+            "name": "xcode-mcp-setup",
+            "class": "EXTERNAL_VS_USER_GLOBAL",
+            "hits": [
+              {
+                "root": "repo-external",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/external/narrative-ai/xcode-mcp-setup"
+              },
+              {
+                "root": "claude-user",
+                "path": "/Users/jaehyuntak/.claude/skills/xcode-mcp-setup"
+              }
+            ]
+          },
+          {
+            "name": "xcode-perf-experiment-loop",
+            "class": "EXTERNAL_VS_USER_GLOBAL",
+            "hits": [
+              {
+                "root": "repo-external",
+                "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/external/narrative-ai/xcode-perf-experiment-loop"
+              },
+              {
+                "root": "claude-user",
+                "path": "/Users/jaehyuntak/.claude/skills/xcode-perf-experiment-loop"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "gate": "catalog_drift",
+      "status": "PASS",
+      "summary": "OK 16/16, drift 0",
+      "details": {
+        "total": 16,
+        "drift": []
+      }
+    },
+    {
+      "gate": "policy_sync",
+      "status": "PASS",
+      "summary": "4/4 checks",
+      "details": {
+        "checks": {
+          "stale_excluded": {
+            "ok": true,
+            "stale_hits": []
+          },
+          "stale_readme": {
+            "ok": true,
+            "path": "/Users/jaehyuntak/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/external/_stale/README.md"
+          },
+          "stale_canonicals_present": {
+            "ok": true,
+            "quarantined": [
+              "class-hierarchy-classifier",
+              "codebase-architecture-mapper",
+              "depsolve-analyzer",
+              "graph-structure-classifier",
+              "runtime-flow-tracer-web-preview",
+              "skill-path-resolver",
+              "super-skill-creator",
+              "troubleshooting-cot-2"
+            ],
+            "missing_canonicals": []
+          },
+          "base_root_order": {
+            "ok": true,
+            "expected": [
+              "repo-skills",
+              "repo-skills-createproject",
+              "repo-external",
+              "claude-user",
+              "codex-user",
+              "home-skills",
+              "control",
+              "agent"
+            ],
+            "actual": [
+              "repo-skills",
+              "repo-skills-createproject",
+              "repo-external",
+              "claude-user",
+              "codex-user",
+              "home-skills",
+              "control",
+              "agent"
+            ]
+          }
+        },
+        "failed": []
+      }
+    }
+  ]
+}

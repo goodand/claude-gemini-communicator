@@ -1,0 +1,4 @@
+interface:
+  display_name: "macOS OCR Evidence"
+  short_description: "Collect OCR evidence from local image files."
+  default_prompt: "Use macos-ocr-mcp on a local image file first, summarize the useful OCR evidence for the current run artifact, and only use macOCR as a fallback reference when the MCP surface is unavailable."

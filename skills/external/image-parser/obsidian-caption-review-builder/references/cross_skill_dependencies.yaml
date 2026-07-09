@@ -1,0 +1,8 @@
+cross_skill_dependencies:
+  - provider: "vscode-fabriqa-foam-workflow"
+    contract: "downstream operator handoff"
+    consumed_facts:
+      - "review markdown artifact can be operated inside VS Code after production"
+      - "editor-mode switching, fabriqa usage, and Foam navigation are delegated downstream"
+      - "this skill remains the producer surface and does not own VS Code workspace orchestration"
+    last_synced_at: "2026-03-29T03:35:00+09:00"

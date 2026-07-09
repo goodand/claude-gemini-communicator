@@ -1,0 +1,4 @@
+interface:
+  display_name: "Destructive Cleanup Preflight"
+  short_description: "Classify deletion scope safely."
+  default_prompt: "Prepare a destructive-cleanup preflight by classifying candidate paths into cache, generated runtime, active runtime, mixed-content, and source-of-truth buckets, then produce an explicit protected-path list and delete-ready list without deleting anything yet."

@@ -1,0 +1,168 @@
+{
+  "skill_name": "vscode-fabriqa-foam-workflow",
+  "measured_by": "editor-association mode-switch contract + validated split-workflow runtime",
+  "pattern": "existing markdown review artifact -> VS Code operator surface",
+  "test_files": [
+    "scripts/test_switch_vscode_markdown_mode.py"
+  ],
+  "test_count": 8,
+  "evals": [
+    {
+      "id": "EVAL-001",
+      "rule": "Rule 1: 이미지 visible review는 fabriqa mode로 연다",
+      "axis": "mode-selection",
+      "name": "fabriqa-for-visual-review",
+      "description": "이미지 embed를 보면서 같은 페이지에서 편집해야 하면 fabriqa mode를 선택해야 한다",
+      "prompt": "이미지가 박혀 있는 markdown를 VS Code에서 열어서, 보면서 바로 수정하고 싶어.",
+      "assertions": [
+        "fabriqa",
+        "same-page",
+        "image"
+      ],
+      "expected_output": "fabriqa mode를 선택하고 same-page image-visible editing surface라고 설명한다.",
+      "expected_behavior": [
+        "fabriqa mode를 먼저 제안한다",
+        "시각 검토와 같은 페이지 편집을 이유로 든다",
+        "Text Editor를 기본으로 두지 않는다"
+      ],
+      "fail_signals": [
+        "wikilink authoring 중심으로만 설명",
+        "fabriqa를 언급하지 않음"
+      ],
+      "test_coverage": [
+        "SettingsModeSwitchTests.test_fabriqa_mode_sets_editor_association"
+      ],
+      "files": [
+        "scripts/switch_vscode_markdown_mode.py",
+        "scripts/test_switch_vscode_markdown_mode.py"
+      ]
+    },
+    {
+      "id": "EVAL-002",
+      "rule": "Rule 2: Foam 명령과 wikilink 작성은 text mode로 전환",
+      "axis": "mode-selection",
+      "name": "text-editor-for-foam-command",
+      "description": "Foam 명령이나 wikilink 작성은 Text Editor로 전환해야 한다",
+      "prompt": "Foam: Update Wikilink Definitions를 실행하고 [[wikilink]]도 추가하고 싶어.",
+      "assertions": [
+        "Text Editor",
+        "active text editor",
+        "wikilink"
+      ],
+      "expected_output": "Text Editor mode를 선택하고 active text editor 의존성을 설명한다.",
+      "expected_behavior": [
+        "text mode를 먼저 제안한다",
+        "fabriqa에서는 일부 Foam 기능이 깨질 수 있다고 설명한다",
+        "필요하면 mode switch를 함께 제안한다"
+      ],
+      "fail_signals": [
+        "fabriqa에서도 동일하게 잘 된다고 단정",
+        "active text editor 제약을 언급하지 않음"
+      ],
+      "test_coverage": [
+        "SettingsModeSwitchTests.test_text_mode_sets_default_editor_association"
+      ],
+      "files": [
+        "scripts/switch_vscode_markdown_mode.py",
+        "scripts/test_switch_vscode_markdown_mode.py"
+      ]
+    },
+    {
+      "id": "EVAL-003",
+      "rule": "Rule 3: review markdown 생성은 다른 producer skill 경계",
+      "axis": "boundary",
+      "name": "does-not-build-review-artifact",
+      "description": "이 skill은 review markdown 생성기가 아니라 workspace 운영기라는 경계를 유지해야 한다",
+      "prompt": "caption ledger에서 review markdown를 만들어서 VS Code에서 보기 좋게 열어줘.",
+      "assertions": [
+        "does not generate",
+        "workspace",
+        "other skill"
+      ],
+      "expected_output": "review markdown 생성 자체는 다른 skill이 담당하고, 이 skill은 생성된 markdown를 여는 운영 layer라고 분리한다.",
+      "expected_behavior": [
+        "artifact generation과 workspace operation을 구분한다",
+        "obsidian-caption-review-builder 같은 producer surface와 분리한다"
+      ],
+      "fail_signals": [
+        "이 skill이 ledger에서 review markdown를 직접 만든다고 설명",
+        "producer/operator 경계를 흐림"
+      ],
+      "test_coverage": [
+        "doc contract only"
+      ],
+      "files": [
+        "SKILL.md",
+        "references/cross_skill_dependencies.yaml"
+      ]
+    },
+    {
+      "id": "EVAL-004",
+      "rule": "Rule 4: CLI 자동화는 editor association 기반으로 설명",
+      "axis": "automation-boundary",
+      "name": "cli-uses-editor-association-not-reopen-with",
+      "description": "VS Code CLI 자동화는 editor association 기반이어야 하며 Reopen Editor With를 직접 지원한다고 과장하면 안 된다",
+      "prompt": "터미널에서 Open With까지 완전히 자동화해.",
+      "assertions": [
+        "editorAssociations",
+        "code",
+        "Reopen Editor With"
+      ],
+      "expected_output": "CLI는 editor association 설정과 code launch까지만 확실하고, 이미 열린 탭의 Reopen Editor With는 별도 사용자 조작이 필요할 수 있다고 설명한다.",
+      "expected_behavior": [
+        "settings-driven mode switch를 제안한다",
+        "이미 열린 탭은 close/reopen이 필요할 수 있다고 설명한다"
+      ],
+      "fail_signals": [
+        "code CLI가 Reopen Editor With를 직접 지원한다고 설명",
+        "GUI state 완전 자동화를 보장"
+      ],
+      "test_coverage": [
+        "SettingsModeSwitchTests.test_load_settings_parses_jsonc_object",
+        "SettingsModeSwitchTests.test_clear_mode_removes_empty_association_block",
+        "SettingsModeSwitchTests.test_load_settings_rejects_non_object_root"
+      ],
+      "files": [
+        "scripts/switch_vscode_markdown_mode.py",
+        "scripts/open_vscode_markdown_surface.sh",
+        "scripts/test_switch_vscode_markdown_mode.py",
+        "references/vscode-fabriqa-foam-entrypoint-details-at2026-03-29.md"
+      ]
+    },
+    {
+      "id": "EVAL-005",
+      "rule": "Rule 5: validated runtime은 split workflow로 설명",
+      "axis": "validated-runtime-model",
+      "name": "split-workflow-required",
+      "description": "fabriqa와 Foam은 완전 단일 표면이 아니라 분업형 workflow로 설명되어야 한다",
+      "prompt": "VS Code에서 Obsidian처럼 이미지도 보고, [[wikilink]]도 쓰고, Foam 명령도 한 화면에서 다 완전히 되게 해줘.",
+      "assertions": [
+        "split workflow",
+        "fabriqa",
+        "Text Editor",
+        "Foam"
+      ],
+      "expected_output": "fabriqa는 same-page visual editing, Text Editor는 wikilink/Foam 명령, Foam은 backlinks/graph shell로 역할을 분리하는 split workflow를 설명한다.",
+      "expected_behavior": [
+        "완전 통합 Obsidian clone이라고 과장하지 않는다",
+        "fabriqa에서 wikilink autocomplete와 일부 Foam 명령이 제한된다고 설명한다",
+        "역할 분담형 운영 모델을 제안한다"
+      ],
+      "fail_signals": [
+        "모든 기능이 fabriqa 단일 표면에서 완전히 동작한다고 설명",
+        "Text Editor 전환 필요성을 숨김",
+        "Foam을 단순 부가 기능으로만 축소"
+      ],
+      "test_coverage": [
+        "manual validation: /tmp/vscode_fabriqa_foam_validation session",
+        "knowledge base runtime contract"
+      ],
+      "files": [
+        "SKILL.md",
+        "references/runtime.md",
+        "knowledge_bases/vscode-fabriqa-foam-workflow-knowledge-base-at2026-03-29-02-40.md"
+      ]
+    }
+  ],
+  "runtime_validation_note": "same-page image render, Foam Connections/backlinks, rename sync, Text Editor wikilink autocomplete, and fabriqa limitations were manually validated in the vscode_fabriqa_foam_validation workspace."
+}

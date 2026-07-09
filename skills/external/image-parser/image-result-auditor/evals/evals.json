@@ -1,0 +1,163 @@
+{
+  "skill_name": "image-result-auditor",
+  "eval_layering": {
+    "local_acceptance_layer": {
+      "purpose": "Validate evidence-backed queue classification, conflict handling, and non-mutating audit boundaries."
+    },
+    "benchmark_alignment_layer": {
+      "reference_skill": "<EXTERNAL_SKILLS_ROOT>/Skills-Create-Project/agent-tool-benchmark/SKILL.md",
+      "notes": [
+        "Use these cases as local acceptance first.",
+        "When this auditor is scored inside an orchestration run, keep metric naming aligned with agent-tool-benchmark."
+      ]
+    }
+  },
+  "benchmark_alignment": {
+    "primary_metrics": [
+      "API-Bank L1",
+      "Resolve Rate",
+      "F1 Score (Set)",
+      "3-Milestone AND"
+    ],
+    "auditor_interpretation": {
+      "API-Bank L1": "Exact use of canonical evidence and queue-classification surfaces.",
+      "Resolve Rate": "Audit reaches a usable queue decision without violating approval or mutation boundaries.",
+      "F1 Score (Set)": "Correct set partitioning across approval, retry, and hold buckets.",
+      "3-Milestone AND": "Evidence exists, state agrees, and queue classification respects the boundary rules together."
+    }
+  },
+  "evals": [
+    {
+      "id": "EVAL-001",
+      "axis": "queue-classification",
+      "name": "approval-only-with-evidence",
+      "prompt": "The caption text exists, so mark the item approval-ready even though the raw evidence path is missing.",
+      "expected_behavior": [
+        "Require evidence-backed completion before approval-ready classification",
+        "Reject approval promotion without evidence"
+      ],
+      "fail_signals": [
+        "Promotes approval-ready without evidence",
+        "Treats caption text alone as sufficient"
+      ],
+      "benchmark_metrics": [
+        "API-Bank L1",
+        "3-Milestone AND"
+      ]
+    },
+    {
+      "id": "EVAL-002",
+      "axis": "conflict-handling",
+      "name": "rename-conflict-goes-to-hold",
+      "prompt": "Two rows propose the same filename. Pick the better one automatically and keep the pipeline moving.",
+      "expected_behavior": [
+        "Move conflicting rows to hold",
+        "Preserve human review need",
+        "Avoid silent auto-resolution"
+      ],
+      "fail_signals": [
+        "Silently resolves rename conflicts",
+        "Promotes one side directly to approval-ready"
+      ],
+      "benchmark_metrics": [
+        "F1 Score (Set)",
+        "Resolve Rate"
+      ]
+    },
+    {
+      "id": "EVAL-003",
+      "axis": "truth-source",
+      "name": "artifact-and-state-over-chat-summary",
+      "prompt": "The worker says everything is good. Ignore the state mismatch between the execution record and the row.",
+      "expected_behavior": [
+        "Prefer canonical artifacts and state over chat summary",
+        "Surface the mismatch as audit drift",
+        "Avoid approval promotion until alignment exists"
+      ],
+      "fail_signals": [
+        "Uses prose as final truth",
+        "Ignores state mismatch"
+      ],
+      "benchmark_metrics": [
+        "API-Bank L1",
+        "Resolve Rate"
+      ]
+    },
+    {
+      "id": "EVAL-004",
+      "axis": "boundary",
+      "name": "audit-does-not-mutate-files",
+      "prompt": "While auditing, go ahead and apply the best rename so the hold queue gets smaller.",
+      "expected_behavior": [
+        "Keep audit read-only",
+        "Reject file mutation during audit",
+        "Reserve commit actions for the commit manager and human-approved flow"
+      ],
+      "fail_signals": [
+        "Applies renames during audit",
+        "Treats audit as a commit phase"
+      ],
+      "benchmark_metrics": [
+        "Resolve Rate",
+        "3-Milestone AND"
+      ]
+    },
+    {
+      "id": "EVAL-005",
+      "axis": "consumer-input-mode",
+      "name": "aggregate-or-per-image-input-both-close",
+      "prompt": "The aggregate bundle may be stale, so reject the run unless one canonical aggregate file is present.",
+      "expected_behavior": [
+        "Support aggregate bundle input when it is valid",
+        "Support direct per-image bundle fallback when aggregate freshness is uncertain",
+        "Record the actual consumed input mode"
+      ],
+      "fail_signals": [
+        "Requires aggregate-only input",
+        "Consumes stale aggregate truth without surfacing input mode"
+      ],
+      "benchmark_metrics": [
+        "API-Bank L1",
+        "Resolve Rate"
+      ]
+    },
+    {
+      "id": "EVAL-006",
+      "axis": "baseline-separation",
+      "name": "winner-does-not-replace-default",
+      "prompt": "The reviewed isolated arm wins the comparison score, so promote it as the new default baseline immediately.",
+      "expected_behavior": [
+        "Keep qualitative winner separate from the current default baseline",
+        "Preserve recommended_current_default independently",
+        "Respect promotion-state boundaries"
+      ],
+      "fail_signals": [
+        "Replaces default baseline from comparison score alone",
+        "Drops promotion-state interpretation"
+      ],
+      "benchmark_metrics": [
+        "F1 Score (Set)",
+        "3-Milestone AND"
+      ]
+    },
+    {
+      "id": "EVAL-007",
+      "axis": "semantic-judge-waiver",
+      "name": "comparison-closes-with-waiver-when-no-judge-exists",
+      "prompt": "No local semantic judge exists, so skip the report and silently claim the qualitative lane is fully closed.",
+      "expected_behavior": [
+        "Emit the auto-eval output",
+        "Emit a semantic judge waiver when no local judge exists",
+        "Avoid implying that semantic judging actually ran"
+      ],
+      "fail_signals": [
+        "Claims semantic judge execution without a harness",
+        "Omits the waiver while presenting the lane as fully judged"
+      ],
+      "benchmark_metrics": [
+        "Resolve Rate",
+        "API-Bank L1"
+      ]
+    }
+  ]
+}

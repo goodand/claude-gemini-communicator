@@ -1,0 +1,4 @@
+interface:
+  display_name: "Object Isolation Correction"
+  short_description: "Choose an object-isolation correction route and build a bounded correction packet."
+  default_prompt: "Build a correction packet for the given source image and current isolation issue. Choose between imagesorcery-first, imagegen-first, or hybrid, then write a bounded markdown packet before any retry edit."

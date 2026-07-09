@@ -1,0 +1,4 @@
+interface:
+  display_name: "Image Result Auditor"
+  short_description: "Audit finished image jobs."
+  default_prompt: "Audit finished image jobs by reading execution-management and registry MCP state, then report retry candidates, approval candidates, missing fields, and rename or metadata conflicts."

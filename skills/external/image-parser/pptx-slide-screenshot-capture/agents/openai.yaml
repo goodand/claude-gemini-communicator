@@ -1,0 +1,4 @@
+interface:
+  display_name: "PPTX Slide Screenshot Capture"
+  short_description: "Capture slide screenshots via simctl."
+  default_prompt: "Capture per-slide screenshots for a local PPTX validation job by using a simulator-visible slide surface, xcrun simctl screenshots, and a stable output dataset under control/project_domain/resources/cross_validation."
