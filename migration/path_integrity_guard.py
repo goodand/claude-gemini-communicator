@@ -47,7 +47,10 @@ DEFAULT_ROOTS = [
 # 스캔에서 건너뛸 디렉토리 이름(노이즈/속도). .git은 내부에 우리가 볼 심링크가
 # 없고 loose object가 많아 반드시 prune(안 하면 repo마다 수만 파일 walk).
 PRUNE = {".git", "node_modules", ".venv", "venv", "__pycache__",
-         ".mypy_cache", ".pytest_cache", ".ruff_cache"}
+         ".mypy_cache", ".pytest_cache", ".ruff_cache",
+         # 휘발성 빌드/툴 캐시 — 여기 심링크는 재생성물이라 분석 노이즈
+         # (uv environments-v2/builds-v0가 .cache/uv 아래에 있음)
+         ".cache", ".history"}
 
 
 def nfc(s: str) -> str:

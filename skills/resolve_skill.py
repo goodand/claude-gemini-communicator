@@ -30,10 +30,11 @@ HOME = Path.home()
 REPO = Path(__file__).resolve().parent.parent  # <repo>/skills/resolve_skill.py → <repo>
 
 # 프로젝트들이 모여있는 베이스 (이 PC 관례).
-# $SKILL_PROJECTS_BASE로 오버라이드 가능.
+# $SKILL_PROJECTS_BASE로 오버라이드 가능. 기본값은 $HOME 기반이라
+# 다른 사용자명/머신에서도 동작한다(마이그레이션 이식성).
 PROJECTS_BASE = Path(os.environ.get(
     "SKILL_PROJECTS_BASE",
-    "/Users/jaehyuntak/Desktop/Project_____현재_진행중인"))
+    str(HOME / "Desktop" / "Project_____현재_진행중인")))
 
 # 알려진 프로젝트 (skills/ + control/ 관례를 따르는 곳).
 # 각 프로젝트는 <proj>/skills, <proj>/.claude/skills, <proj>/control을 스캔한다.
@@ -61,8 +62,8 @@ BASE_ROOTS = [
     ("claude-user", HOME / ".claude" / "skills", 1),
     ("codex-user", HOME / ".codex" / "skills", 1),
     ("home-skills", HOME / "skills", 1),
-    ("control", Path("/Users/jaehyuntak/control"), 3),
-    ("agent", Path("/Users/jaehyuntak/agent"), 3),
+    ("control", HOME / "control", 3),
+    ("agent", HOME / "agent", 3),
 ] + _project_roots()
 
 
