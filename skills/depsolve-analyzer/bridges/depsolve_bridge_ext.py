@@ -361,7 +361,11 @@ class MapperEdgeTagger:
         # 1. 프로젝트 내부 모듈 체크
         for mod in self.project_modules:
             mod_normalized = mod.lower().replace("-", "_")
-            if target_normalized == mod_normalized or target_normalized.startswith(f"{mod_normalized}."):
+            # 클래스 수준 엣지(src/auth/login.py::LoginService)도 내부로 인식하도록
+            # '::' 구분자 경계를 함께 검사한다.
+            if (target_normalized == mod_normalized
+                    or target_normalized.startswith(f"{mod_normalized}.")
+                    or target_normalized.startswith(f"{mod_normalized}::")):
                 return "internal"
         
         # 2. manifest에 선언된 패키지 체크

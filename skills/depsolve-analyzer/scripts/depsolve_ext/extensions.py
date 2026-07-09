@@ -274,7 +274,7 @@ class IgnoreConfig:
             
             else:
                 # .depsolve-ignore í˜•ì‹ (gitignore ìŠ¤íƒ€ì¼)
-                content = config_path.read_text()
+                content = config_path.read_text(encoding="utf-8")
                 for line in content.split('\n'):
                     line = line.strip()
                     if not line or line.startswith('#'):
@@ -1055,7 +1055,7 @@ def _load_pip_manifest(directory: Path, manifest: HybridManifest):
 def _parse_requirements_txt(path: Path, deps_set: Set[str]):
     """requirements.txt íŒŒì‹±"""
     try:
-        content = path.read_text()
+        content = path.read_text(encoding="utf-8")
         for line in content.split('\n'):
             line = line.strip()
             
@@ -1095,7 +1095,7 @@ def _load_pyproject_toml(directory: Path, manifest: HybridManifest):
         return
     
     try:
-        content = pyproject.read_text()
+        content = pyproject.read_text(encoding="utf-8")
         
         # 1. PEP 621 ìŠ¤íƒ€ì¼: [project] dependencies = [...]
         _parse_pep621_deps(content, manifest)
@@ -1183,7 +1183,7 @@ def _load_go_manifest(directory: Path, manifest: HybridManifest):
         return
     
     try:
-        content = go_mod.read_text()
+        content = go_mod.read_text(encoding="utf-8")
         
         # require block
         for block in re.finditer(r'require\s*\((.*?)\)', content, re.DOTALL):
@@ -1211,7 +1211,7 @@ def _load_cargo_manifest(directory: Path, manifest: HybridManifest):
         return
     
     try:
-        content = cargo_toml.read_text()
+        content = cargo_toml.read_text(encoding="utf-8")
         
         # [dependencies] ì„¹ì…˜
         deps_match = re.search(
@@ -1250,7 +1250,7 @@ class GoAdapter:
         return (self.project / "go.mod").exists()
     
     def get_info(self) -> PackageInfo:
-        content = (self.project / "go.mod").read_text()
+        content = (self.project / "go.mod").read_text(encoding="utf-8")
         
         m = re.search(r'^module\s+(\S+)', content, re.MULTILINE)
         name = m.group(1) if m else "unknown"
@@ -1283,7 +1283,7 @@ class CargoAdapter:
         return (self.project / "Cargo.toml").exists()
     
     def get_info(self) -> PackageInfo:
-        content = (self.project / "Cargo.toml").read_text()
+        content = (self.project / "Cargo.toml").read_text(encoding="utf-8")
         parsed = self._parse_toml(content)
         
         pkg = parsed.get('package', {})

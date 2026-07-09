@@ -94,7 +94,7 @@ class PythonAnalyzer(BaseAnalyzer):
             try:
                 source = file_path.read_text(encoding="utf-8", errors="ignore")
                 tree = ast.parse(source, filename=str(file_path))
-            except:
+            except Exception:
                 continue
             
             for node in ast.walk(tree):
@@ -352,9 +352,12 @@ class PythonASTVisitor(ast.NodeVisitor):
                 # External inheritance (from imported module)
                 elif root_name in self.imported_names:
                     source_module = self.imported_names[root_name]
+                    # 부모 클래스가 dotted(login.BaseAuth, src.auth.login.BaseAuth)로
+                    # 지정돼도 클래스 노드 ID는 단일 클래스명(BaseAuth)으로 등록되므로,
+                    # 마지막 컴포넌트만 써야 bridge의 상속 검증과 이름이 일치한다.
                     self.edges.append(Edge(
                         source=f"{self.file_path}::{class_name}",
-                        target=f"{source_module}::{base_name}",
+                        target=f"{source_module}::{base_name.split('.')[-1]}",
                         type="INHERITANCE",
                         metadata={"internal": False}
                     ))

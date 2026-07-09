@@ -318,11 +318,19 @@ class DependencyModuleBridge:
         if target.startswith("."):
             return False
         
-        # 프로젝트 내부 모듈 제외
-        internal_modules = {n.get("id", "").split("/")[-1].replace(".py", "") for n in self.nodes}
-        base_module = target.split(".")[0]
-        
-        return base_module not in internal_modules
+        # 프로젝트 내부 모듈 제외 — 노드 ID(전체 상대경로)와 직접 대조한다.
+        # IMPORT edge의 target은 src/auth/login.py 같은 전체 경로이므로,
+        # 파일명 stem(login)만 모아 비교하면 모든 로컬 import가 external로
+        # 오분류돼 phantom 의존성으로 오탐된다.
+        local_node_ids = {n.get("id", "") for n in self.nodes}
+        if target in local_node_ids:
+            return False
+
+        # 클래스 노드 ID 대응 (예: src/auth/login.py::LoginService)
+        if "::" in target and target.split("::")[0] in local_node_ids:
+            return False
+
+        return True
     
     def _get_installed_packages(self) -> set[str]:
         """설치된 패키지 목록 조회"""
