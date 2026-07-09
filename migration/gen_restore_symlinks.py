@@ -9,10 +9,12 @@
 git 밖이라 clone으로 안 옮겨지므로 여기서 캡처해 재생성한다.
 
 - link/target의 홈 접두어를 $HOME으로 치환 → 신 Mac 사용자명이 달라도 동작.
+- 경로/타겟은 NFC로 정규화 → macOS가 NFD로 돌려주는 한글 경로와의 혼재 방지.
 - 의존 순서(정본을 직접 가리키는 ~/.codex 먼저)로 정렬.
 - 캡처 시점 깨진 링크는 제외하고 주석으로 기록.
 """
 import os
+import unicodedata
 from pathlib import Path
 
 HOME = Path.home()
@@ -20,6 +22,10 @@ ME = str(HOME)
 HERE = Path(__file__).resolve().parent
 SCAN = [HOME / ".codex" / "skills", HOME / ".claude" / "skills",
         HOME / "control", HOME / "agent"]
+
+
+def nfc(s: str) -> str:
+    return unicodedata.normalize("NFC", s)
 
 
 def homeify(p: str) -> str:
@@ -45,8 +51,10 @@ def collect():
             for name in list(dirnames) + filenames:
                 p = Path(dirpath) / name
                 if p.is_symlink():
-                    tgt = os.readlink(p)
-                    (links if os.path.exists(p) else broken).append((str(p), tgt))
+                    # os.walk/readlink가 돌려주는 한글 경로는 NFD일 수 있어
+                    # 스크립트 안에서 NFC/NFD가 섞이지 않게 정규화한다.
+                    tgt = nfc(os.readlink(p))
+                    (links if os.path.exists(p) else broken).append((nfc(str(p)), tgt))
             if Path(dirpath) != root and Path(dirpath).parent != root:
                 dirnames[:] = []
     links.sort(key=lambda lt: (order_key(lt[0]), lt[0]))
@@ -62,11 +70,14 @@ def render(links, broken) -> str:
         "set -euo pipefail",
         "",
         "link() {  # link <target> <linkpath>",
-        '  if [ ! -e "$1" ]; then echo "SKIP(타겟없음) $2 -> $1"; return; fi',
-        '  mkdir -p "$(dirname "$2")"',
-        '  rm -rf "$2"',
-        '  ln -s "$1" "$2"',
-        '  echo "OK   $2"',
+        '  local target="$1" linkpath="$2" check="$1"',
+        "  # 상대 타겟은 링크가 놓일 디렉토리 기준으로 실존 확인 (CWD 무관)",
+        '  if [[ "$target" != /* ]]; then check="$(dirname "$linkpath")/$target"; fi',
+        '  if [ ! -e "$check" ]; then echo "SKIP(타겟없음) $linkpath -> $target"; return; fi',
+        '  mkdir -p "$(dirname "$linkpath")"',
+        '  rm -rf "$linkpath"',
+        '  ln -s "$target" "$linkpath"',
+        '  echo "OK   $linkpath"',
         "}",
         "",
     ]

@@ -11,7 +11,8 @@ EXT="$REPO/skills/external"
 copy_from_mirror() {  # copy_from_mirror <mirror-subpath> <dest>
   local src="$EXT/$1" dst="$2"
   if [ ! -d "$src" ]; then echo "SKIP(미러없음) $1"; return; fi
-  if [ -e "$dst" ]; then echo "이미 존재 $dst"; return; fi
+  # -L 병행: dst가 '깨진 심링크'면 -e가 false라 cp가 그 위에 실행되는 것을 방지
+  if [ -e "$dst" ] || [ -L "$dst" ]; then echo "이미 존재 $dst"; return; fi
   mkdir -p "$(dirname "$dst")"
   cp -R "$src" "$dst"
   echo "OK   $dst  ← 미러 $1"
@@ -26,8 +27,11 @@ copy_from_mirror "codex/pptx" "$HOME/.codex/skills/pptx"
 
 # 3) taste-skill — vendored 외부 repo (남의 repo, 미러 안 함). origin에서 clone.
 TASTE="$HOME/agent/skills/taste-skill"
-if [ -e "$TASTE/.git" ]; then
+if [ -d "$TASTE/.git" ]; then
   echo "이미 존재 $TASTE"
+elif [ -e "$TASTE" ] || [ -L "$TASTE" ]; then
+  # 이전 실행 실패 잔재 등 — 비어있지 않으면 clone이 fatal로 죽으므로 건너뛰고 알림
+  echo "경고: $TASTE 경로가 존재하나 git repo가 아님 — 확인 후 정리하고 재실행"
 else
   mkdir -p "$(dirname "$TASTE")"
   git clone https://github.com/Leonxlnx/taste-skill.git "$TASTE"

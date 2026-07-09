@@ -19,6 +19,7 @@
 
 ### 1. 정본 git repo clone
 ```bash
+mkdir -p ~/Desktop/Project_____현재_진행중인
 cd ~/Desktop/Project_____현재_진행중인
 git clone <origin>/claude-gemini-communicator
 git clone <origin>/my-image-parser
