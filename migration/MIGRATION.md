@@ -65,6 +65,29 @@ python3 migration/gen_restore_symlinks.py   # restore-global-symlinks.sh 재생�
 ```
 (신 Mac에는 캡처할 심링크가 없으므로 이 제너레이터는 반드시 구 Mac에서 실행.)
 
+## 무결성 가드 (path_integrity_guard.py)
+
+심링크 훼손 패턴("이름=계약으로 개명하는데 참조는 절대경로로 고정")을 예방·진단하는
+읽기 전용 도구. 마이그레이션 전후 검증에 쓴다.
+
+```bash
+G=migration/path_integrity_guard.py
+python3 $G broken                # 끊긴 심링크 전수 (CI 가드: 있으면 exit 1)
+python3 $G candidates            # 끊긴 링크별 복구가능성 REPAIRABLE/AMBIGUOUS/ORPHAN
+python3 $G external <경계>        # <경계> 밖 의존 = 이식 시 함께 옮길 것 (freeze)
+python3 $G inbound <폴더>         # <폴더> 개명/이동 전 폭발 반경 (그 안 가리키는 링크)
+python3 $G verbose-risk          # '_____' 서술형 폴더 의존 링크 (개명 시 대량 훼손)
+# 옵션: --json (서브커맨드 앞에)
+```
+
+**개명/이동 전에는 반드시** `inbound <그 폴더>`로 폭발 반경을 먼저 본다 — 이게 이
+PC의 1위 훼손 원인(폴더 개명)을 막는 가드다. 2026-07-09 실측: 살아있는 링크 다수가
+`Project_____현재_진행중인` 한 폴더에 의존 → 이 폴더 개명은 대량 훼손을 부른다.
+
+reference 도구 subflow와의 대응: `broken`+`candidates` = fixMyRefs(broken→후보검색→
+판정), `external` = obsidian-export freeze(외부 resource 이식), `inbound`/`verbose-risk`
+= 개명 전 예방(기존 도구엔 드문, 이 PC 특유의 가드).
+
 ## git 밖이라 이 키트가 커버하지 '않는' 것
 아래는 별도로 옮겨야 한다(이 repo에 없음):
 - `~/.claude/projects/*/memory/` — 세션 메모리(MEMORY.md + 개별 파일)
