@@ -1,8 +1,8 @@
 # Integration Gate Report
 
 - verdict: **PASS_WITH_WARNING**
-- generated: 2026-07-09T13:23:44+09:00
-- HEAD: `c0a63bd`
+- generated: 2026-07-11T00:20:54+09:00
+- HEAD: `c54575f`
 
 | gate | status | summary |
 |---|---|---|
