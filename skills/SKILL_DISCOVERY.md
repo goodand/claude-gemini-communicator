@@ -43,6 +43,9 @@ resolver는 아래 루트를 **위에서 아래로** 스캔하고, 같은 skill 
 - `external/narrative-ai/` — `narrative-ai` 프로젝트 skill (iOS/Xcode/merge-audit 등)
 - `external/codex/` — `~/.codex/skills`의 실체 skill (m5-ssh-codex-operator 등)
 - `external/home/` — `~/.claude/skills`·`~/skills`의 공용 skill
+- **taste-skill — 미러 제외 (2026-07-11 결정)**: `~/agent/skills/taste-skill`은 타인 repo의
+  vendored clone(`github.com/Leonxlnx/taste-skill`, HEAD `035bf8d`, 내부 디자인-테이스트 skill 8종).
+  무단 미러 대신 이 출처 링크만 남긴다 — "external=미러, 출처가 정본" 원칙.
 
 > `external/`는 **미러**입니다. 각 skill의 원 소유 repo가 정본이며, 이 미러는
 > 배포·검색·오프라인 참조용입니다. `.env` 등 시크릿은 미러에서 제외됩니다.
