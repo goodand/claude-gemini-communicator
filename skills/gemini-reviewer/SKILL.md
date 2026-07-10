@@ -1,11 +1,13 @@
 ---
 name: gemini-reviewer
-description: Gemini에게 코드나 문서 리뷰를 요청할 때 사용한다. 코드 파일(.py, .js, .ts 등) 작성/수정 후, 설계 문서나 계획 완성 후, 또는 사용자가 "리뷰해줘", "평가해줘", "검토해줘"라고 요청했을 때 트리거한다. SDK 우선 호출(Exponential Backoff 재시도) + CLI 폴백 이중화. text/json 출력 지원.
+description: Gemini SDK/CLI로 코드나 문서 리뷰를 요청할 때 사용한다. Gemini review-only 작업에 직접 사용. full workflow(setup → review → parse → save)나 Codex 리뷰가 필요하면 cross-agent-bridge를 먼저 사용하라.
 ---
 
 # Gemini Reviewer
 
-Gemini에 코드/문서 리뷰를 요청하는 크로스 에이전트 스킬.
+`cross-agent-bridge` family의 **Gemini review specialist**. Gemini 리뷰만 필요할 때 직접 호출한다.
+
+> **Full workflow가 필요하면 `cross-agent-bridge`를 먼저 사용하세요.** 이 skill은 Gemini review-only direct call 전용입니다.
 
 ## 워크플로우
 

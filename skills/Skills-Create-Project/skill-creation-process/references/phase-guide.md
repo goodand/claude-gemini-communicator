@@ -1,5 +1,56 @@
 # Phase Guide — Skill 제작 상세 절차
 
+> **이 절차는 전진(Phase -2→7)과 역진입(issue→layer→phase) 양방향으로 사용한다.**
+> 새 skill 제작은 Phase -2부터 순서대로 진행한다.
+> 평가/리팩토링 중 issue가 발생하면 `(→ references/reverse-entry-workflow-at2026-03-27.md)`를 따라 해당 phase로 직접 재진입한다.
+
+## Skill Type Branch (이 섹션이 canonical owner)
+
+phase를 밟기 전에 skill의 **primary type 1개 + secondary tags 0~N개**를 결정한다.
+
+### Primary Type (택 1)
+
+| primary type | 설명 |
+|-------------|------|
+| document-only | KB/reference 중심, 실행 코드 없음 |
+| contract-heavy | enum/field/transition을 정의하고 외부에 노출 |
+| runtime-heavy | 스크립트/CLI 중심, 내부 contract만 |
+
+### Secondary Tags (해당하는 것 모두)
+
+| tag | 의미 | gate 영향 |
+|-----|------|----------|
+| `cross-skill(contract)` | 다른 skill의 contract(registry, enum, field set)을 consume하거나 노출 | 4.2A 필수, cross-skill audit 필요 (`references/cross_skill_dependencies.yaml` 유지) |
+| `cross-skill(adjacent)` | 다른 skill의 reference/KB를 참조하지만 contract binding은 없음 | freshness scan에서 역참조 확인, 4.2A 불필요 |
+| `has-registry` | machine-readable contract registry 보유 | sync audit 필수 |
+
+### Gate 결정 규칙
+
+| 조건 | 4.2A | 5-1G sync audit | 5-1G freshness |
+|------|------|-----------------|----------------|
+| primary = document-only, tag 없음 | 아니오 | 아니오 | 예 |
+| primary = contract-heavy | **예** | **예** | 예 |
+| primary = runtime-heavy, tag 없음 | 아니오 | 아니오 | 예 |
+| tag `cross-skill(contract)` 있음 | **예** | **예** | 예 |
+| tag `cross-skill(adjacent)` 있음 | 아니오 | 아니오 | 예 (역참조 포함) |
+| tag `has-registry` 있음 | **예** | **예** | 예 |
+
+### 예시
+
+- agent-task-packet: `contract-heavy` + `cross-skill(contract)`
+- claim-verifier: `runtime-heavy` + `cross-skill(contract)` (doc-code-sync의 비교 로직 consume)
+- codebase-analysis: `document-only` + `cross-skill(adjacent)` (다른 skill의 reference를 참조)
+- tmux-controller: `runtime-heavy` (tag 없음)
+
+### 판정 기준
+
+- `contract-heavy` 판정: Phase 4.2A 적용 조건(3개 이상 층 복제, 외부 contract 노출, builder와 reference가 동일 enum 정의)에 하나 이상 해당
+- `cross-skill(contract)` 판정: 이 skill이 다른 skill의 registry/enum/field set을 import하거나, 이 skill의 contract을 다른 skill이 consume
+- `cross-skill(adjacent)` 판정: 다른 skill의 reference/KB/troubleshooting을 참조하지만 기계적 contract binding은 없음
+- `has-registry` 판정: `references/contracts/` 디렉토리에 machine-readable JSON registry가 존재
+
+---
+
 ## Phase -2: 사용자 의도 파악
 
 스킬 제작 전에 **사용자가 실제로 무엇을 원하는지** 먼저 고정한다.
@@ -216,6 +267,41 @@ Scripts는 단순 자동화 도구가 아니라 **스킬 작동 결과를 추적
 
 ---
 
+### 4-2A. Contract Owner Map + Sync Audit
+
+같은 사실이 여러 층에 복제될 때, **소유권을 먼저 고정**하고 projection이 동기화됐는지 검증하는 단계.
+
+### 적용 조건 (아래 중 하나 이상 해당할 때 mandatory):
+- 같은 fact(enum, field set, transition)가 **3개 이상 층**(reference + template + builder 등)에 복제되는 경우
+- stable JSON/CLI **contract를 외부에 노출**하는 경우 (다른 skill이 이 contract을 consume)
+- builder와 reference가 **동일한 enum/transition/field set을 각각 정의**하는 경우
+
+적용 조건에 해당하지 않으면(단일 스크립트 skill, 문서형 skill 등) 이 단계를 건너뛴다.
+
+### 절차:
+1. **Fact owner map 작성** — 이 스킬에서 정의하는 핵심 사실마다 canonical owner를 **1곳만** 지정
+   - 기계적 사실(enum, field set, transition, profile policy) → registry(.json) owner, reference(.md)는 mirror
+   - 자연어 규칙(boundary, non-goals, why, 설계 원칙) → reference(.md) owner
+   - template / builder constant / test = consumer (재정의 금지)
+2. **Machine-readable registry 추가** — `references/contracts/<name>_contract_v<version>.json`에 enum, field set, transition 등 반복 사실을 기계가 읽을 수 있는 형태로 저장
+3. **Sync audit 실행** — registry ↔ template ↔ builder ↔ test 간 parity를 기계적으로 비교
+4. **Paired-change review** — SPEC과 code가 동시에 바뀌면 양방향 재확인 필수:
+   - SPEC → code: SPEC 변경이 code에 반영됐는가
+   - code → SPEC: code 변경이 SPEC/reference에 반영됐는가
+   - 이 검토 없이 Phase 5로 넘어가지 않는다
+
+### 산출물:
+- `references/contracts/` 디렉토리의 registry JSON
+- fact owner map (코드베이스 공용이면 `_shared/fact-owner-map.md`)
+- sync audit 결과 (all in_sync이면 pass, drift가 있으면 수정 후 재실행)
+
+### 기준:
+- 수정 순서: owner-first (기계적 사실: registry → reference mirror → consumer, 자연어 규칙: reference → consumer) → audit
+- 공용 패턴은 `(→ references/contract-sync-patterns-at2026-03-27.md)` 참고
+- paired-change 규칙은 `(→ references/paired-spec-code-change-rule-at2026-03-27.md)` 참고
+
+---
+
 ### 4-3. Evals 작성
 
 super-skill-creator 스키마:
@@ -270,6 +356,33 @@ python3 <script> --help
 python3 skill-creation-process/scripts/verify_artifact_order.py --skill-dir <skill-dir>
 ```
 
+### 5-1G. Post-Validate Gates (quick_validate 후속)
+
+quick_validate 통과 후, 아래 gate를 순서대로 실행한다. **validate 통과 ≠ 정렬 완료**임을 명심한다.
+
+1. **Contract Sync Audit** (contract-heavy, 또는 `cross-skill(contract)`/`has-registry` tag 해당 — Skill Type Branch Gate 결정 규칙 참고)
+   ```bash
+   python3 _shared/scripts/audit_contract_sync.py
+   ```
+   - all `in_sync`이면 pass. `drift`가 하나라도 있으면 Phase 4.2A로 되돌아가 수정 후 재실행
+   - 이 gate는 runtime validate와 **별개** — validate는 실행 호환성, sync audit는 canonical parity
+
+2. **Reference Freshness Scan** (source-of-truth 변경이 있는 모든 round 종료 시 — code, KB, reference, registry, cross-skill contract 변경 포함)
+   - Phase 5.3B 절차를 실행하여 `references/*-at...md`, `knowledge_bases/*`, `checklist-*`의 stale candidate를 선별
+   - executable artifact가 바뀐 round면 smoke 직후, 문서/registry-only round면 round 종료 직후 실행
+   - stale candidate가 있으면 Phase 5.3B의 갱신/archive 절차를 먼저 완료한 뒤 다음 단계로 진행
+   - candidate가 없으면 pass
+
+3. **Cross-Skill Dependency Audit** (선택적 v1 — `cross-skill(contract)` consumer만)
+   ```bash
+   python3 _shared/scripts/audit_cross_skill_dependencies.py --skills-root .
+   ```
+   - v1 자동화는 declaration 존재, provider/contract 경로, `last_synced_at` stale 여부만 검사
+   - semantic drift는 `(→ references/reverse-entry-workflow-at2026-03-27.md)`의 수동 절차를 유지
+   - `--strict`는 declaration 규칙이 안정된 뒤에만 사용
+
+**이 두 gate를 건너뛰면 "테스트 통과했는데 문서가 낡은" 문제가 반복된다.**
+
 ### 5-2. 실전 테스트 / Smoke Test (tmux + Codex)
 Claude가 tmux-controller로 Codex를 격리 세션에서 실행하여 스킬을 실전 테스트:
 ```bash
@@ -322,6 +435,31 @@ raw multi-file archive가 필요하면 `logs/smoke/<command>/<timestamp>/...`로
 - portability audit JSON
 - portability audit MD
 - install set에 포함해야 할 sibling skill/폴더 목록
+
+### 5-3B. Reference Freshness Audit
+
+코드가 바뀐 뒤 `references/*-at...md`, `knowledge_bases/*`, `checklist-*`가 stale candidate가 되는 문제를 공용 절차로 잡는다.
+
+### 절차:
+1. **stale candidate 탐지** — `artifact-lifecycle-manager scan-stale-candidates`로 문서 내 참조 대상의 mtime을 비교
+2. **semantic owner 분류** — 각 stale candidate를 rule_bearing(→ doc-code-sync-checker) 또는 claim_heavy(→ claim-verifier)로 분류
+3. **갱신 또는 archive 결정**:
+   - 여전히 유효 → 최소 review 기록(`reviewed_at`, `review_basis`)을 남긴 뒤 candidate 해제. **touch만으로 해제 금지**
+   - rule_bearing 문서 → semantic recheck(doc-code-sync-checker) 없이 해제 금지
+   - 내용이 outdated → reference 갱신 후 sync audit 재실행
+   - 더 이상 필요 없음 → artifact-lifecycle-manager로 archive/delete handoff
+4. **contract registry 정합성 재확인** — freshness audit 중 registry와 reference 간 drift가 발견되면 Phase 4.2A sync audit로 되돌아간다
+
+### 산출물:
+- stale candidate 목록 (file, status, semantic_owner)
+- 갱신된 reference 파일 또는 archive handoff 기록
+
+### 기준:
+- 공용 패턴은 `(→ references/reference-freshness-audit-pattern-at2026-03-27.md)` 참고
+- review record 저장 위치: `references/` → 대상 문서의 YAML frontmatter, `knowledge_bases/`·`checklist-*` → sidecar `.freshness_audit.yaml`. shape와 분기 규칙은 `(→ references/reference-freshness-audit-pattern-at2026-03-27.md)` Review Record Shape 참고
+- stale candidate ≠ semantic stale — 1차 탐지만 하고 최종 판단은 semantic owner에게 위임
+
+---
 
 ### 5-4. Evidence To KB Promotion
 

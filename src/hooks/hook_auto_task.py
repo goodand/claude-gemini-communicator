@@ -50,6 +50,8 @@ def main():
         sys.exit(0)
 
     config = load_config()
+    if not config.get("auto_hooks_enabled", True):
+        sys.exit(0)
 
     # 확장자 확인
     extensions = config.get("watch_extensions", [".md"])

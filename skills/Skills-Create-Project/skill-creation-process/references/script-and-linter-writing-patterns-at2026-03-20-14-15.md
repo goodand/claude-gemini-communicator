@@ -68,6 +68,40 @@
 4. `py_compile`과 테스트 재실행
 5. 남는 항목만 별도 follow-up으로 분리
 
+## Validator Separation: Runtime vs Sync
+
+validator를 하나로 합치면 "테스트 통과 = 정렬 완료"처럼 보이는 문제가 발생한다.
+두 가지 validator를 분리한다.
+
+### Runtime Validator
+- **목적**: 실행 시점에 입력이 유효한지 확인
+- **실행 시점**: builder, CLI, script 실행 시 자동
+- **엄격도**: 호환성 유지 — unknown field 허용, deprecated field 경고
+- **exit code**: 실패 시 1, 경고 시 0+stderr
+- **예시**: `packet_builder.py validate`, `dispatch_manager.py validate`
+- **규칙**: 기존 데이터가 깨지지 않도록 느슨하게 유지
+
+### Sync Validator (Audit)
+- **목적**: canonical registry와 consumer(template/builder/test)의 동기화 확인
+- **실행 시점**: 수정 후 수동, CI에서 주기적
+- **엄격도**: strict — unknown field 에러, enum mismatch 에러, 누락 필드 에러
+- **exit code**: drift 발견 시 1
+- **예시**: `audit_contract_sync.py`
+- **규칙**: canonical registry를 source of truth로 삼고 consumer의 재정의를 거부
+
+### 분리하지 않으면 생기는 문제:
+1. runtime validator가 느슨해서 canonical에 없는 필드가 template에 들어가도 통과
+2. "63 tests passed" → 정렬 완료로 착각 → 다음 라운드에서 drift 재발견
+3. enum 정의가 registry와 template에서 다른데 둘 다 "valid"로 판정
+
+### 도입 순서:
+1. 먼저 machine registry를 만든다 (Phase 4.2A)
+2. sync audit script를 만든다
+3. runtime validator는 기존 것을 유지한다
+4. 두 validator의 scope를 명시적으로 문서화한다
+
+---
+
 ## When To Split
 
 - script 설계 원칙은 이 문서에 둔다.

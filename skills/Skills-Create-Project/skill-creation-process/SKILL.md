@@ -1,11 +1,12 @@
 ---
 name: workspace-artifact-production-process
 description: >-
-  Use this skill when producing reusable workspace artifacts such as
-  markdown docs, scripts, checklists, knowledge bases, references,
-  smoke outputs, and bounded code through a standardized process.
-  문서, 스크립트, 체크리스트, KB, 레퍼런스, smoke 산출물, 제한된 코드까지
-  포함하는 workspace artifact 생산 절차에 사용한다.
+  Artifact Production family의 workflow owner. Use this skill when reusable
+  workspace artifacts such as markdown docs, scripts, checklists, knowledge
+  bases, references, smoke outputs, and bounded code must be produced through
+  a standardized process. output-specific direct call은 kb-checklist-pipeline,
+  slice-experiment-lab, evidence-to-knowledge-promoter, edge-case-generator를
+  사용하라.
 ---
 
 # Workspace Artifact Production Process
@@ -18,6 +19,23 @@ description: >-
 - 기존 workspace artifact의 구조가 표준 production order에 맞는지 검증할 때
 - MD, KB, checklist, reference, script, smoke artifact를 함께 정리해야 할 때
 - Codex 실전 테스트 후 결과를 재사용 가능한 artifact로 남길 때
+
+## Do not use
+
+- KB만 만들면 될 때 → `kb-checklist-pipeline`
+- contract slice 하나만 닫으면 될 때 → `slice-experiment-lab`
+- evidence를 KB insight로 승격만 하면 될 때 → `evidence-to-knowledge-promoter`
+- validate용 edge case만 생성하면 될 때 → `edge-case-generator`
+
+## Family Roles
+
+- owner:
+  - `workspace-artifact-production-process`
+- direct-call specialists:
+  - `kb-checklist-pipeline`
+  - `slice-experiment-lab`
+  - `evidence-to-knowledge-promoter`
+  - `edge-case-generator`
 
 ## Workflow
 
@@ -40,3 +58,4 @@ description: >-
 - split 기준은 entrypoint 경량화만이며, 상세 내용은 그대로 분리했다
 - subagent 작업은 [references/subagent-preservation-rule-at2026-03-19-21-34.md](references/subagent-preservation-rule-at2026-03-19-21-34.md) 의 preservation-first rule을 기본 계약으로 쓴다
 - canonical skill name은 `workspace-artifact-production-process`로 보되, 디렉토리 경로 `skill-creation-process/`는 호환성을 위해 유지한다
+- owner band taxonomy는 [references/owner-task-bands-at2026-04-02.md](references/owner-task-bands-at2026-04-02.md)
