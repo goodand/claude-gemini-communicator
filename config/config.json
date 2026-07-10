@@ -27,6 +27,7 @@
     "oauth_client_secret_env": "GEMINI_OAUTH_CLIENT_SECRET"
   },
   "async_mode": false,
+  "auto_hooks_enabled": false,
 
   "a2a_schema_enabled": false,
 

@@ -1,11 +1,13 @@
 ---
 name: agent-parser
-description: Codex JSONL, Gemini JSON, Claude transcript 출력을 파싱하여 구조화 요약을 생성할 때 사용한다. 에이전트 세션 분석, 토큰 사용량 확인, 명령 실행 결과 집계, 대화 흐름 요약이 필요할 때 트리거한다. 자동 포맷 감지로 --agent auto 지원.
+description: Codex JSONL, Gemini JSON, Claude transcript 출력을 파싱하여 구조화 요약을 생성할 때 사용한다. parse-only 작업에만 직접 사용. full workflow(review → parse → save)가 필요하면 cross-agent-bridge를 먼저 사용하라.
 ---
 
 # Agent Parser
 
-Codex, Gemini, Claude 출력을 통합 파싱하는 크로스 에이전트 스킬.
+`cross-agent-bridge` family의 **parse specialist**. 출력 파싱만 필요할 때 직접 호출한다.
+
+> **Full workflow가 필요하면 `cross-agent-bridge`를 먼저 사용하세요.** 이 skill은 parse-only direct call 전용입니다.
 
 ## 지원 포맷
 
