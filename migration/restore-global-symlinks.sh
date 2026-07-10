@@ -1,0 +1,73 @@
+#!/usr/bin/env bash
+# 전역 skill 심링크 복원 — 새 Mac 마이그레이션용. (gen_restore_symlinks.py 생성물)
+# 선행조건: MIGRATION.md의 1~2단계(repo clone + 비-git 콘텐츠 복원)를 먼저 끝낼 것.
+# $HOME 기반이라 사용자명이 달라도 동작. idempotent(재실행 안전).
+set -euo pipefail
+
+link() {  # link <target> <linkpath>
+  local target="$1" linkpath="$2" check="$1"
+  # 상대 타겟은 링크가 놓일 디렉토리 기준으로 실존 확인 (CWD 무관)
+  if [[ "$target" != /* ]]; then check="$(dirname "$linkpath")/$target"; fi
+  if [ ! -e "$check" ]; then echo "SKIP(타겟없음) $linkpath -> $target"; return; fi
+  mkdir -p "$(dirname "$linkpath")"
+  rm -rf "$linkpath"
+  ln -s "$target" "$linkpath"
+  echo "OK   $linkpath"
+}
+
+# ── ~/.codex/skills → 정본 repo(Desktop) / ~/skills ──
+link "$HOME/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/agent-task-packet" "$HOME/.codex/skills/agent-task-packet"
+link "$HOME/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/artifact-lifecycle-manager" "$HOME/.codex/skills/artifact-lifecycle-manager"
+link "$HOME/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/baseline-diff-lab" "$HOME/.codex/skills/baseline-diff-lab"
+link "$HOME/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/claim-verifier" "$HOME/.codex/skills/claim-verifier"
+link "$HOME/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/class-hierarchy-classifier" "$HOME/.codex/skills/class-hierarchy-classifier"
+link "$HOME/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/codebase-architecture-mapper" "$HOME/.codex/skills/codebase-architecture-mapper"
+link "$HOME/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/codex-tmux-orchestrator" "$HOME/.codex/skills/codex-tmux-orchestrator"
+link "$HOME/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/codex-worktree-dispatch" "$HOME/.codex/skills/codex-worktree-dispatch"
+link "$HOME/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/contract-to-concept-mapper" "$HOME/.codex/skills/contract-to-concept-mapper"
+link "$HOME/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/depsolve-analyzer" "$HOME/.codex/skills/depsolve-analyzer"
+link "$HOME/skills/destructive-cleanup-preflight" "$HOME/.codex/skills/destructive-cleanup-preflight"
+link "$HOME/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/doc-code-sync-checker" "$HOME/.codex/skills/doc-code-sync-checker"
+link "$HOME/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-to-knowledge-promoter" "$HOME/.codex/skills/evidence-to-knowledge-promoter"
+link "$HOME/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/evidence-trace-auditor" "$HOME/.codex/skills/evidence-trace-auditor"
+link "$HOME/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/execution-contract-mapper" "$HOME/.codex/skills/execution-contract-mapper"
+link "$HOME/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/graph-structure-classifier" "$HOME/.codex/skills/graph-structure-classifier"
+link "$HOME/Desktop/Project_____현재_진행중인/my-image-parser/skills/image-commit-manager" "$HOME/.codex/skills/image-commit-manager"
+link "$HOME/Desktop/Project_____현재_진행중인/my-image-parser/skills/image-job-dispatcher" "$HOME/.codex/skills/image-job-dispatcher"
+link "$HOME/Desktop/Project_____현재_진행중인/my-image-parser/skills/image-result-auditor" "$HOME/.codex/skills/image-result-auditor"
+link "$HOME/Desktop/Project_____현재_진행중인/my-image-parser/skills/image-worker" "$HOME/.codex/skills/image-worker"
+link "$HOME/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/kb-checklist-pipeline" "$HOME/.codex/skills/kb-checklist-pipeline"
+link "$HOME/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/python-static-diagnostic-fixer" "$HOME/.codex/skills/python-static-diagnostic-fixer"
+link "$HOME/Desktop/Project_____현재_진행중인/narrative-ai/.claude/skills/runtime-flow-tracer" "$HOME/.codex/skills/runtime-flow-tracer"
+link "$HOME/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/runtime-flow-tracer-web-preview" "$HOME/.codex/skills/runtime-flow-tracer-web-preview"
+link "$HOME/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/skill-creation-process" "$HOME/.codex/skills/skill-creation-process"
+link "$HOME/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/skill-path-resolver" "$HOME/.codex/skills/skill-path-resolver"
+link "$HOME/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/super-skill-creator" "$HOME/.codex/skills/super-skill-creator"
+link "$HOME/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/tmux-controller" "$HOME/.codex/skills/tmux-controller"
+link "$HOME/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/troubleshooting-cot-2" "$HOME/.codex/skills/troubleshooting-cot"
+link "$HOME/skills/workspace-control-recovery" "$HOME/.codex/skills/workspace-control-recovery"
+link "$HOME/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/worktree-parallel" "$HOME/.codex/skills/worktree-parallel"
+link "$HOME/Desktop/Project_____현재_진행중인/narrative-ai/.claude/skills/.claude/xcode-mcp-setup" "$HOME/.codex/skills/xcode-mcp-setup"
+link "$HOME/Desktop/Project_____현재_진행중인/narrative-ai/.claude/skills/xcode-perf-experiment-loop" "$HOME/.codex/skills/xcode-perf-experiment-loop"
+# ── ~/control/patterns → communicator ──
+link "$HOME/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/skill-creation-process/references/catalog" "$HOME/control/patterns/catalog"
+link "$HOME/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/skill-creation-process/scripts/catalog_lookup.py" "$HOME/control/patterns/catalog_lookup.py"
+link "$HOME/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/skill-creation-process/references/repeated-task-and-issue-patterns-at2026-03-19-13-34.md" "$HOME/control/patterns/repeated-task-and-issue-patterns.md"
+link "$HOME/Desktop/Project_____현재_진행중인/claude-gemini-communicator/skills/Skills-Create-Project/skill-creation-process/references/subagent-task-and-trouble-patterns-at2026-03-20-02-48.md" "$HOME/control/patterns/subagent-task-and-trouble-patterns.md"
+# ── ~/.claude/skills → ~/.codex/skills ──
+link "$HOME/.codex/skills/class-hierarchy-classifier" "$HOME/.claude/skills/class-hierarchy-classifier"
+link "$HOME/.codex/skills/codebase-architecture-mapper" "$HOME/.claude/skills/codebase-architecture-mapper"
+link "$HOME/.codex/skills/depsolve-analyzer" "$HOME/.claude/skills/depsolve-analyzer"
+link "$HOME/.codex/skills/graph-structure-classifier" "$HOME/.claude/skills/graph-structure-classifier"
+link "$HOME/.codex/skills/runtime-flow-tracer" "$HOME/.claude/skills/runtime-flow-tracer"
+link "$HOME/.codex/skills/runtime-flow-tracer-web-preview" "$HOME/.claude/skills/runtime-flow-tracer-web-preview"
+link "$HOME/.codex/skills/skill-path-resolver" "$HOME/.claude/skills/skill-path-resolver"
+link "$HOME/.codex/skills/super-skill-creator" "$HOME/.claude/skills/super-skill-creator"
+link "$HOME/.codex/skills/troubleshooting-cot" "$HOME/.claude/skills/troubleshooting-cot"
+link "$HOME/.codex/skills/xcode-mcp-setup" "$HOME/.claude/skills/xcode-mcp-setup"
+link "$HOME/.codex/skills/xcode-perf-experiment-loop" "$HOME/.claude/skills/xcode-perf-experiment-loop"
+# ── ~/agent → ~/control, ~/.codex ──
+link "$HOME/control/project_agent_ops" "$HOME/agent/project_agent_ops"
+link "$HOME/.codex/skills/pptx" "$HOME/agent/skills/pptx"
+
+echo "복원 완료: 50개 심링크"
