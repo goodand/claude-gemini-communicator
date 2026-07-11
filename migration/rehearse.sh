@@ -4,7 +4,7 @@
 # 네트워크·실제 clone 없이 기제만 확인(타겟은 stub). exit 0=PASS.
 set -uo pipefail
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-SCRIPT="$REPO/migration/restore-global-symlinks.sh"
+SCRIPT="${1:-$REPO/migration/restore-global-symlinks.sh}"   # 인자로 다른 스크립트 지정 가능(음성 대조 테스트용)
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
 
@@ -15,13 +15,18 @@ grep '^link ' "$SCRIPT" | sed -E 's/^link "([^"]+)".*/\1/' \
 # 2) 합성 HOME으로 복원 실행 (여기서 $HOME 치환이 실제로 동작하는지 검증됨)
 HOME="$TMP" bash "$SCRIPT" >/dev/null
 
-# 3) 검증
+# 3) 검증 — 검증 대상을 하드코딩 루트 목록이 아니라 스크립트의 linkpath에서 역파싱한다.
+#    생성기(gen_restore_symlinks.py의 SCAN)와 같은 루트 가정을 공유하면 둘이 동시에
+#    틀려도 PASS가 나는 맹점이 생긴다(architecture/05_domain_boundaries.md §4 메타 규칙).
 expected=$(grep -c '^link ' "$SCRIPT")
-roots=("$TMP/.codex/skills" "$TMP/.claude/skills" "$TMP/.claude/agents" "$TMP/control" "$TMP/agent")
-created=$(find "${roots[@]}" -type l 2>/dev/null | wc -l | tr -d ' ')
-dangling=0
-while IFS= read -r l; do [ -e "$l" ] || dangling=$((dangling+1)); done \
-  < <(find "${roots[@]}" -type l 2>/dev/null)
+created=0; dangling=0
+while IFS= read -r lp; do
+  p="${lp/#\$HOME/$TMP}"
+  if [ -L "$p" ]; then
+    created=$((created+1))
+    [ -e "$p" ] || dangling=$((dangling+1))
+  fi
+done < <(grep '^link ' "$SCRIPT" | sed -E 's/^link "[^"]+" "([^"]+)"$/\1/')
 # 생성된 링크가 원래 사용자명을 문자열로 물고 있으면 $HOME 치환 실패
 leaked=$(find "$TMP" -type l -exec readlink {} \; 2>/dev/null \
          | grep -c "/Users/jaehyuntak" || true)

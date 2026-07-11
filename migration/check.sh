@@ -20,6 +20,7 @@ probe "① 복원 키트 이식성 리허설"        bash migration/rehearse.sh
 probe "② catalog↔resolver drift 0"       python3 skills/catalog_resolver_audit.py
 probe "③ 통합 gate 통과"                 python3 skills/integration-gate/run_integration_gate.py
 probe "④ resolver 사용자명 하드코딩 0"   bash -c '! grep -q /Users/jaehyuntak skills/resolve_skill.py'
+probe "⑤ 실행코드 하드코딩 경로 0"       bash -c '! git grep -qE "/Users/[^/]+/(Desktop|control|agent)" -- "*.py" "*.sh"'
 
 echo "---"
 if [ "$fail" = 0 ]; then

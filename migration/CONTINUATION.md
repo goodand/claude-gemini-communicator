@@ -52,9 +52,8 @@ BOTH 8개(resolve_skill.py, depsolve-analyzer/* 등 PR#3/#4 수정본)는 불변
 `auto_hooks_enabled`는 repo 본연 동작 위해 별도 커밋(`c54575f`)으로 `true`.
 
 ### B. "아직 probe 없는" unknown 3개 (전략 = triage: 싸고 물릴 것부터)
-1. **#3 남은 하드코딩** — *지금, 값쌈.* 실행코드는 이미 clean. `check.sh`에 5번째
-   probe 추가: `git grep -nE "/Users/[^/]+/(Desktop|control|agent)" -- '*.py' '*.sh'`
-   가 비어야 함(현재 통과).
+1. **#3 남은 하드코딩** — ✅ 해소(2026-07-11): `check.sh` probe ⑤로 코드화
+   (`! git grep -qE "/Users/[^/]+/(Desktop|control|agent)" -- '*.py' '*.sh'`). 상시 감시로 전환.
 2. **#2 rescue-7 심링크** — ✅ 완전 해소. 타겟은 §3-A 반영으로 존재(2026-07-10), 심링크
    자체도 마이그레이션 키트가 재생성(2026-07-11: `~/.claude/agents` SCAN 추가 → 새 Mac
    복원 커버). 아래는 회귀 감지 probe로 유지:
@@ -82,6 +81,11 @@ BOTH 8개(resolve_skill.py, depsolve-analyzer/* 등 PR#3/#4 수정본)는 불변
   `external/` 취급의 선례가 된다.
 - 남은 외부-repo 백로그(이 repo 밖): msi 로컬 skill 2종(repair-rag-artifact-contract,
   trace-claude-session-memory)을 my-second-identity main에 커밋 — HANDOFF §3-B 참조.
+- **3-도메인 경계 지도 확정 (2026-07-11)** — `architecture/05_domain_boundaries.md`가 정본:
+  (1) path/백링크 위상 인프라 · (2) skill catalog · (3) multi-agent의 판별 테스트, 겹침 9지점,
+  workflows 전략, unknown-unknown 4층 탐지 전략. **skills/ 분리의 잔류 목록 =
+  `src/cli.py` `_INSTALL_SKILLS` 6종**. 같은 날 구현: check.sh probe ⑤(하드코딩 상시 감시),
+  rehearse.sh 독립화(검증자-생성자 가정 분리 — linkpath 역파싱, 음성 대조로 94/95 FAIL 검증).
 
 ## 4. 브랜치·태그 지도
 
