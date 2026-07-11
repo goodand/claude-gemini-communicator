@@ -97,8 +97,24 @@ def test_hook_auto_task_kill_switch_disabled(monkeypatch, capsys):
     assert capsys.readouterr().out == ""
 
 
+class _FakeProvider:
+    """provider 레지스트리 seam용 가짜 — call/call_async가 고정 응답을 돌려주고 prompt를 기록."""
+
+    def __init__(self, respond=lambda prompt: "RAW_FEEDBACK"):
+        self.respond = respond
+        self.seen_prompts = []
+
+    def call(self, content, prompt, config, file_path=None):
+        self.seen_prompts.append(prompt)
+        return self.respond(prompt)
+
+    def call_async(self, content, prompt, config, file_path=None, source=None):
+        self.seen_prompts.append(prompt)
+        return "PENDING"
+
+
 def test_hook_auto_task_sync_mode_saves_feedback(monkeypatch, capsys):
-    # 동기 모드에서 Gemini 호출 결과를 저장 후 포맷하여 출력
+    # 동기 모드에서 provider 호출 결과를 저장 후 포맷하여 출력
     from src.hooks import hook_auto_task
 
     monkeypatch.setattr(hook_auto_task, "load_env", lambda: None)
@@ -106,14 +122,14 @@ def test_hook_auto_task_sync_mode_saves_feedback(monkeypatch, capsys):
 
     saved = {}
 
-    def fake_save_feedback(feedback, source, file_path=None, request_id=None):
+    def fake_save_feedback(feedback, source, file_path=None, request_id=None, **kwargs):
         saved["feedback"] = feedback
         saved["source"] = source
         saved["file_path"] = file_path
         saved["request_id"] = request_id
 
     monkeypatch.setattr(hook_auto_task, "save_feedback", fake_save_feedback)
-    monkeypatch.setattr(hook_auto_task, "call_gemini", lambda content, prompt, config, file_path=None: "RAW_FEEDBACK")
+    monkeypatch.setattr(hook_auto_task, "get_provider", lambda agent: _FakeProvider())
     monkeypatch.setattr(
         hook_auto_task,
         "load_config",
@@ -140,13 +156,8 @@ def test_hook_auto_task_uses_code_prompt_for_code_ext(monkeypatch):
     monkeypatch.setattr(hook_auto_task, "load_env", lambda: None)
     monkeypatch.setattr(hook_auto_task, "check_cooldown", lambda fp, cfg: True)
 
-    seen = {}
-
-    def fake_call_gemini(content, prompt, config, file_path=None):
-        seen["prompt"] = prompt
-        return "OK"
-
-    monkeypatch.setattr(hook_auto_task, "call_gemini", fake_call_gemini)
+    fake = _FakeProvider(respond=lambda prompt: "OK")
+    monkeypatch.setattr(hook_auto_task, "get_provider", lambda agent: fake)
     monkeypatch.setattr(
         hook_auto_task,
         "load_config",
@@ -158,7 +169,7 @@ def test_hook_auto_task_uses_code_prompt_for_code_ext(monkeypatch):
     monkeypatch.setattr(hook_auto_task, "save_feedback", lambda *a, **k: None)
     hook_auto_task.main()
 
-    assert "이 코드를 리뷰해줘." in seen["prompt"]
+    assert any("이 코드를 리뷰해줘." in p for p in fake.seen_prompts)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -293,17 +304,17 @@ def test_stop_handle_plan_detection_yes_sync(monkeypatch):
 
     called = {"classified": False, "evaluated": False, "saved": False}
 
-    def fake_call_gemini(content, prompt, config, file_path=None):
+    def respond(prompt):
         if "계획" in prompt or "분류" in prompt:
             called["classified"] = True
             return "예"
         called["evaluated"] = True
         return "EVAL_RESULT"
 
-    def fake_save(feedback, source, file_path=None, request_id=None):
+    def fake_save(feedback, source, file_path=None, request_id=None, **kwargs):
         called["saved"] = True
 
-    monkeypatch.setattr("src.hooks.hook_stop.call_gemini", fake_call_gemini)
+    monkeypatch.setattr("src.hooks.hook_stop.get_provider", lambda agent: _FakeProvider(respond=respond))
     monkeypatch.setattr("src.hooks.hook_stop.save_feedback", fake_save)
 
     res = handle_plan_detection("A" * 200, cfg)
