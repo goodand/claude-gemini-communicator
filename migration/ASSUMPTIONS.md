@@ -33,13 +33,16 @@ Claude·Codex·Gemini·사람·CI 누구나, 어느 머신에서든 실행된다
 
 ## 트리거(언제 도나) — 머신마다 로컬 등록
 
-로직(`check.sh`)은 git으로 이동, **트리거만** 새 Mac에서 한 줄 등록한다(로컬 launchd/cron 택1).
+로직(`check.sh`)은 git으로 이동, **트리거만** 새 Mac에서 등록한다.
 
-cron (매일 09:00):
-```cron
-0 9 * * * cd "$HOME/Desktop/Project_____현재_진행중인/claude-gemini-communicator" && bash migration/check.sh >> "$HOME/.cache/skill-check.log" 2>&1
-```
+**launchd로 등록할 것 (cron 금지 — 2026-07-11 실측 교훈 2개):**
+1. cron은 잠들어 놓친 실행을 재실행하지 않음 — 첫 09:00 실행이 무음 실패.
+   launchd `StartCalendarInterval`은 깨어날 때 보충.
+2. **TCC 전제**: cron이든 launchd든 백그라운드가 띄운 `/bin/bash`는 `~/Desktop` 접근이
+   macOS TCC에 막힘(`Operation not permitted` — launchctl start로 실측). 트리거가 실제로
+   돌려면 시스템 설정 → 개인정보 보호 및 보안 → **전체 디스크 접근에 `/bin/bash` 추가** 필요
+   (또는 repo를 TCC 비보호 경로로 이전 — 이사 시 검토 항목).
 
-launchd (`~/Library/LaunchAgents/com.jaehyuntak.skillcheck.plist`, 매일 09:00):
-`ProgramArguments = [/bin/bash, -lc, cd ~/Desktop/.../claude-gemini-communicator && bash migration/check.sh]`,
-`StartCalendarInterval = {Hour:9, Minute:0}` 후 `launchctl load`.
+등록(이 머신 2026-07-11 완료): `~/Library/LaunchAgents/com.jaehyuntak.skillcheck.plist`
+(`StartCalendarInterval={Hour:9,Minute:0}`, 로그 `~/.cache/skill-check.log`) 후
+`launchctl load`. 수동 점검: `launchctl start com.jaehyuntak.skillcheck && tail ~/.cache/skill-check.log`.
