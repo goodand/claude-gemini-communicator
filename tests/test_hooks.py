@@ -70,6 +70,33 @@ def test_hook_auto_task_skip_non_matching_ext(monkeypatch, capsys):
     assert out == ""
 
 
+def test_hook_auto_task_kill_switch_disabled(monkeypatch, capsys):
+    # auto_hooks_enabled=False면 확장자/쿨다운/평가 로직 전에 조기 종료
+    from src.hooks import hook_auto_task
+
+    monkeypatch.setattr(hook_auto_task, "load_env", lambda: None)
+    monkeypatch.setattr(
+        hook_auto_task,
+        "load_config",
+        lambda: _mock_config_auto_task(auto_hooks_enabled=False, watch_extensions=[".md"]),
+    )
+    monkeypatch.setattr(hook_auto_task, "check_cooldown", lambda fp, cfg: True)
+
+    def _fail_if_reached(*a, **k):
+        raise AssertionError("kill-switch가 무시되고 평가 경로에 도달함")
+
+    monkeypatch.setattr(hook_auto_task, "resolve_target", _fail_if_reached)
+
+    hook_input = {"tool_name": "Write", "tool_input": {"file_path": "doc.md"}}
+    monkeypatch.setattr(hook_auto_task.sys, "stdin", io.StringIO(json.dumps(hook_input)))
+
+    with pytest.raises(SystemExit) as e:
+        hook_auto_task.main()
+
+    assert e.value.code == 0
+    assert capsys.readouterr().out == ""
+
+
 def test_hook_auto_task_sync_mode_saves_feedback(monkeypatch, capsys):
     # 동기 모드에서 Gemini 호출 결과를 저장 후 포맷하여 출력
     from src.hooks import hook_auto_task
@@ -282,6 +309,30 @@ def test_stop_handle_plan_detection_yes_sync(monkeypatch):
     res = handle_plan_detection("A" * 200, cfg)
     assert called["classified"] and called["evaluated"] and called["saved"]
     assert res == "EVAL_RESULT"
+
+
+def test_stop_main_kill_switch_disabled(monkeypatch, capsys):
+    # auto_hooks_enabled=False면 plan/error 감지 진입 전에 조기 종료
+    from src.hooks import hook_stop
+
+    monkeypatch.setattr(hook_stop, "load_env", lambda: None)
+    monkeypatch.setattr(
+        hook_stop, "load_config", lambda: _mock_config_stop(auto_hooks_enabled=False)
+    )
+
+    def _fail_if_reached(*a, **k):
+        raise AssertionError("kill-switch가 무시되고 감지 경로에 도달함")
+
+    monkeypatch.setattr(hook_stop, "handle_plan_detection", _fail_if_reached)
+    monkeypatch.setattr(hook_stop, "handle_error_detection", _fail_if_reached)
+
+    monkeypatch.setattr(hook_stop.sys, "stdin", io.StringIO("{}"))
+
+    with pytest.raises(SystemExit) as e:
+        hook_stop.main()
+
+    assert e.value.code == 0
+    assert capsys.readouterr().out == ""
 
 
 def test_stop_handle_error_detection_flows(monkeypatch, tmp_path):

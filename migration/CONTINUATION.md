@@ -30,7 +30,7 @@
 |---|---|---|
 | `MIGRATION.md` | 새 Mac 복원 전체 절차(clone→콘텐츠→심링크→검증) | 참조 |
 | `gen_restore_symlinks.py` | 살아있는 심링크 캡처→복원 스크립트 생성 | **구 Mac** |
-| `restore-global-symlinks.sh` | 심링크 50개 재생성($HOME 기반) | 새 Mac |
+| `restore-global-symlinks.sh` | 심링크 95개 재생성($HOME 기반) | 새 Mac |
 | `restore-content.sh` | 비-git 콘텐츠 복원(미러 copy + taste-skill clone) | 새 Mac |
 | `path_integrity_guard.py` | 6-subflow 무결성 진단(아래) | 상시 |
 | `ASSUMPTIONS.md` | 가정 원장(믿음+probe+기대). probe 없는 줄=다음 unknown | 상시 |
@@ -55,7 +55,9 @@ BOTH 8개(resolve_skill.py, depsolve-analyzer/* 등 PR#3/#4 수정본)는 불변
 1. **#3 남은 하드코딩** — *지금, 값쌈.* 실행코드는 이미 clean. `check.sh`에 5번째
    probe 추가: `git grep -nE "/Users/[^/]+/(Desktop|control|agent)" -- '*.py' '*.sh'`
    가 비어야 함(현재 통과).
-2. **#2 rescue-7 심링크** — ✅ 해소(2026-07-10, §3-A 반영으로 7/7 OK). 아래는 회귀 감지 probe로 유지:
+2. **#2 rescue-7 심링크** — ✅ 완전 해소. 타겟은 §3-A 반영으로 존재(2026-07-10), 심링크
+   자체도 마이그레이션 키트가 재생성(2026-07-11: `~/.claude/agents` SCAN 추가 → 새 Mac
+   복원 커버). 아래는 회귀 감지 probe로 유지:
    ```bash
    for p in ~/.claude/agents/_resources/codex_agents/*.toml \
             ~/.claude/agents/_resources/guides/help-routing-template.md \
@@ -93,5 +95,5 @@ BOTH 8개(resolve_skill.py, depsolve-analyzer/* 등 PR#3/#4 수정본)는 불변
 
 - **세션 메모리** `~/.claude/projects/*/memory/` — Claude 로컬. 필요하면 수동 복사.
 - **`~/HANDOFF_skill-branch-integration_at2026-07-09.md`** — 이 문서의 더 상세한 원본.
-- **전역 심링크 50개 + 비-git 콘텐츠** — `migration/restore-*.sh`로 복원(§2).
+- **전역 심링크 95개 + 비-git 콘텐츠** — `migration/restore-*.sh`로 복원(§2).
 - **rescue-7 타겟 콘텐츠** — main에 반영됨(§3-A 완료). 과거 전체 스냅샷은 `archive/wip-desktop-snapshot` tag.

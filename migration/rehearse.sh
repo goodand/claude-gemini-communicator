@@ -17,7 +17,7 @@ HOME="$TMP" bash "$SCRIPT" >/dev/null
 
 # 3) 검증
 expected=$(grep -c '^link ' "$SCRIPT")
-roots=("$TMP/.codex/skills" "$TMP/.claude/skills" "$TMP/control" "$TMP/agent")
+roots=("$TMP/.codex/skills" "$TMP/.claude/skills" "$TMP/.claude/agents" "$TMP/control" "$TMP/agent")
 created=$(find "${roots[@]}" -type l 2>/dev/null | wc -l | tr -d ' ')
 dangling=0
 while IFS= read -r l; do [ -e "$l" ] || dangling=$((dangling+1)); done \

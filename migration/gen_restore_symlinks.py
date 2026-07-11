@@ -20,7 +20,11 @@ from pathlib import Path
 HOME = Path.home()
 ME = str(HOME)
 HERE = Path(__file__).resolve().parent
+# ~/.claude/agents(에이전트 팀 리소스 뷰)는 owners/specialists 등 depth-4 링크가
+# 있어 두 루트로 스캔한다: walk가 각 루트에서 3단계까지만 보므로 _resources를
+# 별도 루트로도 넣어 depth-4를 포착. 두 루트가 겹치는 링크는 collect()가 dedup.
 SCAN = [HOME / ".codex" / "skills", HOME / ".claude" / "skills",
+        HOME / ".claude" / "agents", HOME / ".claude" / "agents" / "_resources",
         HOME / "control", HOME / "agent"]
 
 
@@ -39,11 +43,13 @@ def order_key(link: str) -> int:
         return 1
     if "/.claude/skills/" in link:
         return 2        # ~/.codex를 가리킴 → 뒤
-    return 3            # agent → control/.codex 의존
+    if "/.claude/agents/" in link:
+        return 3        # 대부분 repo 직접(git, 항상 존재), m5만 ~/.codex/skills 의존 → 0 이후
+    return 4            # ~/agent → control/.codex 의존
 
 
 def collect():
-    links, broken = [], []
+    links, broken, seen = [], [], set()
     for root in SCAN:
         if not root.exists():
             continue
@@ -53,8 +59,12 @@ def collect():
                 if p.is_symlink():
                     # os.walk/readlink가 돌려주는 한글 경로는 NFD일 수 있어
                     # 스크립트 안에서 NFC/NFD가 섞이지 않게 정규화한다.
+                    key = nfc(str(p))
+                    if key in seen:      # 겹치는 SCAN 루트(agents/_resources)가 만드는 중복 제거
+                        continue
+                    seen.add(key)
                     tgt = nfc(os.readlink(p))
-                    (links if os.path.exists(p) else broken).append((nfc(str(p)), tgt))
+                    (links if os.path.exists(p) else broken).append((key, tgt))
             if Path(dirpath) != root and Path(dirpath).parent != root:
                 dirnames[:] = []
     links.sort(key=lambda lt: (order_key(lt[0]), lt[0]))
@@ -84,7 +94,8 @@ def render(links, broken) -> str:
     titles = {0: "~/.codex/skills → 정본 repo(Desktop) / ~/skills",
               1: "~/control/patterns → communicator",
               2: "~/.claude/skills → ~/.codex/skills",
-              3: "~/agent → ~/control, ~/.codex"}
+              3: "~/.claude/agents/_resources → communicator repo (+ m5는 ~/.codex/skills)",
+              4: "~/agent → ~/control, ~/.codex"}
     cur = None
     for link, tgt in links:
         grp = order_key(link)

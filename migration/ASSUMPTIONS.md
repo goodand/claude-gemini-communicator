@@ -25,8 +25,13 @@ Claude·Codex·Gemini·사람·CI 누구나, 어느 머신에서든 실행된다
 ## 아직 probe 없는 줄 = 알려진 unknown (probe를 붙이는 게 다음 할 일)
 
 - 새 Mac에서 Obsidian vault 내부/외부 링크가 실제로 무결한가? — vault 전용 probe 필요
-- `~/.claude/agents/_resources`의 rescue-깨진 7건이 WIP 재적용으로 복구됐는가? — WIP 적용 후 probe
 - resolve_skill.py 외에 실행경로에 남은 하드코딩이 더 있는가? — repo 전역 `/Users/` 코드 스캔 probe
+
+### 해소됨
+- ~~`~/.claude/agents/_resources`의 rescue-깨진 7건~~ — **해소(2026-07-11)**: (a) 타겟은
+  §3-A 재적용으로 존재하게 됨, (b) 심링크 자체도 `~/.claude/agents`(+`_resources`)를
+  `gen_restore_symlinks.py` SCAN에 추가해 `restore-global-symlinks.sh`가 재생성(agents 45개
+  포함, 총 95개, broken 0). 새 Mac에서도 키트만으로 복원됨.
 
 ## 트리거(언제 도나) — 머신마다 로컬 등록
 

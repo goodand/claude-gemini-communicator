@@ -6,8 +6,9 @@
 자체는 git 밖이라 `git clone`으로 안 옮겨진다. 이 키트가 그 심링크와, clone으로 안
 돌아오는 소수의 비-git 콘텐츠를 재생성한다.
 
-캡처 시점(2026-07-09) 실측: **심링크 50개**(.codex 33 · .claude 11 · control 4 · agent 2),
-깨진 링크 0.
+캡처 시점(2026-07-11) 실측: **심링크 95개**(.codex/skills 33 · .claude/skills 11 ·
+.claude/agents 45 · control 4 · agent 2), 깨진 링크 0. (.claude/agents = 에이전트 팀
+리소스 뷰 — owners/specialists/codex_agents 등, 대부분 이 repo를 가리킴.)
 
 ## 복원 순서 (신 Mac에서)
 
@@ -45,7 +46,7 @@ bash ~/Desktop/Project_____현재_진행중인/claude-gemini-communicator/migrat
 ```bash
 bash ~/Desktop/Project_____현재_진행중인/claude-gemini-communicator/migration/restore-global-symlinks.sh
 ```
-50개 심링크를 의존 순서(정본을 직접 가리키는 `~/.codex` → 그것을 가리키는 `~/.claude`/`agent`)로
+95개 심링크를 의존 순서(정본을 직접 가리키는 `~/.codex` → 그것을 가리키는 `~/.claude`/`agent`)로
 재생성한다. idempotent(재실행 안전), 타겟이 없으면 해당 링크만 SKIP.
 
 ### 4. 검증

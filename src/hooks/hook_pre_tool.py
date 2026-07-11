@@ -2,6 +2,9 @@
 
 stdin으로 Claude PreToolUse Hook JSON을 수신하고,
 Bash 명령이 위험 패턴에 매칭되면 차단(block) 판정을 반환한다.
+
+이 hook은 `auto_hooks_enabled`(자동 평가 hook kill-switch)의 대상이 아니다 —
+안전가드는 자체 스위치 `pre_tool_guard.enabled`로만 제어된다(command_guard.py에서 판정).
 """
 
 import json
