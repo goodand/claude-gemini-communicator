@@ -2,6 +2,11 @@
 
 > 이 문서는 생태계 전체 작업을 3개 도메인으로 구분하는 정본 경계 지도다.
 > **skills/ 독립 repo 분리 작업은 이 문서를 청사진으로 참조한다.**
+>
+> **✅ 분리 실행 완료 (2026-07-11)**: 도메인 2가 `skills-catalog` repo
+> (github.com/goodand/skills-catalog)로 독립 — §2의 겹침 #1~#9가 해소 방침대로 처리됨
+> (#1 6종 잔류 / #2 수정 0줄 / #3 check.sh probe ② 일괄 호출 / #4·#7 catalog 이주 /
+> #5 심링크 재표적 / #6 install 잔류 / #8 router 본체 이주 / #9 CONTINUATION 포인터).
 > 분석 방법 = 의미 추측이 아니라 "누가 누구를 참조하는가"(기계적 기준) 실측:
 > check.sh probe, `src/cli.py` 설치 목록, import 스캔, guard 스캔 루트.
 

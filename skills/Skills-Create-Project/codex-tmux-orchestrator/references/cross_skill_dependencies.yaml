@@ -1,9 +1,0 @@
-cross_skill_dependencies:
-  - provider: "codex-worktree-dispatch"
-    contract: "references/contracts/dispatch_contract_v0_1.json"
-    consumed_facts:
-      - "required fields: dispatch_id, packet_path, branch, worktree_path, status"
-      - "dispatch status contract: launch preflight requires ready"
-      - "optional fields: tmux_session_hint, launch_command_hint"
-      - "reserved runtime handoff fields: session_id, heartbeat_path, log_path"
-    last_synced_at: "2026-03-27T18:35:00+09:00"

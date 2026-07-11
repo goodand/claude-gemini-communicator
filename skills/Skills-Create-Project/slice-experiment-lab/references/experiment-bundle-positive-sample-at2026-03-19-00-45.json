@@ -1,9 +1,0 @@
-{
-  "skill_name": "dependency-slice-planner",
-  "current_slice": "slice_seed_candidates_contract",
-  "contract_artifact": "dependency-slice-planner/references/slice-seed-candidates-contract-smoke-at2026-03-19-00-22.json",
-  "valid_artifact": "dependency-slice-planner/references/slice-seed-candidates-validation-smoke-at2026-03-19-00-22.json",
-  "invalid_artifact": "dependency-slice-planner/references/slice-seed-candidates-invalid-validation-smoke-at2026-03-19-00-22.json",
-  "quick_validate_status": "passed",
-  "notes": "seed candidate contract triad complete"
-}

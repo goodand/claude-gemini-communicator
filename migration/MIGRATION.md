@@ -1,14 +1,15 @@
 # 새 Mac 마이그레이션 — 심링크 토폴로지 복원
 
-이 PC의 skill 발견 구조는 **정본 1곳(Desktop git repo) + 나머지는 전부 심링크 뷰**
-(`~/.codex/skills`, `~/.claude/skills`, `~/control`, `~/agent`)다
-([DATA_MANAGEMENT_PHILOSOPHY.md](../skills/DATA_MANAGEMENT_PHILOSOPHY.md)). 심링크
-자체는 git 밖이라 `git clone`으로 안 옮겨진다. 이 키트가 그 심링크와, clone으로 안
+이 PC의 skill 발견 구조는 **정본은 Desktop git repo(2026-07-11부터 2개: communicator +
+skills-catalog) + 나머지는 전부 심링크 뷰**(`~/.codex/skills`, `~/.claude/skills`,
+`~/control`, `~/agent`)다 (skills-catalog repo의 `skills/DATA_MANAGEMENT_PHILOSOPHY.md`).
+심링크 자체는 git 밖이라 `git clone`으로 안 옮겨진다. 이 키트가 그 심링크와, clone으로 안
 돌아오는 소수의 비-git 콘텐츠를 재생성한다.
 
 캡처 시점(2026-07-11) 실측: **심링크 95개**(.codex/skills 33 · .claude/skills 11 ·
 .claude/agents 45 · control 4 · agent 2), 깨진 링크 0. (.claude/agents = 에이전트 팀
-리소스 뷰 — owners/specialists/codex_agents 등, 대부분 이 repo를 가리킴.)
+리소스 뷰 — owners/specialists/codex_agents 등. 타겟은 대부분 skills-catalog,
+일부는 communicator `.codex/agents`·잔류 스킬.)
 
 ## 복원 순서 (신 Mac에서)
 
@@ -23,6 +24,7 @@
 mkdir -p ~/Desktop/Project_____현재_진행중인
 cd ~/Desktop/Project_____현재_진행중인
 git clone <origin>/claude-gemini-communicator
+git clone <origin>/skills-catalog          # 2026-07-11 분리 — skill catalog 정본 (필수)
 git clone <origin>/my-image-parser
 git clone <origin>/narrative-ai
 git clone <origin>/my-second-identity
@@ -37,8 +39,8 @@ git clone <origin>/vscode-markdown-review-surface
 ```bash
 bash ~/Desktop/Project_____현재_진행중인/claude-gemini-communicator/migration/restore-content.sh
 ```
-- `~/skills/{destructive-cleanup-preflight, workspace-control-recovery}` ← communicator `external/home` 미러 (캡처 시 diff 0)
-- `~/.codex/skills/pptx` ← communicator `external/codex/pptx` 미러 (diff 0)
+- `~/skills/{destructive-cleanup-preflight, workspace-control-recovery}` ← skills-catalog `external/home` 미러 (캡처 시 diff 0)
+- `~/.codex/skills/pptx` ← skills-catalog `external/codex/pptx` 미러 (diff 0)
 - `~/agent/skills/taste-skill` ← `github.com/Leonxlnx/taste-skill` clone
   (구 Mac의 미커밋 2건은 복원 안 됨 — 필요하면 구 Mac에서 먼저 커밋/스태시 백업)
 
@@ -51,11 +53,10 @@ bash ~/Desktop/Project_____현재_진행중인/claude-gemini-communicator/migrat
 
 ### 4. 검증
 ```bash
-cd ~/Desktop/Project_____현재_진행중인/claude-gemini-communicator
+cd ~/Desktop/Project_____현재_진행중인/skills-catalog   # catalog 인프라는 2026-07-11 분리로 이 repo
 python3 skills/resolve_skill.py list          # 발견 인벤토리(이름·루트)
 python3 skills/resolve_skill.py conflicts      # 이름 충돌 클래스
-python3 skills/catalog_resolver_audit.py       # 층2↔층3 drift 0 확인
-python3 skills/integration-gate/run_integration_gate.py   # PASS_WITH_WARNING 기대
+bash check.sh                                  # drift·gate·하드코딩 일괄 (ALL GREEN 기대)
 ```
 `resolve_skill.py`는 절대경로가 아니라 repo-상대 구조로 발견하므로, clone 위치가
 같으면 구 Mac과 동일 결과가 나와야 한다.

@@ -15,10 +15,8 @@ Claude·Codex·Gemini·사람·CI 누구나, 어느 머신에서든 실행된다
 | # | 가정 | probe | 기대 | 마지막 확인 | check.sh |
 |---|---|---|---|---|---|
 | 1 | 복원 키트가 다른 `$HOME`(=다른 사용자명)에서 이식 가능 | `bash migration/rehearse.sh` | PASS (50/50, 누수 0) | 2026-07-10 | ✓ |
-| 2 | catalog(층2) ↔ resolver(층3) 정합 | `python3 skills/catalog_resolver_audit.py` | `OK 16 / drift 0`, exit 0 | 2026-07-10 | ✓ |
-| 3 | feat→main 통합 gate 통과 | `python3 skills/integration-gate/run_integration_gate.py` | PASS_WITH_WARNING, exit 0 | 2026-07-10 | ✓ |
-| 4 | 핵심 resolver에 사용자명 하드코딩 없음 | `! grep -q /Users/jaehyuntak skills/resolve_skill.py` | 매치 0 | 2026-07-10 | ✓ |
-| 5 | 비-git 콘텐츠가 repo 미러와 동일(clone으로 복원 가능) | `diff -rq ~/skills/destructive-cleanup-preflight skills/external/home/destructive-cleanup-preflight` | 차이 0 | 2026-07-10 (구 Mac) | 수동 |
+| 2 | skills-catalog repo probe 일괄 (drift·gate·하드코딩 — 2026-07-11 분리로 catalog repo 이관) | `bash ../skills-catalog/check.sh` | ALL GREEN, exit 0 | 2026-07-11 | ✓ |
+| 5 | 비-git 콘텐츠가 catalog 미러와 동일(clone으로 복원 가능) | `diff -rq ~/skills/destructive-cleanup-preflight ../skills-catalog/skills/external/home/destructive-cleanup-preflight` | 차이 0 | 2026-07-10 (구 Mac) | 수동 |
 | 6 | 끊긴 심링크 수 (관찰 — gate 아님) | `python3 migration/path_integrity_guard.py broken` | 베이스라인 44; 증가하면 조사 | 2026-07-10 | 관찰 |
 | 7 | 외부 의존(freeze) 반경 (관찰) | `python3 migration/path_integrity_guard.py external ~/Desktop/Project_____현재_진행중인` | 베이스라인 12; 증가하면 조사 | 2026-07-10 | 관찰 |
 

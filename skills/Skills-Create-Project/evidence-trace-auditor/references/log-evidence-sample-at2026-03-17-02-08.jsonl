@@ -1,2 +1,0 @@
-{"timestamp":"2026-03-17T02:08:00+09:00","severity_text":"ERROR","body":"missing contract unit detected","attributes":{"name":"status:ready","kind":"log_record","observed_bucket":"missing_contract_unit","action":"log/code alignment 검토","reason":"missing enum value in code"}}
-{"timestamp":"2026-03-17T02:08:01+09:00","severity_text":"WARN","body":"contract value changed detected","attributes":{"name":"status","kind":"log_record","observed_bucket":"contract_value_changed","action":"value set alignment 검토","reason":"enum set changed"}}

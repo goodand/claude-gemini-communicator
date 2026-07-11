@@ -81,6 +81,12 @@ BOTH 8개(resolve_skill.py, depsolve-analyzer/* 등 PR#3/#4 수정본)는 불변
   `external/` 취급의 선례가 된다.
 - 남은 외부-repo 백로그(이 repo 밖): msi 로컬 skill 2종(repair-rag-artifact-contract,
   trace-claude-session-memory)을 my-second-identity main에 커밋 — HANDOFF §3-B 참조.
+- **skills/ 분리 실행 완료 (2026-07-11)** — catalog(도메인 2)가 **skills-catalog repo**
+  (`github.com/goodand/skills-catalog`, 같은 상위 폴더)로 독립. `git filter-repo --path skills/`
+  접두사 보존 추출(51+커밋 히스토리) → 잔류 6종+--help-routing.md 제거 → 자체 check.sh(probe 4).
+  이 repo에는 `_INSTALL_SKILLS` 6종 + --help-routing.md만 잔류. gitignored 실물(.env 등)은
+  rsync로 함께 이주. check.sh는 probe ②로 catalog check를 일괄 호출(생태계 애그리게이터).
+  catalog 관련 검증·발견 명령은 이제 skills-catalog에서 실행.
 - **3-도메인 경계 지도 확정 (2026-07-11)** — `architecture/05_domain_boundaries.md`가 정본:
   (1) path/백링크 위상 인프라 · (2) skill catalog · (3) multi-agent의 판별 테스트, 겹침 9지점,
   workflows 전략, unknown-unknown 4층 탐지 전략. **skills/ 분리의 잔류 목록 =

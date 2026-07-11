@@ -16,11 +16,12 @@ probe() {  # probe <이름> <명령...>
   fi
 }
 
+# 2026-07-11 skills/ 분리: catalog 관련 probe(구 ②③④)는 skills-catalog repo 자체
+# check.sh로 이관됐고, 여기서는 ②로 일괄 호출한다(도메인 1 = 생태계 애그리게이터,
+# architecture/05_domain_boundaries.md 참조). catalog repo 부재 시 FAIL = clone 알림.
 probe "① 복원 키트 이식성 리허설"        bash migration/rehearse.sh
-probe "② catalog↔resolver drift 0"       python3 skills/catalog_resolver_audit.py
-probe "③ 통합 gate 통과"                 python3 skills/integration-gate/run_integration_gate.py
-probe "④ resolver 사용자명 하드코딩 0"   bash -c '! grep -q /Users/jaehyuntak skills/resolve_skill.py'
-probe "⑤ 실행코드 하드코딩 경로 0"       bash -c '! git grep -qE "/Users/[^/]+/(Desktop|control|agent)" -- "*.py" "*.sh"'
+probe "② skills-catalog repo probe 일괄"  bash "$REPO/../skills-catalog/check.sh"
+probe "③ 실행코드 하드코딩 경로 0"       bash -c '! git grep -qE "/Users/[^/]+/(Desktop|control|agent)" -- "*.py" "*.sh"'
 
 echo "---"
 if [ "$fail" = 0 ]; then

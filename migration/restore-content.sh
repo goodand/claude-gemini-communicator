@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 # 비-git 실제 콘텐츠 복원 — 심링크 복원 '전에' 실행.
 # 심링크가 가리킬 대상 중 git clone으로 안 돌아오는 것들을 준비한다.
-# 대부분은 communicator repo의 external 미러에서 복사(캡처 시점 diff 0 확인).
+# 대부분은 skills-catalog repo의 external 미러에서 복사(캡처 시점 diff 0 확인).
 # taste-skill만 별도 origin에서 clone.
+# 2026-07-11 skills/ 분리: external 미러가 skills-catalog로 이주 — catalog clone 선행 필수.
 set -euo pipefail
 
 REPO="$HOME/Desktop/Project_____현재_진행중인/claude-gemini-communicator"
-EXT="$REPO/skills/external"
+EXT="$HOME/Desktop/Project_____현재_진행중인/skills-catalog/skills/external"
 
 copy_from_mirror() {  # copy_from_mirror <mirror-subpath> <dest>
   local src="$EXT/$1" dst="$2"

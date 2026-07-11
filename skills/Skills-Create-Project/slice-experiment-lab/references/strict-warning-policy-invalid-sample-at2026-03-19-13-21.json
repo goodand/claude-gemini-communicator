@@ -1,8 +1,0 @@
-{
-  "status": "failed",
-  "contract_family": "quick_validate_capture",
-  "warnings": [],
-  "errors": [
-    "SKILL.md missing frontmatter"
-  ]
-}
